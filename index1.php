@@ -324,8 +324,9 @@ while ($data = mysqli_fetch_array($rs)){
                     </div>
                 </div>
             </div>
-<?php } ?>
         </div>
+<?php } ?>
+
     </div>
 <!-- Products End -->
 
