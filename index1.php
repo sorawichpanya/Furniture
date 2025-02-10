@@ -299,27 +299,49 @@ $rs = mysqli_query($conn , $sql);
 while ($data = mysqli_fetch_array($rs)){
 
 ?>
-<div class="col">
-          <div class="card shadow-sm">
-          
-            <img src="../im/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" >
-            <div class="card-body">
-              <p class="card-text"> 
-			  <?php echo $data['p_name']."<br>"; ?> 
-              <?php echo $data['p_detail']."<br>"; ?>
-              <?php echo $data['p_price']; ?>
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <a href="update.php?id=<?php echo $data['p_id']; ?> "type="button" class="btn btn-sm btn-outline-secondary">แก้ไข</a>
-                  <a href="delete.php?id=<?php echo $data['p_id']; ?>&ext=<?php echo $data['p_ext'];?>" 
-                  type="button" class="btn btn-sm btn-outline-danger" 
-                  onClick="return confirm ('นอนยันนะจ๊ะ');">ลบ</a>
-                </div> 
-              </div>
-            </div>
-          </div>
+<?php
+include_once("connectdb.php");
+
+$sql = "SELECT * FROM `living room` ORDER BY `p_id` ASC";
+$rs = mysqli_query($conn , $sql);
+
+while ($data = mysqli_fetch_array($rs)){
+    // เรียกข้อมูลที่ต้องการจากฐานข้อมูล
+    $product_name = $data['p_name'];  // ชื่อสินค้า
+    $product_price = $data['p_price'];  // ราคา
+    $product_image = $data['p_image'];  // ชื่อไฟล์รูปภาพ (สมมุติว่าเป็น 'p_image')
+?>
+
+    <!-- Products Start -->
+    <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">Trendy Products</span></h2>
         </div>
+        <div class="row px-xl-5 pb-3">
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="card product-item border-0 mb-4">
+                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                        <!-- แสดงรูปภาพจากฐานข้อมูล -->
+                        <img class="img-fluid w-100" src="img/<?php echo $product_image; ?>" alt="<?php echo $product_name; ?>">
+                    </div>
+                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                        <!-- แสดงชื่อสินค้า -->
+                        <h6 class="text-truncate mb-3"><?php echo $product_name; ?></h6>
+                        <div class="d-flex justify-content-center">
+                            <!-- แสดงราคา -->
+                            <h6>$<?php echo $product_price; ?></h6>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between bg-light border">
+                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+
 <?php } ?>
     <!-- Products End -->
 
