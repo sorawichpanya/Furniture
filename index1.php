@@ -302,14 +302,14 @@ $rs = mysqli_query($conn , $sql);
             // เรียกข้อมูลที่ต้องการจากฐานข้อมูล
             $product_name = $data['p_name'];  // ชื่อสินค้า
             $product_price = $data['p_price'];  // ราคา
-            $product_image = $data['p_image'];  // ชื่อไฟล์รูปภาพ
+            $product_image = $data['p_ext'];  // ชื่อไฟล์รูปภาพ
         ?>
             <!-- เรียงสินค้าในแต่ละคอลัมน์ -->
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="card product-item border-0 mb-4">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                         <!-- แสดงรูปภาพจากฐานข้อมูล -->
-                        <img class="img-fluid w-100" src="img/<?php echo $product_image; ?>" alt="<?php echo $product_name; ?>">
+                        <img src="../img/living room/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" >
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <!-- แสดงชื่อสินค้า -->
