@@ -289,21 +289,30 @@
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Trandy Products</span></h2>
     </div>
-</div>       
+</div>  
+
 <?php
 include_once("connectdb.php");
 
-$sql = "SELECT * FROM `living room` ORDER BY `p_id` ASC";
+$sql = "SELECT * FROM `products` ORDER BY `p_id` ASC";
 $rs = mysqli_query($conn , $sql);
 
-while ($data = mysqli_fetch_array($rs)){
-    // เรียกข้อมูลที่ต้องการจากฐานข้อมูล
-    $product_name = $data['p_name'];  // ชื่อสินค้า
-    $product_price = $data['p_price'];  // ราคา
-    $product_image = $data['p_image'];  // ชื่อไฟล์รูปภาพ (สมมุติว่าเป็น 'p_image')
 ?>
 
-        <div class="row px-xl-5 pb-3">
+<!-- Products Start -->
+<div class="container-fluid pt-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">Trendy Products</span></h2>
+    </div>
+    <div class="row px-xl-5">
+        <?php
+        while ($data = mysqli_fetch_array($rs)){
+            // เรียกข้อมูลที่ต้องการจากฐานข้อมูล
+            $product_name = $data['p_name'];  // ชื่อสินค้า
+            $product_price = $data['p_price'];  // ราคา
+            $product_image = $data['p_image'];  // ชื่อไฟล์รูปภาพ
+        ?>
+            <!-- เรียงสินค้าในแต่ละคอลัมน์ -->
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="card product-item border-0 mb-4">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
@@ -324,8 +333,10 @@ while ($data = mysqli_fetch_array($rs)){
                     </div>
                 </div>
             </div>
-        </div>
-<?php } ?>
+        <?php } ?>
+    </div>
+</div>
+
 <!-- Products End -->
 
 
