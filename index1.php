@@ -300,27 +300,7 @@ $rs = mysqli_query($conn , $sql);
 while ($data = mysqli_fetch_array($rs)){
 
 ?>
-        <div class="col">
-          <div class="card shadow-sm">
-          
-            <img src="../im/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" >
-            <div class="card-body">
-              <p class="card-text"> 
-			  <?php echo $data['p_name']."<br>"; ?> 
-              <?php echo $data['p_detail']."<br>"; ?>
-              <?php echo $data['p_price']; ?>
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <a href="update.php?id=<?php echo $data['p_id']; ?> "type="button" class="btn btn-sm btn-outline-secondary">แก้ไข</a>
-                  <a href="delete.php?id=<?php echo $data['p_id']; ?>&ext=<?php echo $data['p_ext'];?>" 
-                  type="button" class="btn btn-sm btn-outline-danger" 
-                  onClick="return confirm ('นอนยันนะจ๊ะ');">ลบ</a>
-                </div> 
-              </div>
-            </div>
-          </div>
-        </div>
+
     
 <?php } ?>
     <!-- Products End -->
