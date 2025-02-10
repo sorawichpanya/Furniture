@@ -323,8 +323,8 @@ while ($data = mysqli_fetch_array($rs)){
                         <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                     </div>
                 </div>
-<?php } ?>
             </div>
+<?php } ?>
         </div>
     </div>
 <!-- Products End -->
