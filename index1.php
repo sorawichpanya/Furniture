@@ -217,7 +217,7 @@
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-1.jpg" alt="">
+                        <img class="img-fluid" src="img/living.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">living room</h5>
                 </div>
@@ -226,7 +226,7 @@
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-2.jpg" alt="">
+                        <img class="img-fluid" src="img/bath.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">bathroom</h5>
                 </div>
@@ -235,7 +235,7 @@
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-3.jpg" alt="">
+                        <img class="img-fluid" src="img/bed.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">bedroom</h5>
                 </div>
@@ -244,7 +244,7 @@
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-4.jpg" alt="">
+                        <img class="img-fluid" src="img/kit.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">kitchen</h5>
                 </div>
