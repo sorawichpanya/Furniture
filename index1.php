@@ -300,7 +300,8 @@ $rs = mysqli_query($conn , $sql);
         <?php
         while ($data = mysqli_fetch_array($rs)){
             // เรียกข้อมูลที่ต้องการจากฐานข้อมูล
-            $product_id = $data['p_id'];  // ชื่อสินค้า
+            $product_id = $data['p_id'];
+            $product_name = $data['p_name'];  // ชื่อสินค้า
             $product_price = $data['p_price'];  // ราคา
             $product_image = $data['p_ext'];  // ชื่อไฟล์รูปภาพ
         ?>
