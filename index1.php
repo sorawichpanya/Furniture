@@ -47,7 +47,7 @@
                         <i class="fab fa-twitter"></i>
                     </a>
                     <a class="text-dark px-2" href="">
-                        <i class=""></i>
+                        <i class="fab fa-users"></i>
                     </a>
                     <a class="text-dark px-2" href="">
                         <i class="fab fa-instagram"></i>
