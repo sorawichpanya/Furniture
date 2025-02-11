@@ -38,7 +38,7 @@ $rs = mysqli_query($conn , $sql);
 <!-- Products Start -->
 <div class="container-fluid pt-5">
     <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Trendy Products</span></h2>
+        <h2 class="section-title px-5"><span class="px-2">Members Group</span></h2>
     </div>
     <div class="row px-xl-5">
         <?php
@@ -50,14 +50,14 @@ $rs = mysqli_query($conn , $sql);
                 <div class="card product-item border-0 mb-4">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                         <!-- แสดงรูปภาพจากฐานข้อมูล -->
-                        <img src="img/trendy/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" >
+                        <img src="img/Member/<?php echo $data['m_id']; ?>.<?php echo $data['m_ext']; ?>" >
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <!-- แสดงชื่อสินค้า -->
-                        <h6 class="text-truncate mb-3"><?php echo $data['p_name']; ?></h6>
+                        <h6 class="text-truncate mb-3"><?php echo $data['m_name']; ?></h6>
                         <div class="d-flex justify-content-center">
                             <!-- แสดงราคา -->
-                            <h6><?php echo $data['p_price']; ?></h6>
+                            <h6><?php echo $data['m_no']; ?></h6>
                         </div>
                     </div>
                 </div>
