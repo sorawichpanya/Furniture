@@ -30,7 +30,7 @@
 <?php
 include_once("connectdb.php");
 
-$sql = "SELECT * FROM `Member` ORDER BY `m_id` ASC";
+$sql = "SELECT * FROM `member` ORDER BY `m_id` ASC";
 $rs = mysqli_query($conn , $sql);
 
 ?>
