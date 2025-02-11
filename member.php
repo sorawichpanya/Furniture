@@ -39,16 +39,23 @@ $rs = mysqli_query($conn , $sql);
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Members Group</span></h2>
     </div>
-    <div class="row d-flex justify-content-center px-xl-5">
-        <?php while ($data = mysqli_fetch_array($rs)) { ?>
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1 d-flex">
-                <div class="card product-item border-0 mb-4 w-100">
+    <div class="row px-xl-5">
+        <?php
+        while ($data = mysqli_fetch_array($rs)){
+
+        ?>
+            <!-- เรียงสินค้าในแต่ละคอลัมน์ -->
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="card product-item border-0 mb-4">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img src="img/Member/<?php echo $data['m_id']; ?>.<?php echo $data['m_ext']; ?>" class="img-fluid w-100" style="object-fit: cover;">
+                        <!-- แสดงรูปภาพจากฐานข้อมูล -->
+                        <img src="img/Member/<?php echo $data['m_id']; ?>.<?php echo $data['m_ext']; ?>" >
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                        <!-- แสดงชื่อสินค้า -->
                         <h6 class="text-truncate mb-3"><?php echo $data['m_name']; ?></h6>
                         <div class="d-flex justify-content-center">
+                            <!-- แสดงราคา -->
                             <h6><?php echo $data['m_no']; ?></h6>
                         </div>
                     </div>
