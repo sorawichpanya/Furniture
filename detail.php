@@ -161,7 +161,7 @@
     <!-- Page Header End -->
 
 
-    <?php
+<?php
 include_once("connectdb.php");
 
 // รับ p_id จาก URL
@@ -191,7 +191,7 @@ if (isset($_GET['p_id'])) {
         <div class="col-lg-5 pb-5">
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner border">
-                    <?php
+                <?php
                     $file_path = "img/trendy/$product_image";
                     if (file_exists($file_path)) {
                         echo "
@@ -203,6 +203,7 @@ if (isset($_GET['p_id'])) {
                         <div class='carousel-item active'>
                             <img class='img-fluid w-100' src='img/no-image.jpg' alt='No Image Available'>
                         </div>";
+                        echo "<p>File not found: $file_path</p>"; // แสดงข้อความดีบัก
                     }
                     ?>
                 </div>
