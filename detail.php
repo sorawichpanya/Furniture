@@ -196,7 +196,7 @@ if (isset($_GET['p_id'])) {
                             $activeClass = ($key === 0) ? "active" : "";
                             echo "
                             <div class='carousel-item $activeClass'>
-                                <img class='img-fluid w-100' src='img/products/$image' alt='Product Image'>
+                                <img class='img-fluid w-100' src='img/trendy/$image' alt='Product Image'>
                             </div>";
                         }
                     } else {
