@@ -174,7 +174,7 @@ if (isset($_GET['p_id'])) {
     // Query รูปภาพเพิ่มเติม (กรณีมีหลายรูปภาพในตารางแยก)
     $sql_images = "SELECT * FROM product_images WHERE p_id = $p_id";
     $result_images = mysqli_query($conn, $sql_images);
-    $images = [];
+    $images = ['p_id'];
     while ($row = mysqli_fetch_assoc($result_images)) {
         $images[] = $row['image_path'];
     }
