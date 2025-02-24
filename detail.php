@@ -1,25 +1,3 @@
-<?php
-include_once("connectdb.php");
-
-// ตรวจสอบว่ามีการส่งค่า p_id หรือไม่
-if (isset($_GET['p_id'])) {
-    $p_id = intval($_GET['p_id']);
-
-    // ดึงข้อมูลสินค้า
-    $sql_product = "SELECT * FROM trendy WHERE p_id = $p_id";
-    $result_product = mysqli_query($conn, $sql_product);
-    $product = mysqli_fetch_assoc($result_product);
-
-    // ดึงรูปภาพสินค้า
-    $sql_images = "SELECT * FROM product_images WHERE p_id = $p_id";
-    $result_images = mysqli_query($conn, $sql_images);
-    $images = mysqli_fetch_all($result_images, MYSQLI_ASSOC);
-} else {
-    echo "ไม่พบสินค้า!";
-    exit();
-}
-?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -183,22 +161,20 @@ if (isset($_GET['p_id'])) {
     <!-- Page Header End -->
 
 
+    <?php
+    include_once("connectdb.php");
+
+    $sql = "SELECT * FROM `trendy` ORDER BY `p_id` ASC";
+    $rs = mysqli_query($conn , $sql);
+
+    ?>
     <!-- Shop Detail Start -->
     <div class="container-fluid py-5">
         <div class="row px-xl-5">
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner border">
-                    <?php
-                    $active = "active"; // ใช้สำหรับรูปแรก
-                    foreach ($images as $img) {
-                        echo "
-                        <div class='carousel-item $active'>
-                            <img class='w-100 h-100' src='img/trendy/{$img['img_file']}' alt='{$product['p_name']}'>
-                        </div>";
-                        $active = ""; // รูปที่เหลือจะไม่มี class active
-                    }
-                    ?>
+           
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
                         <i class="fa fa-2x fa-angle-left text-dark"></i>
