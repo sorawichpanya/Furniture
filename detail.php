@@ -175,7 +175,7 @@
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner border">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img src="img/trendy/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>
+                                <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
