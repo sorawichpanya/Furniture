@@ -517,14 +517,14 @@
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
+                        <h5 class="font-weight-bold text-dark mb-4"></h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i></a>
-                            <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i></a>
-                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i></a>
-                            <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i></a>
-                            <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i></a>
-                            <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i></a>
+                            <i class="fa fa-angle-right mr-2"></i>
+                            <i class="fa fa-angle-right mr-2"></i>
+                            <i class="fa fa-angle-right mr-2"></i>
+                            <i class="fa fa-angle-right mr-2"></i>
+                            <i class="fa fa-angle-right mr-2"></i>
+                            <i class="fa fa-angle-right mr-2"></i>
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
