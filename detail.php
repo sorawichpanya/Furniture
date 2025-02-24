@@ -173,11 +173,13 @@ if (isset($_GET['p_id'])) {
 
     // ตรวจสอบว่าเจอข้อมูลหรือไม่
     if ($product) {
-        $product_image = $product['p_id.p_ext']; // ชื่อไฟล์รูปภาพจากฐานข้อมูล
+        // ดึงชื่อไฟล์รูปภาพจาก p_id และ p_ext
+        $product_image = $product['p_id'] . '.' . $product['p_ext']; // เช่น 2.jpg
     } else {
         echo "Product not found!";
         exit;
     }
+    
 } else {
     echo "Invalid product ID!";
     exit;
