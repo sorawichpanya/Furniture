@@ -175,7 +175,7 @@
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner border">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
+                        <img src="img/trendy/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
@@ -408,10 +408,6 @@
             <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
         </div>
         <div class="row px-xl-5">
-                <?php
-                while ($data = mysqli_fetch_array($rs)){
-
-                ?>
             <div class="col">
                 <div class="owl-carousel related-carousel">
                     <div class="card product-item border-0">
@@ -490,7 +486,6 @@
                         </div>
                     </div>
                 </div>
-                <?php } ?>
             </div>
         </div>
     </div>
