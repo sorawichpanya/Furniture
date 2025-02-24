@@ -292,7 +292,7 @@ $rs = mysqli_query($conn , $sql);
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1 d-flex">
                 <div class="card product-item border-0 mb-4 w-100">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img src="img/Member/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" class="img-fluid w-100" style="object-fit: cover;">
+                        <img src="img/trendy/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" class="img-fluid w-100" style="object-fit: cover;">
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <h6 class="text-truncate mb-3"><?php echo $data['p_name']; ?></h6>
