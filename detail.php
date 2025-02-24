@@ -171,11 +171,15 @@
     <!-- Shop Detail Start -->
     <div class="container-fluid py-5">
         <div class="row px-xl-5">
+            <?php
+            while ($data = mysqli_fetch_array($rs)){
+
+            ?>
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner border">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
+                        <img src="img/trendy/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
@@ -391,6 +395,7 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </div>
     <!-- Shop Detail End -->
