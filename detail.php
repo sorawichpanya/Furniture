@@ -161,7 +161,7 @@
     <!-- Page Header End -->
 
 
-<?php
+    <?php
 include_once("connectdb.php");
 
 // รับ p_id จาก URL
@@ -171,18 +171,19 @@ if (isset($_GET['p_id'])) {
     $result = mysqli_query($conn, $sql);
     $product = mysqli_fetch_array($result);
 
-    // Query รูปภาพเพิ่มเติม (กรณีมีหลายรูปภาพในตารางแยก)
-    $sql_images = "SELECT * FROM trendy WHERE p_id = $p_id";
-    $result_images = mysqli_query($conn, $sql_images);
-    $images = [];
-    while ($row = mysqli_fetch_assoc($result_images)) {
-        $images[] = $row['p_ext'];
+    // ตรวจสอบว่าเจอข้อมูลหรือไม่
+    if ($product) {
+        $product_image = $product['p_ext']; // ชื่อไฟล์รูปภาพจากฐานข้อมูล
+    } else {
+        echo "Product not found!";
+        exit;
     }
 } else {
-    echo "Product not found!";
+    echo "Invalid product ID!";
     exit;
 }
 ?>
+
 
 <!-- Shop Detail Start -->
 <div class="container-fluid py-5">
@@ -191,18 +192,17 @@ if (isset($_GET['p_id'])) {
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner border">
                     <?php
-                    if (!empty($images)) {
-                        foreach ($images as $key => $image) {
-                            $activeClass = ($key === 0) ? "active" : "";
-                            echo "
-                            <div class='carousel-item $activeClass'>
-                                <img class='img-fluid w-100' src='img/trendy/$image' alt='Product Image'>
-                            </div>";
-                        }
+                    $file_path = "img/trendy/$product_image";
+                    if (file_exists($file_path)) {
+                        echo "
+                        <div class='carousel-item active'>
+                            <img class='img-fluid w-100' src='$file_path' alt='Product Image'>
+                        </div>";
                     } else {
-                        echo "<div class='carousel-item active'>
-                                <img class='img-fluid w-100' src='img/no-image.jpg' alt='No Image'>
-                              </div>";
+                        echo "
+                        <div class='carousel-item active'>
+                            <img class='img-fluid w-100' src='img/no-image.jpg' alt='No Image Available'>
+                        </div>";
                     }
                     ?>
                 </div>
