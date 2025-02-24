@@ -519,12 +519,8 @@
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4"></h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <i class="fa fa-angle-right mr-2"></i>
-                            <i class="fa fa-angle-right mr-2"></i>
-                            <i class="fa fa-angle-right mr-2"></i>
-                            <i class="fa fa-angle-right mr-2"></i>
-                            <i class="fa fa-angle-right mr-2"></i>
-                            <i class="fa fa-angle-right mr-2"></i>
+                          
+
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
