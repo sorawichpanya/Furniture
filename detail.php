@@ -161,62 +161,65 @@
     <!-- Page Header End -->
 
 
-<?php
-include_once("connectdb.php");
+    <?php
+    include_once("connectdb.php");
 
-// รับ p_id จาก URL
-if (isset($_GET['p_id'])) {
-    $p_id = $_GET['p_id'];
-    $sql = "SELECT * FROM trendy WHERE p_id = $p_id";
-    $result = mysqli_query($conn, $sql);
-    $product = mysqli_fetch_array($result);
+    // รับ p_id จาก URL
+    if (isset($_GET['p_id'])) {
+        $p_id = $_GET['p_id'];
+        $sql = "SELECT * FROM trendy WHERE p_id = $p_id";
+        $result = mysqli_query($conn, $sql);
+        $product = mysqli_fetch_array($result);
 
-    // ตรวจสอบว่าเจอข้อมูลหรือไม่
-    if ($product) {
-        // ดึงชื่อไฟล์รูปภาพจาก p_id และ p_ext
-        $product_image = $product['p_id'] . '.' . $product['p_ext']; // เช่น 2.jpg
+        // ตรวจสอบว่าเจอข้อมูลหรือไม่
+        if ($product) {
+            $image_pattern = "img/trendy/{$p_id}*.*"; // ค้นหารูปภาพที่มีรูปแบบ 1.jpg, 1.1.jpg, 1.2.jpg
+            $product_images = glob($image_pattern); // ดึงรายการไฟล์ที่ตรงกับ pattern
+        } else {
+            echo "Product not found!";
+            exit;
+        }
     } else {
-        echo "Product not found!";
+        echo "Invalid product ID!";
         exit;
     }
-    
-} else {
-    echo "Invalid product ID!";
-    exit;
-}
-?>
+    ?>
 
 
-<!-- Shop Detail Start -->
-<div class="container-fluid py-5">
-    <div class="row px-xl-5">
-        <div class="col-lg-5 pb-5">
-            <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner border">
-                <?php
-                    $file_path = "img/trendy/$product_image";
-                    if (file_exists($file_path)) {
-                        echo "
-                        <div class='carousel-item active'>
-                            <img class='img-fluid w-100' src='$file_path' alt='Product Image'>
-                        </div>";
-                    } else {
-                        echo "
-                        <div class='carousel-item active'>
-                            <img class='img-fluid w-100' src='img/no-image.jpg' alt='No Image Available'>
-                        </div>";
-                        echo "<p>File not found: $file_path</p>"; // แสดงข้อความดีบัก
-                    }
-                    ?>
+    <!-- Shop Detail Start -->
+    <div class="container-fluid py-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-5 pb-5">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner border">
+                    <?php
+                        if (!empty($product_images)) {
+                            foreach ($product_images as $key => $image) {
+                                $activeClass = ($key === 0) ? "active" : "";
+                                echo "
+                                <div class='carousel-item $activeClass'>
+                                    <img class='img-fluid w-100' src='$image' alt='Product Image'>
+                                </div>";
+                            }
+                        } else {
+                            echo "
+                            <div class='carousel-item active'>
+                                <img class='img-fluid w-100' src='img/no-image.jpg' alt='No Image Available'>
+                            </div>";
+                            echo "<p>No images found for product ID: $p_id</p>"; // แสดงข้อความดีบัก
+                        }
+                        ?>
+                    </div>
+                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                        <i class="fa fa-2x fa-angle-left text-dark"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                        <i class="fa fa-2x fa-angle-right text-dark"></i>
+                    </a>
                 </div>
-                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                    <i class="fa fa-2x fa-angle-left text-dark"></i>
-                </a>
-                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                    <i class="fa fa-2x fa-angle-right text-dark"></i>
-                </a>
             </div>
-        </div>
+    <!-- Shop Detail Start -->
+
 
         <div class="col-lg-7 pb-5">
             <!-- ดึงข้อมูลสินค้า -->
