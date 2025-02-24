@@ -108,7 +108,6 @@
                         <a href="" class="nav-item nav-link">kitchen</a>
                         <a href="" class="nav-item nav-link">garden</a>
                         <a href="" class="nav-item nav-link">work room</a>
-
                     </div>
                 </nav>
             </div>
