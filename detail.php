@@ -176,7 +176,7 @@ if (isset($_GET['p_id'])) {
     $result_images = mysqli_query($conn, $sql_images);
     $images = [];
     while ($row = mysqli_fetch_assoc($result_images)) {
-        $images[] = $row['image_path'];
+        $images[] = $row['p_ext'];
     }
 } else {
     echo "Product not found!";
