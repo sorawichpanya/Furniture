@@ -161,7 +161,7 @@
     <!-- Page Header End -->
 
 
-    <?php
+<?php
 include_once("connectdb.php");
 
 // รับ p_id จาก URL
@@ -174,7 +174,7 @@ if (isset($_GET['p_id'])) {
     // Query รูปภาพเพิ่มเติม (กรณีมีหลายรูปภาพในตารางแยก)
     $sql_images = "SELECT * FROM product_images WHERE p_id = $p_id";
     $result_images = mysqli_query($conn, $sql_images);
-    $images = ['p_id'];
+    $images = [];
     while ($row = mysqli_fetch_assoc($result_images)) {
         $images[] = $row['image_path'];
     }
@@ -276,8 +276,9 @@ if (isset($_GET['p_id'])) {
         </div>
     </div>
 </div>
+<!-- Shop Detail End -->
 
-
+    <!-- Products Start -->
     <div class="container-fluid py-5">
         <div class="text-center mb-4">
             <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
