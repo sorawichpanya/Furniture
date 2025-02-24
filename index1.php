@@ -298,9 +298,10 @@ $rs = mysqli_query($conn , $sql);
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                         <!-- แสดงรูปภาพจากฐานข้อมูล -->
                         <img 
-                            src="img/trendy/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
+                             src="img/trendy/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
                             alt="<?php echo $data['p_name']; ?>" 
                             class="img-fluid w-100"
+                            style="max-height: 300px; object-fit: cover; border-radius: 5px;"
                         >
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
