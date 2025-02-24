@@ -172,7 +172,7 @@ if (isset($_GET['p_id'])) {
     $product = mysqli_fetch_array($result);
 
     // Query รูปภาพเพิ่มเติม (กรณีมีหลายรูปภาพในตารางแยก)
-    $sql_images = "SELECT * FROM product_images WHERE p_id = $p_id";
+    $sql_images = "SELECT * FROM trendy WHERE p_id = $p_id";
     $result_images = mysqli_query($conn, $sql_images);
     $images = [];
     while ($row = mysqli_fetch_assoc($result_images)) {
@@ -196,7 +196,7 @@ if (isset($_GET['p_id'])) {
                             $activeClass = ($key === 0) ? "active" : "";
                             echo "
                             <div class='carousel-item $activeClass'>
-                                <img class='img-fluid w-100' src='img/trendy/$images' alt='Product Image'>
+                                <img class='img-fluid w-100' src='img/trendy/$image' alt='Product Image'>
                             </div>";
                         }
                     } else {
