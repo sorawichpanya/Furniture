@@ -516,7 +516,13 @@
                             <a class="text-dark" href="contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                         <div class="col-md-4 mb-5">
-                            
+                        <div class="d-flex flex-column justify-content-start">
+                            <a class="text-dark mb-2" href="index.php"><i class="fa fa-angle-right mr-2"></i></a>
+                            <a class="text-dark mb-2" href="shop.php"><i class="fa fa-angle-right mr-2"></i></a>
+                            <a class="text-dark mb-2" href="detail.php"><i class="fa fa-angle-right mr-2"></i></a>
+                            <a class="text-dark mb-2" href="cart.php"><i class="fa fa-angle-right mr-2"></i></a>
+                            <a class="text-dark mb-2" href="checkout.php"><i class="fa fa-angle-right mr-2"></i></a>
+                            <a class="text-dark" href="contact.php"><i class="fa fa-angle-right mr-2"></i></a>
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
