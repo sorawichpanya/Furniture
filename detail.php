@@ -226,7 +226,6 @@ if (isset($_GET['p_id'])) {
                     <small class="fas fa-star-half-alt"></small>
                     <small class="far fa-star"></small>
                 </div>
-                <small class="pt-1">(50 Reviews)</small>
             </div>
             <h3 class="font-weight-semi-bold mb-4">฿<?php echo $product['p_price']; ?></h3>
             <p class="mb-4"><?php echo $product['p_description']; ?></p>
@@ -248,16 +247,6 @@ if (isset($_GET['p_id'])) {
                 <button class="btn btn-primary px-3">
                     <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
                 </button>
-            </div>
-
-            <div class="d-flex pt-2">
-                <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
-                <div class="d-inline-flex">
-                    <a class="text-dark px-2" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="text-dark px-2" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="text-dark px-2" href=""><i class="fab fa-linkedin-in"></i></a>
-                    <a class="text-dark px-2" href=""><i class="fab fa-pinterest"></i></a>
-                </div>
             </div>
         </div>
     </div>
