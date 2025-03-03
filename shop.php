@@ -246,7 +246,7 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 $sql = "
     SELECT p_id, p_name, p_price, p_ext, 'trendy' AS category FROM `trendy`
     UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'just_arrived' AS category FROM `Just_arrived`
+    SELECT p_id, p_name, p_price, p_ext, 'Just_arrived' AS category FROM `Just_arrived`
     ORDER BY RAND()
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
@@ -324,7 +324,6 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
         </ul>
     </nav>
 </div>
-<!-- Pagination End -->
             <!-- Shop Product End -->
         </div>
     </div>
