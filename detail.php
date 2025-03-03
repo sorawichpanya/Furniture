@@ -175,13 +175,12 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
         $table = "Just_arrived";
     } elseif ($category == 'bathroom') {
         $table = "bathroom";
-    } elseif ($category == 'living room') {
-        $table = "living room";
+    } elseif ($category == 'living_room') {
+        $table = "living_room";
     } elseif ($category == 'bedroom') {
         $table = "bedroom";
     } elseif ($category == 'bathroom') {
         $table = "bathroom";
-
     } else {
         echo "Invalid category!";
         exit;
