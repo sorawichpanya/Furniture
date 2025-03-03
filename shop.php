@@ -248,7 +248,6 @@
                                 UNION ALL
                                 SELECT p_name FROM Just_arrived
                                 UNION ALL
-                                SELECT p_name FROM popular
                             ) AS combined";
                         $count_result = mysqli_query($conn, $count_sql);
                         $count_row = mysqli_fetch_assoc($count_result);
@@ -261,7 +260,6 @@
                             UNION ALL
                             SELECT p_name, p_price, CONCAT('img/Just_arrived/', p_ext) AS image_path FROM Just_arrived
                             UNION ALL
-                            SELECT p_name, p_price, CONCAT('img/popular/', p_ext) AS image_path FROM popular
                             ORDER BY RAND()
                             LIMIT $limit OFFSET $offset"; // แบ่งหน้าโดยใช้ LIMIT และ OFFSET
                         $result = mysqli_query($conn, $sql);
