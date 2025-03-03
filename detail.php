@@ -319,30 +319,24 @@ if (isset($_GET['p_id']) && isset($_GET['categories'])) {
     }
 }
 ?>
+<?php if (isset($product)) { ?>
 <div class="container-fluid py-5">
-    <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
+    <div class="row">
+        <div class="col-md-6">
+            <img class="img-fluid" 
+                 src="img/trendy/<?php echo $product['p_id']; ?>.<?php echo $product['p_ext']; ?>" 
+                 alt="<?php echo htmlspecialchars($product['p_name']); ?>" 
+                 style="border-radius: 5px;">
+        </div>
+        <div class="col-md-6">
+            <h3><?php echo htmlspecialchars($product['p_name']); ?></h3>
+            <h4>฿<?php echo number_format($product['p_price'], 2); ?></h4>
+            <p><?php echo htmlspecialchars($product['p_description']); ?></p>
+            <button class="btn btn-primary">Add to Cart</button>
+        </div>
     </div>
-    <div class="row px-xl-5">
-        <div class="col">
-            <div class="owl-carousel related-carousel">
-                <?php while ($data = mysqli_fetch_array($rs)) { ?>
-                    <div class="card product-item border-0">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <!-- แสดงรูปภาพ -->
-                            <img class="img-fluid w-100" 
-                                src="img/trendy/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
-                                alt="<?php echo htmlspecialchars($data['p_name']); ?>" 
-                                style="max-height: 300px; object-fit: cover;">
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <!-- แสดงชื่อสินค้า -->
-                            <h6 class="text-truncate mb-3"><?php echo htmlspecialchars($data['p_name']); ?></h6>
-                            <div class="d-flex justify-content-center">
-                                <!-- แสดงราคา -->
-                                <h6>฿<?php echo number_format($data['p_price'], 2); ?></h6>
-                            </div>
-                        </div>
+</div>
+<?php } ?>
                         <div class="card-footer d-flex justify-content-between bg-light border">
                             <!-- ปุ่ม View Detail -->
                             <a href="?p_id=<?php echo $data['p_id']; ?>&categories=trendy" 
