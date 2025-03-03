@@ -173,6 +173,8 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
         $table = "trendy";
     } elseif ($category == 'Just_arrived') {
         $table = "Just_arrived";
+    } elseif ($category == 'bathroom') {
+        $table = "bathroom";
     } else {
         echo "Invalid category!";
         exit;
