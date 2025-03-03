@@ -234,17 +234,8 @@
                     </div>
                     <?php
                     include_once("connectdb.php");
-                    $sql = "
-                        SELECT p_id, p_name, p_price, CONCAT('img/trendy/', p_image, '.', p_ext) AS image_path 
-                        FROM trendy
-                        UNION ALL
-                        SELECT p_id, p_name, p_price, CONCAT('img/just_arrived/', p_image, '.', p_ext) AS image_path 
-                        FROM just_arrived
-                        UNION ALL
-                        SELECT p_id, p_name, p_price, CONCAT('img/popular/', p_image, '.', p_ext) AS image_path 
-                        FROM popular
-                        ORDER BY p_id"; // เรียงตาม p_id
-                    $result = mysqli_query($conn, $sql);
+                    $sql = "SELECT * FROM `Just_arrived` ORDER BY `p_id` ASC";
+                    $rs = mysqli_query($conn , $sql);
 
                     // ตรวจสอบว่ามีข้อมูลหรือไม่
                     if (!$result || mysqli_num_rows($result) == 0) {
