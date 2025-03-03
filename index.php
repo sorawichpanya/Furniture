@@ -347,7 +347,7 @@ $rs = mysqli_query($conn , $sql);
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                         <!-- แสดงรูปภาพจากฐานข้อมูล -->
                         <img 
-                             src="img/just_arrived/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
+                             src="img/Just_arrived/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
                             alt="<?php echo $data['p_name']; ?>" 
                             class="img-fluid w-100"
                             style="max-height: 300px; object-fit: cover; border-radius: 5px;"
