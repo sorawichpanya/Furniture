@@ -243,24 +243,43 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                 </div>
             </div>
             <h3 class="font-weight-semi-bold mb-4">฿<?php echo $product['p_price']; ?></h3>
-            <p class="mb-4" style="font-size: 18px;"><?php echo $product['p_detail']; ?></p>       
-            <div class="d-flex align-items-center mb-4 pt-2">
-                <div class="input-group quantity mr-3" style="width: 130px;">
-                    <div class="input-group-btn">
-                        <button class="btn btn-primary btn-minus">
-                            <i class="fa fa-minus"></i>
+
+                    <!-- ขนาดสินค้า -->
+                    <p class="mb-3">
+                        <strong>Size:</strong> 
+                        <span style="font-size: 16px; color: #555;"><?php echo $product['p_size']; ?></span>
+                    </p>
+
+                    <!-- สีสินค้า -->
+                    <p class="mb-4">
+                        <strong>Color:</strong> 
+                        <span style="font-size: 16px; color: #555;"><?php echo $product['p_color']; ?></span>
+                    </p>
+
+                    <!-- รายละเอียดสินค้า -->
+                    <p class="mb-4" style="font-size: 18px; line-height: 1.6;">
+                        <?php echo $product['p_detail']; ?>
+                    </p>
+
+                    <!-- ตัวเลือกจำนวนสินค้า -->
+                    <div class="d-flex align-items-center mb-4 pt-2">
+                        <div class="input-group quantity mr-3" style="width: 130px;">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary btn-minus">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <input type="text" class="form-control bg-secondary text-center" value="1">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary btn-plus">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary px-3">
+                            <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
                         </button>
                     </div>
-                    <input type="text" class="form-control bg-secondary text-center" value="1">
-                    <div class="input-group-btn">
-                        <button class="btn btn-primary btn-plus">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-                <button class="btn btn-primary px-3">
-                    <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
-                </button>
             </div>
         </div>
     </div>
