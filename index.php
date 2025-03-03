@@ -308,7 +308,7 @@ $rs = mysqli_query($conn , $sql);
                         <h6 class="text-truncate mb-3"><?php echo $data['p_name']; ?></h6>
                         <div class="d-flex justify-content-center">
                             <!-- แสดงราคา -->
-                            <h6>฿<?php echo $data['p_price']; ?></h6>
+                            <h6>฿<?php echo $formatted_price; ?></h6>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">
