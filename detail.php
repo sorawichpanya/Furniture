@@ -334,7 +334,7 @@ $rs = mysqli_query($conn, $sql);
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
                             <!-- ปุ่ม View Detail -->
-                            <a href="?p_id=<?php echo $data['p_id']; ?>&categories=trendy" 
+                            <a href="?p_id=<?php echo $data['p_id']; ?>&category=trendy" 
                                 class="btn btn-sm text-dark p-0">
                                 <i class="fas fa-eye text-primary mr-1"></i>View Detail
                                 </a>
