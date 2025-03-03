@@ -244,7 +244,7 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'trendy' AS category FROM `trendy`
+    SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
     UNION ALL
     SELECT p_id, p_name, p_price, p_ext, 'Just_arrived' AS category FROM `Just_arrived`
     UNION ALL
@@ -257,7 +257,7 @@ $rs = mysqli_query($conn , $sql);
 $total_items_sql = "
     SELECT COUNT(*) AS total_items
     FROM (
-        SELECT p_id FROM `trendy`
+        SELECT p_id FROM `bedroom`
         UNION ALL
         SELECT p_id FROM `Just_arrived`
         UNION ALL

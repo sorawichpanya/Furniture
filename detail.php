@@ -169,8 +169,8 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
     $category = $_GET['category']; // รับค่า category จาก URL
 
     // กำหนดชื่อฐานข้อมูลตาม category
-    if ($category == 'trendy') {
-        $table = "trendy";
+    if ($category == 'bedroom') {
+        $table = "bedroom";
     } elseif ($category == 'Just_arrived') {
         $table = "Just_arrived";
     } elseif ($category == 'bathroom') {
