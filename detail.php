@@ -259,7 +259,6 @@
         <div class="col">
             <div class="nav nav-tabs justify-content-center border-secondary mb-4">
                 <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Additional Info</a>
                 <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews</a>
             </div>
             <div class="tab-content">
