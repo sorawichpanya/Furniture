@@ -238,7 +238,7 @@ include_once("connectdb.php");
 $sql = "
     SELECT p_id, p_name, p_price, p_ext, 'trendy' AS category FROM `trendy`
     UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'just_arrived' AS category FROM `Just_arrived`
+    SELECT p_id, p_name, p_price, p_ext, 'Just_arrived' AS category FROM `Just_arrived`
     ORDER BY RAND()"; // ใช้ RAND() เพื่อแสดงสินค้าแบบสุ่ม
 $rs = mysqli_query($conn , $sql);
 ?>
