@@ -246,7 +246,7 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 $sql = "
     SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
     UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'living room' AS category FROM `living_room`
+    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
     UNION ALL
     SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
     ORDER BY RAND()
