@@ -157,25 +157,7 @@
     </div>
     <!-- Page Header End -->
 
-    
-<?php
-include_once("connectdb.php");
 
-$sql = "
-    SELECT p_name, p_price, CONCAT('img/trendy/', p_image) AS image_path FROM trendy
-    UNION ALL
-    SELECT p_name, p_price, CONCAT('img/just_arrived/', p_image) AS image_path FROM just_arrived
-    UNION ALL
-    SELECT p_name, p_price, CONCAT('img/popular/', p_image) AS image_path FROM popular
-    ORDER BY RAND()"; // ใช้ RAND() เพื่อแสดงสินค้าแบบสุ่ม
-$result = mysqli_query($conn, $sql);
-
-// ตรวจสอบว่ามีข้อมูลหรือไม่
-if (!$result || mysqli_num_rows($result) == 0) {
-    echo "<p>No products found!</p>";
-    exit;
-}
-?>
     <!-- Shop Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
@@ -250,6 +232,24 @@ if (!$result || mysqli_num_rows($result) == 0) {
                             </div>
                         </div>
                     </div>
+                    <?php
+                    include_once("connectdb.php");
+
+                    $sql = "
+                        SELECT p_name, p_price, CONCAT('img/trendy/', p_image) AS image_path FROM trendy
+                        UNION ALL
+                        SELECT p_name, p_price, CONCAT('img/just_arrived/', p_image) AS image_path FROM just_arrived
+                        UNION ALL
+                        SELECT p_name, p_price, CONCAT('img/popular/', p_image) AS image_path FROM popular
+                        ORDER BY RAND()"; // ใช้ RAND() เพื่อแสดงสินค้าแบบสุ่ม
+                    $result = mysqli_query($conn, $sql);
+
+                    // ตรวจสอบว่ามีข้อมูลหรือไม่
+                    if (!$result || mysqli_num_rows($result) == 0) {
+                        echo "<p>No products found!</p>";
+                        exit;
+                    }
+                    ?>
                     <div class="row pb-3">
                         <?php
                         while ($row = mysqli_fetch_assoc($result)) {
@@ -273,6 +273,9 @@ if (!$result || mysqli_num_rows($result) == 0) {
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                            }
+                            ?>
                     </div>                    
                     <div class="col-12 pb-1">
                         <nav aria-label="Page navigation">
@@ -300,9 +303,6 @@ if (!$result || mysqli_num_rows($result) == 0) {
             <!-- Shop Product End -->
         </div>
     </div>
-    <?php
-     }
-    ?>
     <!-- Shop End -->
 
 
