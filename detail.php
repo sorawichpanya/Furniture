@@ -244,7 +244,13 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
             </div>
             <h3 class="font-weight-semi-bold mb-4">฿<?php echo $product['p_price']; ?></h3>
             <p class="mb-4"><?php echo $product['p_description']; ?></p>
-
+            <div class="row px-xl-5">
+            <div class="col">
+                <div class="nav nav-tabs justify-content-center border-secondary mb-4">
+                    <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
+                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Information</a>
+                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                </div>               
             <div class="d-flex align-items-center mb-4 pt-2">
                 <div class="input-group quantity mr-3" style="width: 130px;">
                     <div class="input-group-btn">
