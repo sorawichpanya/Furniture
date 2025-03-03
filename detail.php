@@ -299,7 +299,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 
 <hr style="border: 1px solid #ddd; margin: 20px 0;">
 
-<!-- Products Start -->
+
 <?php
 include_once("connectdb.php");
 
@@ -331,9 +331,17 @@ $rs = mysqli_query($conn, $sql);
                                 <!-- แสดงราคา -->
                                 <h6>฿<?php echo number_format($data['p_price'], 2); ?></h6>
                             </div>
-                            <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&categories=trendy" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <!-- ปุ่ม View Detail -->
+                            <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&categories=trendy" 
+                                class="btn btn-sm text-dark p-0">
+                                <i class="fas fa-eye text-primary mr-1"></i>View Detail
+                            </a>
+                            <!-- ปุ่ม Add to Cart -->
+                            <a href="" class="btn btn-sm text-dark p-0">
+                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+                            </a>
                         </div>
                     </div>
                 <?php } ?>
