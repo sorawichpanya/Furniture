@@ -238,11 +238,10 @@
 
                     // คำสั่ง SQL ดึงข้อมูลจากหลายตาราง
                     $sql = "
-                        SELECT p_name, p_price, p_ext, CONCAT('img/trendy/', p_image) AS image_path FROM trendy
+                        SELECT p_name, p_price, p_ext, CONCAT('img/trendy/', p_ext) AS image_path FROM trendy
                         UNION ALL
-                        SELECT p_name, p_price, p_ext, CONCAT('img/just_arrived/', p_image) AS image_path FROM just_arrived
+                        SELECT p_name, p_price, p_ext, CONCAT('img/Just_arrived/', p_ext) AS image_path FROM Just_arrived
                         UNION ALL
-                        SELECT p_name, p_price, p_ext, CONCAT('img/popular/', p_image) AS image_path FROM popular
                         ORDER BY RAND()
                         LIMIT 9"; // แสดง 9 รายการแบบสุ่ม
 
