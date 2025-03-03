@@ -300,43 +300,43 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 <hr style="border: 1px solid #ddd; margin: 20px 0;">
 
 
-<?php
-include_once("connectdb.php");
+                        <?php
+                        include_once("connectdb.php");
 
-if (isset($_GET['p_id']) && isset($_GET['categories'])) {
-    $p_id = intval($_GET['p_id']);
-    $categories = mysqli_real_escape_string($conn, $_GET['categories']);
+                        if (isset($_GET['p_id']) && isset($_GET['categories'])) {
+                            $p_id = intval($_GET['p_id']);
+                            $categories = mysqli_real_escape_string($conn, $_GET['categories']);
 
-    // ตรวจสอบหมวดหมู่และดึงข้อมูลสินค้า
-    if ($categories === 'trendy') {
-        $sql_product = "SELECT * FROM trendy WHERE p_id = $p_id";
-        $result_product = mysqli_query($conn, $sql_product);
-        $product = mysqli_fetch_assoc($result_product);
+                            // ตรวจสอบหมวดหมู่และดึงข้อมูลสินค้า
+                            if ($categories === 'trendy') {
+                                $sql_product = "SELECT * FROM trendy WHERE p_id = $p_id";
+                                $result_product = mysqli_query($conn, $sql_product);
+                                $product = mysqli_fetch_assoc($result_product);
 
-        if (!$product) {
-            echo "<script>alert('Invalid product ID or category!');</script>";
-        }
-    }
-}
-?>
-<?php if (isset($product)) { ?>
-<div class="container-fluid py-5">
-    <div class="row">
-        <div class="col-md-6">
-            <img class="img-fluid" 
-                 src="img/trendy/<?php echo $product['p_id']; ?>.<?php echo $product['p_ext']; ?>" 
-                 alt="<?php echo htmlspecialchars($product['p_name']); ?>" 
-                 style="border-radius: 5px;">
-        </div>
-        <div class="col-md-6">
-            <h3><?php echo htmlspecialchars($product['p_name']); ?></h3>
-            <h4>฿<?php echo number_format($product['p_price'], 2); ?></h4>
-            <p><?php echo htmlspecialchars($product['p_description']); ?></p>
-            <button class="btn btn-primary">Add to Cart</button>
-        </div>
-    </div>
-</div>
-<?php } ?>
+                                if (!$product) {
+                                    echo "<script>alert('Invalid product ID or category!');</script>";
+                                }
+                            }
+                        }
+                        ?>
+                        <?php if (isset($product)) { ?>
+                        <div class="container-fluid py-5">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img class="img-fluid" 
+                                        src="img/trendy/<?php echo $product['p_id']; ?>.<?php echo $product['p_ext']; ?>" 
+                                        alt="<?php echo htmlspecialchars($product['p_name']); ?>" 
+                                        style="border-radius: 5px;">
+                                </div>
+                                <div class="col-md-6">
+                                    <h3><?php echo htmlspecialchars($product['p_name']); ?></h3>
+                                    <h4>฿<?php echo number_format($product['p_price'], 2); ?></h4>
+                                    <p><?php echo htmlspecialchars($product['p_description']); ?></p>
+                                    <button class="btn btn-primary">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } ?>
                         <div class="card-footer d-flex justify-content-between bg-light border">
                             <!-- ปุ่ม View Detail -->
                             <a href="?p_id=<?php echo $data['p_id']; ?>&categories=trendy" 
@@ -349,7 +349,6 @@ if (isset($_GET['p_id']) && isset($_GET['categories'])) {
                             </a>
                         </div>
                     </div>
-                <?php } ?>
             </div>
         </div>
     </div>
