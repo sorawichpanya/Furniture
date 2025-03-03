@@ -169,12 +169,19 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
     $category = $_GET['category']; // รับค่า category จาก URL
 
     // กำหนดชื่อฐานข้อมูลตาม category
-    if ($category == 'bedroom') {
-        $table = "bedroom";
+    if ($category == 'trendy') {
+        $table = "trendy";
     } elseif ($category == 'Just_arrived') {
         $table = "Just_arrived";
     } elseif ($category == 'bathroom') {
         $table = "bathroom";
+    } elseif ($category == 'living room') {
+        $table = "living room";
+    } elseif ($category == 'bedroom') {
+        $table = "bedroom";
+    } elseif ($category == 'bathroom') {
+        $table = "bathroom";
+
     } else {
         echo "Invalid category!";
         exit;
