@@ -300,6 +300,9 @@ if (!$result || mysqli_num_rows($result) == 0) {
             <!-- Shop Product End -->
         </div>
     </div>
+    <?php
+     }
+    ?>
     <!-- Shop End -->
 
 
