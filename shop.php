@@ -157,7 +157,7 @@
     </div>
     <!-- Page Header End -->
 
-
+    
 <?php
 include_once("connectdb.php");
 
@@ -250,36 +250,34 @@ if (!$result || mysqli_num_rows($result) == 0) {
                             </div>
                         </div>
                     </div>
-                            <div class="container-fluid py-5">
-                                <div class="row pb-3">
-                                    <?php
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        ?>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
-                                            <div class="card product-item border-0 mb-4">
-                                                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                                    <img class="img-fluid w-100" src="<?php echo $row['image_path']; ?>" alt="<?php echo $row['p_name']; ?>">
-                                                </div>
-                                                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                                    <h6 class="text-truncate mb-3"><?php echo $row['p_name']; ?></h6>
-                                                    <div class="d-flex justify-content-center">
-                                                        <h6>฿<?php echo $row['p_price']; ?></h6>
-                                                    </div>
-                                                </div>
-                                                <div class="card-footer d-flex justify-content-between bg-light border">
-                                                    <a href="detail.php?p_name=<?php echo urlencode($row['p_name']); ?>" class="btn btn-sm text-dark p-0">
-                                                        <i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                                    <a href="#" class="btn btn-sm text-dark p-0">
-                                                        <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                                                </div>
-                                            </div>
+                    <div class="row pb-3">
+                        <?php
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                                <div class="card product-item border-0 mb-4">
+                                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                        <img class="img-fluid w-100" src="<?php echo $row['image_path']; ?>" alt="<?php echo $row['p_name']; ?>">
+                                    </div>
+                                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                        <h6 class="text-truncate mb-3"><?php echo $row['p_name']; ?></h6>
+                                        <div class="d-flex justify-content-center">
+                                            <h6>฿<?php echo $row['p_price']; ?></h6>
                                         </div>
-                                        <?php
-                                    }
-                                    ?>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between bg-light border">
+                                        <a href="detail.php?p_name=<?php echo urlencode($row['p_name']); ?>" class="btn btn-sm text-dark p-0">
+                                            <i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                                        <a href="#" class="btn btn-sm text-dark p-0">
+                                            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                    </div>
                                 </div>
-                            </div>                    
-                        <div class="col-12 pb-1">
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>                    
+                    <div class="col-12 pb-1">
                         <nav aria-label="Page navigation">
                           <ul class="pagination justify-content-center mb-3">
                             <li class="page-item disabled">
