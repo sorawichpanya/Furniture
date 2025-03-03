@@ -249,7 +249,7 @@ $sql = "
     SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
     UNION ALL
     SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
-    ORDER BY RAND()
+    ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
 
