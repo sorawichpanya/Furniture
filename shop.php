@@ -237,11 +237,6 @@
                     $sql = "SELECT * FROM `Just_arrived` ORDER BY `p_id` ASC";
                     $rs = mysqli_query($conn , $sql);
 
-                    // ตรวจสอบว่ามีข้อมูลหรือไม่
-                    if (!$result || mysqli_num_rows($result) == 0) {
-                        echo "<p>No products found!</p>";
-                        exit;
-                    }
                     ?>
                     <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                         <div class="card product-item border-0 mb-4">
