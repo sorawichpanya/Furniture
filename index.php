@@ -338,8 +338,9 @@ $rs = mysqli_query($conn , $sql);
     </div>
     <div class="row px-xl-5">
         <?php
-        while ($data = mysqli_fetch_array($rs)){
-
+        while ($data = mysqli_fetch_array($rs)) {
+            // จัดรูปแบบราคาด้วย number_format
+            $formatted_price = number_format($data['p_price'], 2); // ใส่ 2 ทศนิยม
         ?>
             <!-- เรียงสินค้าในแต่ละคอลัมน์ -->
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
@@ -358,7 +359,7 @@ $rs = mysqli_query($conn , $sql);
                         <h6 class="text-truncate mb-3"><?php echo $data['p_name']; ?></h6>
                         <div class="d-flex justify-content-center">
                             <!-- แสดงราคา -->
-                            <h6>฿<?php echo $data['p_price']; ?></h6>
+                            <h6>฿<?php echo $formatted_price; ?></h6>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">
