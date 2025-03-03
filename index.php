@@ -327,7 +327,7 @@ $rs = mysqli_query($conn , $sql);
     <?php
 include_once("connectdb.php");
 
-$sql = "SELECT * FROM `trendy` ORDER BY `p_id` ASC";
+$sql = "SELECT * FROM `Just_arrived` ORDER BY `p_id` ASC";
 $rs = mysqli_query($conn , $sql);
 
 ?>
