@@ -331,7 +331,6 @@ $sql = "SELECT * FROM `Just_arrived` ORDER BY `p_id` ASC";
 $rs = mysqli_query($conn , $sql);
 
 ?>
-
 <div class="container-fluid pt-5">
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
