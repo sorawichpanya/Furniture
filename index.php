@@ -324,40 +324,23 @@ $rs = mysqli_query($conn , $sql);
 <!-- Products End -->
 
 
-<?php
+<!-- Products Start -->
+    <?php
 include_once("connectdb.php");
 
-// ตรวจสอบว่ามีการส่งค่า p_id และ category หรือไม่
-if (isset($_GET['p_id']) && isset($_GET['category'])) {
-    $p_id = intval($_GET['p_id']);
-    $category = $_GET['category'];
+$sql = "SELECT * FROM `Just_arrived` ORDER BY `p_id` ASC";
+$rs = mysqli_query($conn , $sql);
 
-    // ดึงข้อมูลจากตารางตาม category ที่ระบุ
-    $sql_detail = "SELECT * FROM `$category` WHERE p_id = $p_id";
-    $result_detail = mysqli_query($conn, $sql_detail);
-
-    // ตรวจสอบว่ามีสินค้าหรือไม่
-    if (mysqli_num_rows($result_detail) > 0) {
-        $product = mysqli_fetch_array($result_detail);
-        $formatted_price = number_format($product['p_price'], 2); // จัดรูปแบบราคา
-    } else {
-        echo "<div class='alert alert-danger'>Invalid product ID or category!</div>";
-    }
-}
 ?>
-
-<!-- Products Start -->
 <div class="container-fluid pt-5">
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
     </div>
     <div class="row px-xl-5">
         <?php
-        $sql = "SELECT * FROM `Just_arrived` ORDER BY `p_id` ASC";
-        $rs = mysqli_query($conn, $sql);
-
         while ($data = mysqli_fetch_array($rs)) {
-            $formatted_price = number_format($data['p_price'], 2); // จัดรูปแบบราคา
+            // จัดรูปแบบราคาด้วย number_format
+            $formatted_price = number_format($data['p_price'], 2); // ใส่ 2 ทศนิยม
         ?>
             <!-- เรียงสินค้าในแต่ละคอลัมน์ -->
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
@@ -368,7 +351,8 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                              src="img/Just_arrived/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
                             alt="<?php echo $data['p_name']; ?>" 
                             class="img-fluid w-100"
-                            style="max-height: 300px; object-fit: cover; border-radius: 5px;">
+                            style="max-height: 300px; object-fit: cover; border-radius: 5px;"
+                        >
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <!-- แสดงชื่อสินค้า -->
@@ -379,35 +363,13 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href="?p_id=<?php echo $data['p_id']; ?>&category=trendya" class="btn btn-sm text-dark p-0">
-                            <i class="fas fa-eye text-primary mr-1"></i>View Detail
-                        </a>
-                        <a href="" class="btn btn-sm text-dark p-0">
-                            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
-                        </a>
+                        <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=Just_arrived" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                     </div>
                 </div>
             </div>
         <?php } ?>
     </div>
-
-    <?php if (isset($product)) { ?>
-        <!-- ส่วนแสดงรายละเอียดสินค้า -->
-        <div class="container mt-5">
-            <div class="card">
-                <div class="card-header">
-                    <h3><?php echo $product['p_name']; ?></h3>
-                </div>
-                <div class="card-body">
-                    <p>Price: ฿<?php echo $formatted_price; ?></p>
-                    <img src="img/trendy/<?php echo $product['p_id']; ?>.<?php echo $product['p_ext']; ?>" 
-                         alt="<?php echo $product['p_name']; ?>" 
-                         class="img-fluid" 
-                         style="max-height: 300px; object-fit: cover;">
-                </div>
-            </div>
-        </div>
-    <?php } ?>
 </div>
 <!-- Products End -->
 
