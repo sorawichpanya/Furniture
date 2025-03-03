@@ -266,6 +266,8 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
     </div>
 </div>
 
+<hr style="border: 1px solid #ddd; margin: 20px 0;">
+
     <!-- Products Start -->
     <div class="container-fluid py-5">
         <div class="text-center mb-4">
