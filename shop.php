@@ -246,7 +246,7 @@
                             SELECT COUNT(*) AS total FROM (
                                 SELECT p_name FROM trendy
                                 UNION ALL
-                                SELECT p_name FROM just_arrived
+                                SELECT p_name FROM Just_arrived
                                 UNION ALL
                                 SELECT p_name FROM popular
                             ) AS combined";
@@ -257,11 +257,11 @@
 
                         // Query สำหรับดึงข้อมูลสินค้าตามหน้า
                         $sql = "
-                            SELECT p_name, p_price, CONCAT('img/trendy/', p_image) AS image_path FROM trendy
+                            SELECT p_name, p_price, CONCAT('img/trendy/', p_ext) AS image_path FROM trendy
                             UNION ALL
-                            SELECT p_name, p_price, CONCAT('img/just_arrived/', p_image) AS image_path FROM just_arrived
+                            SELECT p_name, p_price, CONCAT('img/Just_arrived/', p_ext) AS image_path FROM Just_arrived
                             UNION ALL
-                            SELECT p_name, p_price, CONCAT('img/popular/', p_image) AS image_path FROM popular
+                            SELECT p_name, p_price, CONCAT('img/popular/', p_ext) AS image_path FROM popular
                             ORDER BY RAND()
                             LIMIT $limit OFFSET $offset"; // แบ่งหน้าโดยใช้ LIMIT และ OFFSET
                         $result = mysqli_query($conn, $sql);
