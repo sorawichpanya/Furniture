@@ -334,10 +334,10 @@ $rs = mysqli_query($conn, $sql);
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
                             <!-- ปุ่ม View Detail -->
-                            <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&categories=trendy" 
+                            <a href="?p_id=<?php echo $data['p_id']; ?>&categories=trendy" 
                                 class="btn btn-sm text-dark p-0">
                                 <i class="fas fa-eye text-primary mr-1"></i>View Detail
-                            </a>
+                                </a>
                             <!-- ปุ่ม Add to Cart -->
                             <a href="" class="btn btn-sm text-dark p-0">
                                 <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
