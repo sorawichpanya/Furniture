@@ -300,33 +300,46 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 <hr style="border: 1px solid #ddd; margin: 20px 0;">
 
     <!-- Products Start -->
-    <div class="container-fluid py-5">
-        <div class="text-center mb-4">
-            <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
-        </div>
-        <div class="row px-xl-5">
-            <div class="col">
-                <div class="owl-carousel related-carousel">
+    <?php
+include_once("connectdb.php");
+
+// ดึงข้อมูลจากตาราง trendy
+$sql = "SELECT p_id, p_name, p_price, p_ext FROM trendy ORDER BY RAND() LIMIT 10";
+$rs = mysqli_query($conn, $sql);
+?>
+<!-- Products Start -->
+<div class="container-fluid py-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
+    </div>
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="owl-carousel related-carousel">
+                <?php while ($data = mysqli_fetch_array($rs)) { ?>
                     <div class="card product-item border-0">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
+                            <!-- แสดงรูปภาพ -->
+                            <img class="img-fluid w-100" 
+                                src="img/trendy/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
+                                alt="<?php echo htmlspecialchars($data['p_name']); ?>" 
+                                style="max-height: 300px; object-fit: cover;">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <!-- แสดงชื่อสินค้า -->
+                            <h6 class="text-truncate mb-3"><?php echo htmlspecialchars($data['p_name']); ?></h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <!-- แสดงราคา -->
+                                <h6>฿<?php echo number_format($data['p_price'], 2); ?></h6>
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        </div>
                     </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </div>
-    <!-- Products End -->
+</div>
+<!-- Products End -->
+
 
 
     <!-- Footer Start -->
