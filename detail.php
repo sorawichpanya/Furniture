@@ -254,7 +254,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                     <small class="far fa-star"></small>
                 </div>
             </div>
-            <h3 class="font-weight-semi-bold mb-4">฿<?php echo $product['p_price']; ?></h3>
+            <h3 class="font-weight-semi-bold mb-4">฿<?php echo number_format($product['p_price'], 2); ?></h3>
 
                     <!-- ขนาดสินค้า -->
                     <p class="mb-3">
