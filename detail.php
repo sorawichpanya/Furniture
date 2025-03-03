@@ -160,66 +160,78 @@
     <!-- Page Header End -->
 
 
-    <?php
-    include_once("connectdb.php");
+<?php
+include_once("connectdb.php");
 
-    // รับ p_id จาก URL
-    if (isset($_GET['p_id'])) {
-        $p_id = $_GET['p_id'];
-        $sql = "SELECT * FROM trendy WHERE p_id = $p_id";
-        $result = mysqli_query($conn, $sql);
-        $product = mysqli_fetch_array($result);
+// ตรวจสอบว่ามีการส่ง p_id และ category หรือไม่
+if (isset($_GET['p_id']) && isset($_GET['category'])) {
+    $p_id = $_GET['p_id'];
+    $category = $_GET['category']; // รับค่า category จาก URL
 
-        // ตรวจสอบว่าเจอข้อมูลหรือไม่
-        if ($product) {
-            $image_pattern = "img/trendy/{$p_id}*.*"; // ค้นหารูปภาพที่มีรูปแบบ 1.jpg, 1.1.jpg, 1.2.jpg
-            $product_images = glob($image_pattern); // ดึงรายการไฟล์ที่ตรงกับ pattern
-        } else {
-            echo "Product not found!";
-            exit;
-        }
+    // กำหนดชื่อฐานข้อมูลตาม category
+    if ($category == 'trendy') {
+        $table = "trendy";
+    } elseif ($category == 'just_arrived') {
+        $table = "just_arrived";
     } else {
-        echo "Invalid product ID!";
+        echo "Invalid category!";
         exit;
     }
-    ?>
+
+    // ดึงข้อมูลจากฐานข้อมูลตาม table ที่เลือก
+    $sql = "SELECT * FROM $table WHERE p_id = $p_id";
+    $result = mysqli_query($conn, $sql);
+    $product = mysqli_fetch_array($result);
+
+    // ตรวจสอบว่าเจอข้อมูลหรือไม่
+    if ($product) {
+        $image_pattern = "img/$category/{$p_id}*.*"; // ค้นหารูปภาพในโฟลเดอร์ที่ตรงกับ category
+        $product_images = glob($image_pattern); // ดึงรายการไฟล์ที่ตรงกับ pattern
+    } else {
+        echo "Product not found!";
+        exit;
+    }
+} else {
+    echo "Invalid product ID or category!";
+    exit;
+}
+?>
 
 
-    <!-- Shop Detail Start -->
-    <div class="container-fluid py-5">
-        <div class="row px-xl-5">
-            <div class="col-lg-5 pb-5">
-                <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner border">
-                    <?php
-                        if (!empty($product_images)) {
-                            foreach ($product_images as $key => $image) {
-                                $activeClass = ($key === 0) ? "active" : "";
-                                echo "
-                                <div class='carousel-item $activeClass'>
-                                    <img class='img-fluid w-100' src='$image' alt='Product Image'>
-                                </div>";
-                            }
-                        } else {
+<!-- Shop Detail Start -->
+<div class="container-fluid py-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-5 pb-5">
+            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner border">
+                <?php
+                    if (!empty($product_images)) {
+                        foreach ($product_images as $key => $image) {
+                            $activeClass = ($key === 0) ? "active" : "";
                             echo "
-                            <div class='carousel-item active'>
-                                <img class='img-fluid w-100' src='img/no-image.jpg' alt='No Image Available'>
+                            <div class='carousel-item $activeClass'>
+                                <img class='img-fluid w-100' src='$image' alt='Product Image'>
                             </div>";
-                            echo "<p>No images found for product ID: $p_id</p>"; // แสดงข้อความดีบัก
                         }
-                        ?>
-                    </div>
-                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                        <i class="fa fa-2x fa-angle-left text-dark"></i>
-                    </a>
-                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                        <i class="fa fa-2x fa-angle-right text-dark"></i>
-                    </a>
+                    } else {
+                        echo "
+                        <div class='carousel-item active'>
+                            <img class='img-fluid w-100' src='img/no-image.jpg' alt='No Image Available'>
+                        </div>";
+                        echo "<p>No images found for product ID: $p_id</p>";
+                    }
+                    ?>
                 </div>
+                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                    <i class="fa fa-2x fa-angle-left text-dark"></i>
+                </a>
+                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                    <i class="fa fa-2x fa-angle-right text-dark"></i>
+                </a>
             </div>
+        </div>
 
         <div class="col-lg-7 pb-5">
-            <!-- ดึงข้อมูลสินค้า -->
             <h3 class="font-weight-semi-bold"><?php echo $product['p_name']; ?></h3>
             <div class="d-flex mb-3">
                 <div class="text-primary mr-2">
@@ -253,28 +265,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Description Tab -->
-    <div class="row px-xl-5">
-        <div class="col">
-            <div class="nav nav-tabs justify-content-center border-secondary mb-4">
-                <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews</a>
-            </div>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="tab-pane-1">
-                    <h4 class="mb-3">Product Description</h4>
-                    <p><?php echo $product['p_detail']; ?></p>
-                </div>
-                <div class="tab-pane fade" id="tab-pane-3">
-                    <h4 class="mb-3">Reviews</h4>
-                    <p>No reviews yet. Be the first to review this product!</p>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-<!-- Shop Detail End -->
 
     <!-- Products Start -->
     <div class="container-fluid py-5">
