@@ -233,73 +233,120 @@
                         </div>
                     </div>
                     <?php
-                    include_once("connectdb.php");
+                        include_once("connectdb.php");
 
-                    $sql = "
-                        SELECT p_name, p_price, CONCAT('img/trendy/', p_image) AS image_path FROM trendy
-                        UNION ALL
-                        SELECT p_name, p_price, CONCAT('img/just_arrived/', p_image) AS image_path FROM just_arrived
-                        UNION ALL
-                        SELECT p_name, p_price, CONCAT('img/popular/', p_image) AS image_path FROM popular
-                        ORDER BY RAND()"; // ใช้ RAND() เพื่อแสดงสินค้าแบบสุ่ม
-                    $result = mysqli_query($conn, $sql);
+                        // ตั้งค่าตัวแปรสำหรับการแบ่งหน้า
+                        $limit = 9; // จำนวนสินค้าที่แสดงในแต่ละหน้า
+                        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                        $page = max($page, 1); // ตรวจสอบว่าเลขหน้าต้องไม่ต่ำกว่า 1
+                        $offset = ($page - 1) * $limit;
 
-                    // ตรวจสอบว่ามีข้อมูลหรือไม่
-                    if (!$result || mysqli_num_rows($result) == 0) {
-                        echo "<p>No products found!</p>";
-                        exit;
-                    }
-                    ?>
-                    <div class="row pb-3">
-                        <?php
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
-                            <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
-                                <div class="card product-item border-0 mb-4">
-                                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                        <img class="img-fluid w-100" src="<?php echo $row['image_path']; ?>" alt="<?php echo $row['p_name']; ?>">
-                                    </div>
-                                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                        <h6 class="text-truncate mb-3"><?php echo $row['p_name']; ?></h6>
-                                        <div class="d-flex justify-content-center">
-                                            <h6>฿<?php echo $row['p_price']; ?></h6>
+                        // นับจำนวนสินค้าทั้งหมด
+                        $count_sql = "
+                            SELECT COUNT(*) AS total FROM (
+                                SELECT p_name FROM trendy
+                                UNION ALL
+                                SELECT p_name FROM just_arrived
+                                UNION ALL
+                                SELECT p_name FROM popular
+                            ) AS combined";
+                        $count_result = mysqli_query($conn, $count_sql);
+                        $count_row = mysqli_fetch_assoc($count_result);
+                        $total_products = $count_row['total'];
+                        $total_pages = ceil($total_products / $limit);
+
+                        // Query สำหรับดึงข้อมูลสินค้าตามหน้า
+                        $sql = "
+                            SELECT p_name, p_price, CONCAT('img/trendy/', p_image) AS image_path FROM trendy
+                            UNION ALL
+                            SELECT p_name, p_price, CONCAT('img/just_arrived/', p_image) AS image_path FROM just_arrived
+                            UNION ALL
+                            SELECT p_name, p_price, CONCAT('img/popular/', p_image) AS image_path FROM popular
+                            ORDER BY RAND()
+                            LIMIT $limit OFFSET $offset"; // แบ่งหน้าโดยใช้ LIMIT และ OFFSET
+                        $result = mysqli_query($conn, $sql);
+
+                        // ตรวจสอบว่ามีข้อมูลหรือไม่
+                        if (!$result || mysqli_num_rows($result) == 0) {
+                            echo "<p>No products found!</p>";
+                            exit;
+                        }
+                        ?>
+
+                        <div class="container-fluid py-5">
+                            <div class="row pb-3">
+                                <?php
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                                        <div class="card product-item border-0 mb-4">
+                                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                                <img class="img-fluid w-100" src="<?php echo $row['image_path']; ?>" alt="<?php echo $row['p_name']; ?>">
+                                            </div>
+                                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                                <h6 class="text-truncate mb-3"><?php echo $row['p_name']; ?></h6>
+                                                <div class="d-flex justify-content-center">
+                                                    <h6>฿<?php echo $row['p_price']; ?></h6>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer d-flex justify-content-between bg-light border">
+                                                <a href="detail.php?p_name=<?php echo urlencode($row['p_name']); ?>" class="btn btn-sm text-dark p-0">
+                                                    <i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                                                <a href="#" class="btn btn-sm text-dark p-0">
+                                                    <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer d-flex justify-content-between bg-light border">
-                                        <a href="detail.php?p_name=<?php echo urlencode($row['p_name']); ?>" class="btn btn-sm text-dark p-0">
-                                            <i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                        <a href="#" class="btn btn-sm text-dark p-0">
-                                            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                                    </div>
-                                </div>
+                                    <?php
+                                }
+                                ?>
                             </div>
-                            <?php
-                            }
-                            ?>
-                    </div>                    
-                    <div class="col-12 pb-1">
-                        <nav aria-label="Page navigation">
-                          <ul class="pagination justify-content-center mb-3">
-                            <li class="page-item disabled">
-                              <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                              </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                              <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                              </a>
-                            </li>
-                          </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+
+                            <!-- Pagination -->
+                            <div class="col-12 pb-1">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mb-3">
+                                        <?php if ($page > 1): ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                        <?php else: ?>
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+
+                                        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                            <li class="page-item <?php echo ($i == $page) ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+
+                                        <?php if ($page < $total_pages): ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                        <?php else: ?>
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
             <!-- Shop Product End -->
         </div>
     </div>
