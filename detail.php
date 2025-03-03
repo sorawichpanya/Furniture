@@ -171,7 +171,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
     // กำหนดชื่อฐานข้อมูลตาม category
     if ($category == 'trendy') {
         $table = "trendy";
-    } elseif ($category == 'just_arrived') {
+    } elseif ($category == 'Just_arrived') {
         $table = "Just_arrived";
     } else {
         echo "Invalid category!";
