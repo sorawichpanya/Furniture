@@ -297,7 +297,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                 <h6 class="text-truncate mb-3"><?php echo $data['p_name']; ?></h6>
                 <div class="d-flex justify-content-center">
-                <h6>฿<?php echo $formatted_price; ?></h6>
+                <h6>฿<?php echo number_format($data['p_price'], 2); ?></h6>
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-between bg-light border">
