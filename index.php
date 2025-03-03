@@ -379,7 +379,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href="?p_id=<?php echo $data['p_id']; ?>&category=Just_arrived" class="btn btn-sm text-dark p-0">
+                        <a href="?p_id=<?php echo $data['p_id']; ?>&category=trendya" class="btn btn-sm text-dark p-0">
                             <i class="fas fa-eye text-primary mr-1"></i>View Detail
                         </a>
                         <a href="" class="btn btn-sm text-dark p-0">
@@ -400,7 +400,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                 </div>
                 <div class="card-body">
                     <p>Price: ฿<?php echo $formatted_price; ?></p>
-                    <img src="img/Just_arrived/<?php echo $product['p_id']; ?>.<?php echo $product['p_ext']; ?>" 
+                    <img src="img/trendy/<?php echo $product['p_id']; ?>.<?php echo $product['p_ext']; ?>" 
                          alt="<?php echo $product['p_name']; ?>" 
                          class="img-fluid" 
                          style="max-height: 300px; object-fit: cover;">
