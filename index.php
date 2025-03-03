@@ -287,8 +287,9 @@ $rs = mysqli_query($conn , $sql);
     </div>
     <div class="row px-xl-5">
         <?php
-        while ($data = mysqli_fetch_array($rs)){
-
+        while ($data = mysqli_fetch_array($rs)) {
+            // จัดรูปแบบราคาด้วย number_format
+            $formatted_price = number_format($data['p_price'], 2); // ใส่ 2 ทศนิยม
         ?>
             <!-- เรียงสินค้าในแต่ละคอลัมน์ -->
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
