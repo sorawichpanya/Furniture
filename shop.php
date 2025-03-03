@@ -235,12 +235,34 @@
                     <?php
 include_once("connectdb.php");
 
+// กำหนดจำนวนสินค้าที่แสดงในแต่ละหน้า
+$items_per_page = 9;
+
+// คำนวณหน้าปัจจุบันจาก query string
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหรับการดึงข้อมูล
+
+// ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
     SELECT p_id, p_name, p_price, p_ext, 'trendy' AS category FROM `trendy`
     UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'Just_arrived' AS category FROM `Just_arrived`
-    ORDER BY RAND()"; // ใช้ RAND() เพื่อแสดงสินค้าแบบสุ่ม
+    SELECT p_id, p_name, p_price, p_ext, 'just_arrived' AS category FROM `Just_arrived`
+    ORDER BY RAND()
+    LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
+
+// คำนวณจำนวนหน้าทั้งหมด
+$total_items_sql = "
+    SELECT COUNT(*) AS total_items
+    FROM (
+        SELECT p_id FROM `trendy`
+        UNION ALL
+        SELECT p_id FROM `Just_arrived`
+    ) AS combined_table";
+$total_items_result = mysqli_query($conn, $total_items_sql);
+$total_items_row = mysqli_fetch_assoc($total_items_result);
+$total_items = $total_items_row['total_items'];
+$total_pages = ceil($total_items / $items_per_page); // คำนวณจำนวนหน้าทั้งหมด
 ?>
 
 <div class="row pb-3">
@@ -250,7 +272,6 @@ $rs = mysqli_query($conn , $sql);
     <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
         <div class="card product-item border-0 mb-4 shadow-sm">
             <div class="card-header product-img position-relative overflow-hidden bg-transparent border-0 p-0">
-                <!-- แสดงรูปภาพจากฐานข้อมูล -->
                 <img 
                     src="img/<?php echo $data['category']; ?>/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
                     alt="<?php echo $data['p_name']; ?>" 
@@ -273,29 +294,37 @@ $rs = mysqli_query($conn , $sql);
     }
     ?>
 </div>
-                    <div class="col-12 pb-1">
-                        <nav aria-label="Page navigation">
-                          <ul class="pagination justify-content-center mb-3">
-                            <li class="page-item disabled">
-                              <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                              </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                              <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                              </a>
-                            </li>
-                          </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+
+<!-- Pagination Start -->
+<div class="col-12 pb-1">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mb-3">
+            <!-- Previous Button -->
+            <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+
+            <!-- Pagination Numbers -->
+            <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                </li>
+            <?php } ?>
+
+            <!-- Next Button -->
+            <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
+                <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<!-- Pagination End -->
             <!-- Shop Product End -->
         </div>
     </div>
