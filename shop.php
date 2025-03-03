@@ -273,9 +273,6 @@ if (!$result || mysqli_num_rows($result) == 0) {
                                     </div>
                                 </div>
                             </div>
-                            <?php
-                        }
-                        ?>
                     </div>                    
                     <div class="col-12 pb-1">
                         <nav aria-label="Page navigation">
