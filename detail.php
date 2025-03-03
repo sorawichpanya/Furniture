@@ -303,11 +303,22 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 <?php
 include_once("connectdb.php");
 
-// ดึงข้อมูลจากตาราง trendy
-$sql = "SELECT p_id, p_name, p_price, p_ext FROM trendy ORDER BY RAND() LIMIT 10";
-$rs = mysqli_query($conn, $sql);
+if (isset($_GET['p_id']) && isset($_GET['categories'])) {
+    $p_id = intval($_GET['p_id']);
+    $categories = mysqli_real_escape_string($conn, $_GET['categories']);
+
+    // ตรวจสอบหมวดหมู่และดึงข้อมูลสินค้า
+    if ($categories === 'trendy') {
+        $sql_product = "SELECT * FROM trendy WHERE p_id = $p_id";
+        $result_product = mysqli_query($conn, $sql_product);
+        $product = mysqli_fetch_assoc($result_product);
+
+        if (!$product) {
+            echo "<script>alert('Invalid product ID or category!');</script>";
+        }
+    }
+}
 ?>
-<!-- Products Start -->
 <div class="container-fluid py-5">
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
