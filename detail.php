@@ -217,8 +217,6 @@
                     </a>
                 </div>
             </div>
-    <!-- Shop Detail Start -->
-
 
         <div class="col-lg-7 pb-5">
             <!-- ดึงข้อมูลสินค้า -->
@@ -267,11 +265,7 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-pane-1">
                     <h4 class="mb-3">Product Description</h4>
-                    <p><?php echo $product['p_full_description']; ?></p>
-                </div>
-                <div class="tab-pane fade" id="tab-pane-2">
-                    <h4 class="mb-3">Additional Information</h4>
-                    <p><?php echo $product['p_additional_info']; ?></p>
+                    <p><?php echo $product['p_detail']; ?></p>
                 </div>
                 <div class="tab-pane fade" id="tab-pane-3">
                     <h4 class="mb-3">Reviews</h4>
