@@ -181,6 +181,10 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
         $table = "bedroom";
     } elseif ($category == 'kitchen_room') {
         $table = "kitchen_room";
+    } elseif ($category == 'garden') {
+        $table = "kitchen_room";
+    } elseif ($category == 'workroom') {
+        $table = "kitchen_room";
     } else {
         echo "Invalid category!";
         exit;

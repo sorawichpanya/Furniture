@@ -251,6 +251,10 @@ $sql = "
     SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
     UNION ALL
     SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
     ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
@@ -266,6 +270,10 @@ $total_items_sql = "
         SELECT p_id FROM `kitchen_room`
         UNION ALL
         SELECT p_id FROM `bathroom`
+        UNION ALL
+        SELECT p_id FROM `garden`
+        UNION ALL
+        SELECT p_id FROM `workroom`
     ) AS combined_table";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
