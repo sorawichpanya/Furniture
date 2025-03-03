@@ -252,7 +252,7 @@ $sql = "
     UNION ALL
     SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
     UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, '' AS category FROM ``
+    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
     UNION ALL
     SELECT p_id, p_name, p_price, p_ext, '' AS category FROM ``
     ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
@@ -271,9 +271,7 @@ $total_items_sql = "
         UNION ALL
         SELECT p_id FROM `bathroom`
         UNION ALL
-        SELECT p_id FROM `bathroom`
-        UNION ALL
-        SELECT p_id FROM `bathroom`
+        SELECT p_id FROM `garden`
     ) AS combined_table";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
