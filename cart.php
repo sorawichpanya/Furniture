@@ -24,14 +24,14 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
     $product = $result->fetch_assoc();
 
     // ตรวจสอบว่ามีข้อมูลสินค้า
-    if ($product) {
+    if ($product && is_array($product)) { // ตรวจสอบว่า $product เป็น array
         // เพิ่มข้อมูลสินค้าลงในตะกร้า
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
         // ตรวจสอบว่ามีสินค้านี้ในตะกร้าแล้วหรือไม่
-        if (isset($_SESSION['cart'][$p_id])) {
+        if (isset($_SESSION['cart'][$p_id]) && is_array($_SESSION['cart'][$p_id])) { // ตรวจสอบให้แน่ใจว่าเป็น array
             $_SESSION['cart'][$p_id]['quantity'] += 1; // เพิ่มจำนวนสินค้า
             $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
         } else {
@@ -44,10 +44,14 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
                 'category' => $category // เก็บ category ด้วย
             ];
         }
+    } else {
+        // ถ้าไม่พบสินค้า
+        echo "Product not found or invalid product data.";
     }
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
