@@ -10,27 +10,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $Username = mysqli_real_escape_string($conn, $_POST['Username']);
   $password = mysqli_real_escape_string($conn, $_POST['password']);
   
+  // Query the database to verify user credentials
+  $query = "SELECT * FROM users WHERE Username = ?";
+  $stmt = mysqli_prepare($conn, $query);
+  mysqli_stmt_bind_param($stmt, "s", $Username);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  
+  if ($row = mysqli_fetch_assoc($result)) {
+      if (password_verify($password, $row['password'])) {
+          $_SESSION['Username'] = $Username;
+          header("Location: index.php");
+          exit();
+      } else {
+          $_SESSION["Error"] = "Invalid Username or password.";
+      }
+  } else {
+      $_SESSION["Error"] = "Invalid Username or password.";
+  }
 
-    // Query the database to verify user credentials (you should hash the password in a real app)
-    $query = "SELECT * FROM users WHERE Username = ?";
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "s", $Username);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    
-    if ($row = mysqli_fetch_assoc($result)) {
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['Username'] = $Username;
-            header("Location: index.php");
-            exit();
-        } else {
-            $error_message = "Invalid Username or password.";
-        }
-    } else {
-        $error_message = "Invalid Username or password.";
-    }
-    
-    }
+  header("Location: login.php"); // Redirect กลับไปที่หน้า login เพื่อแสดง error
+  exit();
 }
 ?>
 
@@ -40,12 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <!-- Add necessary CSS/JS files for MDB -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  
 
 <section class="vh-100 gradient-custom">
   <div class="container py-5 h-100">
@@ -58,6 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
               <p class="text-white-50 mb-5">Please enter your login and password!</p>
+
+              <?php
+              if (isset($_SESSION["Error"])) {
+                  echo "<div class='text-danger mb-3'>" . $_SESSION["Error"] . "</div>";
+                  unset($_SESSION["Error"]); // ลบ error หลังจากแสดงแล้ว
+              }
+              ?>
 
               <form method="POST" action="">
                 <div class="form-outline form-white mb-4">
@@ -75,12 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
               </form>
 
-              <?php
-              // Display error message if credentials are wrong
-              if (isset($error_message)) {
-                  echo '<p style="color: red;">' . $error_message . '</p>';
-              }
-              ?>
             </div>
 
             <div>
