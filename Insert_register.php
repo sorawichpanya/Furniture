@@ -14,9 +14,9 @@ VALUES ('$name', '$phone', '$username', '$password')";
 $result = mysqli_query($conn, $sql);
 
 if ($result) {
-    echo "<script>
-        alert('สมัครสมาชิกสำเร็จ! กำลังไปที่หน้าเข้าสู่ระบบ...');
-        window.location='Login.php';
+    header("Location: Login.php");
+    exit();
+}
     </script>";
     exit(); // หยุดการทำงานของ PHP
 } else {

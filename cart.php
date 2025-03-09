@@ -19,7 +19,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
     var_dump($p_id, $category);
     
     // ตรวจสอบว่า category มีอยู่ในฐานข้อมูล
-    $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
+    $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE p_id = ?";
     $stmt = $conn->prepare($sql);
     
     if (!$stmt) {
