@@ -161,10 +161,10 @@
     <!-- Shop Start -->
 
     <?php
-$servername = "localhost"; // เซิร์ฟเวอร์ฐานข้อมูล
-$username = "root"; // ชื่อผู้ใช้ฐานข้อมูล
-$password = ""; // รหัสผ่านฐานข้อมูล
-$dbname = "furniturefunny"; // ชื่อฐานข้อมูล
+        $servername = "localhost"; // เซิร์ฟเวอร์ฐานข้อมูล
+        $username = "root"; // ชื่อผู้ใช้ฐานข้อมูล
+        $password = "12345678P"; // รหัสผ่านฐานข้อมูล
+        $dbname = "furniturefunny"; // ชื่อฐานข้อมูล
 
 // สร้างการเชื่อมต่อ
 $conn = new mysqli($servername, $username, $password, $dbname);

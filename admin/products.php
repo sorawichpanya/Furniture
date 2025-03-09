@@ -258,7 +258,15 @@
               </table>
             </div>
             <!-- table container -->
-            <?php
+            <a
+              href="add-product.php"
+              class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+            <button class="btn btn-primary btn-block text-uppercase">
+              Delete selected products
+            </button>
+          </div>
+        </div>
+        <?php
 include_once("connectdb.php");
 
 // ดึงข้อมูลจากตาราง categories หรือสามารถดึงตารางแยกตามประเภทสินค้า
@@ -313,6 +321,8 @@ $rs = mysqli_query($conn, $sql);
     </div>
 </div>
 
+      </div>
+    </div>
     <footer class="tm-footer row tm-mt-small">
       <div class="col-12 font-weight-light">
         <p class="text-center text-white mb-0 px-4 small">
