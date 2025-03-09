@@ -365,17 +365,6 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
             <input type="hidden" name="product_id" value="<?php echo $data['p_id']; ?>">
             <input type="hidden" name="category" value="<?php echo $data['category']; ?>"> <!-- เพิ่ม category -->
             <button type="submit" name="add_to_cart" class="btn border"> <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
-            <?php if (isset($_SESSION['success_message'])): ?>
-                <div class="alert alert-success">
-                    <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
-                </div>
-                <?php endif; ?>
-
-                <?php if (isset($_SESSION['error_message'])): ?>
-                <div class="alert alert-danger">
-                    <?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
-                </div>
-                <?php endif; ?>
             </div>
         </form>
         </div>
@@ -386,7 +375,17 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
     print_r($_SESSION['cart']);
     echo '</pre>';
     ?>
-    
+    <?php if (isset($_SESSION['success_message'])): ?>
+        <div class="alert alert-success">
+            <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error_message'])): ?>
+        <div class="alert alert-danger">
+            <?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
+        </div>
+        <?php endif; ?>
 </div>
 
 <!-- Pagination Start -->
