@@ -151,6 +151,7 @@ $rs = mysqli_query($conn, $sql);
                 <?php
                 // แสดงข้อมูลสินค้า
                 while ($data = mysqli_fetch_array($rs)) {
+                    $product_id = $data['p_id'];
                     $product_name = $data['p_name'];
                     $product_detail = $data['p_detail'];
                     $product_color = $data['p_color'];
@@ -186,22 +187,23 @@ $rs = mysqli_query($conn, $sql);
             </div>
             <button type="submit" class="btn btn-danger btn-block text-uppercase">Delete selected products</button>
           </form>
-
-<script>
-    // Select/Deselect all checkboxes
-    document.getElementById('select_all').addEventListener('click', function() {
-        var checkboxes = document.getElementsByName('product_ids[]');
-        for (var checkbox of checkboxes) {
-            checkbox.checked = this.checked;
-        }
-    });
-</script>
+            <script>
+                // Select/Deselect all checkboxes
+                document.getElementById('select_all').addEventListener('click', function() {
+                    var checkboxes = document.getElementsByName('product_ids[]');
+                    for (var checkbox of checkboxes) {
+                        checkbox.checked = this.checked;
+                    }
+                });
+            </script>
             <!-- table container -->
             <a
               href="add-product.php"
               class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
           </div>
         </div>
+
+        
 <?php
 include_once("connectdb.php");
 

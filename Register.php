@@ -49,12 +49,8 @@
                 <input type="text" name="name" class="form-control" placeholder="John Doe" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">lastname</label>
-                <input type="text" name="lastname" class="form-control" placeholder="lastname" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Telephone</label>
-                <input type="password" name="password" class="form-control" placeholder="012-3456789" required>
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-control" placeholder="your-email@gmail.com" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
@@ -73,7 +69,7 @@
             <button type="submit" class="btn btn-orange w-100">Register</button>
         </form>
         <div class="text-center mt-3">
-            <small>Have an account? <a href="Login.php">Login</a></small>
+            <small>Have an account? <a href="login.php">Login</a></small>
         </div>
     </div>
 </div>

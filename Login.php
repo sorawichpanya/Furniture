@@ -60,7 +60,7 @@
 
 <div class="login-container">
     <!-- ด้านซ้ายเป็นรูปภาพ -->
-    <div class="login-image"></div>
+    <div class="src"></div>
 
     <!-- ด้านขวาเป็นฟอร์มล็อกอิน -->
     <div class="login-form">
