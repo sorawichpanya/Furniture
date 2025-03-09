@@ -2,9 +2,6 @@
 session_start();
 include("connectdb.php"); // เชื่อมต่อฐานข้อมูล
 
-// เปิดการแสดง Error
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
