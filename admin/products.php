@@ -136,6 +136,7 @@ $rs = mysqli_query($conn, $sql);
               <table class="table table-hover tm-table-small tm-product-table">
                 <thead>
                   <tr>
+                  <th scope="col"></th>
                     <th scope="col">PRODUCT NAME</th>
                     <th scope="col">DETAIL</th>
                     <th scope="col">COLOR</th>
@@ -169,7 +170,6 @@ $rs = mysqli_query($conn, $sql);
                     // แสดงข้อมูลสินค้า
                     echo "<tr>
                             <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
-                            <td></td>
                             <td>$product_name</td>
                             <td>$product_detail</td>
                             <td>$product_color</td>
