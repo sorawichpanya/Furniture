@@ -82,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   <i class="fas fa-shopping-cart"></i> Products
                 </a>
               </li>
+            </li>
             </ul>
           </div>
         </div>
