@@ -35,8 +35,6 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
     var_dump($product);
     die(); // หยุดการทำงานเพื่อดูค่า
 
-    session_start();  // เริ่มต้น session
-
     // ตรวจสอบว่า cart ถูกตั้งค่าหรือยัง
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = [];
