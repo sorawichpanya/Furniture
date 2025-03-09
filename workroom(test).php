@@ -233,6 +233,7 @@
                         </div>
                     </div>
                     <?php
+                    
 include_once("connectdb.php");
 
 // กำหนดจำนวนสินค้าที่แสดงในแต่ละหน้า
