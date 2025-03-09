@@ -156,7 +156,7 @@ $rs = mysqli_query($conn, $sql);
                     $product_image = $data['p_id'];  // ใช้ p_id เป็นชื่อไฟล์
                     $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
 
-                    $image_folder = ".../img/" . strtolower($table_name) . "/";  // ใช้ ../img/ เพื่อชี้ไปที่โฟลเดอร์ที่อยู่นอกโฟลเดอร์ปัจจุบัน
+                    $image_folder = "../img/" . strtolower($table_name) . "/";  // ใช้ ../img/ เพื่อชี้ไปที่โฟลเดอร์ที่อยู่นอกโฟลเดอร์ปัจจุบัน
 
                     // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
                     $image_path = $image_folder . $product_image . "." . $product_ext;

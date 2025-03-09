@@ -224,6 +224,8 @@
                     </h5>
                 </div>
             </div>
+        </div>
+    </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
