@@ -42,7 +42,6 @@ if (!isset($_SESSION['username'])) {
           data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
-          aria-label="Toggle navigation"
         >
           <i class="fas fa-bars tm-nav-icon"></i>
         </button>
@@ -59,7 +58,7 @@ if (!isset($_SESSION['username'])) {
                 <i class="fas fa-shopping-cart"></i> Products
               </a>
             </li>
-                      
+
           <ul class="navbar-nav ml-auto">
                         <!-- แสดงชื่อผู้ใช้ -->
                         <li class="nav-item dropdown">
@@ -71,7 +70,7 @@ if (!isset($_SESSION['username'])) {
                                 <a class="dropdown-item text-danger" href="logout.php">Logout</a>
                             </div>
                         </li>
-                    </ul>
+            </ul>
         </div>
       </div>
     </nav>
