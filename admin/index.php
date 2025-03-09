@@ -48,6 +48,11 @@ if (!isset($_SESSION['username'])) {
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="products.php">
+                                <i class="fas fa-shopping-cart"></i> Products
+                            </a>
+                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <!-- แสดงชื่อผู้ใช้ -->

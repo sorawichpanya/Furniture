@@ -1,25 +1,26 @@
 <?php
-
+// Start session
 session_start();
 
+// Include your database connection file (assumed to be included here)
 include('db_connection.php');
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Query the database to verify user credentials (you should hash the password in the real app)
-    $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    // Query the database to verify user credentials (you should hash the password in a real app)
+    $query = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
         // If user is found, start a session
-        $_SESSION['username'] = $username;
+        $_SESSION['email'] = $email;
         header("Location: dashboard.php"); // Redirect to dashboard or home page
     } else {
         // If credentials are incorrect
-        $error_message = "Invalid username or password.";
+        $error_message = "Invalid email or password.";
     }
 }
 ?>
@@ -27,49 +28,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login </title>
-    <style>
-        /* Your styles here (same as in the original HTML) */
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <!-- Add necessary CSS/JS files for MDB -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Your custom CSS here (optional) */
+  </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-form">
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-            </div>
-            <h2>Sign In</h2>
-            <form method="POST" action="">
-                <div class="form-group">
-                    <label for="username">USERNAME</label>
-                    <input type="text" id="username" name="username" required>
+
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <div class="mb-md-5 mt-md-4 pb-5">
+
+              <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+              <p class="text-white-50 mb-5">Please enter your login and password!</p>
+
+              <form method="POST" action="">
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <input type="email" id="typeEmailX" name="email" class="form-control form-control-lg" required />
+                  <label class="form-label" for="typeEmailX">Email</label>
                 </div>
-                <div class="form-group">
-                    <label for="password">PASSWORD</label>
-                    <input type="password" id="password" name="password" required>
+
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <input type="password" id="typePasswordX" name="password" class="form-control form-control-lg" required />
+                  <label class="form-label" for="typePasswordX">Password</label>
                 </div>
-                <button type="submit" class="login-button">Sign in</button>
-            </form>
-            <?php
-            // Display error message if credentials are wrong
-            if (isset($error_message)) {
-                echo '<p style="color: red;">' . $error_message . '</p>';
-            }
-            ?>
-            <div class="remember-forgot">
-                <label><input type="checkbox"> Remember Me</label>
-                <a href="#">Forgot Password</a>
+
+                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+              </form>
+
+              <?php
+              // Display error message if credentials are wrong
+              if (isset($error_message)) {
+                  echo '<p style="color: red;">' . $error_message . '</p>';
+              }
+              ?>
+
+              <div class="d-flex justify-content-center text-center mt-4 pt-1">
+                <a href="#!" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
+                <a href="#!" class="text-white"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
+                <a href="#!" class="text-white"><i class="fab fa-google fa-lg"></i></a>
+              </div>
+
             </div>
+
+            <div>
+              <p class="mb-0">Don't have an account? <a href="#!" class="text-white-50 fw-bold">Sign Up</a></p>
+            </div>
+
+          </div>
         </div>
-        <div class="login-welcome">
-            <h2>Welcome to login</h2>
-            <p>Don't have an account?</p>
-            <a href="Register.php" class="signup-button">Sign Up</a>
-        </div>
+      </div>
     </div>
-    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
