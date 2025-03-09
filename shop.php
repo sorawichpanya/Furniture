@@ -1,3 +1,13 @@
+<?php
+// shop.php
+session_start();
+include_once("connectdb.php");
+
+// ดึงรายการสินค้า
+$sql = "SELECT * FROM products";
+$result = mysqli_query($conn, $sql);
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -349,7 +359,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
             </div>
             <div class="card-footer d-flex justify-content-between bg-light border">
                 <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo $data['category']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                <a href="#" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                <button type="submit" name="add_to_cart"> <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
             </div>
         </div>
     </div>

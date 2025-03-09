@@ -1,3 +1,43 @@
+<?php
+session_start();
+include_once("connectdb.php");
+
+// ตรวจสอบว่ามีการเพิ่มสินค้าในตะกร้าหรือไม่
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    $product_id = intval($_POST['product_id']);
+    $quantity = 1; // ค่าเริ่มต้น
+
+    // ตรวจสอบว่ามีตะกร้าในเซสชันหรือยัง
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+
+    // ตรวจสอบว่าสินค้าถูกเพิ่มในตะกร้าหรือยัง
+    if (isset($_SESSION['cart'][$product_id])) {
+        $_SESSION['cart'][$product_id] += $quantity;
+    } else {
+        $_SESSION['cart'][$product_id] = $quantity;
+    }
+
+    // แจ้งเตือน
+    $_SESSION['success_message'] = "Product added to cart successfully!";
+    header("Location: shop.php");
+    exit;
+}
+
+// ดึงข้อมูลสินค้าในตะกร้า
+$cart_items = [];
+if (isset($_SESSION['cart'])) {
+    $product_ids = implode(',', array_keys($_SESSION['cart']));
+    $sql = "SELECT * FROM products WHERE id IN ($product_ids)";
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $row['quantity'] = $_SESSION['cart'][$row['id']];
+        $row['total_price'] = $row['price'] * $row['quantity'];
+        $cart_items[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -159,79 +199,39 @@
 
 
     <!-- Cart Start -->
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5">
-            <div class="col-lg-8 table-responsive mb-5">
-                <table class="table table-bordered text-center mb-0">
-                    <thead class="bg-secondary text-dark">
+    <div class="container pt-5">
+        <?php if (!empty($cart_items)) : ?>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($cart_items as $item) : ?>
                         <tr>
-                            <th>Products</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody class="align-middle">
-                        <tr>
-                            <td class="align-middle"><img src="img/product-1.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                            <td><?php echo htmlspecialchars($item['name']); ?></td>
+                            <td>$<?php echo htmlspecialchars($item['price']); ?></td>
+                            <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                            <td>$<?php echo htmlspecialchars($item['total_price']); ?></td>
+                            <td>
+                                <form action="remove_from_cart.php" method="POST">
+                                    <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                </form>
                             </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-lg-4">
-                <form class="mb-5" action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control p-4" placeholder="Coupon Code">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary">Apply Coupon</button>
-                        </div>
-                    </div>
-                </form>
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">$150</h6>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
-                        </div>
-                    </div>
-                    <div class="card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">$160</h5>
-                        </div>
-                        <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Cart End -->
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <p class="text-center">Your cart is empty!</p>
+        <?php endif; ?>
+    </div>    <!-- Cart End -->
 
 
     <!-- Footer Start -->
