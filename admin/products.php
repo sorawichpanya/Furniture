@@ -139,19 +139,27 @@ $rs = mysqli_query($conn, $sql);
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row"><input type="checkbox" /></th>
-                    <td class="tm-product-name">Lorem Ipsum Product 11</td>
-                    <td>2,000</td>
-                    <td>400</td>
-                    <td>21 Jan 2019</td>
-                    <td>
-                      <a href="#" class="tm-product-delete-link">
-                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
+                <?php
+                // แสดงข้อมูลสินค้า
+                while ($data = mysqli_fetch_array($rs)) {
+                    $product_name = $data['p_name'];
+                    $product_detail = $data['p_detail'];
+                    $product_color = $data['p_color'];
+                    $product_size = $data['p_size'];
+                    $product_price = $data['p_price'];
+                    $product_image = $data['p_image']; // รูปภาพสินค้า (อาจจะเป็นชื่อไฟล์)
+
+                    echo "<tr>
+                            <td>$product_name</td>
+                            <td>$product_detail</td>
+                            <td>$product_color</td>
+                            <td>$product_size</td>
+                            <td>$product_price</td>
+                            <td><img src='img/products/$product_image' alt='$product_name' style='max-width: 100px;'></td>
+                          </tr>";
+                }
+                ?>
+            </tbody>
               </table>
             </div>
             <!-- table container -->
