@@ -206,47 +206,6 @@
 </div>
 
 <!-- ตัวกรองสินค้าตามราคา -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const priceFilters = document.querySelectorAll(".custom-control-input[name='price_price']");
-    const products = document.querySelectorAll(".FurnitureFunny");
-
-    function filterProducts() {
-        let selectedFilter = document.querySelector(".custom-control-input[name='price_price']:checked");
-        if (!selectedFilter) return;
-
-        let selectedRange = selectedFilter.nextElementSibling.textContent.trim();
-
-        products.forEach(product => {
-            let productPrice = parseInt(product.getAttribute("p_price").replace("฿", "").replace(",", ""));
-            let isVisible = false;
-
-            if (selectedRange === "All Price") {
-                isVisible = true;
-            } else if (selectedRange === "฿0 - ฿500") {
-                isVisible = productPrice >= 0 && productPrice <= 500;
-            } else if (selectedRange === "฿500 - ฿1000") {
-                isVisible = productPrice > 500 && productPrice <= 1000;
-            } else if (selectedRange === "฿1000 - ฿2000") {
-                isVisible = productPrice > 1000 && productPrice <= 2000;
-            } else if (selectedRange === "฿2000 - ฿3000") {
-                isVisible = productPrice > 2000 && productPrice <= 3000;
-            } else if (selectedRange === "฿3000 and above") {
-                isVisible = productPrice > 3000;
-            }
-
-            product.style.display = isVisible ? "block" : "none";
-        });
-    }
-
-    priceFilters.forEach(filter => {
-        filter.addEventListener("change", filterProducts);
-    });
-
-    filterProducts();
-});
-
-</script>
 
 
 

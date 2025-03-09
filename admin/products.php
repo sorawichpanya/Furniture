@@ -132,11 +132,12 @@ if (empty($table_name) || $table_name == 'user') {
 $sql = "SELECT * FROM `$table_name`";
 $rs = mysqli_query($conn, $sql);
 ?>
+          <form action="delete-products.php" method="POST">
             <div class="tm-product-table-container">
               <table class="table table-hover tm-table-small tm-product-table">
                 <thead>
                   <tr>
-                  <th scope="col"></th>
+                    <th scope="col"><input type="checkbox" id="select_all"></th>
                     <th scope="col">PRODUCT NAME</th>
                     <th scope="col">DETAIL</th>
                     <th scope="col">COLOR</th>
