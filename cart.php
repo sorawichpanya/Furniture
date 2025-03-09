@@ -4,42 +4,40 @@ include_once("connectdb.php");
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
-
 }
+
 if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id'])) {
     $p_id = $_GET['p_id'];
     $category = $_GET['category'];
 
-    // เช็คว่ามีสินค้านี้ในตะกร้าหรือยัง
-    if (isset($_SESSION['cart'][$p_id])) {
-        $_SESSION['cart'][$p_id]['quantity'] += 1; // เพิ่มจำนวนสินค้า
-    } else {
-        // เพิ่มสินค้าชิ้นใหม่ในตะกร้า
-        $_SESSION['cart'][$p_id] = [
-            'p_id' => $p_id,
-            'category' => $category,
-            'quantity' => 1
-        ];
+    // ดึงข้อมูลสินค้าจากฐานข้อมูล
+    $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $p_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $product = $result->fetch_assoc();
+
+    if ($product) {
+        // ถ้าสินค้ามีอยู่แล้ว ให้เพิ่มจำนวน
+        if (isset($_SESSION['cart'][$p_id])) {
+            $_SESSION['cart'][$p_id]['quantity'] += 1;
+        } else {
+            // เพิ่มสินค้าชิ้นใหม่
+            $_SESSION['cart'][$p_id] = [
+                'p_id' => $product['p_id'],
+                'p_name' => $product['p_name'],
+                'p_price' => $product['p_price'],
+                'category' => $category,
+                'quantity' => 1
+            ];
+        }
     }
 
-    // กลับไปที่หน้าตะกร้าสินค้า
     header("Location: cart.php");
     exit();
 }
-echo "<h2>Shopping Cart</h2>";
-
-if (!empty($_SESSION['cart'])) {
-    echo "<ul>";
-    foreach ($_SESSION['cart'] as $item) {
-        echo "<li>Product ID: " . $item['p_id'] . " | Category: " . $item['category'] . " | Quantity: " . $item['quantity'] . "</li>";
-    }
-    echo "</ul>";
-} else {
-    echo "<p>Your cart is empty.</p>";
-}
 ?>
-?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -218,17 +216,21 @@ if (!empty($_SESSION['cart'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($cart_items as $item) : ?>
+                <?php 
+                $grand_total = 0; // รวมราคาทั้งหมด
+                foreach ($cart_items as $item) : 
+                    $total_price = $item['p_price'] * $item['quantity']; // คำนวณราคารวมต่อชิ้น
+                    $grand_total += $total_price; // รวมยอดทั้งหมด
+                ?>
                     <tr>
                         <td><?php echo htmlspecialchars($item['p_name']); ?></td>
                         <td><?php echo htmlspecialchars($item['category']); ?></td>
                         <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
                         <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                        <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
+                        <td>฿<?php echo number_format($total_price, 2); ?></td>
                         <td>
                             <form action="remove_from_cart.php" method="POST">
                                 <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
-                                <input type="hidden" name="category" value="<?php echo htmlspecialchars($item['category']); ?>">
                                 <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                             </form>
                         </td>
@@ -237,6 +239,7 @@ if (!empty($_SESSION['cart'])) {
             </tbody>
         </table>
         <div class="text-right">
+            <h4>Total: ฿<?php echo number_format($grand_total, 2); ?></h4>
             <a href="checkout.php" class="btn btn-primary">Proceed to Checkout</a>
         </div>
     <?php else : ?>

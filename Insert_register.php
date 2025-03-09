@@ -8,7 +8,7 @@ $password = $_POST['password'];
 
 //ค่าสั่งเพิ่มข้อมูลลงดาราง Register
 $sql = "INSERT INTO Register (name, phone, username, password) 
-        VALUES ('$name', '$phone', '$username', '$password')";
+VALUES ('$name', '$phone', '$username', '$password')";
 $result=mysqli_query($conn, $sql);
 if($result){
     echo "<script> alert('บันทึกข้อมูลเรียบร้อย'); </script>";
