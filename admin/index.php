@@ -91,11 +91,22 @@ if (!isset($_SESSION['username'])) {
                             </div>
                         </li>
                     </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
-                            <a href="logout.php">Logout</a>
-                        </li>
+                    <ul class="navbar-nav ml-auto">
+    <!-- แสดงชื่อผู้ใช้ -->
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <!-- ตัวเลือกใน Dropdown -->
+            <a class="dropdown-item" href="profile.php">Profile</a>
+            <a class="dropdown-item" href="settings.php">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-danger" href="logout.php">Logout</a>
+        </div>
+    </li>
+</ul>
+
                     </ul>
                 </div>
             </div>

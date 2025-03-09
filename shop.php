@@ -222,7 +222,7 @@
         });
 
         products.forEach(product => {
-            let productPrice = parseInt(product.getAttribute("data-price"));
+            let productPrice = parseInt(product.getAttribute("FurnitureFunny"));
             let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
 
             product.style.display = isVisible ? "block" : "none";
