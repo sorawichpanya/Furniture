@@ -160,32 +160,37 @@
     <!--ตัวกรองสินค้าตามราคา-->
     <script>
             document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll(".custom-control-input");
-    const products = document.querySelectorAll(".product-item");
+                const checkboxes = document.querySelectorAll(".custom-control-input");
+                const products = document.querySelectorAll(".product-item");
 
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener("change", filterProducts);
-    });
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener("change", filterProducts);
+                });
 
-    function filterProducts() {
-        let selectedRanges = [];
+                function filterProducts() {
+                    let selectedRanges = [];
 
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked && checkbox.id !== "price-all") {
-                let range = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
-                selectedRanges.push(range.map(Number)); // แปลงเป็นตัวเลข
-            }
-        });
+                    checkboxes.forEach(checkbox => {
+                        if (checkbox.checked && checkbox.id !== "price-all") {
+                            let range = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
+                            selectedRanges.push(range.map(Number)); // แปลงเป็นตัวเลข
+                        }
+                    });
 
-        products.forEach(product => {
-            let productPrice = parseInt(product.getAttribute("FurnitureFunny"));
-            let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
+                    // ตรวจสอบว่าผู้ใช้เลือก "All Price" หรือไม่
+                    if (document.getElementById("price-all").checked) {
+                        selectedRanges = [];  // ถ้าเลือก All Price, ให้แสดงสินค้าทั้งหมด
+                    }
 
-            product.style.display = isVisible ? "block" : "none";
-        });
-    }
-});
-</script>
+                    products.forEach(product => {
+                        let productPrice = parseInt(product.getAttribute("data-price"));
+                        let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
+
+                        product.style.display = isVisible ? "block" : "none";
+                    });
+                }
+            });
+        </script>
     </div>
 </div>
 
@@ -276,13 +281,13 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'graden' AS category FROM `graden`
+    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
     ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
 
 // คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "SELECT COUNT(*) AS total_items FROM `graden`";
+$total_items_sql = "SELECT COUNT(*) AS total_items FROM `workroom`";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];
