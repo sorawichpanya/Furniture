@@ -192,10 +192,11 @@
                             <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
                             <span class="badge border font-weight-normal">145</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">฿3000 - ฿</label>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" name="price_range" value="3000-and-above" id="price-5">
+                            <label class="custom-control-label" for="price-5">฿3000 and above</label>
                             <span class="badge border font-weight-normal">168</span>
+                        </div>
                         </div>
                     </form>
                 </div>

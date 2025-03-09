@@ -300,12 +300,14 @@ $rs = mysqli_query($conn, $sql);
                 </tbody>
             </table>
         </div>
-        <!-- table container -->
-        <button class="btn btn-primary btn-block text-uppercase mb-3">
-            Add new category
-        </button>
+            <!-- table container -->
+            <button class="btn btn-primary btn-block text-uppercase mb-3">
+              Add new category
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
     <footer class="tm-footer row tm-mt-small">
       <div class="col-12 font-weight-light">
         <p class="text-center text-white mb-0 px-4 small">
