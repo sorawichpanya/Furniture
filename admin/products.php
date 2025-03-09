@@ -221,13 +221,24 @@ $rs = mysqli_query($conn, $sql);
                                   <a href='?table_name=" . urlencode($table_name) . "'>" . ucfirst(str_replace("_", " ", $table_name)) . "</a>
                                 </td>";
                         echo "<td class='text-center'>
-                                  <a href='#' class='tm-product-delete-link'>
+                                  <a href='#' class='tm-product-delete-link' onclick='confirmDelete(\"$table_name\")'>
                                       <i class='far fa-trash-alt tm-product-delete-icon'></i>
                                   </a>
                                 </td>
                               </tr>";
                     }
-                    
+                      <script>
+                      function confirmDelete(tableName) {
+                          // แสดงข้อความยืนยัน
+                          var confirmation = confirm("Are you sure you want to delete the table: " + tableName + "?");
+                          
+                          // ถ้าเลือก 'OK' (ยืนยันการลบ)
+                          if (confirmation) {
+                              // ส่งคำขอลบไปยัง PHP โดยการใช้ GET
+                              window.location.href = "delete_table.php?table_name=" + encodeURIComponent(tableName);
+                          }
+                      }
+                      </script>
                     }
                     ?>
                 </tbody>
