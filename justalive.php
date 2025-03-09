@@ -223,17 +223,17 @@
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">฿1000 - ฿1500</label>
+                            <label class="custom-control-label" for="price-3">฿1000 - ฿300</label>
                             <span class="badge border font-weight-normal">246</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">฿1500 - ฿2000</label>
+                            <label class="custom-control-label" for="price-4">฿300 - ฿400</label>
                             <span class="badge border font-weight-normal">145</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
                             <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">฿2000 and above</label>
+                            <label class="custom-control-label" for="price-5">฿400 - ฿500</label>
                             <span class="badge border font-weight-normal">168</span>
                         </div>
                     </form>
@@ -283,17 +283,7 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
+SELECT p_id, p_name, p_price, p_ext, 'Just_arrived' AS category FROM `workroom`
     ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
