@@ -107,7 +107,7 @@
                         <a href="" class="nav-item nav-link">bedroom</a>
                         <a href="" class="nav-item nav-link">kitchen</a>
                         <a href="" class="nav-item nav-link">garden</a>
-                        <a href="workroom" class="nav-item nav-link">work room</a>
+                        <a href="workroom(test).php" class="nav-item nav-link">work room</a>
                     </div>
                 </nav>
             </div>

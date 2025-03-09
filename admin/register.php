@@ -16,14 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // ตรวจสอบว่ามี username ซ้ำหรือไม่
-        $sql_check = "SELECT * FROM users WHERE username = '$username'";
+        $sql_check = "SELECT * FROM admin WHERE username = '$username'";
         $result = mysqli_query($conn, $sql_check);
 
         if ($result && mysqli_num_rows($result) > 0) {
             echo "<script>alert('Username already exists. Please choose another one.');</script>";
         } else {
             // บันทึกข้อมูลผู้ใช้
-            $sql_insert = "INSERT INTO users (username, password) VALUES ('$username', '$hashedPassword')";
+            $sql_insert = "INSERT INTO admin (username, password) VALUES ('$username', '$hashedPassword')";
             if (mysqli_query($conn, $sql_insert)) {
                 echo "<script>alert('Registration successful!');</script>";
                 header("Location: login.php");
