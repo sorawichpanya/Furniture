@@ -10,7 +10,7 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// สมมติว่าเราเพิ่มสินค้าเข้าไปในตะกร้า
+// ตรวจสอบการเพิ่มสินค้าเข้าในตะกร้า
 if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) && isset($_GET['category'])) {
     $p_id = $_GET['p_id'];
     $category = $_GET['category'];
@@ -32,9 +32,11 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
 
         // ตรวจสอบว่ามีสินค้านี้ในตะกร้าแล้วหรือไม่
         if (isset($_SESSION['cart'][$p_id])) {
-            $_SESSION['cart'][$p_id]['quantity'] += 1; // เพิ่มจำนวนสินค้า
+            // ถ้ามีสินค้านี้ในตะกร้า ให้เพิ่มจำนวน
+            $_SESSION['cart'][$p_id]['quantity'] += 1;
             $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
         } else {
+            // ถ้ายังไม่มีสินค้านี้ในตะกร้า ให้เพิ่มสินค้าลงไปใหม่
             $_SESSION['cart'][$p_id] = [
                 'p_id' => $product['p_id'],
                 'p_name' => $product['p_name'],
