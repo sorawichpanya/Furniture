@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="row mt-2">
                     <div class="col-12">
-                        <form action="reset_password.php" method="post" class="tm-login-form">
+                        <form action="forgot_password.php" method="post" class="tm-login-form">
                             <div class="form-group">
                                 <label for="username">Username</label>
                                 <input
