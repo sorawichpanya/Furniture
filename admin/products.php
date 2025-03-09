@@ -169,13 +169,14 @@ $rs = mysqli_query($conn, $sql);
                     // แสดงข้อมูลสินค้า
                     echo "<tr>
                             <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
+                            <td scope="col">&nbsp;</td>
                             <td>$product_name</td>
                             <td>$product_detail</td>
                             <td>$product_color</td>
                             <td>$product_size</td>
                             <td>$product_price</td>
                             <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
-                          </tr>";
+                            </tr>";
                 }
                 ?>            
                 </tbody>
