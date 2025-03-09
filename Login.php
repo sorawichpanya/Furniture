@@ -11,16 +11,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     // Query the database to verify user credentials (you should hash the password in a real app)
-    $query = "SELECT * FROM users WHERE phone = '$phone' AND password = '$password'";
+    $query = "SELECT * FROM users WHERE Username = '$Username' AND password = '$password'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
         // If user is found, start a session
-        $_SESSION['phone'] = $phone;
+        $_SESSION['Username'] = $Username;
         header("Location: dashboard.php"); // Redirect to dashboard or home page
     } else {
         // If credentials are incorrect
-        $error_message = "Invalid phone or password.";
+        $error_message = "Invalid Username or password.";
     }
 }
 ?>
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               <form method="POST" action="">
                 <div data-mdb-input-init class="form-outline form-white mb-4">
-                  <input type="Username" id="typeEmailX" name="Username" class="form-control form-control-lg" required />
+                  <input type="Username" id="tyName" name="Username" class="form-control form-control-lg" required />
                   <label class="form-label" for="typeEmailX">Username</label>
                 </div>
 
