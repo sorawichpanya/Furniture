@@ -105,9 +105,9 @@
                         <a href="livingroom.php" class="nav-item nav-link">living room</a>
                         <a href="bathroom.php" class="nav-item nav-link">bathroom</a>
                         <a href="bedroom.php" class="nav-item nav-link">bedroom</a>
-                        <a href="" class="nav-item nav-link">kitchen</a>
-                        <a href="" class="nav-item nav-link">garden</a>
-                        <a href="" class="nav-item nav-link">work room</a>
+                        <a href="kitchen.php" class="nav-item nav-link">kitchen</a>
+                        <a href="garden.php" class="nav-item nav-link">garden</a>
+                        <a href="workroom.php" class="nav-item nav-link">work room</a>
                     </div>
                 </nav>
             </div>
