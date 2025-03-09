@@ -5,6 +5,7 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,9 +93,8 @@ if (!isset($_SESSION['username'])) {
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link d-block" href="login.php">
-                                Admin, <b>Logout</b>
-                            </a>
+                            <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
+                            <a href="logout.php">Logout</a>
                         </li>
                     </ul>
                 </div>

@@ -1,5 +1,5 @@
-<meta charset="utf-8">
 <?php
+session_start();
 $host = "localhost";
 $usr = "root";
 $pwd = "12345678P";
