@@ -107,7 +107,7 @@
                         <a href="" class="nav-item nav-link">bedroom</a>
                         <a href="" class="nav-item nav-link">kitchen</a>
                         <a href="" class="nav-item nav-link">garden</a>
-                        <a href="" class="nav-item nav-link">work room</a>
+                        <a href="workroom(test).php" class="nav-item nav-link">work room</a>
                     </div>
                 </nav>
             </div>
@@ -147,11 +147,11 @@
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">workroom</h1>
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
             <div class="d-inline-flex">
                 <p class="m-0"><a href="">Home</a></p>
                 <p class="m-0 px-2">-</p>
-                <p class="m-0">workroom</p>
+                <p class="m-0">Shop</p>
             </div>
         </div>
     </div>
@@ -202,6 +202,38 @@
                 <!-- Price End -->               
             </div>
             <!-- Shop Sidebar End -->
+             
+    <!--ตัวกรองสินค้าตามราคา-->
+    <script>
+            document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll(".custom-control-input");
+    const products = document.querySelectorAll(".product-item");
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", filterProducts);
+    });
+
+    function filterProducts() {
+        let selectedRanges = [];
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked && checkbox.id !== "price-all") {
+                let range = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
+                selectedRanges.push(range.map(Number)); // แปลงเป็นตัวเลข
+            }
+        });
+
+        products.forEach(product => {
+            let productPrice = parseInt(product.getAttribute("FurnitureFunny"));
+            let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
+
+            product.style.display = isVisible ? "block" : "none";
+        });
+    }
+});
+</script>
+    </div>
+</div>
 
 
             <!-- Shop Product Start -->
@@ -233,8 +265,6 @@
                         </div>
                     </div>
                     <?php
-
-<?php
 include_once("connectdb.php");
 
 // กำหนดจำนวนสินค้าที่แสดงในแต่ละหน้า
@@ -246,14 +276,37 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
-    SELECT p_id, p_name, p_price, p_ext, workroom FROM `workroom`
-    ORDER BY p_id ASC
-    LIMIT $items_per_page OFFSET $offset";
- // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
+    SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
+    ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
+    LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
 
 // คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "SELECT COUNT(*) AS total_items FROM `workroom`";
+$total_items_sql = "
+    SELECT COUNT(*) AS total_items
+    FROM (
+        SELECT p_id FROM `bedroom`
+        UNION ALL
+        SELECT p_id FROM `living_room`
+        UNION ALL
+        SELECT p_id FROM `kitchen_room`
+        UNION ALL
+        SELECT p_id FROM `bathroom`
+        UNION ALL
+        SELECT p_id FROM `garden`
+        UNION ALL
+        SELECT p_id FROM `workroom`
+    ) AS combined_table";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];
@@ -268,7 +321,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
         <div class="card product-item border-0 mb-4 shadow-sm">
             <div class="card-header product-img position-relative overflow-hidden bg-transparent border-0 p-0">
                 <img 
-                    src="img/<?php echo $data['workroom']; ?>/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
+                    src="img/<?php echo $data['category']; ?>/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
                     alt="<?php echo $data['p_name']; ?>" 
                     class="img-fluid w-100"
                     style="max-height: 300px; object-fit: cover; border-radius: 5px;">
@@ -280,7 +333,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-between bg-light border">
-                <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&workroom=<?php echo $data['workroom']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo $data['category']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
                 <a href="#" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
             </div>
         </div>
