@@ -159,6 +159,49 @@
 
 
     <!-- Shop Start -->
+
+    <?php
+$servername = "localhost"; // เซิร์ฟเวอร์ฐานข้อมูล
+$username = "root"; // ชื่อผู้ใช้ฐานข้อมูล
+$password = ""; // รหัสผ่านฐานข้อมูล
+$dbname = "furniturefunny"; // ชื่อฐานข้อมูล
+
+// สร้างการเชื่อมต่อ
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// เช็คการเชื่อมต่อ
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// คำสั่ง SQL เพื่อดึงจำนวนสินค้าในแต่ละช่วงราคา
+$sql = "
+SELECT 
+    SUM(CASE WHEN p_price BETWEEN 0 AND 500 THEN 1 ELSE 0 END) AS price_0_500,
+    SUM(CASE WHEN p_price BETWEEN 500 AND 1000 THEN 1 ELSE 0 END) AS price_500_1000,
+    SUM(CASE WHEN p_price BETWEEN 1000 AND 2000 THEN 1 ELSE 0 END) AS price_1000_2000,
+    SUM(CASE WHEN p_price BETWEEN 2000 AND 3000 THEN 1 ELSE 0 END) AS price_2000_3000,
+    SUM(CASE WHEN p_price >= 3000 THEN 1 ELSE 0 END) AS price_3000_above
+FROM products
+";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // รับข้อมูลจำนวนสินค้าจากผลลัพธ์
+    $row = $result->fetch_assoc();
+    $count_0_500 = $row['price_0_500'];
+    $count_500_1000 = $row['price_500_1000'];
+    $count_1000_2000 = $row['price_1000_2000'];
+    $count_2000_3000 = $row['price_2000_3000'];
+    $count_3000_above = $row['price_3000_above'];
+} else {
+    $count_0_500 = $count_500_1000 = $count_1000_2000 = $count_2000_3000 = $count_3000_above = 0;
+}
+
+$conn->close();
+?>
+
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->

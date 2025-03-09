@@ -269,9 +269,15 @@ $rs = mysqli_query($conn, $sql);
 <!-- HTML Code for the Categories Section -->
 <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
     <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
-        <h2 class="tm-block-title">Product Categories</h2>
+        <h2 class="tm-block-title text-white mb-4">Product Categories</h2>
         <div class="tm-product-table-container">
-            <table class="table tm-table-small tm-product-table">
+            <table class="table table-striped table-bordered table-hover tm-table-small tm-product-table">
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <?php
                     // Loop through all tables and show them as categories
@@ -300,14 +306,13 @@ $rs = mysqli_query($conn, $sql);
                 </tbody>
             </table>
         </div>
-            <!-- table container -->
-            <button class="btn btn-primary btn-block text-uppercase mb-3">
-              Add new category
-            </button>
-          </div>
-        </div>
-      </div>
+        <!-- table container -->
+        <button class="btn btn-primary btn-block text-uppercase mb-3">
+            Add new category
+        </button>
     </div>
+</div>
+
     <footer class="tm-footer row tm-mt-small">
       <div class="col-12 font-weight-light">
         <p class="text-center text-white mb-0 px-4 small">
