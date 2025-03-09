@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php"); // เปลี่ยนเส้นทางไปยังหน้า login
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
