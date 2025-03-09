@@ -69,7 +69,7 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
                     <ul class="navbar-nav ml-auto">
                         <!-- แสดงชื่อผู้ใช้ -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
