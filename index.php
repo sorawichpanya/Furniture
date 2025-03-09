@@ -65,7 +65,7 @@
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <form action="search_results.php" meth>
+                <form action="search_results.php" method="POST">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for products">
                         <div class="input-group-append">

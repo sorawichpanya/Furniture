@@ -2,63 +2,43 @@
 session_start();
 include_once("connectdb.php");
 
-if (isset($_POST['product_id'], $_POST['category'])) {
-    $product_id = $_POST['product_id'];
-    $category = $_POST['category'];
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
 
-    // ตรวจสอบว่าหมวดหมู่ที่รับมาเป็นชื่อ Table ที่ถูกต้อง
-    $allowed_categories = ['bedroom', 'living_room']; // กำหนดหมวดหมู่ที่อนุญาต
-    if (!in_array($category, $allowed_categories)) {
-        $_SESSION['error_message'] = "Invalid category!";
-        header("Location: shop.php");
-        exit;
-    }
-
-    // คำสั่ง SQL เพื่อดึงข้อมูลจากตารางที่เกี่ยวข้อง
-    $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $product_id);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-
-    if ($product = mysqli_fetch_assoc($result)) {
-        $cart_item = [
-            'p_id' => $product['p_id'],
-            'p_name' => $product['p_name'],
-            'p_price' => $product['p_price'],
-            'category' => $category, // เพิ่มหมวดหมู่
-            'quantity' => 1,
-            'total_price' => $product['p_price']
-        ];
-
-        if (!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = [];
-        }
-
-        $product_exists = false;
-        foreach ($_SESSION['cart'] as &$item) {
-            if ($item['p_id'] == $cart_item['p_id'] && $item['category'] == $cart_item['category']) {
-                $item['quantity'] += 1;
-                $item['total_price'] = $item['p_price'] * $item['quantity'];
-                $product_exists = true;
-                break;
-            }
-        }
-
-        if (!$product_exists) {
-            $_SESSION['cart'][] = $cart_item;
-        }
-
-        $_SESSION['success_message'] = "Item added to cart!";
-    } else {
-        $_SESSION['error_message'] = "Product not found!";
-    }
 }
+if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id'])) {
+    $p_id = $_GET['p_id'];
+    $category = $_GET['category'];
 
-header("Location: shop.php");
-exit;
+    // เช็คว่ามีสินค้านี้ในตะกร้าหรือยัง
+    if (isset($_SESSION['cart'][$p_id])) {
+        $_SESSION['cart'][$p_id]['quantity'] += 1; // เพิ่มจำนวนสินค้า
+    } else {
+        // เพิ่มสินค้าชิ้นใหม่ในตะกร้า
+        $_SESSION['cart'][$p_id] = [
+            'p_id' => $p_id,
+            'category' => $category,
+            'quantity' => 1
+        ];
+    }
+
+    // กลับไปที่หน้าตะกร้าสินค้า
+    header("Location: cart.php");
+    exit();
+}
+echo "<h2>Shopping Cart</h2>";
+
+if (!empty($_SESSION['cart'])) {
+    echo "<ul>";
+    foreach ($_SESSION['cart'] as $item) {
+        echo "<li>Product ID: " . $item['p_id'] . " | Category: " . $item['category'] . " | Quantity: " . $item['quantity'] . "</li>";
+    }
+    echo "</ul>";
+} else {
+    echo "<p>Your cart is empty.</p>";
+}
 ?>
-
+?>
 
 
 <!DOCTYPE html>
