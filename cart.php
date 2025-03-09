@@ -249,7 +249,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
             </form>
         </td>
     </tr>
-<?php endforeach; ?>            <?php endforeach; ?>
+<?php endforeach; ?>            
         </tbody>
     </table>
     <div class="text-right">
