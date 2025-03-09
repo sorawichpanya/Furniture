@@ -159,94 +159,49 @@
 
 
     <!-- Shop Start -->
-
-    <?php
-        $servername = "localhost"; // เซิร์ฟเวอร์ฐานข้อมูล
-        $username = "root"; // ชื่อผู้ใช้ฐานข้อมูล
-        $password = "12345678P"; // รหัสผ่านฐานข้อมูล
-        $dbname = "FurnitureFunny"; // ชื่อฐานข้อมูล
-
-// สร้างการเชื่อมต่อ
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// เช็คการเชื่อมต่อ
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// คำสั่ง SQL เพื่อดึงจำนวนสินค้าในแต่ละช่วงราคา
-$sql = "
-SELECT 
-    SUM(CASE WHEN p_price BETWEEN 0 AND 500 THEN 1 ELSE 0 END) AS price_0_500,
-    SUM(CASE WHEN p_price BETWEEN 500 AND 1000 THEN 1 ELSE 0 END) AS price_500_1000,
-    SUM(CASE WHEN p_price BETWEEN 1000 AND 2000 THEN 1 ELSE 0 END) AS price_1000_2000,
-    SUM(CASE WHEN p_price BETWEEN 2000 AND 3000 THEN 1 ELSE 0 END) AS price_2000_3000,
-    SUM(CASE WHEN p_price >= 3000 THEN 1 ELSE 0 END) AS price_3000_above
-FROM products
-";
-
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // รับข้อมูลจำนวนสินค้าจากผลลัพธ์
-    $row = $result->fetch_assoc();
-    $count_0_500 = $row['price_0_500'];
-    $count_500_1000 = $row['price_500_1000'];
-    $count_1000_2000 = $row['price_1000_2000'];
-    $count_2000_3000 = $row['price_2000_3000'];
-    $count_3000_above = $row['price_3000_above'];
-} else {
-    $count_0_500 = $count_500_1000 = $count_1000_2000 = $count_2000_3000 = $count_3000_above = 0;
-}
-
-$conn->close();
-?>
-
-<div class="container-fluid pt-5">
-    <div class="row px-xl-5">
-        <!-- Shop Sidebar Start -->
-        <div class="col-lg-3 col-md-12">
-            <!-- Price Start -->
-            <div class="border-bottom mb-4 pb-4">
-                <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-                <form>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" checked id="price-all">
-                        <label class="custom-control-label" for="price-all">All Price</label>
-                        <span class="badge border font-weight-normal"><?php echo $count_0_500 + $count_500_1000 + $count_1000_2000 + $count_2000_3000 + $count_3000_above; ?></span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-1">
-                        <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
-                        <span class="badge border font-weight-normal"><?php echo $count_0_500; ?></span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-2">
-                        <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
-                        <span class="badge border font-weight-normal"><?php echo $count_500_1000; ?></span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-3">
-                        <label class="custom-control-label" for="price-3">฿1000 - ฿2000</label>
-                        <span class="badge border font-weight-normal"><?php echo $count_1000_2000; ?></span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-4">
-                        <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
-                        <span class="badge border font-weight-normal"><?php echo $count_2000_3000; ?></span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-5">
-                        <label class="custom-control-label" for="price-5">฿3000 and above</label>
-                        <span class="badge border font-weight-normal"><?php echo $count_3000_above; ?></span>
-                    </div>
-                </form>
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <!-- Shop Sidebar Start -->
+            <div class="col-lg-3 col-md-12">
+                <!-- Price Start -->
+                <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
+                    <form>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" checked id="price-all">
+                            <label class="custom-control-label" for="price-all">All Price</label>
+                            <span class="badge border font-weight-normal">1000</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-1">
+                            <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
+                            <span class="badge border font-weight-normal">150</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-2">
+                            <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
+                            <span class="badge border font-weight-normal">295</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-3">
+                            <label class="custom-control-label" for="price-3">฿1000 - ฿2000</label>
+                            <span class="badge border font-weight-normal">246</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-4">
+                            <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
+                            <span class="badge border font-weight-normal">145</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" name="price_range" value="3000-and-above" id="price-5">
+                            <label class="custom-control-label" for="price-5">฿3000 and above</label>
+                            <span class="badge border font-weight-normal">168</span>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Price End -->               
             </div>
-            <!-- Price End -->               
-        </div>
-        <!-- Shop Sidebar End -->
-    </div>
-</div>
             <!-- Shop Sidebar End -->
 
     <!--ตัวกรองสินค้าตามราคา-->
