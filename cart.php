@@ -2,28 +2,49 @@
 session_start();
 include_once("connectdb.php");
 
-// ตรวจสอบว่ามีการเพิ่มสินค้าในตะกร้าหรือไม่
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
-    $product_id = intval($_POST['product_id']);
-    $quantity = 1; // ค่าเริ่มต้น
+    // ตรวจสอบว่ามี product_id ที่ส่งมาหรือไม่
+    if (isset($_POST['product_id'])) {
+        $product_id = intval($_POST['product_id']);
 
-    // ตรวจสอบว่ามีตะกร้าในเซสชันหรือยัง
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
+        // ดึงข้อมูลสินค้าจากฐานข้อมูล
+        $sql = "SELECT * FROM products WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $product_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $product = $result->fetch_assoc();
+
+            // ตรวจสอบว่าตะกร้าสินค้าใน Session มีอยู่หรือไม่
+            if (!isset($_SESSION['cart'])) {
+                $_SESSION['cart'] = [];
+            }
+
+            // เพิ่มสินค้าลงในตะกร้า
+            if (isset($_SESSION['cart'][$product_id])) {
+                $_SESSION['cart'][$product_id]['quantity'] += 1; // ถ้ามีอยู่แล้ว ให้เพิ่มจำนวน
+            } else {
+                $_SESSION['cart'][$product_id] = [
+                    'name' => $product['name'],
+                    'price' => $product['price'],
+                    'quantity' => 1
+                ];
+            }
+
+            // แสดงข้อความสำเร็จ
+            $_SESSION['success_message'] = "Product added to cart!";
+        } else {
+            $_SESSION['error_message'] = "Product not found!";
+        }
+
+        // เปลี่ยนเส้นทางกลับไปยังหน้าตะกร้า
+        header("Location: shop.php");
+        exit;
     }
-
-    // ตรวจสอบว่าสินค้าถูกเพิ่มในตะกร้าหรือยัง
-    if (isset($_SESSION['cart'][$product_id])) {
-        $_SESSION['cart'][$product_id] += $quantity;
-    } else {
-        $_SESSION['cart'][$product_id] = $quantity;
-    }
-
-    // แจ้งเตือน
-    $_SESSION['success_message'] = "Product added to cart successfully!";
-    header("Location: shop.php");
-    exit;
 }
+?>
 
 // ดึงข้อมูลสินค้าในตะกร้า
 $cart_items = [];
