@@ -269,7 +269,7 @@
         <?php
 include_once("connectdb.php");
 
-// ดึงข้อมูลจากตาราง categories หรือสามารถดึงตารางแยกตามประเภทสินค้า
+// ดึงข้อมูลจากทุกตารางในฐานข้อมูล ยกเว้นตาราง `user`
 $sql = "SHOW TABLES";
 $rs = mysqli_query($conn, $sql);
 ?>
@@ -292,8 +292,8 @@ $rs = mysqli_query($conn, $sql);
                     while ($data = mysqli_fetch_array($rs)) {
                         $table_name = $data[0]; // Get the table name
 
-                        // Skip the tables that aren't product categories
-                        if ($table_name != 'categories') {
+                        // กรองตารางที่ไม่ใช่ประเภทสินค้าหรือ `user`
+                        if ($table_name != 'user') {
                             // Fetch products from this table (if relevant)
                             $category_sql = "SELECT * FROM `$table_name`";
                             $category_rs = mysqli_query($conn, $category_sql);
