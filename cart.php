@@ -6,7 +6,12 @@ include("connectdb.php"); // เชื่อมต่อฐานข้อมู
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// ตรวจสอบค่าที่รับมาจาก URL
+// ตรวจสอบว่ามีตะกร้าหรือไม่ ถ้าไม่มีให้สร้างใหม่
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
+// ตรวจสอบการเพิ่มสินค้าในตะกร้า
 if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) && isset($_GET['category'])) {
     $p_id = $_GET['p_id'];
     $category = $_GET['category'];
@@ -21,32 +26,29 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
 
     // ตรวจสอบว่ามีข้อมูลสินค้า
     if ($product) {
-        // เพิ่มสินค้าไปที่ตะกร้า
+        // เพิ่มข้อมูลสินค้าลงในตะกร้า
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
-        // ถ้ามีสินค้าในตะกร้าแล้ว ให้เพิ่มจำนวนสินค้า
+        // ตรวจสอบว่ามีสินค้านี้ในตะกร้าแล้วหรือไม่
         if (isset($_SESSION['cart'][$p_id])) {
-            $_SESSION['cart'][$p_id]['quantity'] += 1; // เพิ่มจำนวนสินค้า
+            // ถ้ามีสินค้านี้ในตะกร้าแล้ว ให้เพิ่มจำนวนสินค้า
+            $_SESSION['cart'][$p_id]['quantity'] += 1;
             $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
         } else {
-            // ถ้าไม่มีสินค้าในตะกร้า ให้เพิ่มสินค้าใหม่
-            $_SESSION['cart'][$p_id] = {
+            // ถ้าไม่มีสินค้านี้ในตะกร้า ให้เพิ่มสินค้าลงไปใหม่
+            $_SESSION['cart'][$p_id] = [
                 'p_id' => $product['p_id'],
                 'p_name' => $product['p_name'],
                 'p_price' => $product['p_price'],
                 'quantity' => 1,
                 'total_price' => $product['p_price'],
                 'category' => $category // เก็บ category ด้วย
-            };
+            ];
         }
     }
 }
-
-// หลังจากเพิ่มสินค้าแล้ว เปลี่ยนเส้นทางกลับไปที่ตะกร้า
-header("Location: cart.php");
-exit;
 ?>
 
 <!DOCTYPE html>
@@ -211,51 +213,58 @@ exit;
 
     <!-- Cart Start -->
     <div class="container pt-5">
-    <?php
-    // ตรวจสอบให้มั่นใจว่า cart_items เป็น array
-    $cart_items = isset($_SESSION['cart']) && is_array($_SESSION['cart']) ? $_SESSION['cart'] : [];
+<?php
+// ตรวจสอบให้มั่นใจว่า cart_items เป็น array
+$cart_items = isset($_SESSION['cart']) && is_array($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
-    // ตรวจสอบการแสดงข้อมูลสินค้าในตะกร้า
-    if (!empty($cart_items)) : ?>
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
+// ตรวจสอบการแสดงข้อมูลสินค้าในตะกร้า
+if (!empty($cart_items)) : ?>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($cart_items as $item) : ?>
+                <?php 
+                // ตรวจสอบให้มั่นใจว่า $item เป็น array ก่อนเข้าถึงข้อมูล
+                if (!is_array($item)) continue; 
+                ?>
                 <tr>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Remove</th>
+                    <td><?php echo htmlspecialchars($item['p_name']); ?></td>
+                    <td><?php echo htmlspecialchars($item['category']); ?></td>
+                    <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
+                    <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                    <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
+                    <td>
+                        <form action="remove_from_cart.php" method="POST">
+                            <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($cart_items as $item) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($item['p_name']); ?></td>
-                        <td><?php echo htmlspecialchars($item['category']); ?></td>
-                        <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
-                        <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                        <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
-                        <td>
-                            <form action="remove_from_cart.php" method="POST">
-                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
-                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <div class="text-right">
-            <a href="checkout.php" class="btn btn-primary">Proceed to Checkout</a>
-        </div>
-    <?php else : ?>
-        <p class="text-center">Your cart is empty!</p>
-        <div class="text-center mt-3">
-            <a href="shop.php" class="btn btn-secondary">Go Back to Shop</a>
-        </div>
-    <?php endif; ?>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <a href="checkout.php" class="btn btn-primary">Proceed to Checkout</a>
+    </div>
+<?php else : ?>
+    <p class="text-center">Your cart is empty!</p>
+    <div class="text-center mt-3">
+        <a href="shop.php" class="btn btn-secondary">Go Back to Shop</a>
+    </div>
+<?php endif; ?>
 </div>
+
+
+
 
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
