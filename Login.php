@@ -1,87 +1,75 @@
-<?php session_start(); ?>
+<?php
+
+session_start();
+
+include('db_connection.php');
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Query the database to verify user credentials (you should hash the password in the real app)
+    $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = mysqli_query($conn, $query);
+
+    if (mysqli_num_rows($result) > 0) {
+        // If user is found, start a session
+        $_SESSION['username'] = $username;
+        header("Location: dashboard.php"); // Redirect to dashboard or home page
+    } else {
+        // If credentials are incorrect
+        $error_message = "Invalid username or password.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <title>Login </title>
     <style>
-        body {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f8f9fa;
-        }
-        .login-container {
-            width: 900px;
-            display: flex;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            background: white;
-        }
-        .login-image {
-            width: 50%;
-            background: url('https://source.unsplash.com/600x600/?workspace,desk') no-repeat center;
-            background-size: cover;
-        }
-        .login-form {
-            width: 50%;
-            padding: 50px;
-        }
-        .login-form h2 {
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .form-control {
-            background-color: #f5f5f5;
-            border: none;
-            height: 45px;
-        }
-        .btn-login {
-            background-color: #6c63ff;
-            color: white;
-            font-weight: bold;
-            height: 45px;
-            border-radius: 5px;
-        }
-        .btn-login:hover {
-            background-color: #5a54e8;
-        }
+        /* Your styles here (same as in the original HTML) */
     </style>
 </head>
 <body>
-
-<div class="login-container">
-    <!-- ด้านซ้ายเป็นรูปภาพ -->
-    <div class="src"></div>
-
-    <!-- ด้านขวาเป็นฟอร์มล็อกอิน -->
-    <div class="login-form">
-        <h2>Login to continue</h2>
-        <?php if(isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-        <form method="POST" action="process_login.php">
-            <div class="mb-3">
-                <input type="email" name="email" class="form-control" placeholder="Email" required>
+    <div class="login-container">
+        <div class="login-form">
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
             </div>
-            <div class="mb-3">
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            <h2>Sign In</h2>
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label for="username">USERNAME</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-button">Sign in</button>
+            </form>
+            <?php
+            // Display error message if credentials are wrong
+            if (isset($error_message)) {
+                echo '<p style="color: red;">' . $error_message . '</p>';
+            }
+            ?>
+            <div class="remember-forgot">
+                <label><input type="checkbox"> Remember Me</label>
+                <a href="#">Forgot Password</a>
             </div>
-            <button type="submit" class="btn btn-login w-100">LOGIN</button>
-        </form>
+        </div>
+        <div class="login-welcome">
+            <h2>Welcome to login</h2>
+            <p>Don't have an account?</p>
+            <a href="Register.php" class="signup-button">Sign Up</a>
+        </div>
     </div>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
 </body>
 </html>

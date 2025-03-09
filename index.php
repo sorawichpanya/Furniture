@@ -215,7 +215,7 @@
         <div class="row px-xl-5 pb-3">
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">8 Products</p>
                     <a href="livingroom.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/living.jpg" alt="">
                     </a>
@@ -224,7 +224,7 @@
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">8 Products</p>
                     <a href="bathroom.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/bath.jpg" alt="">
                     </a>
@@ -233,7 +233,7 @@
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">8 Products</p>
                     <a href="bedroom.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/bed.jpg" alt="">
                     </a>
@@ -242,7 +242,7 @@
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                    <p class="text-right">8 Products</p>
                     <a href="kitchen.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/kit.jpg" alt="">
                     </a>
