@@ -98,9 +98,6 @@ if (!isset($_SESSION['username'])) {
             Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <!-- ตัวเลือกใน Dropdown -->
-            <a class="dropdown-item" href="profile.php">Profile</a>
-            <a class="dropdown-item" href="settings.php">Settings</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item text-danger" href="logout.php">Logout</a>
         </div>

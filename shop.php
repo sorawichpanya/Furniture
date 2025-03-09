@@ -202,7 +202,9 @@
                 <!-- Price End -->               
             </div>
             <!-- Shop Sidebar End -->
+             
     <!--ตัวกรองสินค้าตามราคา-->
+    <script>
             document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = document.querySelectorAll(".custom-control-input");
     const products = document.querySelectorAll(".product-item");
@@ -229,6 +231,9 @@
         });
     }
 });
+</script>
+    </div>
+</div>
 
 
             <!-- Shop Product Start -->
