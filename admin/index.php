@@ -31,7 +31,7 @@ if (!isset($_SESSION['username'])) {
     <div class="" id="home">
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="index.php">
                     <h1 class="tm-site-title mb-0">Product Admin</h1>
                 </a>
                 <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -42,18 +42,19 @@ if (!isset($_SESSION['username'])) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto h-100">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
+                            <a class="nav-link active" href="index.php">
                                 <i class="fas fa-tachometer-alt"></i>
                                 Dashboard
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="products.php">
+                            <a class="nav-link" href="products.php">
                                 <i class="fas fa-shopping-cart"></i> Products
                             </a>
                          </li>
                     </ul>
+
                     <ul class="navbar-nav ml-auto">
                         <!-- แสดงชื่อผู้ใช้ -->
                         <li class="nav-item dropdown">
@@ -66,12 +67,12 @@ if (!isset($_SESSION['username'])) {
                             </div>
                         </li>
                     </ul>
-
-                    </ul>
                 </div>
             </div>
-
         </nav>
+    </div>
+</body>
+
         <div class="container">
             <div class="row">
                 <div class="col">
