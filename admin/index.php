@@ -70,7 +70,6 @@ if (!isset($_SESSION['username'])) {
                     </ul>
                 </div>
             </div>
-
         </nav>
         <div class="container">
             <div class="row">
