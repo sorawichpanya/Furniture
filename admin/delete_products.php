@@ -1,9 +1,9 @@
 <?php
 include_once("connectdb.php");
 
-// ตรวจสอบว่าเรามีค่า product_ids[] ที่ถูกเลือกหรือไม่
+// ตรวจสอบการส่งค่าผ่านฟอร์ม
 if (isset($_POST['product_ids']) && !empty($_POST['product_ids']) && isset($_POST['table_name'])) {
-    // รับค่า table_name และ product_ids ที่ส่งมาจากฟอร์ม
+    // รับค่าจากฟอร์ม
     $table_name = $_POST['table_name'];
     $product_ids = $_POST['product_ids'];
 
@@ -16,28 +16,22 @@ if (isset($_POST['product_ids']) && !empty($_POST['product_ids']) && isset($_POS
         $sql = "DELETE FROM `$table_name` WHERE p_id = $product_id";
 
         if (mysqli_query($conn, $sql)) {
-            echo "Product with ID $product_id has been deleted successfully.<br>";
+            $_SESSION['message'] = "Product with ID $product_id has been deleted successfully.";
         } else {
-            echo "Error deleting product with ID $product_id: " . mysqli_error($conn) . "<br>";
+            $_SESSION['message'] = "Error deleting product with ID $product_id: " . mysqli_error($conn);
         }
     }
 
     // รีไดเร็กไปยังหน้าหลักหลังจากการลบ
-    header("Location: products.php?table_name=" . urlencode($table_name));  // กลับไปยังหน้าตารางที่ถูกลบ
+    header("Location: index.php?table_name=" . urlencode($table_name));  // กลับไปยังหน้าตารางที่ถูกลบ
     exit;
-} else {
-    echo "No products selected to delete or invalid table.";
 }
 ?>
-<script>
-function confirmDelete(tableName, productId) {
-    // แสดงข้อความยืนยัน
-    var confirmation = confirm("Are you sure you want to delete this product?");
 
-    // ถ้าเลือก 'OK' (ยืนยันการลบ)
-    if (confirmation) {
-        // ส่งคำขอลบไปยัง PHP โดยการใช้ GET หรือ POST
-        window.location.href = "delete-products.php?table_name=" + encodeURIComponent(tableName) + "&product_id=" + productId;
-    }
-}
-</script>
+<!-- แสดงข้อความแจ้งเตือน -->
+<?php if (isset($_SESSION['message'])): ?>
+    <div class="alert alert-info">
+        <?php echo $_SESSION['message']; ?>
+    </div>
+    <?php unset($_SESSION['message']); ?>
+<?php endif; ?>

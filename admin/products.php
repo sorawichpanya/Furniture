@@ -244,19 +244,21 @@ $rs = mysqli_query($conn, $sql);
                     }
                 }
                 ?>
-                <script>
-                function confirmDelete(tableName) {
-                    // แสดงข้อความยืนยัน
-                    var confirmation = confirm("Are you sure you want to delete the table: " + tableName + "?");
-
-                    // ถ้าเลือก 'OK' (ยืนยันการลบ)
-                    if (confirmation) {
-                        // ส่งคำขอลบไปยัง PHP โดยการใช้ GET
-                        window.location.href = "delete_table.php?table_name=" + encodeURIComponent(tableName);
+            <script>
+            document.querySelector("form").addEventListener("submit", function(event) {
+                var checkboxes = document.querySelectorAll('input[name="product_ids[]"]:checked');
+                if (checkboxes.length === 0) {
+                    alert("Please select at least one product to delete.");
+                    event.preventDefault(); // หยุดการส่งฟอร์ม
+                } else {
+                    var confirmation = confirm("Are you sure you want to delete the selected products?");
+                    if (!confirmation) {
+                        event.preventDefault(); // หยุดการส่งฟอร์ม
                     }
                 }
-                </script>
-                </tbody>
+            });
+            </script>                
+            </tbody>
             </table>
         </div>
     </div>
