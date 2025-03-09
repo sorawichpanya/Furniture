@@ -147,7 +147,7 @@ $rs = mysqli_query($conn, $sql);
                     $product_color = $data['p_color'];
                     $product_size = $data['p_size'];
                     $product_price = $data['p_price'];
-                    $product_image = $data['p_image']; // รูปภาพสินค้า (อาจจะเป็นชื่อไฟล์)
+                    $product_image = $data['p_ext']; // รูปภาพสินค้า (อาจจะเป็นชื่อไฟล์)
 
                     echo "<tr>
                             <td>$product_name</td>
