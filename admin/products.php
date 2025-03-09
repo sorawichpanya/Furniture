@@ -138,34 +138,36 @@ $rs = mysqli_query($conn, $sql);
                 </thead>
                 <tbody>
                 <?php
-                // แสดงข้อมูลสินค้า
-                while ($data = mysqli_fetch_array($rs)) {
-                    $product_name = $data['p_name'];
-                    $product_detail = $data['p_detail'];
-                    $product_color = $data['p_color'];
-                    $product_size = $data['p_size'];
-                    $product_price = $data['p_price'];
-                    $product_image = $data['p_ext']; // รูปภาพสินค้า (อาจจะเป็นชื่อไฟล์)
+// แสดงข้อมูลสินค้า
+while ($data = mysqli_fetch_array($rs)) {
+    $product_name = $data['p_name'];
+    $product_detail = $data['p_detail'];
+    $product_color = $data['p_color'];
+    $product_size = $data['p_size'];
+    $product_price = $data['p_price'];
+    $product_image = $data['p_id'];  // ใช้ p_id เป็นชื่อไฟล์
+    $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
 
-                    $image_folder = ".../img/" . strtolower($table_name) . "/";
+    // ตั้งค่าโฟลเดอร์สำหรับแต่ละ table (ตามชื่อ table)
+    $image_folder = ".../img/" . strtolower($table_name) . "/";
 
-                    // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
-                    if (!file_exists($image_folder . $product_image)) {
-                        $product_image = "default.jpg"; // ถ้าไม่มีรูปให้ใช้รูป default
-                    }
+    // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
+    if (!file_exists($image_folder . $product_image . "." . $product_ext)) {
+        $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
+        $product_ext = "png";        // ใช้ .jpg เป็นนามสกุล
+    }
 
-                    echo "<tr>
-                            <td>$product_name</td>
-                            <td>$product_detail</td>
-                            <td>$product_color</td>
-                            <td>$product_size</td>
-                            <td>$product_price</td>
-                            <td><img src='$image_folder$product_image' alt='$product_name' style='max-width: 100px;'></td>
-                          </tr>";
-                }
-                ?>
-            </tbody>
-              </table>
+    echo "<tr>
+            <td>$product_name</td>
+            <td>$product_detail</td>
+            <td>$product_color</td>
+            <td>$product_size</td>
+            <td>$product_price</td>
+            <td><img src='$image_folder$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
+          </tr>";
+}
+?>            </tbody>
+            </table>
             </div>
             <!-- table container -->
             <a
