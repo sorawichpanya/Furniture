@@ -208,15 +208,17 @@
 <!-- ตัวกรองสินค้าตามราคา -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const priceFilters = document.querySelectorAll(".custom-control-input[name='price_range']");
+    const priceFilters = document.querySelectorAll(".custom-control-input[name='price_price']");
     const products = document.querySelectorAll(".FurnitureFunny");
 
-    // ฟังก์ชันกรองสินค้า
     function filterProducts() {
-        let selectedRange = document.querySelector(".custom-control-input[name='price_range']:checked").nextElementSibling.textContent.trim();
+        let selectedFilter = document.querySelector(".custom-control-input[name='price_price']:checked");
+        if (!selectedFilter) return;
+
+        let selectedRange = selectedFilter.nextElementSibling.textContent.trim();
 
         products.forEach(product => {
-            let productPrice = parseInt(product.getAttribute("p_price"));
+            let productPrice = parseInt(product.getAttribute("p_price").replace("฿", "").replace(",", ""));
             let isVisible = false;
 
             if (selectedRange === "All Price") {
@@ -237,14 +239,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ตรวจจับการเปลี่ยนค่า
     priceFilters.forEach(filter => {
         filter.addEventListener("change", filterProducts);
     });
 
-    // เรียกใช้ครั้งแรกเพื่อให้ทำงานทันที
     filterProducts();
 });
+
 </script>
 
 

@@ -168,6 +168,7 @@ $rs = mysqli_query($conn, $sql);
                 
                     // แสดงข้อมูลสินค้า
                     echo "<tr>
+                            <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
                             <td>$product_name</td>
                             <td>$product_detail</td>
                             <td>$product_color</td>
@@ -180,6 +181,18 @@ $rs = mysqli_query($conn, $sql);
                 </tbody>
             </table>
             </div>
+            <button type="submit" class="btn btn-danger btn-block text-uppercase">Delete selected products</button>
+</form>
+
+<script>
+    // Select/Deselect all checkboxes
+    document.getElementById('select_all').addEventListener('click', function() {
+        var checkboxes = document.getElementsByName('product_ids[]');
+        for (var checkbox of checkboxes) {
+            checkbox.checked = this.checked;
+        }
+    });
+</script>
             <!-- table container -->
             <a
               href="add-product.php"

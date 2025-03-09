@@ -61,7 +61,7 @@
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="text-decoration-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>BEDROOM</h1>
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
@@ -114,7 +114,7 @@
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>BEDROOM</h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
@@ -147,9 +147,9 @@
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Bedroom</h1>
             <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0"><a href="index.php">Home</a></p>
                 <p class="m-0 px-2">-</p>
                 <p class="m-0">Shop</p>
             </div>
