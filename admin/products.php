@@ -132,41 +132,42 @@ if (empty($table_name) || $table_name == 'user') {
 $sql = "SELECT * FROM `$table_name`";
 $rs = mysqli_query($conn, $sql);
 ?>
-<form action="delete-products.php" method="POST">
-    <div class="tm-product-table-container">
-        <table class="table table-hover tm-table-small tm-product-table">
-            <thead>
-                <tr>
-                    <th scope="col"><input type="checkbox" id="select_all"></th>
+            <div class="tm-product-table-container">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
                     <th scope="col">PRODUCT NAME</th>
                     <th scope="col">DETAIL</th>
                     <th scope="col">COLOR</th>
                     <th scope="col">SIZE</th>
                     <th scope="col">PRICE</th>
                     <th scope="col">IMG</th>
-                </tr>
-            </thead>
-            <tbody>
+                  </tr>
+                </thead>
+                <tbody>
                 <?php
                 // แสดงข้อมูลสินค้า
                 while ($data = mysqli_fetch_array($rs)) {
-                    $product_id = $data['p_id'];
                     $product_name = $data['p_name'];
                     $product_detail = $data['p_detail'];
                     $product_color = $data['p_color'];
                     $product_size = $data['p_size'];
                     $product_price = $data['p_price'];
-                    $product_image = $data['p_image'];
-                    $product_ext = $data['p_ext'];
-
+                    $product_image = $data['p_id'];  // ใช้ p_id เป็นชื่อไฟล์
+                    $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
                     $image_folder = "../img/" . $table_name . "/";  
+
+                    $image_path = $image_folder . $product_image . "." . $product_ext;
+
+                    // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
                     $image_path = $image_folder . $product_image . "." . $product_ext;
                     if (!file_exists($image_path)) {
-                      $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
-                      $product_ext = "jpg";        // ใช้ .jpg เป็นนามสกุล
-                  }
+                        $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
+                        $product_ext = "png";        // ใช้ .jpg เป็นนามสกุล
+                    }
+                
+                    // แสดงข้อมูลสินค้า
                     echo "<tr>
-                            <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
                             <td>$product_name</td>
                             <td>$product_detail</td>
                             <td>$product_color</td>
@@ -175,28 +176,17 @@ $rs = mysqli_query($conn, $sql);
                             <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
                           </tr>";
                 }
-                ?>
-            </tbody>
-        </table>
-    </div>
-
-    <button type="submit" class="btn btn-danger btn-block text-uppercase">Delete selected products</button>
-</form>
-
-<script>
-    // Select/Deselect all checkboxes
-    document.getElementById('select_all').addEventListener('click', function() {
-        var checkboxes = document.getElementsByName('product_ids[]');
-        for (var checkbox of checkboxes) {
-            checkbox.checked = this.checked;
-        }
-    });
-</script>
-
+                ?>            
+                </tbody>
+            </table>
+            </div>
             <!-- table container -->
             <a
               href="add-product.php"
               class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+            <button class="btn btn-primary btn-block text-uppercase">
+              Delete selected products
+            </button>
           </div>
         </div>
 <?php
