@@ -65,22 +65,25 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
                     </ul>
 
                     <ul class="navbar-nav ml-auto">
-                        <!-- แสดงชื่อผู้ใช้ -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item dropdown">
+                        <?php if (isset($_SESSION['username'])) : ?>
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="logout.php">Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
+                            </ul>
+                        <?php else : ?>
+                            <a class="nav-link" href="login.php">Login</a>
+                        <?php endif; ?>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    </div>
-</body>
+        </div>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body> 
         <div class="container">
             <div class="row">
                 <div class="col">
