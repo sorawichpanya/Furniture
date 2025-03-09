@@ -42,6 +42,7 @@ if (!isset($_SESSION['username'])) {
           data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <i class="fas fa-bars tm-nav-icon"></i>
         </button>
@@ -54,7 +55,7 @@ if (!isset($_SESSION['username'])) {
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="products.html">
+              <a class="nav-link active" href="products.php">
                 <i class="fas fa-shopping-cart"></i> Products
               </a>
             </li>

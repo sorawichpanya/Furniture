@@ -35,7 +35,7 @@ if (!isset($_SESSION['username'])) {
                     <h1 class="tm-site-title mb-0">Product Admin</h1>
                 </a>
                 <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false">
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-bars tm-nav-icon"></i>
                 </button>
 
@@ -70,6 +70,7 @@ if (!isset($_SESSION['username'])) {
                     </ul>
                 </div>
             </div>
+
         </nav>
         <div class="container">
             <div class="row">
