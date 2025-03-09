@@ -205,7 +205,43 @@
 
             <!-- Shop Sidebar End -->
             <!--ตัวกรองสินค้าตามราคา-->
-            
+            <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll(".custom-control-input");
+        const products = document.querySelectorAll(".product-item");
+
+        // ฟังการเปลี่ยนแปลงของ checkbox
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", filterProducts);
+        });
+
+        function filterProducts() {
+            let selectedRanges = [];
+
+            // ตรวจสอบ checkbox ที่เลือก และเก็บช่วงราคา
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked && checkbox.id !== "price-all") {
+                    // แยกช่วงราคาจากชื่อช่วงใน label
+                    let range = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
+                    selectedRanges.push(range.map(Number)); // แปลงเป็นตัวเลข
+                }
+            });
+
+            // ตรวจสอบว่าผู้ใช้เลือก "All Price" หรือไม่
+            if (document.getElementById("price-all").checked) {
+                selectedRanges = [];  // ถ้าเลือก All Price, ให้แสดงสินค้าทั้งหมด
+            }
+
+            // กรองสินค้าตามช่วงราคาที่เลือก
+            products.forEach(product => {
+                let productPrice = parseInt(product.getAttribute("data-price"));
+                let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
+
+                product.style.display = isVisible ? "block" : "none"; // แสดงหรือซ่อนสินค้าตามเงื่อนไข
+            });
+        }
+    });
+</script>
 
 
             <!-- Shop Product Start -->

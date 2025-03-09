@@ -138,19 +138,34 @@ $rs = mysqli_query($conn, $sql);
                 </thead>
                 <tbody>
                 <?php
-                // Loop through all products and display them
+                // แสดงข้อมูลสินค้า
                 while ($data = mysqli_fetch_array($rs)) {
+                    $product_name = $data['p_name'];
+                    $product_detail = $data['p_detail'];
+                    $product_color = $data['p_color'];
+                    $product_size = $data['p_size'];
+                    $product_price = $data['p_price'];
+                    $product_image = $data['p_ext']; // รูปภาพสินค้า (อาจจะเป็นชื่อไฟล์)
+
+                    $image_folder = ".../img/" . strtolower($table_name) . "/";
+
+                    // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
+                    if (!file_exists($image_folder . $product_image)) {
+                        $product_image = "default.jpg"; // ถ้าไม่มีรูปให้ใช้รูป default
+                    }
+
                     echo "<tr>
-                            <td>" . htmlspecialchars($data['p_name']) . "</td>
-                            <td>" . number_format($data['p_price'], 2) . "</td>
-                            <td><img 
-                                    src='.../img/" . htmlspecialchars($data['category']) . "/" . $data['p_id'] . "." . $data['p_ext'] . "' 
-                                    alt='" . htmlspecialchars($data['p_name']) . "' 
-                                    style='max-width: 100px; object-fit: cover;'></td>
+                            <td>$product_name</td>
+                            <td>$product_detail</td>
+                            <td>$product_color</td>
+                            <td>$product_size</td>
+                            <td>$product_price</td>
+                            <td><img src='$image_folder$product_image' alt='$product_name' style='max-width: 100px;'></td>
                           </tr>";
                 }
-                ?>            
-                </tbody>
+                ?>
+            </tbody>
+              </table>
             </div>
             <!-- table container -->
             <a
