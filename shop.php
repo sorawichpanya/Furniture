@@ -160,88 +160,93 @@
 
     <!-- Shop Start -->
     <div class="container-fluid pt-5">
-        <div class="row px-xl-5">
-            <!-- Shop Sidebar Start -->
-            <div class="col-lg-3 col-md-12">
-                <!-- Price Start -->
-                <div class="border-bottom mb-4 pb-4">
-                    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-                    <form>
-                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" class="custom-control-input" checked id="price-all">
-                            <label class="custom-control-label" for="price-all">All Price</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div>
-                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="cradio" class="custom-control-input" id="price-1">
-                            <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
-                            <span class="badge border font-weight-normal">150</span>
-                        </div>
-                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
-                            <span class="badge border font-weight-normal">295</span>
-                        </div>
-                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">฿1000 - ฿2000</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" class="custom-control-input" name="price_range" value="3000-and-above" id="price-5">
-                            <label class="custom-control-label" for="price-5">฿3000 and above</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- Price End -->               
+    <div class="row px-xl-5">
+        <!-- Shop Sidebar Start -->
+        <div class="col-lg-3 col-md-12">
+            <!-- Price Start -->
+            <div class="border-bottom mb-4 pb-4">
+                <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
+                <form>
+                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                        <input type="radio" class="custom-control-input" name="price_range" checked id="price-all">
+                        <label class="custom-control-label" for="price-all">All Price</label>
+                        <span class="badge border font-weight-normal">1000</span>
+                    </div>
+                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                        <input type="radio" class="custom-control-input" name="price_range" id="price-1">
+                        <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
+                        <span class="badge border font-weight-normal">150</span>
+                    </div>
+                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                        <input type="radio" class="custom-control-input" name="price_range" id="price-2">
+                        <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
+                        <span class="badge border font-weight-normal">295</span>
+                    </div>
+                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                        <input type="radio" class="custom-control-input" name="price_range" id="price-3">
+                        <label class="custom-control-label" for="price-3">฿1000 - ฿2000</label>
+                        <span class="badge border font-weight-normal">246</span>
+                    </div>
+                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                        <input type="radio" class="custom-control-input" name="price_range" id="price-4">
+                        <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
+                        <span class="badge border font-weight-normal">145</span>
+                    </div>
+                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                        <input type="radio" class="custom-control-input" name="price_range" id="price-5">
+                        <label class="custom-control-label" for="price-5">฿3000 and above</label>
+                        <span class="badge border font-weight-normal">168</span>
+                    </div>
+                </form>
             </div>
+            <!-- Price End -->
+        </div>
+        <!-- Shop Sidebar End -->
+    </div>
+</div>
 
-            <!-- Shop Sidebar End -->
-            <!--ตัวกรองสินค้าตามราคา-->
-            <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll(".custom-control-input");
-        const products = document.querySelectorAll(".product-item");
+<!-- ตัวกรองสินค้าตามราคา -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const priceFilters = document.querySelectorAll(".custom-control-input[name='price_range']");
+    const products = document.querySelectorAll(".product-item");
 
-        // ฟังการเปลี่ยนแปลงของ checkbox
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", filterProducts);
-        });
+    // ฟังก์ชันกรองสินค้า
+    function filterProducts() {
+        let selectedRange = document.querySelector(".custom-control-input[name='price_range']:checked").nextElementSibling.textContent.trim();
 
-        function filterProducts() {
-            let selectedRanges = [];
+        products.forEach(product => {
+            let productPrice = parseInt(product.getAttribute("p_price"));
+            let isVisible = false;
 
-            // ตรวจสอบ checkbox ที่เลือก และเก็บช่วงราคา
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked && checkbox.id !== "price-all") {
-                    // แยกช่วงราคาจากชื่อช่วงใน label
-                    let range = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
-                    selectedRanges.push(range.map(Number)); // แปลงเป็นตัวเลข
-                }
-            });
-
-            // ตรวจสอบว่าผู้ใช้เลือก "All Price" หรือไม่
-            if (document.getElementById("price-all").checked) {
-                selectedRanges = [];  // ถ้าเลือก All Price, ให้แสดงสินค้าทั้งหมด
+            if (selectedRange === "All Price") {
+                isVisible = true;
+            } else if (selectedRange === "฿0 - ฿500") {
+                isVisible = productPrice >= 0 && productPrice <= 500;
+            } else if (selectedRange === "฿500 - ฿1000") {
+                isVisible = productPrice > 500 && productPrice <= 1000;
+            } else if (selectedRange === "฿1000 - ฿2000") {
+                isVisible = productPrice > 1000 && productPrice <= 2000;
+            } else if (selectedRange === "฿2000 - ฿3000") {
+                isVisible = productPrice > 2000 && productPrice <= 3000;
+            } else if (selectedRange === "฿3000 and above") {
+                isVisible = productPrice > 3000;
             }
 
-            // กรองสินค้าตามช่วงราคาที่เลือก
-            products.forEach(product => {
-                let productPrice = parseInt(product.getAttribute("p_price"));
-                let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
+            product.style.display = isVisible ? "block" : "none";
+        });
+    }
 
-                product.style.display = isVisible ? "block" : "none"; // แสดงหรือซ่อนสินค้าตามเงื่อนไข
-            });
-        }
+    // ตรวจจับการเปลี่ยนค่า
+    priceFilters.forEach(filter => {
+        filter.addEventListener("change", filterProducts);
     });
+
+    // เรียกใช้ครั้งแรกเพื่อให้ทำงานทันที
+    filterProducts();
+});
 </script>
+
 
 
             <!-- Shop Product Start -->

@@ -219,8 +219,7 @@
                     <a href="livingroom.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/living.jpg" alt="">
                     </a>
-                    <h5 class="font-weight-semi-bold m-0"></h5>
-                        <a href="livingroom.php">living room</a> 
+                    <h5 class="font-weight-semi-bold m-0">living room</h5>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
@@ -230,13 +229,12 @@
                         <img class="img-fluid" src="img/bath.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">bathroom</h5>
-                        <a href="bathroom.php"></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <a href="bedroom.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/bed.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">bedroom</h5>

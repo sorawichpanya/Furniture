@@ -11,20 +11,20 @@
 <body>
 <div class="container">
     สมัครสมาชิก
-    <br><br>
+    <br>
 
-    ชื่อ <input type="text" name="firstname" class="form-control" required><br><br>
+    <form method="POST" action="">
+        ชื่อ <input type="text" name="firstname" class="form-control" required><br><br>
+        นามสกุล <input type="text" name="lastname" class="form-control" required><br><br>
+        เบอร์โทรศัพท์ <input type="number" name="phone" class="form-control" required><br><br>
+        Username <input type="text" name="username" class="form-control" required><br><br>
+        Password <input type="password" name="password" class="form-control" required><br><br>
 
-    นามสกุล <input type="text" name="lastname" class="form-control" required><br><br>
+        <input type="submit" name="submit" value="บันทึก">
+        <input type="reset" name="cancel" value="ยกเลิก"> <br>
 
-    เบอร์โทรศัพท์ <input type="number" name="phone" class="form-control" required><br><br>
-
-    Username <input type="text" name="username" class="form-control" required><br><br>
-
-    Password <input type="password" name="password" class="form-control" required><br><br>
-
-    <input type="submit" name="submit" value="บันทึก">
-    <input type="reset" name="cancel" value="ยกเลิก"> <br>
+        <a href="Login.php">Login</a>
+    </form>
 </div>
 </body>
 </html>
