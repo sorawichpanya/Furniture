@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<div class='alert alert-danger'>Password must be at least 8 characters.</div>";
     } else {
         // ตรวจสอบว่ามี username อยู่ในระบบหรือไม่
-        $sql_check = "SELECT * FROM users WHERE username = ?";
+        $sql_check = "SELECT * FROM user WHERE username = ?";
         $stmt = mysqli_prepare($conn, $sql_check);
         mysqli_stmt_bind_param($stmt, 's', $username);
         mysqli_stmt_execute($stmt);
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (mysqli_num_rows($result) > 0) {
             // หาก username มีอยู่ในระบบ ให้รีเซ็ตรหัสผ่าน
             $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $sql_update = "UPDATE users SET password = ? WHERE username = ?";
+            $sql_update = "UPDATE user SET password = ? WHERE username = ?";
             $stmt_update = mysqli_prepare($conn, $sql_update);
             mysqli_stmt_bind_param($stmt_update, 'ss', $hashed_password, $username);
 
