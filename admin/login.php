@@ -179,9 +179,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     Login
                                 </button>
                             </div>
-                            <button class="mt-5 btn btn-primary btn-block text-uppercase">
-                                Forgot your password?
-                            </button>
+                            <a href="forgot_password.php" class="btn btn-secondary btn-block text-uppercase mt-3">
+                                Forgot Your Password?
+                            </a>
                             <a href="register.php" class="btn btn-secondary btn-block text-uppercase mt-3">
                                 Register
                             </a>
