@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("connect.php"); // เชื่อมต่อฐานข้อมูล
+include("connectdb.php"); // เชื่อมต่อฐานข้อมูล
 
 // เปิดการแสดง Error
 error_reporting(E_ALL);
