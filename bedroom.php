@@ -104,7 +104,7 @@
 
                         <a href="" class="nav-item nav-link">living room</a>
                         <a href="" class="nav-item nav-link">bathroom</a>
-                        <a href="" class="nav-item nav-link">bedroom</a>
+                        <a href="bedroom.php" class="nav-item nav-link">bedroom</a>
                         <a href="kitchen.php" class="nav-item nav-link">kitchen</a>
                         <a href="garden.php" class="nav-item nav-link">garden</a>
                         <a href="workroom(test).php" class="nav-item nav-link">work room</a>
@@ -282,7 +282,7 @@ $sql = "
 $rs = mysqli_query($conn , $sql);
 
 // คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "SELECT COUNT(*) AS total_items FROM `bed_room`";
+$total_items_sql = "SELECT COUNT(*) AS total_items FROM `bedroom`";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];
