@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         $category = $_POST['category'];
 
         // ตรวจสอบว่าตารางที่เกี่ยวข้องมีอยู่ในฐานข้อมูล
-        $allowed_categories = ['bedroom', 'livingroom']; // หมวดหมู่ที่อนุญาต
+        $allowed_categories = ['bedroom', 'living_room']; // หมวดหมู่ที่อนุญาต
         if (!in_array($category, $allowed_categories)) {
             $_SESSION['error_message'] = "Invalid category!";
             header("Location: shop.php");
