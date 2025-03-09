@@ -1,6 +1,32 @@
 <?php
 session_start();
+include_once("connectdb.php");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+
+    $sql = "SELECT * FROM users WHERE username = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($result)) {
+        if (password_verify($password, $row['password'])) {
+            // เก็บข้อมูลใน Session
+            $_SESSION['username'] = $row['username'];
+            header("Location: index.php"); // เปลี่ยนเส้นทางไปยังหน้า index.php
+            exit;
+        } else {
+            $error = "Invalid username or password!";
+        }
+    } else {
+        $error = "Invalid username or password!";
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
