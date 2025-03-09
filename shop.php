@@ -359,7 +359,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
             </div>
             <div class="card-footer d-flex justify-content-between bg-light border">
                 <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo $data['category']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                <button type="submit" name="add_to_cart" class="btn border"> <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                <button type="submit" name="add_to_cart" class="btn border" class="fas fa-shopping-cart text-primary mr-1"> Add To Cart</button>
             </div>
         </div>
     </div>
