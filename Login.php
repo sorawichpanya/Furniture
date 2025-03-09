@@ -7,8 +7,9 @@ include('db_connection.php');
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $Username = $_POST['Username'];
-    $password = $_POST['password'];
+  $Username = mysqli_real_escape_string($conn, $_POST['Username']);
+  $password = mysqli_real_escape_string($conn, $_POST['password']);
+  
 
     // Query the database to verify user credentials (you should hash the password in a real app)
     $query = "SELECT * FROM users WHERE Username = '$Username' AND password = '$password'";

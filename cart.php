@@ -2,6 +2,9 @@
 session_start();
 include("connectdb.php"); // เชื่อมต่อฐานข้อมูล
 
+// เปิดการแสดง Error
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
@@ -32,30 +35,34 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
     var_dump($product);
     die(); // หยุดการทำงานเพื่อดูค่า
 
-    if ($product) {
-        // ตรวจสอบว่าสินค้ามีอยู่แล้วหรือไม่
-        if (isset($_SESSION['cart'][$p_id])) {
-            $_SESSION['cart'][$p_id]['quantity'] += 1;
-        } else {
-            $_SESSION['cart'][$p_id] = [
-                'p_id' => $product['p_id'],
-                'p_name' => $product['p_name'],
-                'p_price' => $product['p_price'],
-                'category' => $category,
-                'quantity' => 1
-            ];
-        }
-    } else {
-        die("Error: Product not found!"); // ถ้าไม่มีสินค้าให้หยุดการทำงาน
+    session_start();  // เริ่มต้น session
+
+    // ตรวจสอบว่า cart ถูกตั้งค่าหรือยัง
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
     }
-
-    header("Location: cart.php");
-    exit();
-} else {
-    die("Error: Missing parameters!"); // ถ้าไม่มีค่าที่ต้องใช้ให้แจ้งเตือน
-}
-?>
-
+    
+    // ตัวแปรที่เก็บข้อมูลสินค้า เช่น $p_id, $p_name, $p_price
+    $p_id = $_POST['p_id'];
+    $p_name = $_POST['p_name'];
+    $p_price = $_POST['p_price'];
+    $category = $_POST['category'];
+    
+    // ถ้าสินค้าอยู่ในตะกร้าแล้ว ให้เพิ่มจำนวนสินค้า
+    if (isset($_SESSION['cart'][$p_id])) {
+        $_SESSION['cart'][$p_id]['quantity'] += 1;
+        $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
+    } else {
+        // ถ้าสินค้าใหม่ ให้เพิ่มลงในตะกร้า
+        $_SESSION['cart'][$p_id] = [
+            'p_id' => $p_id,
+            'p_name' => $p_name,
+            'p_price' => $p_price,
+            'quantity' => 1,
+            'total_price' => $p_price
+        ];
+    }
+?>    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -219,53 +226,48 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
     <!-- Cart Start -->
     <div class="container pt-5">
     <?php 
-    $cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : []; 
-    if (!empty($cart_items)) : ?>
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
+$cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];  // ดึงข้อมูลสินค้าจากตะกร้า
+
+if (!empty($cart_items)) : ?>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($cart_items as $item) : ?>
                 <tr>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Remove</th>
+                    <td><?php echo htmlspecialchars($item['p_name']); ?></td>
+                    <td><?php echo htmlspecialchars($item['category']); ?></td>
+                    <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
+                    <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                    <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
+                    <td>
+                        <form action="remove_from_cart.php" method="POST">
+                            <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
+                            <input type="hidden" name="category" value="<?php echo htmlspecialchars($item['category']); ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $grand_total = 0; // รวมราคาทั้งหมด
-                foreach ($cart_items as $item) : 
-                    $total_price = $item['p_price'] * $item['quantity']; // คำนวณราคารวมต่อชิ้น
-                    $grand_total += $total_price; // รวมยอดทั้งหมด
-                ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($item['p_name']); ?></td>
-                        <td><?php echo htmlspecialchars($item['category']); ?></td>
-                        <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
-                        <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                        <td>฿<?php echo number_format($total_price, 2); ?></td>
-                        <td>
-                            <form action="remove_from_cart.php" method="POST">
-                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
-                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <div class="text-right">
-            <h4>Total: ฿<?php echo number_format($grand_total, 2); ?></h4>
-            <a href="checkout.php" class="btn btn-primary">Proceed to Checkout</a>
-        </div>
-    <?php else : ?>
-        <p class="text-center">Your cart is empty!</p>
-        <div class="text-center mt-3">
-            <a href="shop.php" class="btn btn-secondary">Go Back to Shop</a>
-        </div>
-    <?php endif; ?>
-</div>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <a href="checkout.php" class="btn btn-primary">Proceed to Checkout</a>
+    </div>
+<?php else : ?>
+    <p class="text-center">Your cart is empty!</p>
+    <div class="text-center mt-3">
+        <a href="shop.php" class="btn btn-secondary">Go Back to Shop</a>
+    </div>
+<?php endif; ?>
 
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
