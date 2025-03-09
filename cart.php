@@ -32,14 +32,14 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
             $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
         } else {
             // ถ้าไม่มีสินค้าในตะกร้า ให้เพิ่มสินค้าใหม่
-            $_SESSION['cart'][$p_id] = [
+            $_SESSION['cart'][$p_id] = {
                 'p_id' => $product['p_id'],
                 'p_name' => $product['p_name'],
                 'p_price' => $product['p_price'],
                 'quantity' => 1,
                 'total_price' => $product['p_price'],
                 'category' => $category // เก็บ category ด้วย
-            ];
+            };
         }
     }
 }
@@ -256,9 +256,6 @@ exit;
         </div>
     <?php endif; ?>
 </div>
-
-
-
 
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
