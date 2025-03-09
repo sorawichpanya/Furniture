@@ -289,21 +289,7 @@ $sql = "
 $rs = mysqli_query($conn , $sql);
 
 // คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "
-    SELECT COUNT(*) AS total_items
-    FROM (
-        SELECT p_id FROM `bedroom`
-        UNION ALL
-        SELECT p_id FROM `living_room`
-        UNION ALL
-        SELECT p_id FROM `kitchen_room`
-        UNION ALL
-        SELECT p_id FROM `bathroom`
-        UNION ALL
-        SELECT p_id FROM `garden`
-        UNION ALL
-        SELECT p_id FROM `workroom`
-    ) AS combined_table";
+$total_items_sql = "SELECT COUNT(*) AS total_items FROM `workroom`";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];
