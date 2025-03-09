@@ -12,7 +12,7 @@ Values('$name', '$email',  '$username', '$password')";
 $result=mysqli_query($conn, $sql);
 if($result){
     echo "<script> alert('บันทึกข้อมูลเรียบร้อย'); </script>";
-    echo "<script> window.location='register.php'; </script>";
+    echo "<script> window.location='Register.php'; </script>";
 }else{
     echo "Error:".$sql."<br>".mysqli_error($conn);
     echo "<script> alert('บันทึกข้อมูลไม่ได้'); </script>";

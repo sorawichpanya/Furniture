@@ -328,7 +328,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
     while ($data = mysqli_fetch_array($rs)) {
     ?>
     <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
-        <div class="card product-item border-0 mb-4 shadow-sm" alt="<?php echo $data['p_name']; ?>">
+        <div class="card product-item border-0 mb-4 shadow-sm" data-price="<?php echo $data['p_price']; ?>">
             <div class="card-header product-img position-relative overflow-hidden bg-transparent border-0 p-0">
                 <img 
                     src="img/<?php echo $data['category']; ?>/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 

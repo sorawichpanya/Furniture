@@ -43,7 +43,7 @@
 <div class="container">
     <div class="register-container">
         <h2 class="text-center mb-4">REGISTER</h2>
-        <form method="POST" action="">
+        <form method="POST" action="Insert_register.php">
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input type="text" name="name" class="form-control" placeholder="John Doe" required>
