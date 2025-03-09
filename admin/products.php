@@ -30,57 +30,51 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
 	-->
 </head>
 
-  <body id="reportsPage">
-    <div class="" id="home">
-        <nav class="navbar navbar-expand-xl">
-            <div class="container h-100">
-                <a class="navbar-brand" href="index.php">
-                    <h1 class="tm-site-title mb-0">Product Admin</h1>
-                </a>
-                <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-bars tm-nav-icon"></i>
-                </button>
+<body>
+    <nav class="navbar navbar-expand-xl">
+        <div class="container h-100">
+            <a class="navbar-brand" href="index.php">
+                <h1 class="tm-site-title mb-0">Product Admin</h1>
+            </a>
+            <button class="navbar-toggler ml-auto mr-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars tm-nav-icon"></i>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mx-auto h-100">
-                        <li class="nav-item">
-                            <a class="nav-link <?php echo $currentPage == 'index.php' ? 'active' : ''; ?>" href="index.php">
-                                <i class="fas fa-tachometer-alt"></i>
-                                Dashboard
-                                <?php if ($currentPage == 'index.php') : ?>
-                                    <span class="sr-only">(current)</span>
-                                <?php endif; ?>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?php echo $currentPage == 'products.php' ? 'active' : ''; ?>" href="products.php">
-                                <i class="fas fa-shopping-cart"></i> Products
-                                <?php if ($currentPage == 'products.php') : ?>
-                                    <span class="sr-only">(current)</span>
-                                <?php endif; ?>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav ml-auto">
-                        <!-- แสดงชื่อผู้ใช้ -->
-                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto h-100">
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo $currentPage == 'index.php' ? 'active' : ''; ?>" href="index.php">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo $currentPage == 'products.php' ? 'active' : ''; ?>" href="products.php">
+                            <i class="fas fa-shopping-cart"></i> Products
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <?php if (isset($_SESSION['username'])) : ?>
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="logout.php">Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
+                            </ul>
+                        <?php else : ?>
+                            <a class="nav-link" href="login.php">Login</a>
+                        <?php endif; ?>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    </div>
-</body>
-    <div class="container mt-5">
+        </div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>    <div class="container mt-5">
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
         <div class="tm-bg-primary-dark tm-block tm-block-products">

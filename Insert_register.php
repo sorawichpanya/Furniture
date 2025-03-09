@@ -1,13 +1,13 @@
 <?php
 include 'condb.php';
 //รับค่าตัวแปรมาจากไฟล์ register
-$name = $_POST['firstname'];
+$name = $_POST['name'];
 $email = $_POST['email'];
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-//ค่าสั่งเพิ่มข้อมูลลงดาราง member
-$sql = "INSERT INTO Regis (name, email, username, password)
+//ค่าสั่งเพิ่มข้อมูลลงดาราง Register
+$sql = "INSERT INTO Register (name, email, username, password)
 Values('$name', '$email',  '$username', '$password')";
 $result=mysqli_query($conn, $sql);
 if($result){
