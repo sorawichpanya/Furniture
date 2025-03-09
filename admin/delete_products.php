@@ -23,9 +23,15 @@ if (isset($_POST['product_ids']) && !empty($_POST['product_ids']) && isset($_POS
     }
 
     // รีไดเร็กไปยังหน้าหลักหลังจากการลบ
-    header("Location: index.php?table_name=" . urlencode($table_name));  // กลับไปยังหน้าตารางที่ถูกลบ
+    header("Location: products.php?table_name=" . urlencode($table_name));  // กลับไปยังหน้าตารางที่ถูกลบ
     exit;
 } else {
     echo "No products selected to delete or invalid table.";
+}
+?>
+<?php
+if (isset($_POST['table_name']) && isset($_POST['product_ids'])) {
+    var_dump($_POST['table_name']);  // ตรวจสอบค่า table_name
+    var_dump($_POST['product_ids']);  // ตรวจสอบค่าที่เลือก
 }
 ?>
