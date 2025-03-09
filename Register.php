@@ -53,6 +53,10 @@
                 <input type="number" name="phone" class="form-control" placeholder="012-3456789" required>
             </div>
             <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="name" class="form-control" placeholder="Momo" required>
+            </div>
+            <div class="mb-3">
                 <label class="form-label">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Your Password" required>
             </div>

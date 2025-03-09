@@ -16,11 +16,11 @@ if (isset($_POST['product_id'], $_POST['category'])) {
     if ($product = mysqli_fetch_assoc($result)) {
         // ถ้าสินค้าถูกพบ ให้เพิ่มลงในตะกร้า
         $cart_item = [
-            'p_id' => $product['id'],
-            'p_name' => $product['name'],
-            'p_price' => $product['price'],
+            'p_id' => $product['p_id'],
+            'p_name' => $product['p_name'],
+            'p_price' => $product['p_price'],
             'quantity' => 1,  // จำนวนสินค้าเริ่มต้นเป็น 1
-            'total_price' => $product['price']  // ราคาสินค้าทั้งหมด
+            'total_price' => $product['p_price']  // ราคาสินค้าทั้งหมด
         ];
 
         // ถ้าตะกร้ายังไม่มีสินค้า หรือมีสินค้ารายการนี้แล้ว
