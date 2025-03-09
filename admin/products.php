@@ -158,9 +158,13 @@ $rs = mysqli_query($conn, $sql);
                     $product_price = $data['p_price'];
                     $product_image = $data['p_image'];
                     $product_ext = $data['p_ext'];
-                    $image_folder = "../img/" . $table_name . "/";  
 
+                    $image_folder = "../img/" . $table_name . "/";  
                     $image_path = $image_folder . $product_image . "." . $product_ext;
+                    if (!file_exists($image_path)) {
+                      $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
+                      $product_ext = "png";        // ใช้ .jpg เป็นนามสกุล
+                  }
                     echo "<tr>
                             <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
                             <td>$product_name</td>
