@@ -197,11 +197,11 @@
                             <label class="custom-control-label" for="price-5">฿3000 and above</label>
                             <span class="badge border font-weight-normal">168</span>
                         </div>
+                        </div>
                     </form>
                 </div>
-            
                 <!-- Price End -->               
-        </div>
+            </div>
             <!-- Shop Sidebar End -->
             <!--ตัวกรองสินค้าตามราคา-->
             

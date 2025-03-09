@@ -109,7 +109,7 @@
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
           <div class="tm-bg-primary-dark tm-block tm-block-products">
-          <?php
+<?php
 include_once("connectdb.php");
 
 // รับ table_name จาก URL
@@ -124,46 +124,36 @@ if (empty($table_name) || $table_name == 'user') {
 $sql = "SELECT * FROM `$table_name`";
 $rs = mysqli_query($conn, $sql);
 ?>
-
-<div class="container">
-    <h2 class="mb-4"><?php echo ucfirst(str_replace("_", " ", $table_name)); ?> Products</h2>
-    <div class="tm-product-table-container">
-        <table class="table table-hover tm-table-small tm-product-table">
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Detail</th>
-                    <th>Color</th>
-                    <th>Size</th>
-                    <th>Price</th>
-                    <th>Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                // แสดงข้อมูลสินค้า
-                while ($data = mysqli_fetch_array($rs)) {
-                    $product_name = $data['p_name'];
-                    $product_detail = $data['p_detail'];
-                    $product_color = $data['p_color'];
-                    $product_size = $data['p_size'];
-                    $product_price = $data['p_price'];
-                    $product_image = $data['p_image']; // รูปภาพสินค้า (อาจจะเป็นชื่อไฟล์)
-
-                    echo "<tr>
-                            <td>$product_name</td>
-                            <td>$product_detail</td>
-                            <td>$product_color</td>
-                            <td>$product_size</td>
-                            <td>$product_price</td>
-                            <td><img src='img/products/$product_image' alt='$product_name' style='max-width: 100px;'></td>
-                          </tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
-</div>
+            <div class="tm-product-table-container">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">PRODUCT NAME</th>
+                    <th scope="col">DETAIL</th>
+                    <th scope="col">COLOR</th>
+                    <th scope="col">SIZE</th>
+                    <th scope="col">PRICE</th>
+                    <th scope="col">IMG</th>
+                    <th scope="col">&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row"><input type="checkbox" /></th>
+                    <td class="tm-product-name">Lorem Ipsum Product 11</td>
+                    <td>2,000</td>
+                    <td>400</td>
+                    <td>21 Jan 2019</td>
+                    <td>
+                      <a href="#" class="tm-product-delete-link">
+                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <!-- table container -->
             <a
               href="add-product.php"
