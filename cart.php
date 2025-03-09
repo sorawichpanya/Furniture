@@ -10,53 +10,43 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// ตรวจสอบค่าที่รับมาจาก GET
+// สมมติว่าเราเพิ่มสินค้าเข้าไปในตะกร้า
 if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) && isset($_GET['category'])) {
     $p_id = $_GET['p_id'];
     $category = $_GET['category'];
 
-    // Debug: เช็คค่าที่รับมา
-    var_dump($p_id, $category);
-    
-    // ตรวจสอบว่า category มีอยู่ในฐานข้อมูล
+    // คิวรีข้อมูลสินค้า
     $sql = "SELECT p_id, p_name, p_price FROM $category WHERE p_id = ?";
     $stmt = $conn->prepare($sql);
-    
-    if (!$stmt) {
-        die("SQL Error: " . $conn->error); // แสดง error ถ้า prepare ไม่สำเร็จ
-    }
-
     $stmt->bind_param("i", $p_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $product = $result->fetch_assoc();
 
-    // Debug: เช็คค่าที่ดึงมาได้
-    var_dump($product);
+    // ตรวจสอบว่ามีข้อมูลสินค้า
+    if ($product) {
+        // เพิ่มข้อมูลสินค้าลงในตะกร้า
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
 
-    // ถ้าไม่พบสินค้าให้แสดงข้อความ error
-    if (!$product) {
-        die("Product not found.");
+        // ตรวจสอบว่ามีสินค้านี้ในตะกร้าแล้วหรือไม่
+        if (isset($_SESSION['cart'][$p_id])) {
+            $_SESSION['cart'][$p_id]['quantity'] += 1; // เพิ่มจำนวนสินค้า
+            $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
+        } else {
+            $_SESSION['cart'][$p_id] = [
+                'p_id' => $product['p_id'],
+                'p_name' => $product['p_name'],
+                'p_price' => $product['p_price'],
+                'quantity' => 1,
+                'total_price' => $product['p_price'],
+                'category' => $category // เก็บ category ด้วย
+            ];
+        }
     }
-
-    // เพิ่มสินค้าในตะกร้า
-    if (isset($_SESSION['cart'][$p_id])) {
-        $_SESSION['cart'][$p_id]['quantity'] += 1;
-        $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
-    } else {
-        $_SESSION['cart'][$p_id] = [
-            'p_id' => $product['p_id'],
-            'p_name' => $product['p_name'],
-            'p_price' => $product['p_price'],
-            'quantity' => 1,
-            'total_price' => $product['p_price']
-        ];
-    }
-
-    // Redirect ไปที่หน้าตะกร้าหลังจากเพิ่มสินค้าเสร็จ
-    header("Location: cart.php");
-    exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -233,23 +223,23 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
             </tr>
         </thead>
         <tbody>
-        <?php foreach ($cart_items as $item) : ?>
-    <?php if (!is_array($item)) continue; ?> <!-- ข้ามค่าที่ไม่ใช่ array -->
-    <tr>
-        <td><?php echo htmlspecialchars($item['p_name']); ?></td>
-        <td><?php echo htmlspecialchars($item['category']); ?></td>
-        <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
-        <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-        <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
-        <td>
-            <form action="remove_from_cart.php" method="POST">
-                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
-                <input type="hidden" name="category" value="<?php echo htmlspecialchars($item['category']); ?>">
-                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-            </form>
-        </td>
-    </tr>
-<?php endforeach; ?>            
+            <?php foreach ($cart_items as $item) : ?>
+                <?php if (!is_array($item)) continue; ?> <!-- ข้ามค่าที่ไม่ใช่ array -->
+                <tr>
+                    <td><?php echo htmlspecialchars($item['p_name']); ?></td>
+                    <td><?php echo htmlspecialchars($item['category']); ?></td>
+                    <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
+                    <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                    <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
+                    <td>
+                        <form action="remove_from_cart.php" method="POST">
+                            <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
+                            <input type="hidden" name="category" value="<?php echo htmlspecialchars($item['category']); ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
     <div class="text-right">
@@ -261,7 +251,6 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
         <a href="shop.php" class="btn btn-secondary">Go Back to Shop</a>
     </div>
 <?php endif; ?>
-
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
         <div class="row px-xl-5 pt-5">
