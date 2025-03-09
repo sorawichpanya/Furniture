@@ -7,7 +7,7 @@ include('db_connection.php');
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $phone = $_POST['phone'];
+    $Username = $_POST['Username'];
     $password = $_POST['password'];
 
     // Query the database to verify user credentials (you should hash the password in a real app)
