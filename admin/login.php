@@ -103,58 +103,93 @@
       </nav>
     </div>
 
-    <div class="container tm-mt-big tm-mb-big">
-      <div class="row">
+    <?php
+// เชื่อมต่อฐานข้อมูล
+include_once("connectdb.php");
+
+// ตรวจสอบการส่งฟอร์ม
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+
+    // ตรวจสอบ username และ password ในฐานข้อมูล
+    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+
+        // ตรวจสอบรหัสผ่าน (สมมติว่ารหัสผ่านถูกแฮชในฐานข้อมูล)
+        if (password_verify($password, $user['password'])) {
+            // เข้าสู่ระบบสำเร็จ
+            echo "<script>alert('Login successful! Welcome, $username.');</script>";
+            // Redirect ไปหน้า dashboard
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            // รหัสผ่านไม่ถูกต้อง
+            echo "<script>alert('Incorrect password. Please try again.');</script>";
+        }
+    } else {
+        // ไม่พบ username ในฐานข้อมูล
+        echo "<script>alert('Username not found. Please try again.');</script>";
+    }
+}
+?>
+
+<div class="container tm-mt-big tm-mb-big">
+    <div class="row">
         <div class="col-12 mx-auto tm-login-col">
-          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
-            <div class="row">
-              <div class="col-12 text-center">
-                <h2 class="tm-block-title mb-4">Welcome to Dashboard, Login</h2>
-              </div>
+            <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2 class="tm-block-title mb-4">Welcome to Dashboard, Login</h2>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <form action="" method="post" class="tm-login-form">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input
+                                    name="username"
+                                    type="text"
+                                    class="form-control validate"
+                                    id="username"
+                                    value=""
+                                    required
+                                />
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="password">Password</label>
+                                <input
+                                    name="password"
+                                    type="password"
+                                    class="form-control validate"
+                                    id="password"
+                                    value=""
+                                    required
+                                />
+                            </div>
+                            <div class="form-group mt-4">
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary btn-block text-uppercase"
+                                >
+                                    Login
+                                </button>
+                            </div>
+                            <button class="mt-5 btn btn-primary btn-block text-uppercase">
+                                Forgot your password?
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="row mt-2">
-              <div class="col-12">
-                <form action="index.php" method="post" class="tm-login-form">
-                  <div class="form-group">
-                    <label for="username">Username</label>
-                    <input
-                      name="username"
-                      type="text"
-                      class="form-control validate"
-                      id="username"
-                      value=""
-                      required
-                    />
-                  </div>
-                  <div class="form-group mt-3">
-                    <label for="password">Password</label>
-                    <input
-                      name="password"
-                      type="password"
-                      class="form-control validate"
-                      id="password"
-                      value=""
-                      required
-                    />
-                  </div>
-                  <div class="form-group mt-4">
-                    <button
-                      type="submit"
-                      class="btn btn-primary btn-block text-uppercase"
-                    >
-                      Login
-                    </button>
-                  </div>
-                  <button class="mt-5 btn btn-primary btn-block text-uppercase">
-                    Forgot your password?
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
+</div>
+
     <footer class="tm-footer row tm-mt-small">
       <div class="col-12 font-weight-light">
         <p class="text-center text-white mb-0 px-4 small">
