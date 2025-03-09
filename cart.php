@@ -24,14 +24,14 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
     $product = $result->fetch_assoc();
 
     // ตรวจสอบว่ามีข้อมูลสินค้า
-    if ($product && is_array($product)) { // ตรวจสอบว่า $product เป็น array
+    if ($product) {
         // เพิ่มข้อมูลสินค้าลงในตะกร้า
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
         // ตรวจสอบว่ามีสินค้านี้ในตะกร้าแล้วหรือไม่
-        if (isset($_SESSION['cart'][$p_id]) && is_array($_SESSION['cart'][$p_id])) { // ตรวจสอบให้แน่ใจว่าเป็น array
+        if (isset($_SESSION['cart'][$p_id])) {
             $_SESSION['cart'][$p_id]['quantity'] += 1; // เพิ่มจำนวนสินค้า
             $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
         } else {
@@ -44,12 +44,8 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
                 'category' => $category // เก็บ category ด้วย
             ];
         }
-    } else {
-        // ถ้าไม่พบสินค้า
-        echo "Product not found or invalid product data.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -213,7 +209,7 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
 
 
     <!-- Cart Start -->
-<div class="container pt-5">
+    <div class="container pt-5">
 <?php
 // ตรวจสอบให้มั่นใจว่า cart_items เป็น array
 $cart_items = isset($_SESSION['cart']) && is_array($_SESSION['cart']) ? $_SESSION['cart'] : [];
@@ -239,7 +235,6 @@ if (!empty($cart_items)) : ?>
                 ?>
                 <tr>
                     <td><?php echo htmlspecialchars($item['p_name']); ?></td>
-                    <!-- ตรวจสอบว่า 'category' มีอยู่ใน $item ก่อนการแสดง -->
                     <td><?php echo isset($item['category']) ? htmlspecialchars($item['category']) : 'Unknown'; ?></td>
                     <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
                     <td><?php echo htmlspecialchars($item['quantity']); ?></td>
@@ -265,6 +260,7 @@ if (!empty($cart_items)) : ?>
     </div>
 <?php endif; ?>
 </div>
+
 
 
 
