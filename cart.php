@@ -210,7 +210,12 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
 
     <!-- Cart Start -->
     <div class="container pt-5">
-    <?php if (!empty($cart_items)) : ?>
+    <?php
+// ตรวจสอบให้มั่นใจว่า cart_items เป็น array
+$cart_items = isset($_SESSION['cart']) && is_array($_SESSION['cart']) ? $_SESSION['cart'] : [];
+
+// ตรวจสอบการแสดงข้อมูลสินค้าในตะกร้า
+if (!empty($cart_items)) : ?>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
             <tr>
@@ -224,7 +229,10 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
         </thead>
         <tbody>
             <?php foreach ($cart_items as $item) : ?>
-                <?php if (!is_array($item)) continue; ?> <!-- ข้ามค่าที่ไม่ใช่ array -->
+                <?php 
+                // ตรวจสอบให้มั่นใจว่า $item เป็น array ก่อนเข้าถึงข้อมูล
+                if (!is_array($item)) continue; 
+                ?>
                 <tr>
                     <td><?php echo htmlspecialchars($item['p_name']); ?></td>
                     <td><?php echo htmlspecialchars($item['category']); ?></td>
