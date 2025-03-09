@@ -282,23 +282,13 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
+    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `kitchen_room`
     ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
 
 // คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "
+$total_items_sql = "SELECT COUNT(*) AS total_items FROM `kitchen_room`";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];
