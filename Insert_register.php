@@ -1,5 +1,5 @@
 <?php
-include 'condb.php';
+include 'connectdb.php';
 //รับค่าตัวแปรมาจากไฟล์ register
 $name = $_POST['name'];
 $email = $_POST['email'];
