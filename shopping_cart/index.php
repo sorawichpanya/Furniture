@@ -4,7 +4,8 @@ include 'connectdb.php';
 ?>
 <!doctype html>
 <html>
-<link href="http://212.80.215.178/Furniture/css/bootstrap.css" rel="stylesheet" type="text/css">
+<a href="http://212.80.215.178/Furniture/index.php">คลิกที่นี่เพื่อไปยังเว็บไซต์</a>
+
 <head>
 <meta charset="utf-8">
 <title>รายการสินค้า</title>

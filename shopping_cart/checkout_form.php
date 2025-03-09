@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Checkout</title>
-    <link href="http://212.80.215.178/Furniture/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <a href="http://212.80.215.178/Furniture/index.php">คลิกที่นี่เพื่อไปยังเว็บไซต์</a>
+
 </head>
 <body>
     <h2>กรอกข้อมูลการสั่งซื้อ</h2>

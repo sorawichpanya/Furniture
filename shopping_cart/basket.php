@@ -7,8 +7,7 @@ include 'connectdb.php';
 <head>
 <meta charset="utf-8">
 <title>ตะกร้าสินค้า</title>
-<link href="http://212.80.215.178/Furniture/index.php" rel="stylesheet" type="text/css">
-</head>
+<link href="http://212.80.215.178/Furniture/index.php" target="_blank"></a>
 
 <body>
 <h2>ตะกร้าสินค้า</h2>

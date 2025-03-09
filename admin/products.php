@@ -61,13 +61,18 @@ if (!isset($_SESSION['username'])) {
               </a>
             </li>
           </ul>
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link d-block" href="login.php">
-                Admin, <b>Logout</b>
-              </a>
-            </li>
-          </ul>
+          <ul class="navbar-nav ml-auto">
+                        <!-- แสดงชื่อผู้ใช้ -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="logout.php">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
         </div>
       </div>
     </nav>
