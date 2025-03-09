@@ -169,6 +169,7 @@ $rs = mysqli_query($conn, $sql);
                     // แสดงข้อมูลสินค้า
                     echo "<tr>
                             <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
+                            <td></td>
                             <td>$product_name</td>
                             <td>$product_detail</td>
                             <td>$product_color</td>
