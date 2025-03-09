@@ -166,6 +166,7 @@
                 const products = document.querySelectorAll(".product-item");
 
                 checkboxes.forEach(checkbox => {
+                    console.log("change");
                     checkbox.addEventListener("change", filterProducts);
                 });
 
