@@ -210,13 +210,13 @@ $rs = mysqli_query($conn, $sql);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    // Loop through all tables and show them as categories
-                    while ($data = mysqli_fetch_array($rs)) {
-                      $table_name = $data[0]; // รับชื่อของตาราง
-                  
-                      // กรองตารางที่ไม่ใช่ประเภทสินค้าหรือ `user`
-                      if ($table_name != 'user' && $table_name != 'register' && $table_name != 'member') {
+                <?php
+                // Loop through all tables and show them as categories
+                while ($data = mysqli_fetch_array($rs)) {
+                    $table_name = $data[0]; // รับชื่อของตาราง
+
+                    // กรองตารางที่ไม่ใช่ประเภทสินค้าหรือ `user`
+                    if ($table_name != 'user' && $table_name != 'register' && $table_name != 'member') {
                         echo "<tr><td class='tm-product-name'>
                                   <a href='?table_name=" . urlencode($table_name) . "'>" . ucfirst(str_replace("_", " ", $table_name)) . "</a>
                                 </td>";
@@ -227,20 +227,20 @@ $rs = mysqli_query($conn, $sql);
                                 </td>
                               </tr>";
                     }
-                      <script>
-                      function confirmDelete(tableName) {
-                          // แสดงข้อความยืนยัน
-                          var confirmation = confirm("Are you sure you want to delete the table: " + tableName + "?");
-                          
-                          // ถ้าเลือก 'OK' (ยืนยันการลบ)
-                          if (confirmation) {
-                              // ส่งคำขอลบไปยัง PHP โดยการใช้ GET
-                              window.location.href = "delete_table.php?table_name=" + encodeURIComponent(tableName);
-                          }
-                      }
-                      </script>
+                }
+                ?>
+                <script>
+                function confirmDelete(tableName) {
+                    // แสดงข้อความยืนยัน
+                    var confirmation = confirm("Are you sure you want to delete the table: " + tableName + "?");
+
+                    // ถ้าเลือก 'OK' (ยืนยันการลบ)
+                    if (confirmation) {
+                        // ส่งคำขอลบไปยัง PHP โดยการใช้ GET
+                        window.location.href = "delete_table.php?table_name=" + encodeURIComponent(tableName);
                     }
-                    ?>
+                }
+                </script>
                 </tbody>
             </table>
         </div>
