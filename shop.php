@@ -183,6 +183,7 @@
                     if (document.getElementById("price-all").checked) {
                         selectedRanges = [];  // ถ้าเลือก All Price, ให้แสดงสินค้าทั้งหมด
                     }
+                    console.log("selectedRanges",selectedRanges)
 
                     products.forEach(product => {
                         let productPrice = parseInt(product.getAttribute("data-price"));

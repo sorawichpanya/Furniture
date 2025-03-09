@@ -5,6 +5,10 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 ?>
+<?php
+// ตรวจสอบหน้าปัจจุบัน
+$currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล์ เช่น 'index.php' หรือ 'products.php'
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,17 +46,22 @@ if (!isset($_SESSION['username'])) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto h-100">
                         <li class="nav-item">
-                            <a class="nav-link active" href="index.php">
+                            <a class="nav-link <?php echo $currentPage == 'index.php' ? 'active' : ''; ?>" href="index.php">
                                 <i class="fas fa-tachometer-alt"></i>
                                 Dashboard
-                                <span class="sr-only">(current)</span>
+                                <?php if ($currentPage == 'index.php') : ?>
+                                    <span class="sr-only">(current)</span>
+                                <?php endif; ?>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="products.php">
+                            <a class="nav-link <?php echo $currentPage == 'products.php' ? 'active' : ''; ?>" href="products.php">
                                 <i class="fas fa-shopping-cart"></i> Products
+                                <?php if ($currentPage == 'products.php') : ?>
+                                    <span class="sr-only">(current)</span>
+                                <?php endif; ?>
                             </a>
-                         </li>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav ml-auto">
@@ -72,7 +81,6 @@ if (!isset($_SESSION['username'])) {
         </nav>
     </div>
 </body>
-
         <div class="container">
             <div class="row">
                 <div class="col">
