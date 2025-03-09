@@ -5,7 +5,7 @@ include 'connectdb.php';
 $p_id = $_GET['p_id'];
 
 // ดึงข้อมูลสินค้า
-$sql = "SELECT * FROM products WHERE p_id = '$p_id'";
+$sql = "SELECT * FROM product WHERE p_id = '$p_id'";
 $result = mysqli_query($conn, $sql);
 $product = mysqli_fetch_assoc($result);
 

@@ -69,7 +69,7 @@
             <button type="submit" class="btn btn-orange w-100">Register</button>
         </form>
         <div class="text-center mt-3">
-            <small>Have an account? <a href="login.php">Login</a></small>
+            <small>Have an account? <a href="Login.php">Login</a></small>
         </div>
     </div>
 </div>
