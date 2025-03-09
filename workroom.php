@@ -102,12 +102,12 @@
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
 
-                        <a href="livingroom.php" class="nav-item nav-link">living room</a>
-                        <a href="bathroom.php" class="nav-item nav-link">bathroom</a>
+                        <a href="" class="nav-item nav-link">living room</a>
+                        <a href="" class="nav-item nav-link">bathroom</a>
                         <a href="bedroom.php" class="nav-item nav-link">bedroom</a>
                         <a href="kitchen.php" class="nav-item nav-link">kitchen</a>
                         <a href="garden.php" class="nav-item nav-link">garden</a>
-                        <a href="workroom.php" class="nav-item nav-link">work room</a>
+                        <a href="workroom(test).php" class="nav-item nav-link">work room</a>
                     </div>
                 </nav>
             </div>
@@ -160,93 +160,80 @@
 
     <!-- Shop Start -->
     <div class="container-fluid pt-5">
-    <div class="row px-xl-5">
-        <!-- Shop Sidebar Start -->
-        <div class="col-lg-3 col-md-12">
-            <!-- Price Start -->
-            <div class="border-bottom mb-4 pb-4">
-                <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-                <form>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" checked id="price-all">
-                        <label class="custom-control-label" for="price-all">All Price</label>
-                        <span class="badge border font-weight-normal">1000</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-1">
-                        <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
-                        <span class="badge border font-weight-normal">150</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-2">
-                        <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
-                        <span class="badge border font-weight-normal">295</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-3">
-                        <label class="custom-control-label" for="price-3">฿1000 - ฿2000</label>
-                        <span class="badge border font-weight-normal">246</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-4">
-                        <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
-                        <span class="badge border font-weight-normal">145</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-5">
-                        <label class="custom-control-label" for="price-5">฿3000 and above</label>
-                        <span class="badge border font-weight-normal">168</span>
-                    </div>
-                </form>
+        <div class="row px-xl-5">
+            <!-- Shop Sidebar Start -->
+            <div class="col-lg-3 col-md-12">
+                <!-- Price Start -->
+                <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
+                    <form>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" checked id="price-all">
+                            <label class="custom-control-label" for="price-all">All Price</label>
+                            <span class="badge border font-weight-normal">1000</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-1">
+                            <label class="custom-control-label" for="price-1">฿0 - ฿100</label>
+                            <span class="badge border font-weight-normal">150</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-2">
+                            <label class="custom-control-label" for="price-2">฿100 - ฿200</label>
+                            <span class="badge border font-weight-normal">295</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-3">
+                            <label class="custom-control-label" for="price-3">฿200 - ฿300</label>
+                            <span class="badge border font-weight-normal">246</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-4">
+                            <label class="custom-control-label" for="price-4">฿300 - ฿400</label>
+                            <span class="badge border font-weight-normal">145</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
+                            <input type="checkbox" class="custom-control-input" id="price-5">
+                            <label class="custom-control-label" for="price-5">฿400 - ฿500</label>
+                            <span class="badge border font-weight-normal">168</span>
+                        </div>
+                    </form>
+                </div>
+                <!-- Price End -->               
             </div>
-            <!-- Price End -->
-        </div>
-        <!-- Shop Sidebar End -->
-    </div>
-</div>
-
-<!-- ตัวกรองสินค้าตามราคา -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const priceFilters = document.querySelectorAll(".custom-control-input[name='price_range']");
+            <!-- Shop Sidebar End -->
+             
+    <!--ตัวกรองสินค้าตามราคา-->
+    <script>
+            document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll(".custom-control-input");
     const products = document.querySelectorAll(".product-item");
 
-    // ฟังก์ชันกรองสินค้า
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", filterProducts);
+    });
+
     function filterProducts() {
-        let selectedRange = document.querySelector(".custom-control-input[name='price_range']:checked").nextElementSibling.textContent.trim();
+        let selectedRanges = [];
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked && checkbox.id !== "price-all") {
+                let range = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
+                selectedRanges.push(range.map(Number)); // แปลงเป็นตัวเลข
+            }
+        });
 
         products.forEach(product => {
-            let productPrice = parseInt(product.getAttribute("p_price"));
-            let isVisible = false;
-
-            if (selectedRange === "All Price") {
-                isVisible = true;
-            } else if (selectedRange === "฿0 - ฿500") {
-                isVisible = productPrice >= 0 && productPrice <= 500;
-            } else if (selectedRange === "฿500 - ฿1000") {
-                isVisible = productPrice > 500 && productPrice <= 1000;
-            } else if (selectedRange === "฿1000 - ฿2000") {
-                isVisible = productPrice > 1000 && productPrice <= 2000;
-            } else if (selectedRange === "฿2000 - ฿3000") {
-                isVisible = productPrice > 2000 && productPrice <= 3000;
-            } else if (selectedRange === "฿3000 and above") {
-                isVisible = productPrice > 3000;
-            }
+            let productPrice = parseInt(product.getAttribute("FurnitureFunny"));
+            let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
 
             product.style.display = isVisible ? "block" : "none";
         });
     }
-
-    // ตรวจจับการเปลี่ยนค่า
-    priceFilters.forEach(filter => {
-        filter.addEventListener("change", filterProducts);
-    });
-
-    // เรียกใช้ครั้งแรกเพื่อให้ทำงานทันที
-    filterProducts();
 });
 </script>
-
+    </div>
+</div>
 
 
             <!-- Shop Product Start -->
@@ -289,37 +276,13 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
-    UNION ALL
     SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
     ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
 
 // คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "
-    SELECT COUNT(*) AS total_items
-    FROM (
-        SELECT p_id FROM `bedroom`
-        UNION ALL
-        SELECT p_id FROM `living_room`
-        UNION ALL
-        SELECT p_id FROM `kitchen_room`
-        UNION ALL
-        SELECT p_id FROM `bathroom`
-        UNION ALL
-        SELECT p_id FROM `garden`
-        UNION ALL
-        SELECT p_id FROM `workroom`
-    ) AS combined_table";
+$total_items_sql = "SELECT COUNT(*) AS total_items FROM `workroom`";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];

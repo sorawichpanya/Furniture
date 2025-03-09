@@ -117,7 +117,7 @@ if (!isset($_SESSION['username'])) {
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
         <div class="tm-bg-primary-dark tm-block tm-block-products">
- <?php
+<?php
 include_once("connectdb.php");
 
 // รับ table_name จาก URL ถ้าไม่มีให้ใช้ 'Just_arrived' เป็นค่าเริ่มต้น
@@ -158,7 +158,7 @@ $rs = mysqli_query($conn, $sql);
                     $image_folder = "../img/" . $table_name . "/";  
 
                     $image_path = $image_folder . $product_image . "." . $product_ext;
-                    
+
                     // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
                     $image_path = $image_folder . $product_image . "." . $product_ext;
                     if (!file_exists($image_path)) {
@@ -213,25 +213,19 @@ $rs = mysqli_query($conn, $sql);
                     <?php
                     // Loop through all tables and show them as categories
                     while ($data = mysqli_fetch_array($rs)) {
-                        $table_name = $data[0]; // Get the table name
-
-                        // กรองตารางที่ไม่ใช่ประเภทสินค้าหรือ `user`
-                        if ($table_name != 'user') {
-                            // Fetch products from this table (if relevant)
-                            $category_sql = "SELECT * FROM `$table_name`";
-                            $category_rs = mysqli_query($conn, $category_sql);
-
-                            // Display category name and delete option
-                            echo "<tr><td class='tm-product-name'>" . ucfirst(str_replace("_", " ", $table_name)) . "</td>";
-
-                            // Add a delete option (if necessary)
-                            echo "<td class='text-center'>
-                                    <a href='#' class='tm-product-delete-link'>
-                                        <i class='far fa-trash-alt tm-product-delete-icon'></i>
-                                    </a>
-                                  </td>
-                                  </tr>";
-                        }
+                      $table_name = $data[0]; // รับชื่อของตาราง
+                  
+                      // กรองตารางที่ไม่ใช่ประเภทสินค้าหรือ `user`
+                      if ($table_name != 'user') {
+                          echo "<tr><td class='tm-product-name'>
+                                  <a href='?table_name=" . urlencode($table_name) . "'>" . ucfirst(str_replace("_", " ", $table_name)) . "</a>
+                                </td>";
+                          echo "<td class='text-center'>
+                                  <a href='#' class='tm-product-delete-link'>
+                                      <i class='far fa-trash-alt tm-product-delete-icon'></i>
+                                  </a>
+                                </td>
+                                </tr>";                        }
                     }
                     ?>
                 </tbody>
