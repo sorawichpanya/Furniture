@@ -108,14 +108,14 @@
     <div class="container mt-5">
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
-          <div class="tm-bg-primary-dark tm-block tm-block-products">
-<?php
+        <div class="tm-bg-primary-dark tm-block tm-block-products">
+ <?php
 include_once("connectdb.php");
 
-// รับ table_name จาก URL
-$table_name = isset($_GET['table_name']) ? $_GET['table_name'] : '';
+// รับ table_name จาก URL ถ้าไม่มีให้ใช้ 'Just_arrived' เป็นค่าเริ่มต้น
+$table_name = isset($_GET['table_name']) ? $_GET['table_name'] : 'Just_arrived';
 
-// ถ้าไม่มี table_name หรือ table_name ไม่เป็นชื่อที่ถูกต้อง ให้ป้องกันไม่ให้เกิดข้อผิดพลาด
+// ถ้า table_name เป็น `user` หรือไม่มีค่าให้ป้องกันการดึงข้อมูลจากตารางนั้น
 if (empty($table_name) || $table_name == 'user') {
     die('Invalid category.');
 }
