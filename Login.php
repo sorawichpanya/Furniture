@@ -12,17 +12,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
 
     // Query the database to verify user credentials (you should hash the password in a real app)
-    $query = "SELECT * FROM users WHERE Username = '$Username' AND password = '$password'";
-    $result = mysqli_query($conn, $query);
-
-    if (mysqli_num_rows($result) > 0) {
-        // If user is found, start a session
-        $_SESSION['Username'] = $Username;
-        header("Location: index.php"); // Redirect to index.php
-        exit();
+    $query = "SELECT * FROM users WHERE Username = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $Username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    if ($row = mysqli_fetch_assoc($result)) {
+        if (password_verify($password, $row['password'])) {
+            $_SESSION['Username'] = $Username;
+            header("Location: index.php");
+            exit();
+        } else {
+            $error_message = "Invalid Username or password.";
+        }
     } else {
-        // If credentials are incorrect
         $error_message = "Invalid Username or password.";
+    }
+    
     }
 }
 ?>
