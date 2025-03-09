@@ -3,11 +3,11 @@ include 'connectdb.php';
 //รับค่าตัวแปรมาจากไฟล์ register
 $name = $_POST['name'];
 $phone = $_POST['phone'];
-$username = $_POST['username'];
+$username = $_POST['Username'];
 $password = $_POST['password'];
 
 //ค่าสั่งเพิ่มข้อมูลลงดาราง Register
-$sql = "INSERT INTO Register (name, phone, username, password)
+$sql = "INSERT INTO Register (name, phone, Username, password)
 Values('$name', '$phone', '$username', '$password')";
 $result=mysqli_query($conn, $sql);
 if($result){

@@ -6,33 +6,38 @@ if (isset($_POST['product_id'], $_POST['category'])) {
     $product_id = $_POST['product_id'];
     $category = $_POST['category'];
 
-    // ดึงข้อมูลสินค้า
-    $sql = "SELECT * FROM $category WHERE id = ?";
+    // ตรวจสอบว่าหมวดหมู่ที่รับมาเป็นชื่อ Table ที่ถูกต้อง
+    $allowed_categories = ['bedroom', 'living_room']; // กำหนดหมวดหมู่ที่อนุญาต
+    if (!in_array($category, $allowed_categories)) {
+        $_SESSION['error_message'] = "Invalid category!";
+        header("Location: shop.php");
+        exit;
+    }
+
+    // คำสั่ง SQL เพื่อดึงข้อมูลจากตารางที่เกี่ยวข้อง
+    $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $product_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
     if ($product = mysqli_fetch_assoc($result)) {
-        // ถ้าสินค้าถูกพบ ให้เพิ่มลงในตะกร้า
         $cart_item = [
             'p_id' => $product['p_id'],
             'p_name' => $product['p_name'],
             'p_price' => $product['p_price'],
-            'quantity' => 1,  // จำนวนสินค้าเริ่มต้นเป็น 1
-            'total_price' => $product['p_price']  // ราคาสินค้าทั้งหมด
+            'category' => $category, // เพิ่มหมวดหมู่
+            'quantity' => 1,
+            'total_price' => $product['p_price']
         ];
 
-        // ถ้าตะกร้ายังไม่มีสินค้า หรือมีสินค้ารายการนี้แล้ว
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
-        // ตรวจสอบว่าในตะกร้ามีสินค้านี้หรือไม่
         $product_exists = false;
         foreach ($_SESSION['cart'] as &$item) {
-            if ($item['p_id'] == $cart_item['p_id']) {
-                // หากสินค้ามีในตะกร้าแล้ว ให้เพิ่มจำนวน
+            if ($item['p_id'] == $cart_item['p_id'] && $item['category'] == $cart_item['category']) {
                 $item['quantity'] += 1;
                 $item['total_price'] = $item['p_price'] * $item['quantity'];
                 $product_exists = true;
@@ -40,20 +45,17 @@ if (isset($_POST['product_id'], $_POST['category'])) {
             }
         }
 
-        // ถ้ายังไม่พบสินค้าในตะกร้า ให้เพิ่มเข้าไป
         if (!$product_exists) {
             $_SESSION['cart'][] = $cart_item;
         }
 
-        // แสดงข้อความสำเร็จ
         $_SESSION['success_message'] = "Item added to cart!";
     } else {
-        // หากไม่พบสินค้าในฐานข้อมูล
         $_SESSION['error_message'] = "Product not found!";
     }
 }
 
-header("Location: shop.php"); // กลับไปยังหน้าร้านค้า
+header("Location: shop.php");
 exit;
 ?>
 
@@ -228,6 +230,7 @@ exit;
             <thead class="thead-dark">
                 <tr>
                     <th>Product</th>
+                    <th>Category</th>
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Total</th>
@@ -238,12 +241,14 @@ exit;
                 <?php foreach ($cart_items as $item) : ?>
                     <tr>
                         <td><?php echo htmlspecialchars($item['p_name']); ?></td>
+                        <td><?php echo htmlspecialchars($item['category']); ?></td>
                         <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
                         <td><?php echo htmlspecialchars($item['quantity']); ?></td>
                         <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
                         <td>
                             <form action="remove_from_cart.php" method="POST">
                                 <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
+                                <input type="hidden" name="category" value="<?php echo htmlspecialchars($item['category']); ?>">
                                 <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                             </form>
                         </td>
@@ -261,7 +266,6 @@ exit;
         </div>
     <?php endif; ?>
 </div>
-
 
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">

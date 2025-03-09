@@ -54,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               <form method="POST" action="">
                 <div data-mdb-input-init class="form-outline form-white mb-4">
-                  <input type="Username" id="tyName" name="Username" class="form-control form-control-lg" required />
-                  <label class="form-label" for="typeEmailX">Username</label>
+                  <input type="Username" id="text" name="Username" class="form-control form-control-lg" required />
+                  <label class="form-label" for="text">Username</label>
                 </div>
 
                 <div data-mdb-input-init class="form-outline form-white mb-4">

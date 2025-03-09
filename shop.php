@@ -3,20 +3,14 @@
 session_start();
 include_once("connectdb.php");
 
-// ดึงรายการสินค้าจากหลายตาราง
-$categories = ['living_room', 'bedroom', 'garden'];
-$products = [];
+$categories = ['bedroom', 'living_room'];
 
+$queries = [];
 foreach ($categories as $category) {
-    $sql = "SELECT *, '$category' AS category FROM $category"; // เพิ่มคอลัมน์ category เพื่อบอกตารางที่มา
-    $result = mysqli_query($conn, $sql);
-
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $products[] = $row; // เก็บผลลัพธ์ไว้ในอาร์เรย์
-        }
-    }
+    $queries[] = "SELECT id AS p_id, name AS p_name, price AS p_price, '$category' AS category FROM $category";
 }
+$sql = implode(" UNION ", $queries);
+$rs = mysqli_query($conn, $sql);
 ?>
 
 
