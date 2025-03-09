@@ -157,7 +157,7 @@ $rs = mysqli_query($conn, $sql);
                     $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
 
                     // ตั้งค่าโฟลเดอร์สำหรับแต่ละ table (ตามชื่อ table)
-                    $image_folder = "img/" . strtolower($table_name) . "/";
+                    $image_folder = "../img/" . strtolower($table_name) . "/";
 
                     // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
                     if (!file_exists($image_folder . $product_image . "." . $product_ext)) {
