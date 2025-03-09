@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // เพิ่มผู้ใช้ลงในฐานข้อมูล
-        $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
+        $sql = "INSERT INTO user (username, password) VALUES ('$username', '$hashed_password')";
         if (mysqli_query($conn, $sql)) {
             echo "<div class='alert alert-success'>Registration successful!</div>";
         } else {
