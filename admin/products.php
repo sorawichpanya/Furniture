@@ -155,25 +155,14 @@ $rs = mysqli_query($conn, $sql);
                     $product_price = $data['p_price'];
                     $product_image = $data['p_id'];  // ใช้ p_id เป็นชื่อไฟล์
                     $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
-
-                    $image_folder = "../../img/" . strtolower($table_name) . "/";  // ใช้ ../img/ เพื่อชี้ไปที่โฟลเดอร์ที่อยู่นอกโฟลเดอร์ปัจจุบัน
-
-                    // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
-                    $image_path = $image_folder . $product_image . "." . $product_ext;
-                    echo "<p>Checking image path: $image_path</p>"; // แสดง path สำหรับการตรวจสอบ
-                
-                    if (!file_exists($image_path)) {
-                        $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
-                        $product_ext = "png";        // ใช้ .jpg เป็นนามสกุล
-                    }
-
+                    
                     echo "<tr>
                             <td>$product_name</td>
                             <td>$product_detail</td>
                             <td>$product_color</td>
                             <td>$product_size</td>
                             <td>$product_price</td>
-                            <td><img src='$image_folder$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
+                            <td><img src='../img/$table_name.$product_imge.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
                           </tr>";
                 }
                 ?>            

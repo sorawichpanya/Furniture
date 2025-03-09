@@ -229,8 +229,8 @@
                     <a href="bathroom.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/bath.jpg" alt="">
                     </a>
-                    <h5 class="font-weight-semi-bold m-0"></h5>
-                        <a href="livingroom.php">living room</a> 
+                    <h5 class="font-weight-semi-bold m-0">bathroom</h5>
+                        <a href="bathroom.php"></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
