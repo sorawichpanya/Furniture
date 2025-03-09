@@ -2,14 +2,13 @@
 include 'condb.php';
 //รับค่าตัวแปรมาจากไฟล์ register
 $name = $_POST['firstname'];
-$em = $_POST['lastname'];
-$phone = $_POST['phone'];
+$email = $_POST['email'];
 $username = $_POST['username'];
 $password = $_POST['password'];
 
 //ค่าสั่งเพิ่มข้อมูลลงดาราง member
-$sql = "INSERT INTO member (name, lastname, telephone, username, password)
-Values('$name', '$lastname', '$phone', '$username', '$password')";
+$sql = "INSERT INTO Regis (name, email, username, password)
+Values('$name', '$email',  '$username', '$password')";
 $result=mysqli_query($conn, $sql);
 if($result){
     echo "<script> alert('บันทึกข้อมูลเรียบร้อย'); </script>";

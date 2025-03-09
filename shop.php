@@ -175,7 +175,7 @@
 
                     checkboxes.forEach(checkbox => {
                         if (checkbox.checked && checkbox.id !== "price-all") {
-                            let range = checkbox.nextElementSibling.textContent.trim().replaceA("฿", "").split(" - ")
+                            let range = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ")
                             console.log(range)
                             selectedRanges.push(range.map(Number)); // แปลงเป็นตัวเลข
                         }
