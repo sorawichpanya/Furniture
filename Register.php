@@ -49,7 +49,7 @@
                 <input type="text" name="name" class="form-control" placeholder="John Doe" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Email Address</label>
+                <label class="form-label">lastname</label>
                 <input type="email" name="email" class="form-control" placeholder="your-email@gmail.com" required>
             </div>
             <div class="mb-3">
