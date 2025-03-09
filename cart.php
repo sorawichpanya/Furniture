@@ -203,7 +203,7 @@ if (isset($_POST['product_id'], $_POST['category'])) {
                         <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
                         <td>
                             <form action="remove_from_cart.php" method="POST">
-                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['id']); ?>">
+                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
                                 <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                             </form>
                         </td>
