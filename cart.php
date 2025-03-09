@@ -6,6 +6,7 @@ if (isset($_POST['product_id'], $_POST['category'])) {
     $product_id = $_POST['product_id'];
     $category = $_POST['category'];
 
+    // ดึงข้อมูลสินค้า
     $sql = "SELECT * FROM $category WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $product_id);
@@ -13,10 +14,49 @@ if (isset($_POST['product_id'], $_POST['category'])) {
     $result = mysqli_stmt_get_result($stmt);
 
     if ($product = mysqli_fetch_assoc($result)) {
-        // เพิ่มสินค้าใน session['cart']
+        // ถ้าสินค้าถูกพบ ให้เพิ่มลงในตะกร้า
+        $cart_item = [
+            'p_id' => $product['id'],
+            'p_name' => $product['name'],
+            'p_price' => $product['price'],
+            'quantity' => 1,  // จำนวนสินค้าเริ่มต้นเป็น 1
+            'total_price' => $product['price']  // ราคาสินค้าทั้งหมด
+        ];
+
+        // ถ้าตะกร้ายังไม่มีสินค้า หรือมีสินค้ารายการนี้แล้ว
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
+
+        // ตรวจสอบว่าในตะกร้ามีสินค้านี้หรือไม่
+        $product_exists = false;
+        foreach ($_SESSION['cart'] as &$item) {
+            if ($item['p_id'] == $cart_item['p_id']) {
+                // หากสินค้ามีในตะกร้าแล้ว ให้เพิ่มจำนวน
+                $item['quantity'] += 1;
+                $item['total_price'] = $item['p_price'] * $item['quantity'];
+                $product_exists = true;
+                break;
+            }
+        }
+
+        // ถ้ายังไม่พบสินค้าในตะกร้า ให้เพิ่มเข้าไป
+        if (!$product_exists) {
+            $_SESSION['cart'][] = $cart_item;
+        }
+
+        // แสดงข้อความสำเร็จ
+        $_SESSION['success_message'] = "Item added to cart!";
+    } else {
+        // หากไม่พบสินค้าในฐานข้อมูล
+        $_SESSION['error_message'] = "Product not found!";
     }
 }
+
+header("Location: shop.php"); // กลับไปยังหน้าร้านค้า
+exit;
 ?>
+
 
 
 <!DOCTYPE html>
