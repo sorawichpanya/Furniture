@@ -49,8 +49,8 @@
                 <input type="text" name="name" class="form-control" placeholder="John Doe" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" placeholder="your-email@gmail.com" required>
+                <label class="form-label">Phone</label>
+                <input type="number" name="phone" class="form-control" placeholder="0123456789" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>

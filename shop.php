@@ -371,21 +371,8 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
     </div>
     <?php
     }
-    echo '<pre>';
-    print_r($_SESSION['cart']);
-    echo '</pre>';
     ?>
-    <?php if (isset($_SESSION['success_message'])): ?>
-        <div class="alert alert-success">
-            <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
-        </div>
-        <?php endif; ?>
 
-        <?php if (isset($_SESSION['error_message'])): ?>
-        <div class="alert alert-danger">
-            <?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
-        </div>
-        <?php endif; ?>
 </div>
 
 <!-- Pagination Start -->

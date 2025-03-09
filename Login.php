@@ -7,20 +7,20 @@ include('db_connection.php');
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
+    $phone = $_POST['phone'];
     $password = $_POST['password'];
 
     // Query the database to verify user credentials (you should hash the password in a real app)
-    $query = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
+    $query = "SELECT * FROM users WHERE phone = '$phone' AND password = '$password'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
         // If user is found, start a session
-        $_SESSION['email'] = $email;
+        $_SESSION['phone'] = $phone;
         header("Location: dashboard.php"); // Redirect to dashboard or home page
     } else {
         // If credentials are incorrect
-        $error_message = "Invalid email or password.";
+        $error_message = "Invalid phone or password.";
     }
 }
 ?>
