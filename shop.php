@@ -177,6 +177,12 @@
                         if (checkbox.checked && checkbox.id !== "price-all") {
                             let range = checkbox.nextElementSibling.textContent.trim().replaceAll("฿", "").split(" - ");
                             console.log(range)
+                            if(range.length == 1)
+                        {
+                            range.push(Infinity)
+                        }
+
+                            
                             selectedRanges.push(range.map(e => parseFloat(e.replace(/[^0-9.]/g, "")))); // แปลงเป็นตัวเลข
                         }
                     });
@@ -189,7 +195,8 @@
 
                     products.forEach(product => {
                         let productPrice = parseInt(product.getAttribute("data-price"));
-                        let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
+                        console.log("productPrice",productPrice)
+                        let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1] );
 
                         product.style.display = isVisible ? "block" : "none";
                     });
