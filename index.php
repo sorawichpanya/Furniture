@@ -243,7 +243,7 @@
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <a href="kitchen.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/kit.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">kitchen</h5>
@@ -252,7 +252,7 @@
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <a href="garden.php" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/garden.jpg" alt="">
                     </a>
                     <h5 class="font-weight-semi-bold m-0">garden</h5>
