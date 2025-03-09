@@ -197,8 +197,8 @@ if (isset($_POST['product_id'], $_POST['category'])) {
             <tbody>
                 <?php foreach ($cart_items as $item) : ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($item['name']); ?></td>
-                        <td>฿<?php echo number_format($item['price'], 2); ?></td>
+                        <td><?php echo htmlspecialchars($item['p_name']); ?></td>
+                        <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
                         <td><?php echo htmlspecialchars($item['quantity']); ?></td>
                         <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
                         <td>

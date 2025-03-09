@@ -50,7 +50,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Phone</label>
-                <input type="number" name="phone" class="form-control" placeholder="0123456789" required>
+                <input type="number" name="phone" class="form-control" placeholder="012-3456789" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
