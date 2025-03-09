@@ -226,7 +226,7 @@ $rs = mysqli_query($conn, $sql);
                     $table_name = $data[0]; // รับชื่อของตาราง
 
                     // กรองตารางที่ไม่ใช่ประเภทสินค้าหรือ `user`
-                    if ($table_name != 'user' && $table_name != 'register' && $table_name != 'member') {
+                    if ($table_name != 'user' && $table_name != 'Register' && $table_name != 'member') {
                         echo "<tr><td class='tm-product-name'>
                                   <a href='?table_name=" . urlencode($table_name) . "'>" . ucfirst(str_replace("_", " ", $table_name)) . "</a>
                                 </td>";
