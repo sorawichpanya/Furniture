@@ -181,40 +181,46 @@ if (isset($_POST['product_id'], $_POST['category'])) {
 
     <!-- Cart Start -->
     <div class="container pt-5">
-        <?php if (!empty($cart_items)) : ?>
-            <table class="table table-bordered">
-                <thead>
+    <?php 
+    $cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : []; 
+    if (!empty($cart_items)) : ?>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($cart_items as $item) : ?>
                     <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Remove</th>
+                        <td><?php echo htmlspecialchars($item['name']); ?></td>
+                        <td>฿<?php echo number_format($item['price'], 2); ?></td>
+                        <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                        <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
+                        <td>
+                            <form action="remove_from_cart.php" method="POST">
+                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['id']); ?>">
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($cart_items as $item) : ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($item['name']); ?></td>
-                            <td>$<?php echo htmlspecialchars($item['price']); ?></td>
-                            <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                            <td>$<?php echo htmlspecialchars($item['total_price']); ?></td>
-                            <td>
-                                <form action="remove_from_cart.php" method="POST">
-                                    <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
-                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else : ?>
-            <p class="text-center">Your cart is empty!</p>
-        <?php endif; ?>
-    </div>
-</body>
-<!-- Cart End -->
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="text-right">
+            <a href="checkout.php" class="btn btn-primary">Proceed to Checkout</a>
+        </div>
+    <?php else : ?>
+        <p class="text-center">Your cart is empty!</p>
+        <div class="text-center mt-3">
+            <a href="shop.php" class="btn btn-secondary">Go Back to Shop</a>
+        </div>
+    <?php endif; ?>
+</div>
 
 
     <!-- Footer Start -->

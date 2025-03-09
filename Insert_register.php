@@ -2,13 +2,13 @@
 include 'connectdb.php';
 //รับค่าตัวแปรมาจากไฟล์ register
 $name = $_POST['name'];
-$email = $_POST['email'];
+$phone = $_POST['phone'];
 $username = $_POST['username'];
 $password = $_POST['password'];
 
 //ค่าสั่งเพิ่มข้อมูลลงดาราง Register
-$sql = "INSERT INTO Register (name, email, username, password)
-Values('$name', '$email',  '$username', '$password')";
+$sql = "INSERT INTO Register (name, phone, username, password)
+Values('$name', '$phone',  '$username', '$password')";
 $result=mysqli_query($conn, $sql);
 if($result){
     echo "<script> alert('บันทึกข้อมูลเรียบร้อย'); </script>";
