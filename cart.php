@@ -46,19 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 }
 ?>
 
-// ดึงข้อมูลสินค้าในตะกร้า
-$cart_items = [];
-if (isset($_SESSION['cart'])) {
-    $product_ids = implode(',', array_keys($_SESSION['cart']));
-    $sql = "SELECT * FROM products WHERE id IN ($product_ids)";
-    $result = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_assoc($result)) {
-        $row['quantity'] = $_SESSION['cart'][$row['id']];
-        $row['total_price'] = $row['price'] * $row['quantity'];
-        $cart_items[] = $row;
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
