@@ -62,27 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-bars tm-nav-icon"></i>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mx-auto h-100">
-                        <li class="nav-item">
-                            <a class="nav-link <?php echo $currentPage == 'index.php' ? 'active' : ''; ?>" href="index.php">
-                                <i class="fas fa-tachometer-alt"></i>
-                                Dashboard
-                                <?php if ($currentPage == 'index.php') : ?>
-                                    <span class="sr-only">(current)</span>
-                                <?php endif; ?>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?php echo $currentPage == 'products.php' ? 'active' : ''; ?>" href="products.php">
-                                <i class="fas fa-shopping-cart"></i> Products
-                                <?php if ($currentPage == 'products.php') : ?>
-                                    <span class="sr-only">(current)</span>
-                                <?php endif; ?>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </nav>
     </div>
