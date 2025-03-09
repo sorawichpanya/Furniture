@@ -133,8 +133,8 @@
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="admin/login.php" class="nav-item nav-link">Login</a>
-                            <a href="admin/register.php" class="nav-item nav-link">Register</a>
+                            <a href="login.php" class="nav-item nav-link">Login</a>
+                            <a href="register.php" class="nav-item nav-link">Register</a>
                         </div>
                     </div>
                 </nav>

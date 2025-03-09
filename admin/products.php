@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php"); // เปลี่ยนเส้นทางไปยังหน้า login
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -166,7 +174,8 @@ $rs = mysqli_query($conn, $sql);
                             <td><img src='$image_folder$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
                           </tr>";
                 }
-                ?>            </tbody>
+                ?>            
+                </tbody>
             </table>
             </div>
             <!-- table container -->
