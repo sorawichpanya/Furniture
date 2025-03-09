@@ -66,9 +66,12 @@ if (!isset($_SESSION['username'])) {
                         </li>
                     </ul>
         </div>
-            </div>
-
-        </nav>
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <div class="row tm-content-row">
+        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block tm-block-products">
         <div class="container">
             <div class="row">
                 <div class="col">
