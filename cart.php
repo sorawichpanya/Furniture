@@ -233,27 +233,23 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($cart_items as $item) : ?>
-                <?php
-                // ตรวจสอบว่า $item เป็น array ที่มีข้อมูลที่คาดหวัง
-                if (is_array($item) && isset($item['p_name'], $item['category'], $item['p_price'], $item['quantity'], $item['total_price'])):
-                ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($item['p_name']); ?></td>
-                        <td><?php echo htmlspecialchars($item['category']); ?></td>
-                        <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
-                        <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                        <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
-                        <td>
-                            <form action="remove_from_cart.php" method="POST">
-                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
-                                <input type="hidden" name="category" value="<?php echo htmlspecialchars($item['category']); ?>">
-                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endif; ?>
-            <?php endforeach; ?>
+        <?php foreach ($cart_items as $item) : ?>
+    <?php if (!is_array($item)) continue; ?> <!-- ข้ามค่าที่ไม่ใช่ array -->
+    <tr>
+        <td><?php echo htmlspecialchars($item['p_name']); ?></td>
+        <td><?php echo htmlspecialchars($item['category']); ?></td>
+        <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
+        <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+        <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
+        <td>
+            <form action="remove_from_cart.php" method="POST">
+                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
+                <input type="hidden" name="category" value="<?php echo htmlspecialchars($item['category']); ?>">
+                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+            </form>
+        </td>
+    </tr>
+<?php endforeach; ?>            <?php endforeach; ?>
         </tbody>
     </table>
     <div class="text-right">
