@@ -128,14 +128,12 @@ $rs = mysqli_query($conn, $sql);
               <table class="table table-hover tm-table-small tm-product-table">
                 <thead>
                   <tr>
-                    <th scope="col">&nbsp;</th>
                     <th scope="col">PRODUCT NAME</th>
                     <th scope="col">DETAIL</th>
                     <th scope="col">COLOR</th>
                     <th scope="col">SIZE</th>
                     <th scope="col">PRICE</th>
                     <th scope="col">IMG</th>
-                    <th scope="col">&nbsp;</th>
                   </tr>
                 </thead>
                 <tbody>
