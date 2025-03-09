@@ -215,9 +215,9 @@ if (isset($_SESSION['cart'])) {
                     <?php foreach ($cart_items as $item) : ?>
                         <tr>
                             <td><?php echo htmlspecialchars($item['name']); ?></td>
-                            <td>$<?php echo htmlspecialchars($item['price']); ?></td>
+                            <td>฿<?php echo htmlspecialchars($item['price']); ?></td>
                             <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                            <td>$<?php echo htmlspecialchars($item['total_price']); ?></td>
+                            <td>฿<?php echo htmlspecialchars($item['total_price']); ?></td>
                             <td>
                                 <form action="remove_from_cart.php" method="POST">
                                     <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
@@ -231,7 +231,8 @@ if (isset($_SESSION['cart'])) {
         <?php else : ?>
             <p class="text-center">Your cart is empty!</p>
         <?php endif; ?>
-    </div>    <!-- Cart End -->
+    </div>    
+<!-- Cart End -->
 
 
     <!-- Footer Start -->

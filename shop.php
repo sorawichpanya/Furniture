@@ -360,8 +360,10 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
             <form action="cart.php" method="POST">
             <div class="card-footer d-flex justify-content-between bg-light border">
                 <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo $data['category']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                <input type="hidden" name="product_id" value="<?php $data['p_id']; ?>">
-                <button type="submit" name="add_to_cart" class="btn border"> <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                <input type="hidden" name="product_id" value="<?= $data['p_id']; ?>">
+                <button type="submit" name="add_to_cart" class="btn border d-flex align-items-center justify-content-center">
+            <i class="fas fa-shopping-cart text-primary mr-2"></i>Add To Cart
+            </button>            
             </div>
             </form>
         </div>
