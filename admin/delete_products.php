@@ -29,3 +29,15 @@ if (isset($_POST['product_ids']) && !empty($_POST['product_ids']) && isset($_POS
     echo "No products selected to delete or invalid table.";
 }
 ?>
+<script>
+function confirmDelete(tableName, productId) {
+    // แสดงข้อความยืนยัน
+    var confirmation = confirm("Are you sure you want to delete this product?");
+
+    // ถ้าเลือก 'OK' (ยืนยันการลบ)
+    if (confirmation) {
+        // ส่งคำขอลบไปยัง PHP โดยการใช้ GET หรือ POST
+        window.location.href = "delete-products.php?table_name=" + encodeURIComponent(tableName) + "&product_id=" + productId;
+    }
+}
+</script>
