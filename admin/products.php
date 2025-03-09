@@ -160,7 +160,7 @@ $rs = mysqli_query($conn, $sql);
                     $product_ext = $data['p_ext'];
                     $image_folder = "../img/" . $table_name . "/";  
 
-                     $image_path = $image_folder . $product_image . "." . $product_ext;
+                    $image_path = $image_folder . $product_image . "." . $product_ext;
                     echo "<tr>
                             <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
                             <td>$product_name</td>
@@ -168,7 +168,7 @@ $rs = mysqli_query($conn, $sql);
                             <td>$product_color</td>
                             <td>$product_size</td>
                             <td>$product_price</td>
-                            <td><img src='../img/$table_name/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
+                            <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
                           </tr>";
                 }
                 ?>
