@@ -33,34 +33,31 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
 
     // Debug: เช็คค่าที่ดึงมาได้
     var_dump($product);
-    die(); // หยุดการทำงานเพื่อดูค่า
 
-    // ตรวจสอบว่า cart ถูกตั้งค่าหรือยัง
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
+    // ถ้าไม่พบสินค้าให้แสดงข้อความ error
+    if (!$product) {
+        die("Product not found.");
     }
-    
-    // ตัวแปรที่เก็บข้อมูลสินค้า เช่น $p_id, $p_name, $p_price
-    $p_id = $_POST['p_id'];
-    $p_name = $_POST['p_name'];
-    $p_price = $_POST['p_price'];
-    $category = $_POST['category'];
-    
-    // ถ้าสินค้าอยู่ในตะกร้าแล้ว ให้เพิ่มจำนวนสินค้า
+
+    // เพิ่มสินค้าในตะกร้า
     if (isset($_SESSION['cart'][$p_id])) {
         $_SESSION['cart'][$p_id]['quantity'] += 1;
         $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
     } else {
-        // ถ้าสินค้าใหม่ ให้เพิ่มลงในตะกร้า
         $_SESSION['cart'][$p_id] = [
-            'p_id' => $p_id,
-            'p_name' => $p_name,
-            'p_price' => $p_price,
+            'p_id' => $product['p_id'],
+            'p_name' => $product['p_name'],
+            'p_price' => $product['p_price'],
             'quantity' => 1,
-            'total_price' => $p_price
+            'total_price' => $product['p_price']
         ];
     }
-?>    
+
+    // Redirect ไปที่หน้าตะกร้าหลังจากเพิ่มสินค้าเสร็จ
+    header("Location: cart.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
