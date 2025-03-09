@@ -158,131 +158,28 @@
     <!-- Page Header End -->
 
 
-    <!-- Shop Start -->
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5">
-            <!-- Shop Sidebar Start -->
-            <div class="col-lg-3 col-md-12">
-                <!-- Price Start -->
-                <div class="border-bottom mb-4 pb-4">
-                    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-                    <form>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="price-all">
-                            <label class="custom-control-label" for="price-all">All Price</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-1">
-                            <label class="custom-control-label" for="price-1">฿0 - ฿100</label>
-                            <span class="badge border font-weight-normal">150</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">฿100 - ฿200</label>
-                            <span class="badge border font-weight-normal">295</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">฿200 - ฿300</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">฿300 - ฿400</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">฿400 - ฿500</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
-                    </form>
-                </div>
-                <!-- Price End -->               
-            </div>
-            <!-- Shop Sidebar End -->
-             
-    <!--ตัวกรองสินค้าตามราคา-->
-    <script>
-            document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll(".custom-control-input");
-    const products = document.querySelectorAll(".product-item");
-
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener("change", filterProducts);
-    });
-
-    function filterProducts() {
-        let selectedRanges = [];
-
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked && checkbox.id !== "price-all") {
-                let range = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
-                selectedRanges.push(range.map(Number)); // แปลงเป็นตัวเลข
-            }
-        });
-
-        products.forEach(product => {
-            let productPrice = parseInt(product.getAttribute("FurnitureFunny"));
-            let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
-
-            product.style.display = isVisible ? "block" : "none";
-        });
-    }
-});
-</script>
-    </div>
-</div>
-
-
-            <!-- Shop Product Start -->
-            <div class="col-lg-9 col-md-12">
-                <div class="row pb-3">
-                    <div class="col-12 pb-1">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <form action="">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search by name">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-transparent text-primary">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="dropdown ml-4">
-                                <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                            Sort by
-                                        </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                                    <a class="dropdown-item" href="#">Latest</a>
-                                    <a class="dropdown-item" href="#">Popularity</a>
-                                    <a class="dropdown-item" href="#">Best Rating</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-include_once("connectdb.php");
-
-// กำหนดจำนวนสินค้าที่แสดงในแต่ละหน้า
-$items_per_page = 9;
-
-// คำนวณหน้าปัจจุบันจาก query string
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหรับการดึงข้อมูล
-
-// ดึงข้อมูลจากทั้งสองตารางที่คละกัน
-$sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
     ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
 
 // คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "SELECT COUNT(*) AS total_items FROM `living_room`";
+$total_items_sql = "
+    SELECT COUNT(*) AS total_items
+    FROM (
+        SELECT p_id FROM `bedroom`
+        UNION ALL
+        SELECT p_id FROM `living_room`
+        UNION ALL
+        SELECT p_id FROM `kitchen_room`
+        UNION ALL
+        SELECT p_id FROM `bathroom`
+        UNION ALL
+        SELECT p_id FROM `garden`
+        UNION ALL
+        SELECT p_id FROM `workroom`
+    ) AS combined_table";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];
