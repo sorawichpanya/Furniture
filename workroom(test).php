@@ -266,7 +266,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
         <div class="card product-item border-0 mb-4 shadow-sm">
             <div class="card-header product-img position-relative overflow-hidden bg-transparent border-0 p-0">
                 <img 
-                    src="img/<?php echo $data['category']; ?>/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
+                    src="img/<?php echo $data['workroom']; ?>/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
                     alt="<?php echo $data['p_name']; ?>" 
                     class="img-fluid w-100"
                     style="max-height: 300px; object-fit: cover; border-radius: 5px;">

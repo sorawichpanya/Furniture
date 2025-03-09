@@ -2,39 +2,29 @@
 include_once("connectdb.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
-    // ตรวจสอบความยาว username และ password
-    if (strlen($username) < 5 || strlen($password) < 8) {
-        echo "<script>alert('Username must be at least 5 characters and Password at least 8 characters.');</script>";
-    } elseif ($password !== $confirm_password) {
-        echo "<script>alert('Passwords do not match.');</script>";
+    // ตรวจสอบความยาวของ Username และ Password
+    if (strlen($username) < 5) {
+        echo "<div class='alert alert-danger'>Username must be at least 5 characters.</div>";
+    } elseif (strlen($password) < 8) {
+        echo "<div class='alert alert-danger'>Password must be at least 8 characters.</div>";
     } else {
-        // แฮชรหัสผ่าน
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        // รหัสผ่านสามารถใช้ password_hash() เพื่อเพิ่มความปลอดภัย
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // ตรวจสอบว่ามี username ซ้ำหรือไม่
-        $sql_check = "SELECT * FROM user WHERE username = '$username'";
-        $result = mysqli_query($conn, $sql_check);
-
-        if ($result && mysqli_num_rows($result) > 0) {
-            echo "<script>alert('Username already exists. Please choose another one.');</script>";
+        // เพิ่มผู้ใช้ลงในฐานข้อมูล
+        $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
+        if (mysqli_query($conn, $sql)) {
+            echo "<div class='alert alert-success'>Registration successful!</div>";
         } else {
-            // บันทึกข้อมูลผู้ใช้
-            $sql_insert = "INSERT INTO user (username, password) VALUES ('$username', '$hashedPassword')";
-            if (mysqli_query($conn, $sql_insert)) {
-                echo "<script>alert('Registration successful!');</script>";
-                header("Location: login.php");
-                exit();
-            } else {
-                echo "<script>alert('Registration failed. Please try again.');</script>";
-            }
+            echo "<div class='alert alert-danger'>Error: " . mysqli_error($conn) . "</div>";
         }
     }
 }
 ?>
+
 
 <div class="container tm-mt-big tm-mb-big">
     <div class="row">
