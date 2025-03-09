@@ -296,6 +296,35 @@ $total_items = $total_items_row['total_items'];
 $total_pages = ceil($total_items / $items_per_page); // คำนวณจำนวนหน้าทั้งหมด
 ?>
 
+<div class="row pb-3">
+    <?php
+    while ($data = mysqli_fetch_array($rs)) {
+    ?>
+    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+        <div class="card product-item border-0 mb-4 shadow-sm">
+            <div class="card-header product-img position-relative overflow-hidden bg-transparent border-0 p-0">
+                <img 
+                    src="img/<?php echo $data['category']; ?>/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
+                    alt="<?php echo $data['p_name']; ?>" 
+                    class="img-fluid w-100"
+                    style="max-height: 300px; object-fit: cover; border-radius: 5px;">
+            </div>
+            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                <h6 class="text-truncate mb-3"><?php echo $data['p_name']; ?></h6>
+                <div class="d-flex justify-content-center">
+                <h6>฿<?php echo number_format($data['p_price'], 2); ?></h6>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between bg-light border">
+                <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo $data['category']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                <a href="#" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+            </div>
+        </div>
+    </div>
+    <?php
+    }
+    ?>
+</div>
 <div class="col-12 pb-1">
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mb-3">
