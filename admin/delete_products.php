@@ -23,7 +23,7 @@ if (isset($_POST['product_ids']) && !empty($_POST['product_ids']) && isset($_POS
     }
 
     // รีไดเร็กไปยังหน้าหลักหลังจากการลบ
-    header("Location: index.php?table_name=" . urlencode($table_name));  // กลับไปยังหน้าตารางที่ถูกลบ
+    header("Location: products.php?table_name=" . urlencode($table_name));  // กลับไปยังหน้าตารางที่ถูกลบ
     exit;
 }
 ?>
