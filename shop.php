@@ -182,18 +182,18 @@
                             <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
                             <span class="badge border font-weight-normal">295</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-3">
                             <label class="custom-control-label" for="price-3">฿1000 - ฿2000</label>
                             <span class="badge border font-weight-normal">246</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" class="custom-control-input" id="price-4">
                             <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
                             <span class="badge border font-weight-normal">145</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="price_range" value="3000-and-above" id="price-5">
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" class="custom-control-input" name="price_range" value="3000-and-above" id="price-5">
                             <label class="custom-control-label" for="price-5">฿3000 and above</label>
                             <span class="badge border font-weight-normal">168</span>
                         </div>

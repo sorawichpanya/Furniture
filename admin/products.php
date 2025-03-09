@@ -161,8 +161,8 @@ $rs = mysqli_query($conn, $sql);
 
                     // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
                     if (!file_exists($image_folder . $product_image . "." . $product_ext)) {
-                        $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
-                        $product_ext = "png";        // ใช้ .jpg เป็นนามสกุล
+                        $product_image = $data['p_id'];  // ถ้าไม่มีรูปให้ใช้รูป default
+                        $product_ext = $data['p_ext'];        // ใช้ .jpg เป็นนามสกุล
                     }
 
                     echo "<tr>
