@@ -103,23 +103,23 @@
       </nav>
     </div>
 
-    <?php
+<?php
 // เชื่อมต่อฐานข้อมูล
 include_once("connectdb.php");
 
 // ตรวจสอบการส่งฟอร์ม
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $password = $_POST['password']; // ไม่ต้อง escape เพราะไม่ได้ใช้ใน SQL โดยตรง
 
-    // ตรวจสอบ username และ password ในฐานข้อมูล
+    // ตรวจสอบ username ในฐานข้อมูล
     $sql = "SELECT * FROM users WHERE username = '$username'";
     $result = mysqli_query($conn, $sql);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
 
-        // ตรวจสอบรหัสผ่าน (สมมติว่ารหัสผ่านถูกแฮชในฐานข้อมูล)
+        // ตรวจสอบรหัสผ่าน
         if (password_verify($password, $user['password'])) {
             // เข้าสู่ระบบสำเร็จ
             echo "<script>alert('Login successful! Welcome, $username.');</script>";
