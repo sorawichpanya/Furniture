@@ -72,7 +72,8 @@ if (!isset($_SESSION['username'])) {
                                 <a class="dropdown-item text-danger" href="logout.php">Logout</a>
                             </div>
                         </li>
-            </ul>
+                    </ul>
+                    </ul>
         </div>
       </div>
     </nav>
