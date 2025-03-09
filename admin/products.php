@@ -40,7 +40,7 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
                 <a class="navbar-brand" href="index.php">
                     <h1 class="tm-site-title mb-0">Product Admin</h1>
                 </a>
-                <button class="navbar-toggler ml-auto mr-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-bars tm-nav-icon"></i>
                 </button>
@@ -48,24 +48,31 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto h-100">
                         <li class="nav-item">
-                            <a class="nav-link active" href="index.php">
-                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            <a class="nav-link <?php echo $currentPage == 'index.php' ? 'active' : ''; ?>" href="index.php">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Dashboard
+                                <?php if ($currentPage == 'index.php') : ?>
+                                    <span class="sr-only">(current)</span>
+                                <?php endif; ?>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="products.php">
+                            <a class="nav-link <?php echo $currentPage == 'products.php' ? 'active' : ''; ?>" href="products.php">
                                 <i class="fas fa-shopping-cart"></i> Products
+                                <?php if ($currentPage == 'products.php') : ?>
+                                    <span class="sr-only">(current)</span>
+                                <?php endif; ?>
                             </a>
                         </li>
                     </ul>
+
                     <ul class="navbar-nav ml-auto">
-                        <!-- Dropdown User Menu -->
+                        <!-- แสดงชื่อผู้ใช้ -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">Profile</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" href="logout.php">Logout</a>
                             </div>
@@ -74,7 +81,8 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
                 </div>
             </div>
         </nav>
-    </div>    
+    </div>
+</body>
     <div class="container mt-5">
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
