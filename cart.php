@@ -3,20 +3,20 @@ session_start();
 include_once("connectdb.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
-    // ตรวจสอบว่ามี product_id และ category ที่ส่งมาหรือไม่
-    if (isset($_POST['product_id']) && isset($_POST['category'])) {
+    // ตรวจสอบว่ามีค่า product_id และ category ถูกส่งมาหรือไม่
+    if (!empty($_POST['product_id']) && !empty($_POST['category'])) {
         $product_id = intval($_POST['product_id']);
         $category = $_POST['category'];
 
-        // เลือกตารางที่เหมาะสมตาม category
-        $allowed_categories = ['electronics', 'fashion', 'books']; // ระบุชื่อหมวดหมู่ที่อนุญาต
+        // ตรวจสอบว่าตารางที่เกี่ยวข้องมีอยู่ในฐานข้อมูล
+        $allowed_categories = ['bedroom', 'livingroom']; // หมวดหมู่ที่อนุญาต
         if (!in_array($category, $allowed_categories)) {
             $_SESSION['error_message'] = "Invalid category!";
             header("Location: shop.php");
             exit;
         }
 
-        // สร้างคำสั่ง SQL เพื่อดึงข้อมูลสินค้าจากตารางที่ตรงกับ category
+        // ดึงข้อมูลสินค้าจากตารางที่สอดคล้องกับ category
         $sql = "SELECT * FROM `$category` WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $product_id);
@@ -26,19 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         if ($result->num_rows > 0) {
             $product = $result->fetch_assoc();
 
-            // ตรวจสอบว่าตะกร้าสินค้าใน Session มีอยู่หรือไม่
+            // ตรวจสอบว่าตะกร้าสินค้ามีอยู่ใน Session หรือไม่
             if (!isset($_SESSION['cart'])) {
                 $_SESSION['cart'] = [];
             }
 
-            // ใช้ category และ product_id เป็นคีย์ของสินค้าในตะกร้า
-            $cart_key = $category . '_' . $product_id;
+            $cart_key = $category . '_' . $product_id; // ใช้ category และ product_id เป็นคีย์
 
             // เพิ่มสินค้าลงในตะกร้า
             if (isset($_SESSION['cart'][$cart_key])) {
-                $_SESSION['cart'][$cart_key]['quantity'] += 1; // ถ้ามีอยู่แล้ว ให้เพิ่มจำนวน
+                $_SESSION['cart'][$cart_key]['quantity'] += 1; // ถ้ามีสินค้าอยู่แล้ว ให้เพิ่มจำนวน
             } else {
                 $_SESSION['cart'][$cart_key] = [
+                    'id' => $product_id,
                     'name' => $product['name'],
                     'price' => $product['price'],
                     'quantity' => 1,
@@ -46,18 +46,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                 ];
             }
 
-            // แสดงข้อความสำเร็จ
             $_SESSION['success_message'] = "Product added to cart!";
         } else {
             $_SESSION['error_message'] = "Product not found!";
         }
-
-        // เปลี่ยนเส้นทางกลับไปยังหน้าร้านค้า
-        header("Location: shop.php");
-        exit;
+    } else {
+        $_SESSION['error_message'] = "Invalid request!";
     }
+
+    // เปลี่ยนเส้นทางกลับไปยังหน้าร้านค้า
+    header("Location: shop.php");
+    exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
