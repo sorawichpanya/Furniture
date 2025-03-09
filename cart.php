@@ -191,6 +191,9 @@
                                     </div>
                                 </div>
                             </td>
+                            <td class="align-middle">$150</td>
+                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
