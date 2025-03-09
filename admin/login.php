@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password']; // ไม่ต้อง escape เพราะไม่ได้ใช้ใน SQL โดยตรง
 
     // ตรวจสอบ username ในฐานข้อมูล
-    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $sql = "SELECT * FROM user WHERE username = '$username'";
     $result = mysqli_query($conn, $sql);
 
     if ($result && mysqli_num_rows($result) > 0) {
