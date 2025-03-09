@@ -3,14 +3,6 @@
 session_start();
 include_once("connectdb.php");
 
-$categories = ['bedroom', 'living_room'];
-
-$queries = [];
-foreach ($categories as $category) {
-    $queries[] = "SELECT id AS p_id, name AS p_name, price AS p_price, '$category' AS category FROM $category";
-}
-$sql = implode(" UNION ", $queries);
-$rs = mysqli_query($conn, $sql);
 ?>
 
 
