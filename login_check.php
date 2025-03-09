@@ -1,5 +1,5 @@
 <?php
-include '';
+include 'connectdb.php';
 session_start();
 
 $username = $_POST['username'];
@@ -8,7 +8,7 @@ $password = $_POST['password'];
 // เข้ารหัส password ด้วย 1234
 $password = hash('1234', $password);
 
-$sql = "SELECT * FROM member WHERE username='$username' AND password='$password'";
+$sql = "SELECT * FROM Register WHERE username='$username' AND password='$password'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
 
@@ -21,7 +21,7 @@ if ($row) {
     exit();
 } else {
     $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
-    header("Location: login.php");
+    header("Location: Login.php");
     exit();
 }
 ?>
