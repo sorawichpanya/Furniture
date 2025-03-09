@@ -158,7 +158,6 @@
     </div>
     <!-- Page Header End -->
 
-
 <!-- ตัวกรองสินค้าตามราคา -->
         <!-- ตัวกรองสินค้าตามราคา -->
         <script>
@@ -379,11 +378,10 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
             </li>
         </ul>
     </nav>
+</div>            
 </div>
-            <!-- Shop Product End -->
-        </div>
-    </div>
-    <!-- Shop End -->
+</div>
+<!-- Shop End -->
 
 
     <!-- Footer Start -->
