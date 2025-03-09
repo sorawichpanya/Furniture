@@ -2,7 +2,7 @@
 session_start();
 include 'connectdb.php';
 
-$p_id = $_GET['p_id'];
+$p_id = $_GET['id'];
 
 // ดึงข้อมูลสินค้า
 $sql = "SELECT * FROM products WHERE id = '$p_id'";
