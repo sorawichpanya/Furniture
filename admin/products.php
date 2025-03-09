@@ -164,7 +164,7 @@ $rs = mysqli_query($conn, $sql);
                 
                     if (!file_exists($image_path)) {
                         $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
-                        $product_ext = "jpg";        // ใช้ .jpg เป็นนามสกุล
+                        $product_ext = "png";        // ใช้ .jpg เป็นนามสกุล
                     }
 
                     echo "<tr>
