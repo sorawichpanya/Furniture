@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // เข้าสู่ระบบสำเร็จ
             echo "<script>alert('Login successful! Welcome, $username.');</script>";
             // Redirect ไปหน้า dashboard
-            header("Location: dashboard.php");
+            header("Location: index.php");
             exit();
         } else {
             // รหัสผ่านไม่ถูกต้อง
