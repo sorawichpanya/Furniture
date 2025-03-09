@@ -32,7 +32,7 @@ if (!isset($_SESSION['username'])) {
   <body id="reportsPage">
     <nav class="navbar navbar-expand-xl">
       <div class="container h-100">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="index.php">
           <h1 class="tm-site-title mb-0">Product Admin</h1>
         </a>
         <button
@@ -59,22 +59,24 @@ if (!isset($_SESSION['username'])) {
                 <i class="fas fa-shopping-cart"></i> Products
               </a>
             </li>
+          </ul>
 
           <ul class="navbar-nav ml-auto">
-                        <!-- แสดงชื่อผู้ใช้ -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="logout.php">Logout</a>
-                            </div>
-                        </li>
-            </ul>
+            <!-- แสดงชื่อผู้ใช้ -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-danger" href="logout.php">Logout</a>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
+
     <div class="container mt-5">
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
