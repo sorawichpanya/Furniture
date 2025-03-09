@@ -216,16 +216,18 @@ $rs = mysqli_query($conn, $sql);
                       $table_name = $data[0]; // รับชื่อของตาราง
                   
                       // กรองตารางที่ไม่ใช่ประเภทสินค้าหรือ `user`
-                      if ($table_name != 'user') {
-                          echo "<tr><td class='tm-product-name'>
+                      if ($table_name != 'user' && $table_name != 'register') {
+                        echo "<tr><td class='tm-product-name'>
                                   <a href='?table_name=" . urlencode($table_name) . "'>" . ucfirst(str_replace("_", " ", $table_name)) . "</a>
                                 </td>";
-                          echo "<td class='text-center'>
+                        echo "<td class='text-center'>
                                   <a href='#' class='tm-product-delete-link'>
                                       <i class='far fa-trash-alt tm-product-delete-icon'></i>
                                   </a>
                                 </td>
-                                </tr>";                        }
+                              </tr>";
+                    }
+                    
                     }
                     ?>
                 </tbody>

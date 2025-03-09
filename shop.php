@@ -209,7 +209,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const priceFilters = document.querySelectorAll(".custom-control-input[name='price_range']");
-    const products = document.querySelectorAll(".product-item");
+    const products = document.querySelectorAll(".FurnitureFunny");
 
     // ฟังก์ชันกรองสินค้า
     function filterProducts() {
