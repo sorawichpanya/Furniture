@@ -314,10 +314,6 @@ $rs = mysqli_query($conn, $sql);
                 </tbody>
             </table>
         </div>
-        <!-- table container -->
-        <button class="btn btn-primary btn-block text-uppercase mb-3">
-            Add new category
-        </button>
     </div>
 </div>
 
