@@ -245,7 +245,6 @@ if (!empty($cart_items)) : ?>
                     <td>
                         <form action="remove_from_cart.php" method="POST">
                             <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
-                            <input type="hidden" name="category" value="<?php echo htmlspecialchars($item['category']); ?>">
                             <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                         </form>
                     </td>
