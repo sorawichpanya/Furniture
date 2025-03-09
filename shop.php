@@ -3,9 +3,20 @@
 session_start();
 include_once("connectdb.php");
 
-// ดึงรายการสินค้า
-$sql = "SELECT * FROM products";
-$result = mysqli_query($conn, $sql);
+// ดึงรายการสินค้าจากหลายตาราง
+$categories = ['living_room', 'bedroom', 'garden'];
+$products = [];
+
+foreach ($categories as $category) {
+    $sql = "SELECT *, '$category' AS category FROM $category"; // เพิ่มคอลัมน์ category เพื่อบอกตารางที่มา
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $products[] = $row; // เก็บผลลัพธ์ไว้ในอาร์เรย์
+        }
+    }
+}
 ?>
 
 
@@ -372,7 +383,6 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
     <?php
     }
     ?>
-
 </div>
 
 <!-- Pagination Start -->
