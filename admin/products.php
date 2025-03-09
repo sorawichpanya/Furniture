@@ -133,6 +133,7 @@ $sql = "SELECT * FROM `$table_name`";
 $rs = mysqli_query($conn, $sql);
 ?>
           <form action="delete_products.php" method="POST">
+            <input type="hidden" name="table_name" value="<?php echo htmlspecialchars($table_name); ?>">  <!-- ส่งค่าตารางไปในฟอร์ม -->
             <div class="tm-product-table-container">
               <table class="table table-hover tm-table-small tm-product-table">
                 <thead>

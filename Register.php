@@ -42,7 +42,7 @@
 
 <div class="container">
     <div class="register-container">
-        <h2 class="text-center mb-4">Register</h2>
+        <h2 class="text-center mb-4">REGISTER</h2>
         <form method="POST" action="">
             <div class="mb-3">
                 <label class="form-label">Name</label>
@@ -50,7 +50,11 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">lastname</label>
-                <input type="email" name="email" class="form-control" placeholder="your-email@gmail.com" required>
+                <input type="text" name="lastname" class="form-control" placeholder="lastname" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Telephone</label>
+                <input type="password" name="password" class="form-control" placeholder="012-3456789" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
