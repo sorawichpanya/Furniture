@@ -1,29 +1,45 @@
 <?php
 session_start();
-include_once("connectdb.php");
+include("db_connect.php"); // เชื่อมต่อฐานข้อมูล
+
+// เปิดการแสดง Error
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id'])) {
+// ตรวจสอบค่าที่รับมาจาก GET
+if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) && isset($_GET['category'])) {
     $p_id = $_GET['p_id'];
     $category = $_GET['category'];
 
-    // ดึงข้อมูลสินค้าจากฐานข้อมูล
+    // Debug: เช็คค่าที่รับมา
+    var_dump($p_id, $category);
+    
+    // ตรวจสอบว่า category มีอยู่ในฐานข้อมูล
     $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
     $stmt = $conn->prepare($sql);
+    
+    if (!$stmt) {
+        die("SQL Error: " . $conn->error); // แสดง error ถ้า prepare ไม่สำเร็จ
+    }
+
     $stmt->bind_param("i", $p_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $product = $result->fetch_assoc();
 
+    // Debug: เช็คค่าที่ดึงมาได้
+    var_dump($product);
+    die(); // หยุดการทำงานเพื่อดูค่า
+
     if ($product) {
-        // ถ้าสินค้ามีอยู่แล้ว ให้เพิ่มจำนวน
+        // ตรวจสอบว่าสินค้ามีอยู่แล้วหรือไม่
         if (isset($_SESSION['cart'][$p_id])) {
             $_SESSION['cart'][$p_id]['quantity'] += 1;
         } else {
-            // เพิ่มสินค้าชิ้นใหม่
             $_SESSION['cart'][$p_id] = [
                 'p_id' => $product['p_id'],
                 'p_name' => $product['p_name'],
@@ -32,10 +48,14 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id'])) 
                 'quantity' => 1
             ];
         }
+    } else {
+        die("Error: Product not found!"); // ถ้าไม่มีสินค้าให้หยุดการทำงาน
     }
 
     header("Location: cart.php");
     exit();
+} else {
+    die("Error: Missing parameters!"); // ถ้าไม่มีค่าที่ต้องใช้ให้แจ้งเตือน
 }
 ?>
 
