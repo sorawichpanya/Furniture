@@ -282,7 +282,7 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `kitchen_room`
+    SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
     ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
