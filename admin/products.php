@@ -261,53 +261,49 @@
             <?php
 include_once("connectdb.php");
 
-// ดึงข้อมูลจากตาราง category
-$sql = "SELECT * FROM category ORDER BY category_name ASC";
-$result = mysqli_query($conn, $sql);
+// ดึงข้อมูลจากตาราง categories หรือสามารถดึงตารางแยกตามประเภทสินค้า
+$sql = "SHOW TABLES";
+$rs = mysqli_query($conn, $sql);
 ?>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Categories Section -->
-        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
-            <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
-                <h2 class="tm-block-title">Product Categories</h2>
-                <div class="tm-product-table-container">
-                    <table class="table tm-table-small tm-product-table">
-                        <thead>
-                            <tr>
-                                <th>Category Name</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
-                            <tr>
-                                <td class="tm-product-name"><?php echo htmlspecialchars($row['category_name']); ?></td>
-                                <td class="text-center">
-                                    <a href="delete-category.php?id=<?php echo $row['category_id']; ?>" 
-                                       class="tm-product-delete-link">
-                                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
+
+<!-- HTML Code for the Categories Section -->
+<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
+    <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
+        <h2 class="tm-block-title">Product Categories</h2>
+        <div class="tm-product-table-container">
+            <table class="table tm-table-small tm-product-table">
+                <tbody>
+                    <?php
+                    // Loop through all tables and show them as categories
+                    while ($data = mysqli_fetch_array($rs)) {
+                        $table_name = $data[0]; // Get the table name
+
+                        // Skip the tables that aren't product categories
+                        if ($table_name != 'categories') {
+                            // Fetch products from this table (if relevant)
+                            $category_sql = "SELECT * FROM `$table_name`";
+                            $category_rs = mysqli_query($conn, $category_sql);
+
+                            // Display category name and delete option
+                            echo "<tr><td class='tm-product-name'>" . ucfirst(str_replace("_", " ", $table_name)) . "</td>";
+
+                            // Add a delete option (if necessary)
+                            echo "<td class='text-center'>
+                                    <a href='#' class='tm-product-delete-link'>
+                                        <i class='far fa-trash-alt tm-product-delete-icon'></i>
                                     </a>
-                                </td>
-                            </tr>
-                            <?php
-                                }
-                            } else {
-                                echo '<tr><td colspan="2" class="text-center">No categories found.</td></tr>';
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- Add new category button -->
-                <button class="btn btn-primary btn-block text-uppercase mb-3">
-                    Add new category
-                </button>
-            </div>
+                                  </td>
+                                  </tr>";
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
+        <!-- table container -->
+        <button class="btn btn-primary btn-block text-uppercase mb-3">
+            Add new category
+        </button>
     </div>
 </div>
     <footer class="tm-footer row tm-mt-small">
