@@ -132,7 +132,7 @@ if (empty($table_name) || $table_name == 'user') {
 $sql = "SELECT * FROM `$table_name`";
 $rs = mysqli_query($conn, $sql);
 ?>
-          <form action="delete-products.php" method="POST">
+          <form action="delete_products.php" method="POST">
             <div class="tm-product-table-container">
               <table class="table table-hover tm-table-small tm-product-table">
                 <thead>
@@ -184,7 +184,7 @@ $rs = mysqli_query($conn, $sql);
             </table>
             </div>
             <button type="submit" class="btn btn-danger btn-block text-uppercase">Delete selected products</button>
-</form>
+          </form>
 
 <script>
     // Select/Deselect all checkboxes
