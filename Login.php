@@ -17,7 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_num_rows($result) > 0) {
         // If user is found, start a session
         $_SESSION['Username'] = $Username;
-        header("Location: dashboard.php"); // Redirect to dashboard or home page
+        header("Location: index.php"); // Redirect to index.php
+        exit();
     } else {
         // If credentials are incorrect
         $error_message = "Invalid Username or password.";
@@ -34,9 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <!-- Add necessary CSS/JS files for MDB -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-  <style>
-    /* Your custom CSS here (optional) */
-  </style>
 </head>
 <body>
 
@@ -53,19 +51,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <p class="text-white-50 mb-5">Please enter your login and password!</p>
 
               <form method="POST" action="">
-                <div data-mdb-input-init class="form-outline form-white mb-4">
-                  <input type="Username" id="text" name="Username" class="form-control form-control-lg" required />
-                  <label class="form-label" for="text">Username</label>
+                <div class="form-outline form-white mb-4">
+                  <input type="text" name="Username" class="form-control form-control-lg" required />
+                  <label class="form-label">Username</label>
                 </div>
 
-                <div data-mdb-input-init class="form-outline form-white mb-4">
-                  <input type="password" id="typePasswordX" name="password" class="form-control form-control-lg" required />
-                  <label class="form-label" for="typePasswordX">Password</label>
+                <div class="form-outline form-white mb-4">
+                  <input type="password" name="password" class="form-control form-control-lg" required />
+                  <label class="form-label">Password</label>
                 </div>
 
-                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#">Forgot password?</a></p>
 
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
               </form>
 
               <?php
@@ -74,8 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   echo '<p style="color: red;">' . $error_message . '</p>';
               }
               ?>
-
-
             </div>
 
             <div>
