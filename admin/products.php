@@ -147,7 +147,7 @@ $rs = mysqli_query($conn, $sql);
                     $product_price = $data['p_price'];
                     $product_image = $data['p_ext']; // รูปภาพสินค้า (อาจจะเป็นชื่อไฟล์)
 
-                    $image_folder = "img/" . strtolower($table_name) . "/";
+                    $image_folder = ".../img/" . strtolower($table_name) . "/";
 
                     // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
                     if (!file_exists($image_folder . $product_image)) {
