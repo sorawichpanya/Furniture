@@ -213,8 +213,8 @@ if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) &
 
 
     <!-- Cart Start -->
-    <div class="container pt-5">
-    <?php
+<div class="container pt-5">
+<?php
 // ตรวจสอบให้มั่นใจว่า cart_items เป็น array
 $cart_items = isset($_SESSION['cart']) && is_array($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
@@ -239,7 +239,8 @@ if (!empty($cart_items)) : ?>
                 ?>
                 <tr>
                     <td><?php echo htmlspecialchars($item['p_name']); ?></td>
-                    <td><?php echo htmlspecialchars($item['category']); ?></td>
+                    <!-- ตรวจสอบว่า 'category' มีอยู่ใน $item ก่อนการแสดง -->
+                    <td><?php echo isset($item['category']) ? htmlspecialchars($item['category']) : 'Unknown'; ?></td>
                     <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
                     <td><?php echo htmlspecialchars($item['quantity']); ?></td>
                     <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
@@ -263,6 +264,10 @@ if (!empty($cart_items)) : ?>
         <a href="shop.php" class="btn btn-secondary">Go Back to Shop</a>
     </div>
 <?php endif; ?>
+</div>
+
+
+
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
         <div class="row px-xl-5 pt-5">
