@@ -159,51 +159,44 @@
 
 
     <!-- Shop Start -->
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5">
-            <!-- Shop Sidebar Start -->
-            <div class="col-lg-3 col-md-12">
-                <!-- Price Start -->
-                <div class="border-bottom mb-4 pb-4">
-                    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-                    <form>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="price-all">
-                            <label class="custom-control-label" for="price-all">All Price</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-1">
-                            <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
-                            <span class="badge border font-weight-normal">150</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
-                            <span class="badge border font-weight-normal">295</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">฿1000 - ฿2000</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="price_range" value="3000-and-above" id="price-5">
-                            <label class="custom-control-label" for="price-5">฿3000 and above</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- Price End -->               
-            </div>
+    <!-- Price Start -->
+<div class="border-bottom mb-4 pb-4">
+    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
+    <form>
+        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+            <input type="radio" class="custom-control-input" name="price_range" checked id="price-all">
+            <label class="custom-control-label" for="price-all">All Price</label>
+            <span class="badge border font-weight-normal">1000</span>
+        </div>
+        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+            <input type="radio" class="custom-control-input" name="price_range" id="price-1" value="0-500">
+            <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
+            <span class="badge border font-weight-normal">150</span>
+        </div>
+        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+            <input type="radio" class="custom-control-input" name="price_range" id="price-2" value="500-1000">
+            <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
+            <span class="badge border font-weight-normal">295</span>
+        </div>
+        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+            <input type="radio" class="custom-control-input" name="price_range" id="price-3" value="1000-2000">
+            <label class="custom-control-label" for="price-3">฿1000 - ฿2000</label>
+            <span class="badge border font-weight-normal">246</span>
+        </div>
+        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+            <input type="radio" class="custom-control-input" name="price_range" id="price-4" value="2000-3000">
+            <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
+            <span class="badge border font-weight-normal">145</span>
+        </div>
+        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+            <input type="radio" class="custom-control-input" name="price_range" id="price-5" value="3000-and-above">
+            <label class="custom-control-label" for="price-5">฿3000 and above</label>
+            <span class="badge border font-weight-normal">168</span>
+        </div>
+    </form>
+</div>
+<!-- Price End -->
 
-            <!-- Shop Sidebar End -->
             <!--ตัวกรองสินค้าตามราคา-->
             <script>
     document.addEventListener("DOMContentLoaded", function () {

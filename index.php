@@ -102,9 +102,9 @@
                 <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
                     
-                        <a href="" class="nav-item nav-link">living room</a>
-                        <a href="" class="nav-item nav-link">bathroom</a>
-                        <a href="" class="nav-item nav-link">bedroom</a>
+                        <a href="livingroom.php" class="nav-item nav-link">living room</a>
+                        <a href="bathroom.php" class="nav-item nav-link">bathroom</a>
+                        <a href="bedroom.php" class="nav-item nav-link">bedroom</a>
                         <a href="" class="nav-item nav-link">kitchen</a>
                         <a href="" class="nav-item nav-link">garden</a>
                         <a href="" class="nav-item nav-link">work room</a>
@@ -133,8 +133,8 @@
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="login.php" class="nav-item nav-link">Login</a>
-                            <a href="register.php" class="nav-item nav-link">Register</a>
+                            <a href="admin/login.php" class="nav-item nav-link">Login</a>
+                            <a href="admin/register.php" class="nav-item nav-link">Register</a>
                         </div>
                     </div>
                 </nav>
