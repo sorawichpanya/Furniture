@@ -147,11 +147,11 @@
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">workroom</h1>
             <div class="d-inline-flex">
                 <p class="m-0"><a href="">Home</a></p>
                 <p class="m-0 px-2">-</p>
-                <p class="m-0">Shop</p>
+                <p class="m-0">workroom</p>
             </div>
         </div>
     </div>
@@ -160,86 +160,48 @@
 
     <!-- Shop Start -->
     <div class="container-fluid pt-5">
-    <div class="row px-xl-5">
-        <!-- Shop Sidebar Start -->
-        <div class="col-lg-3 col-md-12">
-            <!-- Price Start -->
-            <div class="border-bottom mb-4 pb-4">
-                <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-                <form>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" checked id="price-all">
-                        <label class="custom-control-label" for="price-all">All Price</label>
-                        <span class="badge border font-weight-normal">1000</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-1">
-                        <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
-                        <span class="badge border font-weight-normal">150</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-2">
-                        <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
-                        <span class="badge border font-weight-normal">295</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-3">
-                        <label class="custom-control-label" for="price-3">฿1000 - ฿2000</label>
-                        <span class="badge border font-weight-normal">246</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-4">
-                        <label class="custom-control-label" for="price-4">฿2000 - ฿3000</label>
-                        <span class="badge border font-weight-normal">145</span>
-                    </div>
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="price_range" id="price-5">
-                        <label class="custom-control-label" for="price-5">฿3000 and above</label>
-                        <span class="badge border font-weight-normal">168</span>
-                    </div>
-                </form>
+        <div class="row px-xl-5">
+            <!-- Shop Sidebar Start -->
+            <div class="col-lg-3 col-md-12">
+                <!-- Price Start -->
+                <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
+                    <form>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" checked id="price-all">
+                            <label class="custom-control-label" for="price-all">All Price</label>
+                            <span class="badge border font-weight-normal">1000</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-1">
+                            <label class="custom-control-label" for="price-1">฿0 - ฿100</label>
+                            <span class="badge border font-weight-normal">150</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-2">
+                            <label class="custom-control-label" for="price-2">฿100 - ฿200</label>
+                            <span class="badge border font-weight-normal">295</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-3">
+                            <label class="custom-control-label" for="price-3">฿200 - ฿300</label>
+                            <span class="badge border font-weight-normal">246</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" id="price-4">
+                            <label class="custom-control-label" for="price-4">฿300 - ฿400</label>
+                            <span class="badge border font-weight-normal">145</span>
+                        </div>
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
+                            <input type="checkbox" class="custom-control-input" id="price-5">
+                            <label class="custom-control-label" for="price-5">฿400 - ฿500</label>
+                            <span class="badge border font-weight-normal">168</span>
+                        </div>
+                    </form>
+                </div>
+                <!-- Price End -->               
             </div>
-            <!-- Price End -->
-        </div>
-        <!-- Shop Sidebar End -->
-
-<!-- ตัวกรองสินค้าตามราคา -->
-        <!-- ตัวกรองสินค้าตามราคา -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const checkboxes = document.querySelectorAll(".custom-control-input");
-                const products = document.querySelectorAll(".product-item");
-
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener("change", filterProducts);
-                });
-
-                function filterProducts() {
-                    let selectedRanges = [];
-
-                    checkboxes.forEach(checkbox => {
-                        if (checkbox.checked && checkbox.id !== "price-all") {
-                            let range = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
-                            selectedRanges.push(range.map(Number)); // แปลงเป็นตัวเลข
-                        }
-                    });
-
-                    // ตรวจสอบว่าผู้ใช้เลือก "All Price" หรือไม่
-                    if (document.getElementById("price-all").checked) {
-                        selectedRanges = [];  // ถ้าเลือก All Price, ให้แสดงสินค้าทั้งหมด
-                    }
-
-                    products.forEach(product => {
-                        let productPrice = parseInt(product.getAttribute("data-price"));
-                        let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
-
-                        product.style.display = isVisible ? "block" : "none";
-                    });
-                }
-            });
-        </script>
-    </div>
-</div>
+            <!-- Shop Sidebar End -->
 
 
             <!-- Shop Product Start -->
@@ -282,37 +244,14 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
-    ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
-    LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
+    SELECT p_id, p_name, p_price, p_ext FROM workroom
+    ORDER BY p_id ASC
+    LIMIT $items_per_page OFFSET $offset";
+ // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
 
 // คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "
-    SELECT COUNT(*) AS total_items
-    FROM (
-        SELECT p_id FROM `bedroom`
-        UNION ALL
-        SELECT p_id FROM `living_room`
-        UNION ALL
-        SELECT p_id FROM `kitchen_room`
-        UNION ALL
-        SELECT p_id FROM `bathroom`
-        UNION ALL
-        SELECT p_id FROM `garden`
-        UNION ALL
-        SELECT p_id FROM `workroom`
-    ) AS combined_table";
+$total_items_sql = "SELECT COUNT(*) AS total_items FROM workroom";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];

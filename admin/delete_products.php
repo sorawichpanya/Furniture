@@ -9,11 +9,6 @@ if (isset($_POST['product_ids']) && !empty($_POST['product_ids']) && isset($_POS
 
     // ตรวจสอบให้แน่ใจว่า table_name เป็นชื่อที่ถูกต้อง
     $table_name = mysqli_real_escape_string($conn, $table_name);  // เพื่อป้องกัน SQL injection
-    
-    if (isset($_POST['table_name']) && isset($_POST['product_ids'])) {
-        var_dump($_POST['table_name']);  // ตรวจสอบค่า table_name
-        var_dump($_POST['product_ids']);  // ตรวจสอบค่าที่เลือก
-    }
 
     // ลบสินค้าที่เลือกจากฐานข้อมูล
     foreach ($product_ids as $product_id) {
@@ -34,4 +29,3 @@ if (isset($_POST['product_ids']) && !empty($_POST['product_ids']) && isset($_POS
     echo "No products selected to delete or invalid table.";
 }
 ?>
-
