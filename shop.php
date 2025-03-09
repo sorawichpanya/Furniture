@@ -177,14 +177,11 @@
                         if (checkbox.checked && checkbox.id !== "price-all") {
                             let range = checkbox.nextElementSibling.textContent.trim().replaceAll("฿", "").split(" - ");
                             console.log(range)
-                            range.forEach(e => {
-                                e = parseFloat(e.replace(/[^0-9.]/g, "")) // แปลงเป็นตัวเล
-                            });
                             if(range.length == 1)
                             {
                                 range.push(Infinity)
                             }
-                            selectedRanges.push(range.map(e => e));
+                            selectedRanges.push(range.map(e => e != Infinity ? parseFloat(e.replace(/[^0-9.]/g, "")) : Infinity));
                         }
                     });
 
