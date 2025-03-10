@@ -2,12 +2,10 @@
 session_start();
 include_once("connectdb.php");
 
-// ตรวจสอบค่าที่ได้รับจากฟอร์ม
-var_dump($_POST);
-
-if (isset($_POST['p_id'], $_POST['category'])) {
-    $p_id = (int)$_POST['p_id'];  // ใช้ POST และแปลงเป็นตัวเลข
-    $category = $_POST['category'];  // ใช้ค่าจาก POST
+// ตรวจสอบค่าที่ได้รับจาก GET
+if (isset($_GET['p_id'], $_GET['category'])) {
+    $p_id = (int)$_GET['p_id'];  // ใช้ GET และแปลงเป็นตัวเลข
+    $category = $_GET['category'];  // ใช้ค่าจาก GET
 
     // ตรวจสอบ category ที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
@@ -56,7 +54,6 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     die("Invalid request.");
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
