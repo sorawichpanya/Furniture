@@ -15,27 +15,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $payment_slip = $_SESSION['payment_slip'] ?? null; // ตรวจสอบว่ามีไฟล์อยู่จริงหรือไม่
     $payment_slip_type = $payment_slip ? mime_content_type($payment_slip) : '';
 
-    if (!$payment_slip || !in_array($payment_slip_type, $allowed_types)) {
-        $_SESSION['error_message'] = "Invalid file type. Only JPEG, PNG, or PDF files are allowed.";
-        header("Location: checkout.php");
-        exit;
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // ตรวจสอบว่ามีการกรอกข้อมูลครบทุกฟิลด์
+        if (empty($_POST['full_name']) || empty($_POST['phone']) || empty($_POST['address']) || empty($_POST['province']) || empty($_POST['zip_code'])) {
+            $_SESSION['error_message'] = "กรุณากรอกข้อมูลให้ครบทุกฟิลด์";
+            header("Location: checkout.php");
+            exit;
+        }
+    
+        // เก็บข้อมูลลงใน $_SESSION
+        $_SESSION['user_full_name'] = $_POST['full_name'];
+        $_SESSION['user_phone'] = $_POST['phone'];
+        $_SESSION['user_address'] = $_POST['address'];
+        $_SESSION['user_province'] = $_POST['province'];
+        $_SESSION['user_zip_code'] = $_POST['zip_code'];
+    
+        // ตัวอย่างการเช็คข้อมูลใน $_SESSION หลังจากการกรอกข้อมูล
+        var_dump($_SESSION['user_full_name'], $_SESSION['user_phone'], $_SESSION['user_address'], $_SESSION['user_province'], $_SESSION['user_zip_code']);
+        
+        // ดำเนินการต่อกับการบันทึกข้อมูลหรือการส่งข้อมูลอื่นๆ
     }
 
-    // ตรวจสอบว่ามีค่าข้อมูลทั้งหมดใน Session
-    $full_name = $_SESSION['user_full_name'] ?? null;
-    $phone = $_SESSION['user_phone'] ?? null;
-    $address = $_SESSION['user_address'] ?? null;
-    $province = $_SESSION['user_province'] ?? null;
-    $zip_code = $_SESSION['user_zip_code'] ?? null;
-    $total_price = $_SESSION['cart_total'] ? ($_SESSION['cart_total'] + 50) : null;
-    $payment_proof = $payment_slip;
-
-    // ตรวจสอบว่าค่าที่จำเป็นต้องมีเป็น NULL หรือไม่
-    if (!$full_name || !$phone || !$address || !$province || !$zip_code || !$total_price || !$payment_proof) {
-        $_SESSION['error_message'] = "เกิดข้อผิดพลาด: มีข้อมูลบางส่วนหายไป กรุณากรอกข้อมูลให้ครบ";
-        header("Location: checkout.php");
-        exit;
-    }
 
     // บันทึกลงฐานข้อมูล
     $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, payment_proof, status) 
