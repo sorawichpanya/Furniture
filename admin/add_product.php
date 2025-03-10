@@ -3,9 +3,6 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-var_dump($_POST);
-var_dump($_GET);
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $p_name = $_POST['p_name'] ?? '';
