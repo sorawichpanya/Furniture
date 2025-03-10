@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "<pre>";
     print_r($_POST);
     echo "</pre>";
-    exit;
 
     if (!isset($_SESSION['payment_uploaded'])) {
         $_SESSION['error_message'] = "กรุณาอัปโหลดสลิปโอนเงินก่อนยืนยันคำสั่งซื้อ";
