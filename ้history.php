@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 
 // ดึง user_id ของผู้ใช้จาก session
 $username = $_SESSION['username'];
-$sql_user = "SELECT id FROM users WHERE username = ?";
+$sql_user = "SELECT id FROM Register WHERE username = ?";
 $stmt_user = $conn->prepare($sql_user);
 $stmt_user->bind_param("s", $username);
 $stmt_user->execute();
