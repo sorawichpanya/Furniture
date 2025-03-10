@@ -10,7 +10,7 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
-    
+    var_dump($p_id);
     // สร้างคำสั่ง SQL โดยใช้ชื่อของตาราง
     $sql = "SELECT p_id, p_name, p_price FROM `$category` WHERE p_id = ?";
     var_dump($sql);
@@ -22,7 +22,7 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     mysqli_stmt_bind_param($stmt, "i", $p_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-
+    var_dump($result);
     if ($product = mysqli_fetch_assoc($result)) {
         echo "Product found: " . var_dump($product);
     } else {
