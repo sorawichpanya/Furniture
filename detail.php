@@ -288,14 +288,26 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                                 </button>
                             </div>
                         </div>
-                        <button class="btn btn-primary px-3">
-                            <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
-                        </button>
+                        <a href="cart.php?p_id=<?php echo $data['p_id']; ?>&category=trendy" 
+                            class="btn btn-sm text-dark p-0">
+                            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+                        </a>
                     </div>
             </div>
         </div>
     </div>
 </div>
+<?php if (isset($_SESSION['success_message'])): ?>
+    <div class="alert alert-success">
+        <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error_message'])): ?>
+    <div class="alert alert-danger">
+        <?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
+    </div>
+<?php endif; ?>
 
 <hr style="border: 1px solid #ddd; margin: 20px 0;">
 

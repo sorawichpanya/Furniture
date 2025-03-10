@@ -1,53 +1,60 @@
 <?php
 session_start();
-include("connectdb.php"); // เชื่อมต่อฐานข้อมูล
+include_once("connectdb.php");
 
-// เปิดการแสดง Error
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// ตรวจสอบว่ามีตะกร้าหรือไม่ ถ้าไม่มีให้สร้างใหม่
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
-}
-
-// ตรวจสอบการเพิ่มสินค้าในตะกร้า
-if (isset($_GET['action']) && $_GET['action'] == "add" && isset($_GET['p_id']) && isset($_GET['category'])) {
-    $p_id = $_GET['p_id'];
+// ตรวจสอบว่ามี p_id และ category ใน URL หรือไม่
+if (isset($_GET['p_id'], $_GET['category'])) {
+    $p_id = intval($_GET['p_id']);
     $category = $_GET['category'];
 
-    // คิวรีข้อมูลสินค้า
-    $sql = "SELECT p_id, p_name, p_price FROM $category WHERE p_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $p_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $product = $result->fetch_assoc();
+    // ดึงข้อมูลสินค้าโดยใช้ p_id และ category
+    $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $p_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-    // ตรวจสอบว่ามีข้อมูลสินค้า
-    if ($product) {
-        // เพิ่มข้อมูลสินค้าลงในตะกร้า
-        if (!isset($_SESSION['cart'])) {
+    if ($product = mysqli_fetch_assoc($result)) {
+        // กำหนดโครงสร้างสินค้าในตะกร้า
+        $cart_item = [
+            'p_id' => $product['p_id'],
+            'p_name' => $product['p_name'],
+            'category' => $category,
+            'p_price' => $product['p_price'],
+            'quantity' => 1,
+            'total_price' => $product['p_price']
+        ];
+
+        // ตรวจสอบว่า $_SESSION['cart'] พร้อมใช้งาน
+        if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
-        // ตรวจสอบว่ามีสินค้านี้ในตะกร้าแล้วหรือไม่
-        if (isset($_SESSION['cart'][$p_id])) {
-            // ถ้ามีสินค้านี้ในตะกร้าแล้ว ให้เพิ่มจำนวนสินค้า
-            $_SESSION['cart'][$p_id]['quantity'] += 1;
-            $_SESSION['cart'][$p_id]['total_price'] = $_SESSION['cart'][$p_id]['quantity'] * $_SESSION['cart'][$p_id]['p_price'];
-        } else {
-            // ถ้าไม่มีสินค้านี้ในตะกร้า ให้เพิ่มสินค้าลงไปใหม่
-            $_SESSION['cart'][$p_id] = [
-                'p_id' => $product['p_id'],
-                'p_name' => $product['p_name'],
-                'p_price' => $product['p_price'],
-                'quantity' => 1,
-                'total_price' => $product['p_price'],
-                'category' => $category // เก็บ category ด้วย
-            ];
+        // ตรวจสอบว่าสินค้าอยู่ในตะกร้าแล้วหรือไม่
+        $found = false;
+        foreach ($_SESSION['cart'] as &$item) {
+            if ($item['p_id'] == $p_id && $item['category'] == $category) {
+                $item['quantity'] += 1;
+                $item['total_price'] = $item['quantity'] * $item['p_price'];
+                $found = true;
+                break;
+            }
         }
+
+        // ถ้าไม่พบสินค้า ให้เพิ่มเข้าไปใหม่
+        if (!$found) {
+            $_SESSION['cart'][] = $cart_item;
+        }
+
+        // ตั้งค่าข้อความแจ้งเตือน
+        $_SESSION['success_message'] = "Added to cart successfully!";
+    } else {
+        $_SESSION['error_message'] = "Product not found.";
     }
+
+    // กลับไปที่หน้าก่อนหน้า
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit();
 }
 ?>
 
