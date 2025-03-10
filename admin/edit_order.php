@@ -15,7 +15,7 @@ if (isset($_GET['order_id'])) {
         $row = $result->fetch_assoc();
         // แสดงข้อมูลในฟอร์ม
         echo "
-        <form action='update_order.php' method='POST'>
+        <form action=index.php' method='POST'>
             <input type='hidden' name='order_id' value='".$row['order_id']."'>
             <label for='full_name'>Full Name:</label>
             <input type='text' name='full_name' value='".$row['full_name']."'>
