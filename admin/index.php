@@ -138,8 +138,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     $conn->close();
                     ?>
                 </tbody>
-                
             </table>
+        </div>
+    </div>
+    <div class="col-12 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+            <h2 class="tm-block-title">Orders List</h2>
             <table class="table">
                 <thead>
                     <tr>
@@ -185,10 +189,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     $conn->close();
                     ?>
                 </tbody>
-                
             </table>
         </div>
     </div>
+
 </div>
 
         </div>
