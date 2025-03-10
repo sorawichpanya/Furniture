@@ -1,31 +1,33 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: Login.php");
-    exit;
-}
 
 include_once("connectdb.php");
 
-// ตรวจสอบว่ามี product_id ส่งมาหรือไม่
-if (isset($_GET['product_id']) && isset($_GET['table_name'])) {
-    $product_id = $_GET['product_id'];
-    $table_name = $_GET['table_name'];
+// ตรวจสอบว่ามี product_id และ table_name ส่งมาหรือไม่
+// ตรวจสอบว่า `table` และ `p_id` ได้รับค่ามาหรือไม่
+if (isset($_GET['table']) && isset($_GET['p_id'])) {
+    $table_name = $_GET['table'];
+    $product_id = $_GET['p_id'];
 
-    // ดึงข้อมูลสินค้าจากฐานข้อมูล
+    // ตรวจสอบค่าที่ได้รับมาให้มั่นใจว่าไม่ว่าง
+    if (empty($table_name) || empty($product_id)) {
+        echo "ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบ table และ p_id";
+        exit;
+    }
+
+    // คำสั่ง SQL เพื่อดึงข้อมูลสินค้าจากตารางที่ระบุ
     $sql = "SELECT * FROM `$table_name` WHERE p_id = '$product_id'";
     $result = mysqli_query($conn, $sql);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $product = mysqli_fetch_assoc($result);
+        // แสดงข้อมูลสินค้าหรือฟอร์มแก้ไข
     } else {
-        // สินค้าไม่พบ หรือมีข้อผิดพลาด
-        echo "ไม่พบสินค้า หรือมีข้อผิดพลาดในการดึงข้อมูล";
+        echo "ไม่พบสินค้าหรือมีข้อผิดพลาดในการดึงข้อมูล";
         exit;
     }
 } else {
-    // ไม่มีการส่ง product_id มา
-    echo "ไม่ได้ระบุ product_id";
+    echo "ไม่ได้ระบุ table หรือ p_id";
     exit;
 }
 ?>
