@@ -143,7 +143,7 @@ session_start();
                             <a href="history.php" class="nav-item nav-link">History</a>
                             <a href="Register.php" class="nav-item nav-link">Register</a>
                             
-                        </div>-->
+                        </div>
                     </div>
                 </nav>
                 <div id="header-carousel" class="carousel slide" data-ride="carousel">
