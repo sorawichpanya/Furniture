@@ -2,6 +2,8 @@
 session_start();
 include_once("connectdb.php");
 
+var_dump($_POST);
+
 if (isset($_POST['p_id'], $_POST['category'])) {
     $p_id = (int)$_POST['p_id'];  // ใช้ POST และแปลงเป็นตัวเลข
     $category = $_POST['category'];  // ใช้ค่าจาก POST

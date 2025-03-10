@@ -3,7 +3,7 @@
 session_start();
 
 // Include your database connection file (assumed to be included here)
-include('connection.php');
+include('connectdb.php');
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $_SESSION["Error"] = "Invalid Username or password.";
   }
 
-  header("Location: login.php"); // Redirect กลับไปที่หน้า login เพื่อแสดง error
+  header("Location: Login.php"); // Redirect กลับไปที่หน้า login เพื่อแสดง error
   exit();
 }
 ?>
