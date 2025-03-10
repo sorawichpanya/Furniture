@@ -163,7 +163,7 @@ session_start(); // เรียกใช้งาน session
 <?php session_start(); ?>
     <!-- Checkout Start -->
     <div class="container-fluid pt-5">
-        <form action="upload_payment.php" method="POST" enctype="multipart/form-data">
+        <form action="confirm_order.php" method="POST" enctype="multipart/form-data">
             <div class="row px-xl-5">
             <div class="col-lg-8">
                 <div class="mb-4">
