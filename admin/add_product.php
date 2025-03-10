@@ -37,7 +37,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ตั้งชื่อไฟล์ไม่ให้ซ้ำ
     $p_image_name = time() . "_" . basename($_FILES["p_image"]["name"]);
     $target_file = $target_dir . $p_image_name;
+    
+    // ย้ายไฟล์ไปยังโฟลเดอร์
+    if (!move_uploaded_file($_FILES["p_image"]["tmp_name"], $target_file)) {
+        die("❌ เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
+    }
 
+    // เพิ่มข้อมูลสินค้าเข้า Database
+    $query = "INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
     if ($stmt->execute()) {
         // ✅ 2. ดึงค่า p_id ล่าสุด
         $p_id = $conn->insert_id;
@@ -49,15 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $upload_path = "../img/$table_name/" . $new_filename; // กำหนด Path ปลายทาง
         }
     }
-    // ย้ายไฟล์ไปยังโฟลเดอร์
-    if (!move_uploaded_file($_FILES["p_image"]["tmp_name"], $target_file)) {
-        die("❌ เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
-    }
-
-    // เพิ่มข้อมูลสินค้าเข้า Database
-    $query = "INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    
     if (!$stmt) {
         die("❌ Query prepare failed: " . $conn->error);
     }
