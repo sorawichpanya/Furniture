@@ -138,12 +138,12 @@ session_start();
                                 </div>
                             </div>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
-                        </div>
-                        <div class="navbar-nav ml-auto py-0">
+                       </div>
+                      <!--   <div class="navbar-nav ml-auto py-0">
                             <a href="Login.php" class="nav-item nav-link">Login</a>
                             <a href="Register.php" class="nav-item nav-link">Register</a>
                             
-                        </div>
+                        </div>-->
                     </div>
                 </nav>
                 <div id="header-carousel" class="carousel slide" data-ride="carousel">

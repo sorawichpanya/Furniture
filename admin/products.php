@@ -160,11 +160,10 @@ $rs = mysqli_query($conn, $sql);
             </script>
             <!-- table container -->
             <a
-              href="add-product.php"
+              href=""
               class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
           </div>
         </div>
-
         
 <?php
 include_once("connectdb.php");
