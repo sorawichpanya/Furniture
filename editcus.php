@@ -112,7 +112,7 @@ $data = mysqli_fetch_array($rs);
     <!-- แก้ไขข้อมูลลูกค้า End -->
 
     <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $username = $_POST['username'];
@@ -120,11 +120,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // อัปเดตข้อมูลในฐานข้อมูล
         $sql = "UPDATE Register SET 
-                name = '$name',
-                phone = '$phone',
-                username = '$username',
-                password = '$password'
-                WHERE id = '{$_GET['id']}'";
+            name = '$name',
+            phone = '$phone',
+            username = '$username',
+            password = '$password'
+            WHERE id = '{$_GET['id']}'";
 
         if (mysqli_query($conn, $sql)) {
             echo "<script>
