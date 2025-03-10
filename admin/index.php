@@ -133,8 +133,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 } else {
                     echo "<tr><td colspan='8'>ไม่มีข้อมูลคำสั่งซื้อ</td></tr>";
                 }
-
-                $conn->close();
                 ?>
             </tbody>
         </table>
@@ -156,11 +154,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </thead>
             <tbody>
                 <?php
-                include_once("connectdb.php");
-
-                if ($conn->connect_error) {
-                    die("❌ Connection failed: " . $conn->connect_error);
-                }
 
                 $sql = "SELECT * FROM order_items";
                 $result = $conn->query($sql);
