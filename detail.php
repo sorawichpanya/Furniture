@@ -281,13 +281,13 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                     <div class="d-flex align-items-center mb-4 pt-2">
     <div class="input-group quantity mr-3" style="width: 130px;">
         <div class="input-group-btn">
-            <button class="btn btn-primary btn-minus" type="button">
+            <button class="btn btn-primary btn-minus" type="button" onclick="updateQuantity(-1)">
                 <i class="fa fa-minus"></i>
             </button>
         </div>
         <input type="text" class="form-control bg-secondary text-center" id="quantity" name="quantity" value="1" readonly>
         <div class="input-group-btn">
-            <button class="btn btn-primary btn-plus" type="button">
+            <button class="btn btn-primary btn-plus" type="button" onclick="updateQuantity(1)">
                 <i class="fa fa-plus"></i>
             </button>
         </div>
@@ -296,7 +296,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
     <form action="cart.php" method="POST">
         <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
         <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
-        <!-- Hidden input for quantity -->
         <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
         <button type="submit" class="btn btn-sm text-dark p-0">
             <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
@@ -308,8 +307,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 document.addEventListener("DOMContentLoaded", function () {
     const quantityInput = document.getElementById("quantity");
     const hiddenQuantity = document.getElementById("hiddenQuantity");
-    const btnMinus = document.querySelector(".btn-minus");
-    const btnPlus = document.querySelector(".btn-plus");
 
     // ฟังก์ชันอัปเดตค่าปริมาณ
     function updateQuantity(change) {
@@ -329,8 +326,18 @@ document.addEventListener("DOMContentLoaded", function () {
             hiddenQuantity.value = newQuantity;  // อัปเดต hidden input
         }
     }
+
+    // ผูกฟังก์ชันอัปเดตจำนวนเข้ากับปุ่มเพิ่ม/ลด
+    document.querySelector(".btn-minus").addEventListener("click", function () {
+        updateQuantity(-1);  // ลดจำนวน 1
+    });
+
+    document.querySelector(".btn-plus").addEventListener("click", function () {
+        updateQuantity(1);   // เพิ่มจำนวน 1
+    });
 });
 </script>
+
 </dive>
             </div>
         </div>

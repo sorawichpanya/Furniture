@@ -23,7 +23,7 @@ session_start();
               <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
               <p class="text-white-50 mb-5">Please enter your login and password!</p>
 
-              <form method="POST" action="login_check.php">
+              <form method="POST" action="Login_check.php">
                 <div class="form-outline form-white mb-4">
                   <input type="text" name="Username" class="form-control form-control-lg" required />
                   <label class="form-label">Username</label>
@@ -45,7 +45,6 @@ if (isset($_SESSION["Error"])) {
             </form>
 
             </div>
-
             <div>
               <p class="mb-0">Don't have an account? <a href="Register.php" class="text-white-50 fw-bold">Register</a></p>
             </div>
