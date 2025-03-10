@@ -3,7 +3,7 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$table_name = $_GET['table'] ?? null;
+$table_name = $_POST['table'] ?? $_GET['table'] ?? null;
 
 echo '<pre>';
 print_r($table_name);  // ตรวจสอบค่าที่รับมา

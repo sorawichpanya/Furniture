@@ -17,16 +17,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
     
     if ($row = $result->fetch_assoc()) {
-        // ตรวจสอบรหัสผ่าน
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['username'] = $username; // ✅ บันทึก session
-            header("Location: index.php"); // ✅ รีไดเรกไปหน้าแรก
+        // ตรวจสอบรหัสผ่านโดยใช้ SHA-512
+        if (hash('sha512', $password) === $row['password']) {
+            $_SESSION['username'] = $username;
+            header("Location: index.php");
             exit();
         } else {
             echo "รหัสผ่านไม่ถูกต้อง!";
         }
     } else {
         echo "ไม่พบบัญชีนี้!";
+    }
+    ม่พบบัญชีนี้!";
     }
     
     $stmt->close();
