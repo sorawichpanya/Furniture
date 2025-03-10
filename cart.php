@@ -8,7 +8,7 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     $category = $_GET['category'];
 
     // ดึงข้อมูลสินค้าโดยใช้ p_id และ category
-    $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
+    $sql = "SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM $category WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $p_id);
     mysqli_stmt_execute($stmt);
