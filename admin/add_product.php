@@ -6,8 +6,11 @@ ini_set('display_errors', 1);
 echo "<pre>";
 print_r($_POST); // ตรวจสอบค่าที่ส่งจากฟอร์ม
 echo "</pre>";
+$table_name = $_GET['table_name'] ?? ($_POST['table'] ?? null);
 
-
+if (!$table_name) {
+    die("❌ Table name is missing. Please specify the table.");
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $table_name = $_POST['table'] ?? '';
 
