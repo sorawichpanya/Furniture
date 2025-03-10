@@ -5,20 +5,6 @@ session_start();
 // ตรวจสอบหน้าปัจจุบัน
 $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล์ เช่น 'index.php' หรือ 'products.php'
 
-include_once("connectdb.php");
-
-// รับคำค้นจาก URL ถ้ามี
-$search = isset($_GET['search']) ? $_GET['search'] : '';
-
-// สร้างคำสั่ง SQL สำหรับค้นหาผลิตภัณฑ์
-$sql = "SELECT * FROM `Just_arrived`"; // สามารถเปลี่ยนชื่อ table ตามต้องการ
-
-// ถ้ามีการค้นหา
-if (!empty($search)) {
-    $sql .= " WHERE p_name LIKE '%$search%' OR p_detail LIKE '%$search%'"; // กรองสินค้าตามชื่อหรือรายละเอียด
-}
-
-$rs = mysqli_query($conn, $sql);
 ?>
 
 
