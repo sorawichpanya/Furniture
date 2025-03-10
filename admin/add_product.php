@@ -3,28 +3,21 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-echo "<pre>";
-print_r($_POST); // ตรวจสอบค่าที่ส่งจากฟอร์ม
-echo "</pre>";
+// ตรวจสอบค่าจาก URL หรือฟอร์ม
 $table_name = $_GET['table_name'] ?? ($_POST['table'] ?? null);
 
 if (!$table_name) {
     die("❌ Table name is missing. Please specify the table.");
 }
+
+// รายการ Table ที่อนุญาต
+$allowed_tables = ['bathroom', 'kitchen', 'livingroom'];
+
+if (!in_array(strtolower($table_name), array_map('strtolower', $allowed_tables))) {
+    die("❌ Table ไม่ถูกต้อง");
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $table_name = $_POST['table'] ?? '';
-
-    // รายการ Table ที่อนุญาต
-    $allowed_tables = ['bathroom', 'kitchen', 'livingroom'];
-
-    // Debug: แสดงค่าที่ส่งมาจากฟอร์ม
-    echo "Table Name Received: " . htmlspecialchars($table_name) . "<br>";
-
-    if (!in_array(strtolower($table_name), array_map('strtolower', $allowed_tables))) {
-        die("❌ Table ไม่ถูกต้อง");
-    }
-
-    // ดำเนินการเพิ่มข้อมูลในตารางที่กำหนด
     $p_name = $_POST['p_name'] ?? '';
     $p_detail = $_POST['p_detail'] ?? '';
     $p_color = $_POST['p_color'] ?? '';
@@ -35,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูล");
     }
 
-    // เตรียมคำสั่ง SQL
+    // เพิ่มข้อมูลสินค้า
     $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssi", $p_name, $p_detail, $p_color, $p_size, $p_price);
 
@@ -49,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
 
 
 
