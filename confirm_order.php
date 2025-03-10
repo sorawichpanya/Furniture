@@ -4,38 +4,32 @@ ini_set('display_errors', 1);
 session_start();
 require 'connectdb.php';
 
-echo "<h3>🔍 Debug: SESSION Data</h3>";
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // 🔍 Debug: ดูค่าที่ได้รับจาก POST
-    echo "<h3>🔍 Debug: ข้อมูลที่ได้รับจาก POST</h3>";
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
-
-    // 🔍 Debug: ตรวจสอบค่าสลิปโอนเงิน
-    if (!isset($_SESSION['payment_uploaded']) || empty($_SESSION['payment_uploaded'])) {
-        echo "<h3>⛔ คุณยังไม่ได้อัปโหลดสลิปการชำระเงิน กรุณาอัปโหลดก่อนยืนยันคำสั่งซื้อ!</h3>";
+    // ตรวจสอบ SESSION payment_slip
+    if (!isset($_SESSION['payment_slip']) || empty($_SESSION['payment_slip'])) {
+        $_SESSION['error_message'] = "กรุณาอัปโหลดสลิปการชำระเงินก่อนยืนยันคำสั่งซื้อ";
+        header("Location: checkout.php");
         exit;
     }
 
-    // ✅ รับค่าจากฟอร์ม
+    // รับค่าจาก SESSION และ POST
     $full_name = trim($_POST['full_name']);
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
     $province = trim($_POST['province']);
     $zip_code = trim($_POST['zip_code']);
-    $total_price = trim($_POST['paid_amount']); // ใช้ค่าที่รับมา
-    $payment_proof = $_SESSION['payment_slip']; // ใช้ค่าจาก SESSION
+    $total_price = trim($_POST['paid_amount']);
+    $payment_proof = $_SESSION['payment_slip'];
 
-    // ✅ ตรวจสอบค่า status ให้อยู่ใน ENUM
-        $allowed_statuses = ['pending', 'confirmed', 'shipped', 'delivered', 'canceled'];
-        $order_status = isset($_POST['payment_slip']) && in_array($_POST['payment_slip'], $allowed_statuses) ? $_POST['payment_slips'] : 'pending';
+    // ตรวจสอบค่า status
+    $allowed_statuses = ['pending', 'confirmed', 'shipped', 'delivered', 'canceled'];
+    $order_status = 'pending'; // ค่าเริ่มต้น
 
-    // ✅ ตรวจสอบว่ากรอกข้อมูลครบ
+    if (isset($_POST['order_status']) && in_array($_POST['order_status'], $allowed_statuses)) {
+        $order_status = $_POST['order_status'];
+    }
+
+    // ตรวจสอบข้อมูลที่จำเป็น
     $required_fields = ['full_name', 'phone', 'address', 'province', 'zip_code', 'paid_amount'];
     foreach ($required_fields as $field) {
         if (empty($_POST[$field])) {
@@ -45,10 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // ✅ บันทึกลงฐานข้อมูล
+    // บันทึกข้อมูลลงในฐานข้อมูล
     $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, payment_proof, status) 
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-
     $stmt->bind_param("ssssssss", 
         $full_name, 
         $phone, 
@@ -60,14 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $order_status
     );
 
-    // 🔍 Debug SQL Error
     if ($stmt->execute()) {
-        echo "<h3>✅ Insert สำเร็จ</h3>";
-        unset($_SESSION['cart'], $_SESSION['payment_uploaded']);
+        // ล้าง SESSION ที่ไม่จำเป็น
+        unset($_SESSION['cart'], $_SESSION['payment_slip']);
+        $_SESSION['success_message'] = "การสั่งซื้อสำเร็จ";
         header("Location: confirm_order.php");
         exit;
     } else {
-        echo "<h3>⛔ SQL Error:</h3> " . $stmt->error;
+        $_SESSION['error_message'] = "เกิดข้อผิดพลาดในการสั่งซื้อ: " . $stmt->error;
+        header("Location: checkout.php");
         exit;
     }
 } else {

@@ -7,7 +7,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 
-// เข้ารหัส password ด้วย sha512
+
 $password = hash('Sha512', $password);
 
 
