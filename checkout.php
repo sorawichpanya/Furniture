@@ -186,12 +186,14 @@ session_start(); // เรียกใช้งาน session
                  ?></textarea>                </div>
                 <div class="col-md-6 form-group">
                     <label>Province</label>
-                    <input class="form-control" type="text" name="province" placeholder="Bangkok" required>
+                    <input class="form-control" type="text" name="province"
+                    value="<?php echo isset($_SESSION['user_province']) ? $_SESSION['user_province'] : ''; ?>" required>                
                 </div>
                 <div class="col-md-6 form-group">
-                    <label>Postal Code</label>
-                    <input class="form-control" type="text" name="zip_code" placeholder="10110" required>
-                </div>
+                <label>Postal Code</label>
+                    <input class="form-control" type="text" name="zip_code"
+                value="<?php echo isset($_SESSION['user_zip_code']) ? $_SESSION['user_zip_code'] : ''; ?>" required>                
+            </div>
             </div>
         </form>
     </div>
