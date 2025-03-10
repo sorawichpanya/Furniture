@@ -19,31 +19,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = mysqli_stmt_get_result($stmt);
 
         if ($row = mysqli_fetch_assoc($result)) {
-            $password_hash = $row['password']; // รหัสผ่านที่ถูกเก็บในฐานข้อมูล
-
-            // ✅ ตรวจสอบรหัสผ่านโดยใช้ `password_verify`
-            if (password_verify($password, $password_hash)) {
+            $password_hash = password_hash($password, PASSWORD_DEFAULT); {
                 // เก็บข้อมูลผู้ใช้ใน Session
                 $_SESSION['Username'] = $Username;
 
-                // **Redirect ไปหน้า shop.php**
+                // **Redirect ไปหน้า index.php**
                 header("Location: index.php");
-                exit();
+                exit(); // ต้องมี exit เพื่อหยุดการทำงานของ script
             } else {
-                $_SESSION["Error"] = "❌ Invalid Username or password.";
+                $_SESSION["Error"] = "Invalid Username or password.";
             }
         } else {
-            $_SESSION["Error"] = "❌ Invalid Username or password.";
+            $_SESSION["Error"] = "Invalid Username or password.";
         }
 
         mysqli_stmt_close($stmt); // ปิด statement
     } else {
-        $_SESSION["Error"] = "❌ Database query error.";
+        $_SESSION["Error"] = "Database query error.";
     }
 
     mysqli_close($conn); // ปิดการเชื่อมต่อฐานข้อมูล
 
-    // **Redirect กลับไปหน้า Login.php เมื่อ Login ไม่สำเร็จ**
+    // ถ้า Login ไม่สำเร็จ ให้ Redirect กลับไปหน้า Login.php
     header("Location: Login.php");
     exit();
 }
