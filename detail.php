@@ -66,12 +66,12 @@ include_once("connectdb.php");
         </div>
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a href="" class="text-decoration-none">
+                <a href="index.php" class="text-decoration-none">
                     <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <form action="">
+                <form action="search_results.php" method="POST">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for products">
                         <div class="input-group-append">
@@ -109,18 +109,18 @@ include_once("connectdb.php");
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
 
-                        <a href="" class="nav-item nav-link">living room</a>
-                        <a href="" class="nav-item nav-link">bathroom</a>
-                        <a href="" class="nav-item nav-link">bedroom</a>
-                        <a href="" class="nav-item nav-link">kitchen</a>
-                        <a href="" class="nav-item nav-link">garden</a>
-                        <a href="" class="nav-item nav-link">work room</a>
+                        <a href="livingroom.php" class="nav-item nav-link">living room</a>
+                        <a href="bathroom.php" class="nav-item nav-link">bathroom</a>
+                        <a href="bedroom.php" class="nav-item nav-link">bedroom</a>
+                        <a href="kitchen.php" class="nav-item nav-link">kitchen</a>
+                        <a href="garden.php" class="nav-item nav-link">garden</a>
+                        <a href="workroom.php" class="nav-item nav-link">work room</a>
                     </div>
                 </nav>
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
-                    <a href="" class="text-decoration-none d-block d-lg-none">
+                    <a href="index.php" class="text-decoration-none d-block d-lg-none">
                         <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -300,11 +300,11 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                             
                             var_dump($_GET);  // แสดงค่าที่ถูกส่งจาก URL
                             ?>
-<form action="cart.php" method="GET">
-    <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
-    <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
-    <button type="submit">Add To Cart</button>
-</form>
+                            <form action="cart.php" method="GET">
+                                <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
+                                <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
+                                <button type="submit">Add To Cart</button>
+                            </form>
                     </div>
             </div>
         </div>

@@ -2,6 +2,8 @@
 session_start(); // เรียกใช้ session ก่อนเสมอ
 include_once("connectdb.php"); // เชื่อมต่อฐานข้อมูล
 
+var_dump($_GET);
+
 if (isset($_GET['p_id'], $_GET['category'])) {
     $p_id = (int) $_GET['p_id'];  // แปลง p_id เป็น int
     $category = preg_replace("/[^a-zA-Z0-9_]/", "", $_GET['category']); // กรอง category
