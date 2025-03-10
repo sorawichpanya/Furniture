@@ -2,6 +2,7 @@
 session_start();
 include_once("connectdb.php");
 
+var_dump($_GET);  // ดูค่าทั้งหมดใน $_GET
 if (isset($_GET['p_id'], $_GET['category'])) {
     $p_id = (int)$_GET['p_id']; // แปลงให้เป็นตัวเลข
     $category = $_GET['category']; // ชื่อตาราง
