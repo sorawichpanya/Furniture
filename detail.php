@@ -280,16 +280,15 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 
                     <!-- ตัวเลือกจำนวนสินค้า -->
                     <div class="d-flex align-items-center mb-4 pt-2">
-                    <div class="d-flex align-items-center mb-4 pt-2">
     <div class="input-group quantity mr-3" style="width: 130px;">
         <div class="input-group-btn">
-            <button class="btn btn-primary btn-minus" type="button" onclick="updateQuantity(-1)">
+            <button class="btn btn-primary btn-minus" type="button" id="btn-minus">
                 <i class="fa fa-minus"></i>
             </button>
         </div>
         <input type="text" class="form-control bg-secondary text-center" id="quantity" name="quantity" value="1" readonly>
         <div class="input-group-btn">
-            <button class="btn btn-primary btn-plus" type="button" onclick="updateQuantity(1)">
+            <button class="btn btn-primary btn-plus" type="button" id="btn-plus">
                 <i class="fa fa-plus"></i>
             </button>
         </div>
@@ -306,23 +305,37 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 </div>
 
 <script>
-    // Function to update the quantity
-    function updateQuantity(change) {
-        var quantityInput = document.getElementById('quantity');
-        var currentQuantity = parseInt(quantityInput.value) || 1; // Default to 1 if invalid value
+    // Wait until the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnMinus = document.getElementById("btn-minus");
+        const btnPlus = document.getElementById("btn-plus");
+        const quantityInput = document.getElementById("quantity");
+        const hiddenQuantity = document.getElementById("hiddenQuantity");
 
-        // Ensure that the quantity doesn't go below 1
-        var newQuantity = currentQuantity + change;
-        if (newQuantity < 1) {
-            newQuantity = 1;
+        // Function to update quantity
+        function updateQuantity(change) {
+            let currentQuantity = parseInt(quantityInput.value) || 1; // Default to 1 if invalid value
+            let newQuantity = currentQuantity + change;
+
+            // Prevent quantity from going below 1
+            if (newQuantity < 1) {
+                newQuantity = 1;
+            }
+
+            // Update the visible and hidden input values
+            quantityInput.value = newQuantity;
+            hiddenQuantity.value = newQuantity;
         }
 
-        // Update the quantity input value
-        quantityInput.value = newQuantity;
+        // Attach event listeners to buttons
+        btnMinus.addEventListener("click", function () {
+            updateQuantity(-1);
+        });
 
-        // Update hidden quantity field for form submission
-        document.getElementById('hiddenQuantity').value = newQuantity;
-    }
+        btnPlus.addEventListener("click", function () {
+            updateQuantity(1);
+        });
+    });
 </script>
             </div>
         </div>
