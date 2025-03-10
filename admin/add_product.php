@@ -3,7 +3,7 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$table_name = $_POST['table'] ?? null;
+$table_name = $_GET['table'] ?? null;
 
 echo '<pre>';
 print_r($table_name);  // ตรวจสอบค่าที่รับมา
@@ -12,6 +12,9 @@ echo '</pre>';
 if (!$table_name) {
     die("❌ Table name is missing. Please specify the table.");
 }
+
+// เชื่อมต่อฐานข้อมูลและใช้งาน $table_name ที่นี่
+
 
 // รายการ Table ที่อนุญาต
 $allowed_tables = ['bathroom', 'kitchen', 'livingroom'];

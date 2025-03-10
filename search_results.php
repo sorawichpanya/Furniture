@@ -284,7 +284,7 @@ $rs = mysqli_query($conn , $sql);
                             echo "</div>";
                             echo "<div class='card-footer d-flex justify-content-between bg-light border'>";
                             echo "<a href='detail.php?p_id=".$data['p_id']."&category=".urlencode($data['category'])."' class='btn btn-sm text-dark p-0'><i class='fas fa-eye text-primary mr-1'></i>View Detail</a>";                            
-                            echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-shopping-cart text-primary mr-1'></i>Add To Cart</a>";
+                            //echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-shopping-cart text-primary mr-1'></i>Add To Cart</a>";
                             echo "</div>";
                             echo "</div>";
                             echo "</div>";
