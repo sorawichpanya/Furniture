@@ -312,12 +312,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ฟังก์ชันอัปเดตค่าปริมาณ
     function updateQuantity(change) {
-        // อ่านค่าปัจจุบันจาก input
         let currentQuantity = parseInt(quantityInput.value, 10);
 
         // ตรวจสอบค่าที่ได้และป้องกัน NaN
         if (isNaN(currentQuantity)) {
-            currentQuantity = 1;
+            currentQuantity = 1;  // ถ้าค่าเป็น NaN ให้ตั้งค่าเป็น 1
         }
 
         // คำนวณค่าปริมาณใหม่
@@ -325,9 +324,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // ตรวจสอบไม่ให้ค่าต่ำกว่า 1
         if (newQuantity >= 1) {
-            // อัปเดต input text และ hidden input
-            quantityInput.value = newQuantity;
-            hiddenQuantity.value = newQuantity;
+            quantityInput.value = newQuantity;  // อัปเดตค่าใน input text
+            hiddenQuantity.value = newQuantity;  // อัปเดต hidden input
         }
     }
 
@@ -340,13 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateQuantity(1);   // เพิ่มจำนวน 1
     });
 });
-
-
 </script>
-
-
-
-
             </div>
         </div>
     </div>
