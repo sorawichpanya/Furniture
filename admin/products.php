@@ -75,10 +75,7 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>    
-<form action="product_list.php" method="get">
-    <input type="text" name="search" placeholder="Search products" class="form-control mb-3">
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
+
 <div class="container mt-5">
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
@@ -94,71 +91,64 @@ if (empty($table_name) || $table_name == 'user') {
     die('Invalid category.');
 }
 
-// รับคำค้นหาจากฟอร์ม (ถ้ามี)
-$search = isset($_GET['search']) ? $_GET['search'] : '';
-
-// สร้างคำสั่ง SQL สำหรับดึงข้อมูลสินค้าพร้อมการค้นหา
-$sql = "SELECT * FROM `$table_name` WHERE p_name LIKE ? OR p_detail LIKE ?";
-
-// เตรียมคำสั่ง SQL
-if ($stmt = mysqli_prepare($conn, $sql)) {
-    // กำหนดค่าคำค้นหา (ใช้เครื่องหมาย % เพื่อการค้นหาที่ยืดหยุ่น)
-    $search_term = "%" . $search . "%";
-    mysqli_stmt_bind_param($stmt, "ss", $search_term, $search_term);
-    
-    // เรียกใช้คำสั่ง SQL
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-
-    // ตรวจสอบผลลัพธ์
-    if (mysqli_num_rows($result) > 0) {
-        // แสดงข้อมูลสินค้า
-        while ($data = mysqli_fetch_array($result)) {
-            $product_id = $data['p_id'];
-            $product_name = $data['p_name'];
-            $product_detail = $data['p_detail'];
-            $product_color = $data['p_color'];
-            $product_size = $data['p_size'];
-            $product_price = $data['p_price'];
-            $product_image = $data['p_id'];  // ใช้ p_id เป็นชื่อไฟล์
-            $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
-            $image_folder = "../img/" . $table_name . "/";  
-
-            $image_path = $image_folder . $product_image . "." . $product_ext;
-
-            // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
-            $image_path = $image_folder . $product_image . "." . $product_ext;
-            if (!file_exists($image_path)) {
-                $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
-                $product_ext = "png";        // ใช้ .png เป็นนามสกุล
-            }
-        
-            // แสดงข้อมูลสินค้า
-            echo "<tr>
-                    <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
-                    <td>$product_name</td>
-                    <td>$product_detail</td>
-                    <td>$product_color</td>
-                    <td>$product_size</td>
-                    <td>$product_price</td>
-                    <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
-                    <td>
-                        <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
-                    </td>
-                  </tr>";
-        }
-    } else {
-        echo "<tr><td colspan='7'>ไม่พบสินค้าที่ค้นหา</td></tr>";
-    }
-    // ปิดการเตรียมคำสั่ง SQL
-    mysqli_stmt_close($stmt);
-} else {
-    echo "❌ ไม่สามารถเตรียมคำสั่ง SQL ได้";
-}
-
-mysqli_close($conn);
+// ดึงข้อมูลสินค้าจากตารางที่เลือก
+$sql = "SELECT * FROM `$table_name`";
+$rs = mysqli_query($conn, $sql);
 ?>
-          
+          <form action="delete_products.php" method="POST">
+            <input type="hidden" name="table_name" value="<?php echo htmlspecialchars($table_name); ?>">  <!-- ส่งค่าตารางไปในฟอร์ม -->
+            <div class="tm-product-table-container">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
+                    <th scope="col"><input type="checkbox" id="select_all"></th>
+                    <th scope="col">PRODUCT NAME</th>
+                    <th scope="col">DETAIL</th>
+                    <th scope="col">COLOR</th>
+                    <th scope="col">SIZE</th>
+                    <th scope="col">PRICE</th>
+                    <th scope="col">IMG</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php
+                // แสดงข้อมูลสินค้า
+                while ($data = mysqli_fetch_array($rs)) {
+                    $product_id = $data['p_id'];
+                    $product_name = $data['p_name'];
+                    $product_detail = $data['p_detail'];
+                    $product_color = $data['p_color'];
+                    $product_size = $data['p_size'];
+                    $product_price = $data['p_price'];
+                    $product_image = $data['p_id'];  // ใช้ p_id เป็นชื่อไฟล์
+                    $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
+                    $image_folder = "../img/" . $table_name . "/";  
+
+                    $image_path = $image_folder . $product_image . "." . $product_ext;
+
+                    // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
+                    $image_path = $image_folder . $product_image . "." . $product_ext;
+                    if (!file_exists($image_path)) {
+                        $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
+                        $product_ext = "png";        // ใช้ .jpg เป็นนามสกุล
+                    }
+                
+                    // แสดงข้อมูลสินค้า
+                    echo "<tr>
+                            <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
+                            <td>$product_name</td>
+                            <td>$product_detail</td>
+                            <td>$product_color</td>
+                            <td>$product_size</td>
+                            <td>$product_price</td>
+                            <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
+                            <td>
+                                <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
+                            </td>
+                            </tr>";
+
+                }
+                ?>            
                 </tbody>
             </table>
             </div>
