@@ -3,36 +3,86 @@
 session_start();
 include_once("connectdb.php");
 
-?>
+// กำหนดจำนวนสินค้าที่แสดงในแต่ละหน้า
+$items_per_page = 9;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $items_per_page;
 
+// ตรวจสอบตัวเลือกการกรองราคา
+$price_filter = '';
+if (isset($_GET['price_range']) && !empty($_GET['price_range']) && !in_array('all', $_GET['price_range'])) {
+    $ranges = $_GET['price_range'];
+    $conditions = [];
+    foreach ($ranges as $range) {
+        switch ($range) {
+            case '0-500': $conditions[] = "(p_price BETWEEN 0 AND 500)"; break;
+            case '501-1000': $conditions[] = "(p_price BETWEEN 501 AND 1000)"; break;
+            case '1001-1500': $conditions[] = "(p_price BETWEEN 1001 AND 1500)"; break;
+            case '1501-2000': $conditions[] = "(p_price BETWEEN 1501 AND 2000)"; break;
+            case '2001-above': $conditions[] = "(p_price >= 2001)"; break;
+        }
+    }
+    if (!empty($conditions)) {
+        $price_filter = 'WHERE ' . implode(' OR ', $conditions);
+    }
+}
+
+// ดึงข้อมูลสินค้าพร้อมกรองราคา
+$sql = "
+    SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
+    UNION ALL
+    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
+    $price_filter
+    ORDER BY p_id ASC
+    LIMIT $items_per_page OFFSET $offset";
+$rs = mysqli_query($conn, $sql);
+
+// คำนวณจำนวนหน้าทั้งหมด
+$total_items_sql = "
+    SELECT COUNT(*) AS total_items
+    FROM (
+        SELECT p_id FROM `bedroom`
+        UNION ALL
+        SELECT p_id FROM `living_room`
+        UNION ALL
+        SELECT p_id FROM `kitchen_room`
+        UNION ALL
+        SELECT p_id FROM `bathroom`
+        UNION ALL
+        SELECT p_id FROM `garden`
+        UNION ALL
+        SELECT p_id FROM `workroom`
+    ) AS combined_table
+    $price_filter";
+$total_items_result = mysqli_query($conn, $total_items_sql);
+$total_items_row = mysqli_fetch_assoc($total_items_result);
+$total_items = $total_items_row['total_items'];
+$total_pages = ceil($total_items / $items_per_page);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>EShopper - Bootstrap Shop Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
-
-    <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
-
-    <!-- Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
-
 <body>
     <!-- Topbar Start -->
     <div class="container-fluid">
@@ -48,21 +98,11 @@ include_once("connectdb.php");
             </div>
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="text-dark px-2" href="http://212.80.215.178/Furniture/member.php">
-                        <i class="fas fa-users"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="text-dark pl-2" href="">
-                        <i class="fab fa-youtube"></i>
-                    </a>
+                    <a class="text-dark px-2" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="text-dark px-2" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="text-dark px-2" href="http://212.80.215.178/Furniture/member.php"><i class="fas fa-users"></i></a>
+                    <a class="text-dark px-2" href=""><i class="fab fa-instagram"></i></a>
+                    <a class="text-dark pl-2" href=""><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </div>
@@ -77,27 +117,18 @@ include_once("connectdb.php");
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for products" name="search_query">
                         <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
-                            </span>
+                            <span class="input-group-text bg-transparent text-primary"><i class="fa fa-search"></i></span>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
-                    <i class="fas fa-heart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
-                <a href="" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
+                <a href="" class="btn border"><i class="fas fa-heart text-primary"></i><span class="badge">0</span></a>
+                <a href="" class="btn border"><i class="fas fa-shopping-cart text-primary"></i><span class="badge">0</span></a>
             </div>
         </div>
     </div>
     <!-- Topbar End -->
-
 
     <!-- Navbar Start -->
     <div class="container-fluid">
@@ -109,7 +140,6 @@ include_once("connectdb.php");
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-
                         <a href="livingroom.php" class="nav-item nav-link">living room</a>
                         <a href="bathroom.php" class="nav-item nav-link">bathroom</a>
                         <a href="bedroom.php" class="nav-item nav-link">bedroom</a>
@@ -151,7 +181,6 @@ include_once("connectdb.php");
     </div>
     <!-- Navbar End -->
 
-
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
@@ -163,275 +192,128 @@ include_once("connectdb.php");
             </div>
         </div>
     </div>
-
     <!-- Page Header End -->
- <!-- ตัวกรองสินค้าตามราคา -->
-        <!-- ตัวกรองสินค้าตามราคา -->
-        <script>
-         document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll(".custom-control-input");
-    const allPriceCheckbox = document.getElementById("price-all");
-    const products = document.querySelectorAll(".product-item");
-
-    function filterProducts() {
-        let selectedRanges = [];
-
-        // ถ้าเลือก "All Price" ให้แสดงสินค้าทั้งหมด
-        if (allPriceCheckbox.checked) {
-            checkboxes.forEach(cb => {
-                if (cb !== allPriceCheckbox) cb.checked = false; // ล้าง Checkbox อื่น ๆ
-            });
-            products.forEach(product => product.style.display = "block");
-            return;
-        }
-
-        // ดึงช่วงราคาจาก Checkbox ที่ถูกเลือก
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked && checkbox !== allPriceCheckbox) {
-                let rangeText = checkbox.nextElementSibling.textContent.trim().replaceAll("฿", "").split(" - ");
-                
-                // กรณีเป็น "and above" ให้ใช้ Infinity
-                let range = rangeText.map(value => value === "and above" ? Infinity : parseFloat(value.replace(/[^0-9.]/g, "")));
-                selectedRanges.push(range);
-            }
-        });
-
-        console.log("Selected Ranges:", selectedRanges); // Debug
-
-        // กรองสินค้าให้
-        // แสดงเฉพาะสินค้าที่อยู่ในช่วงราคาที่เลือก
-        products.forEach(product => {
-            let productPrice = parseFloat(product.getAttribute("data-price"));
-            let isVisible = selectedRanges.some(range => productPrice >= range[0] && productPrice <= (range[1] || Infinity));
-            product.style.display = isVisible ? "block" : "none";
-        });
-    }
-
-    // Event Listener สำหรับ Checkbox
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener("change", filterProducts);
-    });
-
-    // เรียกใช้งานตัวกรองเมื่อโหลดหน้า
-    filterProducts();
-});
-
-        </script>
-    </div>
-</div>
-
 
     <!-- Shop Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-12">
-
                 <!-- Price Start -->
                 <div class="border-bottom mb-4 pb-4">
                     <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
                     <form method="GET" action="shop.php" id="price-filter-form">
-                        
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="price-all">
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="all" id="price-all" <?php echo (!isset($_GET['price_range']) || in_array('all', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-all">All Price</label>
                             <span class="badge border font-weight-normal">1000</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-1">
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="0-500" id="price-1" <?php echo (isset($_GET['price_range']) && in_array('0-500', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
                             <span class="badge border font-weight-normal">150</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-2">
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="501-1000" id="price-2" <?php echo (isset($_GET['price_range']) && in_array('501-1000', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-2">฿501 - ฿1000</label>
                             <span class="badge border font-weight-normal">295</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-3">
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="1001-1500" id="price-3" <?php echo (isset($_GET['price_range']) && in_array('1001-1500', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-3">฿1001 - ฿1500</label>
                             <span class="badge border font-weight-normal">246</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="1501-2000" id="price-4" <?php echo (isset($_GET['price_range']) && in_array('1501-2000', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-4">฿1501 - ฿2000</label>
                             <span class="badge border font-weight-normal">145</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="price-5">
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="2001-above" id="price-5" <?php echo (isset($_GET['price_range']) && in_array('2001-above', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-5">฿2001 and above</label>
                             <span class="badge border font-weight-normal">168</span>
                         </div>
-                        <!-- เพิ่ม input hidden เพื่อเก็บค่า page -->
-                        <input type="hidden" name="page" value="<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>">
-                        </form>
-                
+                        <input type="hidden" name="page" value="<?php echo $page; ?>">
+                    </form>
                 </div>
-                <!-- Price End -->               
+                <!-- Price End -->
             </div>
             <!-- Shop Sidebar End -->
 
-
-           <!-- Shop Product Start -->
-           <div class="col-lg-9 col-md-12">
+            <!-- Shop Product Start -->
+            <div class="col-lg-9 col-md-12">
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <!--
-                            <form action="search_results.php" method="POST">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search by name" name="search_query">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-transparent text-primary">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="dropdown ml-4">
-                                <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                            Sort by
-                                        </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                                    <a class="dropdown-item" href="#">Latest</a>
-                                    <a class="dropdown-item" href="#">Popularity</a>
-                                    <a class="dropdown-item" href="#">Best Rating</a>
-                                </div>
-                            </div>
-                            -->
                         </div>
                     </div>
-        <!-- ส่วนแสดงสินค้าต่อจากนี้ -->
-<?php
-include_once("connectdb.php");
 
-// กำหนดจำนวนสินค้าที่แสดงในแต่ละหน้า
-$items_per_page = 9;
+                    <div class="row pb-3">
+                        <?php
+                        if (mysqli_num_rows($rs) > 0) {
+                            while ($data = mysqli_fetch_array($rs)) {
+                        ?>
+                        <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                            <div class="card product-item border-0 mb-4 shadow-sm" data-price="<?php echo $data['p_price']; ?>">
+                                <div class="card-header product-img position-relative overflow-hidden bg-transparent border-0 p-0">
+                                    <img src="img/<?php echo $data['category']; ?>/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
+                                         alt="<?php echo $data['p_name']; ?>" 
+                                         class="img-fluid w-100" 
+                                         style="max-height: 300px; object-fit: cover; border-radius: 5px;">
+                                </div>
+                                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                    <h6 class="text-truncate mb-3"><?php echo $data['p_name']; ?></h6>
+                                    <div class="d-flex justify-content-center">
+                                        <h6>฿<?php echo number_format($data['p_price'], 2); ?></h6>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between bg-light border">
+                                    <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo urlencode($data['category']); ?>" 
+                                       class="btn btn-sm text-dark p-0">
+                                        <i class="fas fa-eye text-primary mr-1"></i>View Detail
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                            }
+                        } else {
+                            echo "<div class='col-12'><p>ไม่พบสินค้าที่ตรงกับเงื่อนไข</p></div>";
+                        }
+                        ?>
+                    </div>
 
-// คำนวณหน้าปัจจุบันจาก query string
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหรับการดึงข้อมูล
-
-
-// ตรวจสอบตัวเลือกการกรองราคา
-$price_filter = '';
-if (isset($_GET['price_range']) && !in_array('all', $_GET['price_range'])) {
-    $ranges = $_GET['price_range'];
-    $conditions = [];
-    foreach ($ranges as $range) {
-        list($min, $max) = explode('-', $range);
-        $max = ($max === 'above') ? '999999999' : $max;
-        $conditions[] = "(p_price BETWEEN $min AND $max)";
-    }
-    if (!empty($conditions)) {
-        $price_filter = 'WHERE ' . implode(' OR ', $conditions);
-    }
-}
-
-
-// ดึงข้อมูลจากทั้งสองตารางที่คละกัน
-$sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
-    ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
-    LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
-$rs = mysqli_query($conn , $sql);
-
-// คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "
-    SELECT COUNT(*) AS total_items
-    FROM (
-        SELECT p_id FROM `bedroom`
-        UNION ALL
-        SELECT p_id FROM `living_room`
-        UNION ALL
-        SELECT p_id FROM `kitchen_room`
-        UNION ALL
-        SELECT p_id FROM `bathroom`
-        UNION ALL
-        SELECT p_id FROM `garden`
-        UNION ALL
-        SELECT p_id FROM `workroom`
-    ) AS combined_table
-     $price_filter";
-$total_items_result = mysqli_query($conn, $total_items_sql);
-$total_items_row = mysqli_fetch_assoc($total_items_result);
-$total_items = $total_items_row['total_items'];
-$total_pages = ceil($total_items / $items_per_page); // คำนวณจำนวนหน้าทั้งหมด
-?>
-
-<div class="row pb-3">
-    <?php
-    while ($data = mysqli_fetch_array($rs)) {
-    ?>
-    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
-        <div class="card product-item border-0 mb-4 shadow-sm" data-price="<?php echo $data['p_price']; ?>">
-            <div class="card-header product-img position-relative overflow-hidden bg-transparent border-0 p-0">
-                <img 
-                    src="img/<?php echo $data['category']; ?>/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" 
-                    alt="<?php echo $data['p_name']; ?>" 
-                    class="img-fluid w-100"
-                    style="max-height: 300px; object-fit: cover; border-radius: 5px;">
-            </div>
-            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                <h6 class="text-truncate mb-3"><?php echo $data['p_name']; ?></h6>
-                <div class="d-flex justify-content-center">
-                <h6>฿<?php echo number_format($data['p_price'], 2); ?></h6>
+                    <!-- Pagination Start -->
+                    <div class="col-12 pb-1">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mb-3">
+                                <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                                    <a class="page-link" href="?page=<?php echo $page - 1; ?>&<?php echo http_build_query(['price_range' => $_GET['price_range'] ?? []]); ?>" aria-label="Previous">
+                                        <span aria-hidden="true">«</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                                    <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                                        <a class="page-link" href="?page=<?php echo $i; ?>&<?php echo http_build_query(['price_range' => $_GET['price_range'] ?? []]); ?>"><?php echo $i; ?></a>
+                                    </li>
+                                <?php } ?>
+                                <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
+                                    <a class="page-link" href="?page=<?php echo $page + 1; ?>&<?php echo http_build_query(['price_range' => $_GET['price_range'] ?? []]); ?>" aria-label="Next">
+                                        <span aria-hidden="true">»</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- Pagination End -->
                 </div>
             </div>
-            <form action="cart.php" method="POST">
-            <div class="card-footer d-flex justify-content-between bg-light border">
-                <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo urlencode($data['category']); ?>" class="btn btn-sm text-dark p-0" 
-                class="btn btn-sm text-dark p-0">
-                <i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-            </div>
-        </form>
+            <!-- Shop Product End -->
         </div>
     </div>
-    <?php
-    }
-    ?>
-</div>
-
-
-<!-- Pagination Start -->
-<div class="col-12 pb-1">
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center mb-3">
-            <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
-                <a class="page-link" href="?page=<?php echo $page - 1; ?>&sort=<?php echo $sort; ?>&<?php echo http_build_query(['price_range' => $_GET['price_range'] ?? []]); ?>" aria-label="Previous">
-                    <span aria-hidden="true">«</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-            <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-                <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-                    <a class="page-link" href="?page=<?php echo $i; ?>&sort=<?php echo $sort; ?>&<?php echo http_build_query(['price_range' => $_GET['price_range'] ?? []]); ?>"><?php echo $i; ?></a>
-                </li>
-            <?php } ?>
-            <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
-                <a class="page-link" href="?page=<?php echo $page + 1; ?>&sort=<?php echo $sort; ?>&<?php echo http_build_query(['price_range' => $_GET['price_range'] ?? []]); ?>" aria-label="Next">
-                    <span aria-hidden="true">»</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>           
-</div>
-</div>
-<!-- Shop End -->
-
+    <!-- Shop End -->
 
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
@@ -440,7 +322,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
                 <a href="" class="text-decoration-none">
                     <h1 class="mb-4 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border border-white px-3 mr-1">E</span>Shopper</h1>
                 </a>
-                <p>Welcome to EShopper, where style meets comfort! We believe that every piece of furniture tells a story and transforms your space into a reflection of who you are. Our carefully curated collection features unique designs crafted from high-quality, sustainable materials, ensuring that each item not only enhances your home but also cares for our planet..</p>
+                <p>Dolore erat dolor sit lorem vero amet. Sed sit lorem magna, ipsum no sit erat lorem et magna ipsum dolore amet erat.</p>
                 <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
                 <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
                 <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
@@ -459,10 +341,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
                     </div>
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4"></h5>
-                        <div class="d-flex flex-column justify-content-start">
-                          
-
-                        </div>
+                        <div class="d-flex flex-column justify-content-start"></div>
                     </div>
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4">Newsletter</h5>
@@ -471,8 +350,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
                                 <input type="text" class="form-control border-0 py-4" placeholder="Your Name" required="required" />
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control border-0 py-4" placeholder="Your Email"
-                                    required="required" />
+                                <input type="email" class="form-control border-0 py-4" placeholder="Your Email" required="required" />
                             </div>
                             <div>
                                 <button class="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
@@ -485,8 +363,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
         <div class="row border-top border-light mx-xl-5 py-4">
             <div class="col-md-6 px-xl-0">
                 <p class="mb-md-0 text-center text-md-left text-dark">
-                    &copy; <a class="text-dark font-weight-semi-bold" href="#">Your Site Name</a>. All Rights Reserved. Designed
-                    by
+                    © <a class="text-dark font-weight-semi-bold" href="#">Your Site Name</a>. All Rights Reserved. Designed by
                     <a class="text-dark font-weight-semi-bold" href="https://htmlcodex.com">HTML Codex</a>
                 </p>
             </div>
@@ -497,23 +374,37 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
     </div>
     <!-- Footer End -->
 
-
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Contact Javascript File -->
     <script src="mail/jqBootstrapValidation.min.js"></script>
     <script src="mail/contact.js"></script>
-
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
-</body>
 
+    <!-- JavaScript สำหรับกรองราคาแบบอัตโนมัติ -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll(".custom-control-input");
+            const form = document.getElementById("price-filter-form");
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", function () {
+                    // ถ้าเลือก "All Price" ให้ยกเลิก Checkbox อื่น ๆ
+                    if (checkbox.id === "price-all" && checkbox.checked) {
+                        checkboxes.forEach(cb => {
+                            if (cb !== checkbox) cb.checked = false;
+                        });
+                    }
+                    // ส่งฟอร์มอัตโนมัติเมื่อเปลี่ยน Checkbox
+                    form.submit();
+                });
+            });
+        });
+    </script>
+</body>
 </html>
