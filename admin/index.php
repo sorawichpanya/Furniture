@@ -138,6 +138,21 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     $conn->close();
                     ?>
                 </tbody>
+                
+            </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ORDER ID.</th>
+                        <th scope="col">FULL NAME</th>
+                        <th scope="col">PHONE</th>
+                        <th scope="col">ADDRESS</th>
+                        <th scope="col">PROVINCE</th>
+                        <th scope="col">ZIP CODE</th>
+                        <th scope="col">TOTAL PRICE</th>
+                        <th scope="col">STATUS</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <?php
                     // เรียกใช้ PHP สำหรับดึงข้อมูลจากฐานข้อมูลและแสดงในตาราง
@@ -170,6 +185,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     $conn->close();
                     ?>
                 </tbody>
+                
             </table>
         </div>
     </div>
