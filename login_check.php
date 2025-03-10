@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = mysqli_stmt_get_result($stmt);
 
         if ($row = mysqli_fetch_assoc($result)) {
-            if (password_verify($password, $row['password'])) {
+            $password_hash = password_hash($password, PASSWORD_DEFAULT); {
                 // เก็บข้อมูลผู้ใช้ใน Session
                 $_SESSION['Username'] = $Username;
 
