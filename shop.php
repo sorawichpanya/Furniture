@@ -260,7 +260,7 @@ include_once("connectdb.php");
             <!-- Shop Sidebar End -->
 
             <!-- Shop Product Start -->
-             <
+            <div class="center">
             <div class="col-lg-9 col-md-12">
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
@@ -290,6 +290,7 @@ include_once("connectdb.php");
                             -->
                         </div>
                     </div>
+                </div>
                     <?php
 include_once("connectdb.php");
 
