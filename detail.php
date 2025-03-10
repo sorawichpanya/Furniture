@@ -278,7 +278,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         <?php echo $product['p_detail']; ?>
                     </p>
 
-                    <!-- ตัวเลือกจำนวนสินค้า -->
                     <div class="d-flex align-items-center mb-4 pt-2">
     <div class="input-group quantity mr-3" style="width: 130px;">
         <div class="input-group-btn">
@@ -293,11 +292,11 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
             </button>
         </div>
     </div>
-    
+
     <form action="cart.php" method="POST">
         <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
         <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
-        <input type="hidden" name="quantity" id="hiddenQuantity" value="1"> <!-- Hidden quantity input for form submission -->
+        <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
         <button type="submit" class="btn btn-sm text-dark p-0">
             <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
         </button>
@@ -305,47 +304,26 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Select elements
+    document.addEventListener("DOMContentLoaded", () => {
         const btnMinus = document.getElementById("btn-minus");
         const btnPlus = document.getElementById("btn-plus");
         const quantityInput = document.getElementById("quantity");
         const hiddenQuantity = document.getElementById("hiddenQuantity");
 
-        // Update quantity function
-        function updateQuantity(change) {
-            // Parse current quantity
-            let currentQuantity = parseInt(quantityInput.value, 10);
+        const updateQuantity = (change) => {
+            let currentQuantity = parseInt(quantityInput.value, 10) || 1; // Default to 1 if NaN
+            let newQuantity = Math.max(1, currentQuantity + change); // Ensure quantity is not less than 1
 
-            // Default to 1 if invalid
-            if (isNaN(currentQuantity)) {
-                currentQuantity = 1;
-            }
-
-            // Calculate new quantity
-            let newQuantity = currentQuantity + change;
-
-            // Prevent values below 1
-            if (newQuantity < 1) {
-                newQuantity = 1;
-            }
-
-            // Update visible and hidden fields
             quantityInput.value = newQuantity;
             hiddenQuantity.value = newQuantity;
-        }
+        };
 
-        // Add click event listeners
-        btnMinus.addEventListener("click", function () {
-            updateQuantity(-1);
-        });
-
-        btnPlus.addEventListener("click", function () {
-            updateQuantity(1);
-        });
+        btnMinus.addEventListener("click", () => updateQuantity(-1));
+        btnPlus.addEventListener("click", () => updateQuantity(1));
     });
 </script>
-
+            </div>ช
+        </div>
     </div>
 </div>
 
