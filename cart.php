@@ -8,9 +8,47 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     // แปลง p_id จาก string เป็น int
     $p_id = (int)$_GET['p_id'];
     $category = $_GET['category'];  // category เป็น string
-    else {
-        die("Invalid request. p_id or category is missing.");
-        
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+    
+    $product_added = false;
+    
+    // ตรวจสอบว่ามีสินค้าหรือไม่
+    foreach ($_SESSION['cart'] as &$item) {
+        if ($item['p_id'] == $p_id && $item['category'] == $category) {
+            // หากสินค้าซ้ำกัน เพิ่มจำนวนสินค้า
+            $item['quantity'] += 1;
+            $item['total_price'] = $item['quantity'] * $item['p_price'];
+            $product_added = true;
+            break;
+        }
+    }
+    
+    // ถ้ายังไม่มีสินค้าในตะกร้า
+    if (!$product_added) {
+        // ดึงข้อมูลสินค้าจากฐานข้อมูล
+        $sql = "SELECT p_id, p_name, p_price FROM `$category` WHERE p_id = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $p_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+    
+        if ($product = mysqli_fetch_assoc($result)) {
+            // เพิ่มสินค้าลงในตะกร้า
+            $product['category'] = $category;
+            $product['quantity'] = 1;
+            $product['total_price'] = $product['p_price'];
+            $_SESSION['cart'][] = $product;
+        } else {
+            die("Product not found.");
+        }
+    }
+    
+    $_SESSION['success_message'] = "Product added to cart.";
+    header("Location: cart.php");
+    exit;
+    
     // ตรวจสอบ category ที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
