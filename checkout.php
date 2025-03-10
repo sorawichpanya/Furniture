@@ -312,7 +312,8 @@ session_start(); // เรียกใช้งาน session
                 <h5 class="font-weight-bold">฿<?php echo number_format($subtotal + $shipping, 2); ?></h5>
             </div>
         </div>
-        <?php session_start(); ?>
+    </div>
+    <?php session_start(); ?>
 <div class="card border-secondary mb-5">
     <div class="card-header bg-secondary border-0">
         <h4 class="font-weight-semi-bold m-0">Payment</h4>
@@ -343,6 +344,10 @@ session_start(); // เรียกใช้งาน session
     </div>
 </div>
 
+
+            </div>
+        </div>
+    </div>
     <!-- Checkout End -->
 
 
