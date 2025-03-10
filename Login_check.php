@@ -11,13 +11,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    if (empty($username) || empty($password)) { 
+    if (empty($username) || empty($password)) 
+    { 
         die("กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน!");
     } 
     $sql = "SELECT username, password FROM Register WHERE username = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
 
-    if ($stmt === false) {
+    if ($stmt === false) 
+    {
         die("เกิดข้อผิดพลาดในการเตรียมคำสั่ง SQL: " . $conn->error);
     }
 
@@ -25,24 +27,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($row = $result->fetch_assoc()) {
-        if (hash('sha512', $password) === $row['password']) {
+    if ($row = $result->fetch_assoc()) 
+    {
+        if (hash('sha512', $password) === $row['password']) 
+        {
             session_regenerate_id(true);
             $_SESSION['username'] = $username;
             
             header("Location: index.php");
             exit();
-        } else {
+        } else 
+        {
             echo "รหัสผ่านไม่ถูกต้อง!";
         }
-    } else {
+    } else 
+        {
         echo "ไม่พบบัญชีนี้!";
-    }
+        }
 
     $stmt->close();
     $conn->close();
 } else 
-{
+    {
     echo "ไม่อนุญาตให้เข้าถึงหน้านี้โดยตรง!";
-} 
+    } 
 ?>

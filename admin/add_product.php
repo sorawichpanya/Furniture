@@ -44,8 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // เพิ่มข้อมูลสินค้าเข้า Database
-    $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext, p_image) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext, $p_image_name);
+    $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext,);
 
     if ($stmt->execute()) {
         echo "✅ เพิ่มสินค้าและรูปภาพเรียบร้อย!";
