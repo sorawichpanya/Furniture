@@ -2,26 +2,17 @@
 session_start();
 include_once("connectdb.php");
 
-var_dump($_GET);  // ดูค่าทั้งหมดใน $_GET
+if (isset($_POST['p_id'], $_POST['category'])) {
+    $p_id = (int)$_POST['p_id'];  // ใช้ POST และแปลงเป็นตัวเลข
+    $category = $_POST['category'];  // ใช้ค่าจาก POST
 
-// ตรวจสอบค่าของ p_id และ category
-var_dump($data['p_id']);
-var_dump($data['category']);
-
-if (isset($_GET['p_id'], $_GET['category'])) {
-    $p_id = (int)$_GET['p_id']; // แปลงให้เป็นตัวเลข
-    $category = $_GET['category'];
-
-    // ตรวจสอบว่า category ที่ส่งมาคือชื่อของตารางที่อนุญาต
+    // ตรวจสอบ category ที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
 
-    echo "p_id: " . $p_id . "<br>";  // ตรวจสอบค่า p_id
-    echo "category: " . $category . "<br>";  // ตรวจสอบค่า category
-
-    // ดึงข้อมูลสินค้าจากตารางตาม category ที่ระบุ
+    // ดึงข้อมูลสินค้าจากฐานข้อมูล
     $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $p_id);
@@ -29,7 +20,6 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     $result = mysqli_stmt_get_result($stmt);
 
     if ($product = mysqli_fetch_assoc($result)) {
-        // ตรวจสอบว่ามีสินค้าในตะกร้าหรือยัง
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
@@ -45,7 +35,7 @@ if (isset($_GET['p_id'], $_GET['category'])) {
             }
         }
 
-        // หากยังไม่มีสินค้าในตะกร้า
+        // ถ้ายังไม่มีสินค้าในตะกร้า
         if (!$exists) {
             $product['category'] = $category;
             $product['quantity'] = 1;
@@ -54,11 +44,13 @@ if (isset($_GET['p_id'], $_GET['category'])) {
         }
 
         $_SESSION['success_message'] = "Product added to cart.";
-        header("Location: cart.php"); // เปลี่ยนเส้นทางกลับหน้าตะกร้า
+        header("Location: cart.php");
         exit;
     } else {
         die("Product not found.");
     }
+} else {
+    die("Invalid request.");
 }
 ?>
 

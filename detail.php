@@ -293,9 +293,13 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                                 </button>
                             </div>
                         </div>
-                        <a href="cart.php?p_id=<?php echo urlencode($data['p_id']); ?>&category=<?php echo urlencode($data['category']); ?>" class="btn btn-sm text-dark p-0">
-    <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
-</a>
+                        <form action="cart.php" method="POST">
+                            <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($data['p_id']); ?>">
+                            <input type="hidden" name="category" value="<?php echo htmlspecialchars($data['category']); ?>">
+                            <button type="submit" class="btn btn-sm text-dark p-0">
+                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+                            </button>
+                        </form>
                     </div>
             </div>
         </div>
