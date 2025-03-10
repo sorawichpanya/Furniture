@@ -3,6 +3,9 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+echo '<pre>';
+print_r($_GET); // ดูค่าที่ส่งมา
+echo '</pre>';
 // ตรวจสอบค่าจาก URL หรือฟอร์ม
 $table_name = $_GET['table_name'] ?? ($_POST['table'] ?? null);
 
