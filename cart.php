@@ -2,6 +2,7 @@
 session_start();
 include_once("connectdb.php");
 
+// ตรวจสอบค่าที่ได้รับจากฟอร์ม
 var_dump($_POST);
 
 if (isset($_POST['p_id'], $_POST['category'])) {

@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $password = mysqli_real_escape_string($conn, $_POST['password']);
   
   // Query the database to verify user credentials
-  $query = "SELECT * FROM users WHERE Username = ?";
+  $query = "SELECT * FROM Register WHERE Username = ?";
   $stmt = mysqli_prepare($conn, $query);
   mysqli_stmt_bind_param($stmt, "s", $Username);
   mysqli_stmt_execute($stmt);
