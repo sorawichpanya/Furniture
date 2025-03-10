@@ -300,11 +300,8 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                             
                             var_dump($_GET);  // แสดงค่าที่ถูกส่งจาก URL
                             ?>
-                                <form action="cart.php" method="GET">
-                                    <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
-                                    <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
-                                    <button type="submit">Add To Cart</button>
-                                </form>
+                        <a href="cart.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo urlencode($data['category']); ?>">Add to Cart</a>
+
                     </div>
             </div>
         </div>
