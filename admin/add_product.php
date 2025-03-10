@@ -17,7 +17,7 @@ if (!$table_name) {
 
 
 // รายการ Table ที่อนุญาต
-$allowed_tables = ['bathroom', 'kitchen', 'livingroom'];
+$allowed_tables = ['bathroom', 'kitchen_room', 'living_room','trendy','Just_arrived','bedroom','garden','workroom'];
 
 if (!in_array(strtolower($table_name), array_map('strtolower', $allowed_tables))) {
     die("❌ Table ไม่ถูกต้อง");
