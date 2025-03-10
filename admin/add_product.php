@@ -5,20 +5,11 @@ ini_set('display_errors', 1);
 
 $table_name = $_POST['table'] ?? $_GET['table'] ?? null;
 
-echo '<pre>';
-print_r($table_name);  // ตรวจสอบค่าที่รับมา
-echo '</pre>';
-
 if (!$table_name) {
     die("❌ Table name is missing. Please specify the table.");
 }
 
-// เชื่อมต่อฐานข้อมูลและใช้งาน $table_name ที่นี่
-
-
-// รายการ Table ที่อนุญาต
-$allowed_tables = ['bathroom', 'kitchen_room', 'living_room','trendy','Just_arrived','bedroom','garden','workroom'];
-
+$allowed_tables = ['bathroom', 'kitchen_room', 'living_room', 'trendy', 'Just_arrived', 'bedroom', 'garden', 'workroom'];
 if (!in_array(strtolower($table_name), array_map('strtolower', $allowed_tables))) {
     die("❌ Table ไม่ถูกต้อง");
 }
@@ -30,25 +21,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $p_size = $_POST['p_size'] ?? '';
     $p_price = $_POST['p_price'] ?? '';
 
-    if (empty($p_name) || empty($p_detail) || empty($p_color) || empty($p_size) || empty($p_price)) {
+    if (empty($p_name) || empty($p_detail) || empty($p_color) || empty($p_size) || empty($p_price) || empty($_FILES['p_image']['name'])) {
         die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูล");
     }
 
-    $p_ext = pathinfo($_FILES['p_image']['name'], PATHINFO_EXTENSION); // ดึงนามสกุลไฟล์
-    // เพิ่มข้อมูลสินค้า
-    $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext);    
+    // ดึงนามสกุลไฟล์
+    $p_ext = pathinfo($_FILES['p_image']['name'], PATHINFO_EXTENSION);
+
+    // กำหนดโฟลเดอร์เก็บรูปภาพ
+    $target_dir = "../img/$table_name/";
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
+
+    // ตั้งชื่อไฟล์ไม่ให้ซ้ำ
+    $p_image_name = time() . "_" . basename($_FILES["p_image"]["name"]);
+    $target_file = $target_dir . $p_image_name;
+
+    // ย้ายไฟล์ไปยังโฟลเดอร์
+    if (!move_uploaded_file($_FILES["p_image"]["tmp_name"], $target_file)) {
+        die("❌ เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
+    }
+
+    // เพิ่มข้อมูลสินค้าเข้า Database
+    $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext, p_image) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext, $p_image_name);
 
     if ($stmt->execute()) {
-        echo "✅ เพิ่มสินค้าเรียบร้อย!";
+        echo "✅ เพิ่มสินค้าและรูปภาพเรียบร้อย!";
     } else {
         echo "❌ เกิดข้อผิดพลาด: " . $conn->error;
     }
-
-    $stmt->close();
-    $conn->close();
-}
 ?>
+
 
 
 
