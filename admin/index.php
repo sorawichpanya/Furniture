@@ -155,28 +155,37 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
+                <?php
+// เชื่อมต่อกับฐานข้อมูล
+include_once("connectdb.php");
 
-                    $sql = "SELECT * FROM order_items";
-                    $result = $conn->query($sql);
+// ตรวจสอบการเชื่อมต่อ
+if ($conn->connect_error) {
+    die("❌ Connection failed: " . $conn->connect_error);
+}
 
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<th scope='row'><b>#".$row['order_item_id']."</b></th>";
-                            echo "<td><b>".$row['phone']."</b></td>";
-                            echo "<td><b>".$row['order_id']."</b></td>";
-                            echo "<td><b>".$row['product_name']."</b></td>";
-                            echo "<td><b>".$row['quantity']."</b></td>";
-                            echo "<td><b>฿".number_format($row['total_price'], 2)."</b></td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='8'>ไม่มีข้อมูลคำสั่งซื้อ</td></tr>";
-                    }
+// สร้างคำสั่ง SQL เพื่อดึงข้อมูลทั้งหมดจากตาราง order_items
+$sql = "SELECT * FROM order_items";
+$result = $conn->query($sql);
 
-                    $conn->close();
-                    ?>
+// ตรวจสอบว่าได้ผลลัพธ์หรือไม่
+if ($result->num_rows > 0) {
+    // ใช้ลูปเพื่อแสดงข้อมูลในตาราง
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<th scope='row'><b>#".$row['order_item_id']."</b></th>";  // order_item_id
+        echo "<td><b>".$row['order_id']."</b></td>";                    // order_id
+        echo "<td><b>".$row['product_name']."</b></td>";                // product_name
+        echo "<td><b>".$row['quantity']."</b></td>";                    // quantity
+        echo "<td><b>฿".number_format($row['total_price'], 2)."</b></td>"; // total_price
+        echo "</tr>";
+    }
+} else {
+    echo "<tr><td colspan='5'>ไม่มีข้อมูลคำสั่งซื้อ</td></tr>";
+}
+
+$conn->close();
+?>
                 </tbody>
             </table>
         </div>
