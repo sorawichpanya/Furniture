@@ -1,36 +1,47 @@
 <?php
-// Start session
 session_start();
 
-// Include your database connection file (assumed to be included here)
+// Include your database connection file
 include('connectdb.php');
 
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $Username = mysqli_real_escape_string($conn, $_POST['Username']);
-  $password = mysqli_real_escape_string($conn, $_POST['password']);
-  
-  // Query the database to verify user credentials
-  $query = "SELECT * FROM Register WHERE Username = ?";
-  $stmt = mysqli_prepare($conn, $query);
-  mysqli_stmt_bind_param($stmt, "s", $Username);
-  mysqli_stmt_execute($stmt);
-  $result = mysqli_stmt_get_result($stmt);
-  
-  if ($row = mysqli_fetch_assoc($result)) {
-      if (password_verify($password, $row['password'])) {
-          $_SESSION['Username'] = $Username;
-          header("Location: index.php");
-          exit();
-      } else {
-          $_SESSION["Error"] = "Invalid Username or password.";
-      }
-  } else {
-      $_SESSION["Error"] = "Invalid Username or password.";
-  }
+// ตรวจสอบการเชื่อมต่อฐานข้อมูล
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-  header("Location: Login.php"); // Redirect กลับไปที่หน้า login เพื่อแสดง error
-  exit();
+// ตรวจสอบว่าฟอร์มถูกส่งมา
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $Username = mysqli_real_escape_string($conn, $_POST['Username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+
+    // Query the database to verify user credentials (แก้ไขชื่อตารางเป็น users หรือชื่อตารางที่ถูกต้องของคุณ)
+    $query = "SELECT * FROM Register WHERE Username = ?";
+    $stmt = mysqli_prepare($conn, $query);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $Username);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($row = mysqli_fetch_assoc($result)) {
+            if (password_verify($password, $row['password'])) {
+                $_SESSION['Username'] = $Username;
+                header("Location: index.php");
+                exit();
+            } else {
+                $_SESSION["Error"] = "Invalid Username or password.";
+            }
+        } else {
+            $_SESSION["Error"] = "Invalid Username or password.";
+        }
+
+        mysqli_stmt_close($stmt); // ปิด statement
+    } else {
+        $_SESSION["Error"] = "Database query error.";
+    }
+
+    header("Location: Login.php"); // Redirect กลับไปที่หน้า login เพื่อแสดง error
+    exit();
 }
 ?>
 

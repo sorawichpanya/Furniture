@@ -271,8 +271,7 @@ $rs = mysqli_query($conn , $sql);
                             echo "<div class='col-lg-4 col-md-6 col-sm-12 pb-1'>";
                             echo "<div class='card product-item border-0 mb-4'>";
                             echo "<div class='card-header product-img position-relative overflow-hidden bg-transparent border p-0'>";
-                            echo "<img class='img-fluid w-100' src='img/product-1.jpg' alt='" . htmlspecialchars($data['p_name']) . "'>"; // แก้ไข path รูปภาพตามความเหมาะสม
-                            echo "</div>";
+                            echo "<img class='img-fluid w-100' src='img/" . htmlspecialchars($data['category']) . "/" . htmlspecialchars($data['p_id']) . "." . htmlspecialchars($data['p_ext']) . "' alt='" . htmlspecialchars($data['p_name']) . "'>";                            echo "</div>";
                             echo "<div class='card-body border-left border-right text-center p-0 pt-4 pb-3'>";
                             echo "<h6 class='text-truncate mb-3'>" . htmlspecialchars($data['p_name']) . "</h6>";
                             echo "<div class='d-flex justify-content-center'>";
