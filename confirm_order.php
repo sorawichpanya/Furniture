@@ -40,16 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // ดึง order_id ที่เพิ่งเพิ่มเข้าไป
         $order_id = $stmt->insert_id;
-
+        var_dump($_POST['cart']); 
         // ขั้นตอนที่ 2: แทรกข้อมูลในตาราง orders_item
         if (!empty($_POST['cart'])) {
-            var_dump($_POST['cart']); // ตรวจสอบค่าที่ได้รับ
+
             foreach ($_POST['cart'] as $item) {
                 $product_name = $item['p_name'];
                 $quantity = $item['quantity'];
                 $item_total_price = $item['total_price'];
                 var_dump($product_name, $quantity, $item_total_price); // ตรวจสอบค่าแต่ละตัว
-                
+
                 $stmt_item = $conn->prepare("INSERT INTO orders_item (order_id, product_name, quantity, total_price) VALUES (?, ?, ?, ?)");
                 if (!$stmt_item) {
                     throw new Exception("Error preparing statement for orders_item: " . $conn->error);
