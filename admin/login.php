@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($password, $row['password'])) {
             // เก็บข้อมูลใน Session
             $_SESSION['username'] = $row['username'];
-            header("Location: admin/index.php/"); // เปลี่ยนเส้นทางไปยังหน้า index.php
+            header("Location: index.php"); // เปลี่ยนเส้นทางไปยังหน้า index.php
             exit;
         } else {
             $error = "Invalid username or password!";
