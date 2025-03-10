@@ -15,8 +15,8 @@ if (isset($_GET['p_id'], $_GET['category'])) {
         die("Invalid category.");
     }
     
-    // ตรวจสอบชื่อของตารางที่ต้องการดึงข้อมูลจาก
-    $sql = sprintf("SELECT p_id , p_name , p_price FROM `%s` WHERE $p_id = ?", $category);
+    // เปลี่ยน 'id' เป็นชื่อคอลัมน์จริงในตารางของคุณ เช่น 'product_id'
+    $sql = sprintf("SELECT product_id AS p_id, name AS p_name, price AS p_price FROM `%s` WHERE product_id = ?", $category);
     var_dump($sql); // ตรวจสอบคำสั่ง SQL ที่จะถูกใช้
 
     // เตรียม SQL statement
