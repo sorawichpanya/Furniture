@@ -169,14 +169,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
-                            echo "<th scope='row'><b>#".$row['order_id']."</b></th>";
-                            echo "<td><b>".$row['full_name']."</b></td>";
+                            echo "<th scope='row'><b>#".$row['order_item_id']."</b></th>";
                             echo "<td><b>".$row['phone']."</b></td>";
-                            echo "<td><b>".$row['address']."</b></td>";
-                            echo "<td><b>".$row['province']."</b></td>";
-                            echo "<td><b>".$row['zip_code']."</b></td>";
+                            echo "<td><b>".$row['order_id']."</b></td>";
+                            echo "<td><b>".$row['product_name']."</b></td>";
+                            echo "<td><b>".$row['quantity']."</b></td>";
                             echo "<td><b>฿".number_format($row['total_price'], 2)."</b></td>";
-                            echo "<td><b>".$row['status']."</b></td>";
                             echo "</tr>";
                         }
                     } else {
