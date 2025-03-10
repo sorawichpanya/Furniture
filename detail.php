@@ -281,13 +281,13 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                     <div class="d-flex align-items-center mb-4 pt-2">
     <div class="input-group quantity mr-3" style="width: 130px;">
         <div class="input-group-btn">
-            <button class="btn btn-primary btn-minus" >
+            <button class="btn btn-primary btn-minus" type="button" onclick="updateQuantity(-1)">
                 <i class="fa fa-minus"></i>
             </button>
         </div>
         <input type="text" class="form-control bg-secondary text-center" id="quantity" name="quantity" value="1" readonly>
         <div class="input-group-btn">
-            <button class="btn btn-primary btn-plus">
+            <button class="btn btn-primary btn-plus" type="button" onclick="updateQuantity(1)">
                 <i class="fa fa-plus"></i>
             </button>
         </div>
@@ -326,15 +326,6 @@ document.addEventListener("DOMContentLoaded", function () {
             hiddenQuantity.value = newQuantity;  // อัปเดต hidden input
         }
     }
-
-    // ผูกฟังก์ชันอัปเดตจำนวนเข้ากับปุ่มเพิ่ม/ลด
-    document.querySelector(".btn-minus").addEventListener("click", function () {
-        updateQuantity(-1);  // ลดจำนวน 1
-    });
-
-    document.querySelector(".btn-plus").addEventListener("click", function () {
-        updateQuantity(1);   // เพิ่มจำนวน 1
-    });
 });
 </script>
 </div>
