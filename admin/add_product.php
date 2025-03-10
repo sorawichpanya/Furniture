@@ -48,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $new_filename = $p_id . '.' . $p_ext; // เปลี่ยนชื่อไฟล์เป็น "p_id.นามสกุล"
             $upload_path = "../img/$table_name/" . $new_filename; // กำหนด Path ปลายทาง
         }
+    }
     // ย้ายไฟล์ไปยังโฟลเดอร์
     if (!move_uploaded_file($_FILES["p_image"]["tmp_name"], $target_file)) {
         die("❌ เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
