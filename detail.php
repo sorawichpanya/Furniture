@@ -292,7 +292,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
             </button>
         </div>
     </div>
-
+    
     <form action="cart.php" method="POST">
         <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
         <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
@@ -304,29 +304,34 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select elements
         const btnMinus = document.getElementById("btn-minus");
         const btnPlus = document.getElementById("btn-plus");
         const quantityInput = document.getElementById("quantity");
         const hiddenQuantity = document.getElementById("hiddenQuantity");
 
-        const updateQuantity = (change) => {
-            let currentQuantity = parseInt(quantityInput.value, 10) || 1;
+        // Function to update quantity
+        function updateQuantity(change) {
+            // Get current quantity
+            let currentQuantity = parseInt(quantityInput.value, 10);
+
+            // Default to 1 if invalid
+            if (isNaN(currentQuantity)) {
+                currentQuantity = 1;
+            }
+
+            // Calculate new quantity
             let newQuantity = currentQuantity + change;
 
-            // ตรวจสอบว่า newQuantity ไม่น้อยกว่า 1
+            // Ensure new quantity is at least 1
             if (newQuantity < 1) {
                 newQuantity = 1;
             }
 
-            quantityInput.value = newQuantity;
-            hiddenQuantity.value = newQuantity;
-        };
+            // Update visible input and hidden input
+            quanti
 
-        btnMinus.addEventListener("click", () => updateQuantity(-1));
-        btnPlus.addEventListener("click", () => updateQuantity(1));
-    });
-</script>
             </div>ช
         </div>
     </div>
