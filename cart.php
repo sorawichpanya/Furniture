@@ -1,78 +1,63 @@
 <?php
-session_start();
-include_once("connectdb.php");
-
-var_dump($_GET); // ดูค่าที่รับจาก URL
+session_start(); // เรียกใช้ session ก่อนเสมอ
+include_once("connectdb.php"); // เชื่อมต่อฐานข้อมูล
 
 if (isset($_GET['p_id'], $_GET['category'])) {
-    // แปลง p_id จาก string เป็น int
-    $p_id = (int)$_GET['p_id'];
-    $category = $_GET['category'];  // category เป็น string
-    
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
-} else {
-    die("Invalid request. p_id or category is missing.");
-}
-    // ตรวจสอบ category ที่อนุญาต
+    $p_id = (int) $_GET['p_id'];  // แปลง p_id เป็น int
+    $category = preg_replace("/[^a-zA-Z0-9_]/", "", $_GET['category']); // กรอง category
+
+    // ตรวจสอบว่าหมวดหมู่ถูกต้องก่อนใช้เป็น table name
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
-    
+
     // ดึงข้อมูลสินค้าจากฐานข้อมูล
-    $sql = sprintf("SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM `%s` WHERE id = ?", mysqli_real_escape_string($conn, $category));
-
-    var_dump($sql);
-
+    $sql = "SELECT p_id, p_name, p_price FROM `$category` WHERE p_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    if ($stmt === false) {
-        die("Error in SQL query.");
-    }    
 
-    if ($product = mysqli_fetch_assoc($result)) {
-        var_dump($product);  // ✅ ตรวจสอบค่าที่ได้จากฐานข้อมูล
-    }
-    
-    mysqli_stmt_bind_param($stmt, "i", $p_id);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $p_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-    if ($product = mysqli_fetch_assoc($result)) {
-        if (!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = [];
-        }
-
-        // ตรวจสอบว่าสินค้าซ้ำในตะกร้าหรือไม่
-        $exists = false;
-        foreach ($_SESSION['cart'] as &$item) {
-            if ($item['p_id'] == $product['p_id'] && $item['category'] == $category) {
-                $item['quantity'] += 1;
-                $item['total_price'] = $item['quantity'] * $item['p_price'];
-                $exists = true;
-                break;
+        if ($product = mysqli_fetch_assoc($result)) {
+            // ถ้าไม่มีตะกร้า ให้สร้าง array ใหม่
+            if (!isset($_SESSION['cart'])) {
+                $_SESSION['cart'] = [];
             }
-        }
 
-        // ถ้ายังไม่มีสินค้าในตะกร้า
-        if (!$exists) {
-            $product['category'] = $category;
-            $product['quantity'] = 1;
-            $product['total_price'] = $product['p_price'];
-            $_SESSION['cart'][] = $product;
-        }
+            // ตรวจสอบว่าสินค้าซ้ำในตะกร้าหรือไม่
+            $exists = false;
+            foreach ($_SESSION['cart'] as &$item) {
+                if ($item['p_id'] == $product['p_id'] && $item['category'] == $category) {
+                    $item['quantity'] += 1;
+                    $item['total_price'] = $item['quantity'] * $item['p_price'];
+                    $exists = true;
+                    break;
+                }
+            }
 
-        $_SESSION['success_message'] = "Product added to cart.";
-        header("Location: cart.php");
-        exit;
+            // ถ้ายังไม่มีสินค้าในตะกร้า
+            if (!$exists) {
+                $product['category'] = $category;
+                $product['quantity'] = 1;
+                $product['total_price'] = $product['p_price'];
+                $_SESSION['cart'][] = $product;
+            }
+
+            $_SESSION['success_message'] = "Product added to cart.";
+            header("Location: cart.php");
+            exit;
+        } else {
+            die("Product not found.");
+        }
     } else {
-        die("Product not found.");
+        die("Error in SQL query.");
     }
- else {
-    die("Invalid request.");
-}
-?>
+} else {
+    die("Invalid request. p_id or category is missing.");
+}?>
 
 <!DOCTYPE html>
 <html lang="en">

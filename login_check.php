@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('connectdb.php'); // ตรวจสอบว่าไฟล์นี้เชื่อมต่อฐานข้อมูลสำเร็จ
+include('connectdb.php'); 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Username = trim($_POST['Username']);
