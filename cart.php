@@ -3,6 +3,11 @@ session_start();
 include_once("connectdb.php");
 
 var_dump($_GET);  // ดูค่าทั้งหมดใน $_GET
+
+// ตรวจสอบค่าของ p_id และ category
+var_dump($data['p_id']);
+var_dump($data['category']);
+
 if (isset($_GET['p_id'], $_GET['category'])) {
     $p_id = (int)$_GET['p_id']; // แปลงให้เป็นตัวเลข
     $category = $_GET['category'];
