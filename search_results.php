@@ -273,7 +273,7 @@ $rs = mysqli_query($conn , $sql);
                             if (substr($image_path, 0, 1) !== '/') {
                                 $image_path = '/' . $image_path;
                             }
-                            $image_path = 'http://212.80.215.178/FurnitureFunny' . $image_path;
+                            $image_path = 'http://212.80.215.178/Furniture/img' . $image_path;
 
                             // แสดงข้อมูลสินค้าแต่ละรายการในรูปแบบ product item
                             echo "<div class='col-lg-4 col-md-6 col-sm-12 pb-1'>";

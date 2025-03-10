@@ -1,62 +1,33 @@
 <?php
-session_start();
-include_once("connectdb.php");
+var_dump($_POST);  // ตรวจสอบค่าที่รับจาก POST
 
-var_dump($_GET); // ดูค่าที่รับจาก URL
+if (isset($_POST['p_id'], $_POST['category'])) {
+    $p_id = (int)$_POST['p_id'];
+    $category = $_POST['category'];  
 
-if (isset($_GET['p_id'], $_GET['category'])) {
-    // แปลง p_id จาก string เป็น int
-    $p_id = (int)$_GET['p_id'];
-    $category = $_GET['category'];  // category เป็น string
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
+    // ตรวจสอบ category ที่อนุญาต
+    $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
+    if (!in_array($category, $allowed_categories)) {
+        die("Invalid category.");
     }
-    
-    $product_added = false;
-    
-    // ตรวจสอบว่ามีสินค้าหรือไม่ในตะกร้า
-    foreach ($_SESSION['cart'] as &$item) {
-        if ($item['p_id'] == $p_id && $item['category'] == $category) {
-            // หากสินค้าซ้ำกัน เพิ่มจำนวนสินค้า
-            $item['quantity'] += 1;
-            $item['total_price'] = $item['quantity'] * $item['p_price'];
-            $product_added = true;
-            break;
-        }
-    }
-    
-    // ถ้ายังไม่มีสินค้าในตะกร้า
-    if (!$product_added) {
-        // ดึงข้อมูลสินค้าจากฐานข้อมูล
-        $sql = "SELECT p_id, p_name, p_price FROM `$category` WHERE p_id = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        if ($stmt === false) {
-            die("Error in SQL query.");
-        }
 
-        // Binding parameter for the query
-        mysqli_stmt_bind_param($stmt, "i", $p_id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-    
-        if ($product = mysqli_fetch_assoc($result)) {
-            // เพิ่มสินค้าลงในตะกร้า
-            $product['category'] = $category;
-            $product['quantity'] = 1;
-            $product['total_price'] = $product['p_price'];
-            $_SESSION['cart'][] = $product;
-        } else {
-            die("Product not found.");
-        }
+    // ดึงข้อมูลสินค้าจากฐานข้อมูล
+    $sql = sprintf("SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM `%s` WHERE p_id = ?", $category);
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $p_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($product = mysqli_fetch_assoc($result)) {
+        echo "Product found: " . var_dump($product);
+    } else {
+        die("Product not found.");
     }
-    
-    $_SESSION['success_message'] = "Product added to cart.";
-    header("Location: cart.php");
-    exit;
 } else {
     die("Invalid request.");
 }
 ?>
+
 
 
 <!DOCTYPE html>
