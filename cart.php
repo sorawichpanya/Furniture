@@ -236,7 +236,11 @@ if (isset($_POST['p_id'], $_POST['category'])) {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($_SESSION['cart'] as $item) : ?>
+            <?php 
+            $total = 0; // เริ่มต้นยอดรวมเป็น 0
+            foreach ($_SESSION['cart'] as $item) : 
+                $total += $item['total_price']; // เพิ่มราคารวมของแต่ละสินค้า
+            ?>
                 <tr>
                     <td><?php echo htmlspecialchars($item['p_name']); ?></td>
                     <td><?php echo htmlspecialchars($item['category']); ?></td>
@@ -254,9 +258,16 @@ if (isset($_POST['p_id'], $_POST['category'])) {
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <!-- แสดงราคารวม -->
+    <div class="total">
+        <h3>Total Price: ฿<?php echo number_format($total, 2); ?></h3>
+    </div>
+
 <?php else : ?>
     <p>Your cart is empty!</p>
 <?php endif; ?>
+
 
 
 
