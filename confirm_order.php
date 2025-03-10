@@ -55,7 +55,7 @@ var_dump($_SESSION); // ตรวจสอบค่า session ที่มี
         header("Location: checkout.php");
         exit;
     }
-} else {
+     else {
     $_SESSION['error_message'] = "คำขอไม่ถูกต้อง!";
     header("Location: checkout.php");
     exit;
