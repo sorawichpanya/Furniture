@@ -304,41 +304,42 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const quantityInput = document.getElementById("quantity");
-        const hiddenQuantity = document.getElementById("hiddenQuantity");
-        const btnMinus = document.querySelector(".btn-minus");
-        const btnPlus = document.querySelector(".btn-plus");
+document.addEventListener("DOMContentLoaded", function () {
+    const quantityInput = document.getElementById("quantity");
+    const hiddenQuantity = document.getElementById("hiddenQuantity");
+    const btnMinus = document.querySelector(".btn-minus");
+    const btnPlus = document.querySelector(".btn-plus");
 
-        // ฟังก์ชันอัปเดตค่าปริมาณ
-        function updateQuantity(change) {
-            // อ่านค่าปัจจุบันจาก input
-            let currentQuantity = parseInt(quantityInput.value, 10);
+    // ฟังก์ชันอัปเดตค่าปริมาณ
+    function updateQuantity(change) {
+        // อ่านค่าปัจจุบันจาก input
+        let currentQuantity = parseInt(quantityInput.value, 10);
 
-            // ตรวจสอบค่าที่ได้และป้องกัน NaN
-            if (isNaN(currentQuantity)) {
-                currentQuantity = 1;
-            }
-
-            // คำนวณค่าปริมาณใหม่
-            const newQuantity = currentQuantity + change;
-
-            // ตรวจสอบไม่ให้ค่าต่ำกว่า 1
-            if (newQuantity >= 1) {
-                quantityInput.value = newQuantity; // อัปเดต input text
-                hiddenQuantity.value = newQuantity; // อัปเดต hidden input
-            }
+        // ตรวจสอบค่าที่ได้และป้องกัน NaN
+        if (isNaN(currentQuantity)) {
+            currentQuantity = 1;
         }
 
-        // ผูกอีเวนต์ให้กับปุ่มลดและเพิ่ม
-        btnMinus.addEventListener("click", function () {
-            updateQuantity(-1);
-        });
+        // คำนวณค่าปริมาณใหม่
+        const newQuantity = currentQuantity + change;
 
-        btnPlus.addEventListener("click", function () {
-            updateQuantity(1);
-        });
+        // ตรวจสอบไม่ให้ค่าต่ำกว่า 1
+        if (newQuantity >= 1) {
+            quantityInput.value = newQuantity; // อัปเดต input text
+            hiddenQuantity.value = newQuantity; // อัปเดต hidden input
+        }
+    }
+
+    // ผูกอีเวนต์ให้กับปุ่มลดและเพิ่ม
+    btnMinus.addEventListener("click", function () {
+        updateQuantity(-1);  // ลดจำนวน 1
     });
+
+    btnPlus.addEventListener("click", function () {
+        updateQuantity(1);   // เพิ่มจำนวน 1
+    });
+});
+
 </script>
 
 
