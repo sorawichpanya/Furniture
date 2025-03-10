@@ -11,7 +11,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $password = $_POST['password'];
 
     // ใช้ prepared statement เพื่อป้องกัน SQL injection
-    $sql = "SELECT * FROM Register WHERE username = ?";
+    $sql = "SELECT * FROM Register WHERE Username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username); // 's' คือชนิดข้อมูล string
     $stmt->execute();

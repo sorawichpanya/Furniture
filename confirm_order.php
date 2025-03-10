@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // ตรวจสอบว่ามีการอัปโหลดสลิปหรือไม่
     if (!isset($_SESSION['payment_uploaded']) || empty($_SESSION['payment_uploaded'])) {
-        echo "<h3>⛔ Error: ไม่มีค่าสลิปโอนเงิน</h3>";
+        echo "<h3>🔍 Debug: ค่าสลิปโอนเงิน</h3>";
         var_dump($_SESSION['payment_uploaded']);
-        exit;
+        exit;        
 
     // รับค่าจากฟอร์ม
     $full_name = trim($_POST['full_name']);
@@ -40,17 +40,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // บันทึกลงฐานข้อมูล
-    $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, payment_proof, status) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, 'paid')");
-    $stmt->bind_param("sssssss", $full_name, $phone, $address, $province, $zip_code, $total_price, $payment_proof);
+    $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-    if ($stmt->execute()) {
-        echo "<h3>✅ Insert สำเร็จ</h3>";
-    } else {
-        echo "<h3>⛔ SQL Error:</h3> " . $stmt->error;
-    }
-    exit;
-    
+$stmt->bind_param("sssssis", 
+$_POST['full_name'], 
+$_POST['phone'], 
+$_POST['address'], 
+$_POST['province'], 
+$_POST['zip_code'], 
+$_POST['paid_amount'], 
+$_POST['order_status']
+);
+
+// 🔍 Debug SQL Error
+if ($stmt->execute()) {
+echo "<h3>✅ Insert สำเร็จ</h3>";
+} else {
+echo "<h3>⛔ SQL Error:</h3> " . $stmt->error;
+}
+exit;    
 } else {
     $_SESSION['error_message'] = "Invalid request.";
     header("Location: checkout.php");
