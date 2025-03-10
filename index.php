@@ -32,6 +32,7 @@ session_start();
 
 
 <body>
+    
     <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
@@ -95,7 +96,6 @@ session_start();
         </div>
     </div>
     <!-- Topbar End -->
-
 
     <!-- Navbar Start -->
     <div class="container-fluid mb-5">

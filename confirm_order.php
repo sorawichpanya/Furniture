@@ -1,4 +1,5 @@
 <?php
+session_start(); // เรียกใช้ session
 include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -70,8 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // ✅ ยืนยัน Transaction
         $conn->commit();
 
-        // ✅ แสดงข้อความสำเร็จ
-        echo "🎉 สั่งซื้อสำเร็จ!";
+        // ✅ ล้างข้อมูลตะกร้าสินค้า
+        unset($_SESSION['cart']);
+
+        // ✅ เปลี่ยนเส้นทางกลับไปที่ checkout.php
+        header("Location: checkout.php?status=success");
+        exit();
 
     } catch (Exception $e) {
         $conn->rollback();

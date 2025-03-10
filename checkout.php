@@ -1,6 +1,10 @@
 <?php
-session_start(); // เรียกใช้งาน session
+session_start();
+if (isset($_GET['status']) && $_GET['status'] == 'success') {
+    echo '<div class="alert alert-success">🎉 สั่งซื้อสำเร็จ! ขอบคุณที่ใช้บริการ</div>';
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
