@@ -285,7 +285,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                 <i class="fa fa-minus"></i>
             </button>
         </div>
-        <input type="text" class="form-control bg-secondary text-center" id="quantity" name="quantity" value="1" readonly>
         <div class="input-group-btn">
             <button class="btn btn-primary btn-plus" type="button">
                 <i class="fa fa-plus"></i>
