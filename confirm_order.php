@@ -12,7 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $zip_code = $_POST['zip_code'] ?? '';
     $order_status = $_POST['order_status'] ?? 'pending';
     $total_price = $_POST['total_price'] ?? 0;
-
+    
+    $cart = json_decode($_POST['cart'], true);
     // 🔴 ถ้าตะกร้าว่าง ให้แจ้งเตือน
     if (empty($cart)) {
         die("❌ ไม่มีสินค้าในตะกร้า กรุณาเลือกสินค้าใหม่!");

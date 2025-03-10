@@ -30,23 +30,6 @@ session_start();
     <link href="css/style.css" rel="stylesheet">
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="index.php">🛒 My Shop</a>
-        <div class="collapse navbar-collapse justify-content-end">
-
-            <?php if (isset($_SESSION["user_id"])): ?>
-                <span class="navbar-text text-white me-3">ยินดีต้อนรับ, <?php echo htmlspecialchars($_SESSION["name"]); ?>!</span>
-                <a href="logout.php" class="btn btn-danger">🚪 ออกจากระบบ</a>
-            <?php else: ?>
-                <a href="Login.php" class="btn btn-primary me-2">🔑 เข้าสู่ระบบ</a>
-                <a href="Register.php" class="btn btn-success">📝 สมัครสมาชิก</a>
-            <?php endif; ?>
-
-        </div>
-    </div>
-</nav>
-
 
 <body>
     <!-- Topbar Start -->

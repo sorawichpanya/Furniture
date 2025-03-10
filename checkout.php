@@ -233,6 +233,7 @@ session_start(); // เรียกใช้งาน session
                 </div>
             </div>
         </div>
+        
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Payment</h4>
@@ -243,7 +244,7 @@ session_start(); // เรียกใช้งาน session
                         <p>Use your mobile banking app to scan and complete the payment.</p>
                         <h5 class="font-weight-medium">Amount to Pay: ฿<?php echo number_format($subtotal + $shipping, 2); ?></h5>
                     </div>
-
+                    <input type="hidden" name="cart" value='<?php echo json_encode($cart_items); ?>'>
                     <div class="card-footer border-secondary bg-transparent">
                         <input type="hidden" name="order_status" value="pending">
                         <input type="hidden" name="total_price" value="<?php echo $subtotal + $shipping; ?>">
