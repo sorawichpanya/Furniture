@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // ตรวจสอบค่าที่ได้และป้องกัน NaN
         if (isNaN(currentQuantity)) {
-            currentQuantity = 1;  // ถ้าค่าเป็น NaN ให้ตั้งค่าเป็น 1
+            currentQuantity = 0;  // ถ้าค่าเป็น NaN ให้ตั้งค่าเป็น 1
         }
 
         // คำนวณค่าปริมาณใหม่
