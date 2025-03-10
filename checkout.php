@@ -255,6 +255,7 @@ session_start(); // เรียกใช้งาน session
         <?php endif; ?>        
        </div>
         <button type="submit" class="btn btn-success btn-block">Upload & Confirm Payment</button>
+        </form>
 </div>
 
 <div class="card-footer border-secondary bg-transparent">
