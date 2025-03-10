@@ -493,44 +493,61 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 
+
+
     <!-- JavaScript for Price Filtering -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const checkboxes = document.querySelectorAll(".custom-control-input");
             const products = document.querySelectorAll(".product-item");
-
+    
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener("change", filterProducts);
             });
-
+    
             function filterProducts() {
                 let selectedRanges = [];
-
+    
                 checkboxes.forEach(checkbox => {
                     if (checkbox.checked && checkbox.id !== "price-all") {
-                        let rangeText = checkbox.nextElementSibling.textContent.trim().replace("฿", "");
+                        let label = checkbox.parentElement.querySelector("label");
+                        if (!label) return; // ป้องกัน error กรณีหา label ไม่เจอ
+    
+                        let rangeText = label.textContent.trim().replace("฿", "");
+                        
                         if (rangeText.includes("and above")) {
                             let lowerBound = parseInt(rangeText.split(" ")[0]);
-                            selectedRanges.push([lowerBound, Infinity]); // ไม่มีขอบบน
+                            selectedRanges.push([lowerBound, 9999999]); // ใช้ค่ามากๆ แทน Infinity
                         } else {
-                            let range = rangeText.split(" - ").map(Number);
+                            let range = rangeText.split(" - ").map(num => parseInt(num.replace(",", "")));
                             selectedRanges.push(range);
                         }
                     }
                 });
-
+    
                 // ถ้าเลือก "All Price" หรือไม่เลือกตัวกรองใด ๆ ให้แสดงสินค้าทั้งหมด
-                if (document.getElementById("price-all").checked) {
+                if (document.getElementById("price-all").checked || selectedRanges.length === 0) {
                     selectedRanges = [];
                 }
-
+    
                 products.forEach(product => {
                     let productPrice = parseInt(product.getAttribute("data-price"));
-                    let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
-
+    
+                    let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => 
+                        productPrice >= range[0] && productPrice <= range[1]
+                    );
+    
                     product.style.display = isVisible ? "block" : "none";
                 });
+    
+                console.log("Selected Ranges:", selectedRanges);
             }
+    
+            // เริ่มต้นให้ "All Price" ทำงาน
+            filterProducts();
+        });
+    </script>
+    
 
             // เริ่มต้นให้ "All Price" ทำงาน
             filterProducts();

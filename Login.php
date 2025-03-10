@@ -36,16 +36,16 @@ session_start();
                   <input type="password" name="password" class="form-control form-control-lg" required />
                   <label class="form-label">Password</label>
                 </div>
-
-                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#">Forgot password?</a></p>
-
-                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
                 <?php
               if (isset($_SESSION["Error"])) {
                   echo  $_SESSION["Error"] ;
                 
               }
               ?>
+                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#">Forgot password?</a></p>
+
+                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+
               </form>
 
             </div>
