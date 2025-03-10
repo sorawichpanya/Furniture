@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // ตรวจสอบค่าที่ได้และป้องกัน NaN
         if (isNaN(currentQuantity)) {
-            currentQuantity = 0;  // ถ้าค่าเป็น NaN ให้ตั้งค่าเป็น 1
+            currentQuantity = 1;  // ถ้าค่าเป็น NaN ให้ตั้งค่าเป็น 1
         }
 
         // คำนวณค่าปริมาณใหม่
@@ -329,15 +329,6 @@ document.addEventListener("DOMContentLoaded", function () {
             hiddenQuantity.value = newQuantity;  // อัปเดต hidden input
         }
     }
-
-    // ผูกอีเวนต์ให้กับปุ่มลดและเพิ่ม
-    btnMinus.addEventListener("click", function () {
-        updateQuantity(-1);  // ลดจำนวน 1
-    });
-
-    btnPlus.addEventListener("click", function () {
-        updateQuantity(1);   // เพิ่มจำนวน 1
-    });
 });
 </script>
 </dive>
