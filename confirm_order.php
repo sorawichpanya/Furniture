@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($stmt->execute()) {
         // ดึง ID ของคำสั่งซื้อที่เพิ่งเพิ่ม
+        error_log("Error in query: " . $stmt->error); // เพิ่มบรรทัดนี้
         $order_id = $stmt->insert_id;
 
         // บันทึกรายการสินค้าลงในตาราง order_items
