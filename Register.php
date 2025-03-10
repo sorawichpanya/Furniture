@@ -26,7 +26,7 @@
             font-weight: bold;
         }
         .btn-orange:hover {
-            background-color:rgba(114, 112, 111, 0.8);
+            background-color:rgba(102, 100, 99, 0.8);
         }
         .form-control {
             background-color: #f5f5f5;
