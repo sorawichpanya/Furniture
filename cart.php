@@ -2,11 +2,6 @@
 session_start();
 include_once("connectdb.php");
 
-// First, ensure $conn is properly established
-if (!isset($conn) || !$conn) {
-    die("Database connection not established.");
-}
-
 if (isset($_POST['p_id'], $_POST['category'])) {
     $p_id = (int)$_POST['p_id'];
     $category = $_POST['category'];
@@ -22,38 +17,48 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     // Prepare statement
     $stmt = mysqli_prepare($conn, $sql);
     if ($stmt === false) {
-        die("Prepare failed: " . mysqli_error($conn) . " (Error #" . mysqli_errno($conn) . ")");
+        die("Prepare failed: " . mysqli_error($conn));
     }
 
-    // Bind parameters
-    if (!mysqli_stmt_bind_param($stmt, "i", $p_id)) {
-        die("Binding parameters failed: " . mysqli_stmt_error($stmt));
-    }
-
-    // Execute query
-    if (!mysqli_stmt_execute($stmt)) {
-        die("Execute failed: " . mysqli_stmt_error($stmt) . " (Error #" . mysqli_stmt_errno($stmt) . ")");
-    }
-
-    // Get results
+    // Bind parameters and execute the query
+    mysqli_stmt_bind_param($stmt, "i", $p_id);
+    mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    if ($result === false) {
-        die("Get result failed: " . mysqli_stmt_error($stmt));
-    }
 
-    // Fetch product
+    // Fetch product from the result
     if ($product = mysqli_fetch_assoc($result)) {
+        // If cart does not exist, create it
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
 
+        // Check if product is already in cart
+        $exists = false;
+        foreach ($_SESSION['cart'] as &$item) {
+            if ($item['p_id'] == $product['p_id'] && $item['category'] == $category) {
+                $item['quantity'] += 1;  // Increase quantity
+                $item['total_price'] = $item['quantity'] * $item['p_price'];  // Update total price
+                $exists = true;
+                break;
+            }
+        }
+
+        // If product is not in cart, add it
+        if (!$exists) {
+            $product['category'] = $category;
+            $product['quantity'] = 1;  // Set initial quantity
+            $product['total_price'] = $product['p_price'];  // Set total price
+            $_SESSION['cart'][] = $product;
+        }
+
+        $_SESSION['success_message'] = "Product added to cart!";
     } else {
-        echo "No product found with ID $p_id in category $category";
+        $_SESSION['error_message'] = "Product not found!";
     }
 
-    // Clean up
-    mysqli_stmt_close($stmt);
-} else {
-    die("Invalid request: Missing required parameters");
+    header("Location: cart.php");  // Redirect to cart page after adding to cart
+    exit;
 }
-
 ?>
 
 
@@ -239,7 +244,7 @@ if (isset($_POST['p_id'], $_POST['category'])) {
                     <td><?php echo htmlspecialchars($item['quantity']); ?></td>
                     <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
                     <td>
-                        <form method="POST">
+                        <form method="POST" action="remove_from_cart.php">
                             <input type="hidden" name="product_id" value="<?php echo $item['p_id']; ?>">
                             <input type="hidden" name="category" value="<?php echo $item['category']; ?>">
                             <button type="submit" class="btn btn-danger btn-sm">Remove</button>
