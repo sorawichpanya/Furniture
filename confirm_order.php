@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $payment_slip = $_SESSION['payment_slip']; // ดึง path ไฟล์ที่อัปโหลด
     $payment_slip_type = mime_content_type($payment_slip); // ตรวจสอบประเภทไฟล์จริง
+    var_dump($file_type, $mime_type);
     
     if (!in_array($payment_slip_type, $allowed_types)) {
         $_SESSION['error_message'] = "Invalid file type. Only JPEG, PNG, or PDF files are allowed.";
