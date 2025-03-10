@@ -5,8 +5,8 @@ session_start();
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-// เข้ารหัส password ด้วย 1234
-$password = hash('1234', $password);
+// เข้ารหัส password ด้วย sha512
+$password = hash('Sha512', $password);
 
 $sql = "SELECT * FROM Register WHERE Username='$username' AND password='$password'";
 $result = mysqli_query($conn, $sql);

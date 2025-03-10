@@ -2,53 +2,58 @@
 session_start();
 include_once("connectdb.php");
 
-// 1. รับค่าจาก URL หรือฟอร์มเพื่อเพิ่มสินค้าในตะกร้า
 if (isset($_GET['p_id'], $_GET['category'])) {
-    $p_id = intval($_GET['p_id']);
-    $category = $_GET['category'];
+    $p_id = (int)$_GET['p_id']; // แปลงให้เป็นตัวเลข
+    $category = $_GET['category']; // ชื่อตาราง
 
-    // ดึงข้อมูลสินค้าจาก table ที่เกี่ยวข้อง
-    $sql = "SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM $category WHERE id = ?";
+    // ตรวจสอบชื่อ category ว่าถูกต้อง (ป้องกัน SQL Injection)
+    $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
+    if (!in_array($category, $allowed_categories)) {
+        die("Invalid category.");
+    }
+
+    // ดึงข้อมูลสินค้า
+    $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $p_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
     if ($product = mysqli_fetch_assoc($result)) {
-        // ตรวจสอบว่ามี session cart อยู่หรือยัง ถ้าไม่มีให้สร้างใหม่
+        // ตรวจสอบว่ามีสินค้าในตะกร้าหรือยัง
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
-        // ตรวจสอบว่าสินค้าอยู่ในตะกร้าหรือไม่
-        $found = false;
+        // ตรวจสอบว่าสินค้าเดียวกันเพิ่มแล้วหรือยัง
+        $exists = false;
         foreach ($_SESSION['cart'] as &$item) {
-            if ($item['p_id'] == $p_id && $item['category'] == $category) {
-                $item['quantity'] += 1; // เพิ่มจำนวนสินค้า
-                $item['total_price'] = $item['quantity'] * $item['p_price']; // คำนวณราคาใหม่
-                $found = true;
+            if ($item['p_id'] == $product['p_id'] && $item['category'] == $category) {
+                $item['quantity'] += 1; // เพิ่มจำนวน
+                $item['total_price'] = $item['quantity'] * $item['p_price'];
+                $exists = true;
                 break;
             }
         }
 
-        // ถ้าสินค้ายังไม่อยู่ในตะกร้า ให้เพิ่มใหม่
-        if (!$found) {
-            $_SESSION['cart'][] = [
-                'p_id' => $product['p_id'],
-                'p_name' => $product['p_name'],
-                'category' => $category,
-                'p_price' => $product['p_price'],
-                'quantity' => 1,
-                'total_price' => $product['p_price']
-            ];
+        // ถ้าไม่มีสินค้าในตะกร้า ให้เพิ่มใหม่
+        if (!$exists) {
+            $product['category'] = $category;
+            $product['quantity'] = 1;
+            $product['total_price'] = $product['p_price'];
+            $_SESSION['cart'][] = $product;
         }
-        $_SESSION['success_message'] = "{$product['p_name']} has been added to your cart.";
+
+        $_SESSION['success_message'] = "Product added to cart.";
+        header("Location: shop.php"); // เปลี่ยนเส้นทางกลับหน้าร้านค้า
+        exit;
     } else {
-        $_SESSION['error_message'] = "Product not found.";
+        echo "Product not found.";
     }
-    header("Location: cart.php");
-    exit();
+} else {
+    echo "Invalid request.";
 }
+
 if (isset($_POST['remove_product_id'], $_POST['remove_category'])) {
     $remove_p_id = intval($_POST['remove_product_id']);
     $remove_category = $_POST['remove_category'];
@@ -226,60 +231,40 @@ if (isset($_POST['remove_product_id'], $_POST['remove_category'])) {
 
 
     <!-- Cart Start -->
-    <div class="container pt-5">
-        <?php if (isset($_SESSION['success_message'])): ?>
-            <div class="alert alert-success">
-                <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['error_message'])): ?>
-            <div class="alert alert-danger">
-                <?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (!empty($cart_items)): ?>
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Product</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($cart_items as $item): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($item['p_name']); ?></td>
-                            <td><?php echo htmlspecialchars($item['category']); ?></td>
-                            <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
-                            <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                            <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
-                            <td>
-                                <form action="cart.php" method="POST">
-                                    <input type="hidden" name="remove_product_id" value="<?php echo htmlspecialchars($item['p_id']); ?>">
-                                    <input type="hidden" name="remove_category" value="<?php echo htmlspecialchars($item['category']); ?>">
-                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            <div class="text-right">
-                <a href="checkout.php" class="btn btn-primary">Proceed to Checkout</a>
-            </div>
-        <?php else: ?>
-            <p class="text-center">Your cart is empty!</p>
-            <div class="text-center mt-3">
-                <a href="shop.php" class="btn btn-secondary">Go Back to Shop</a>
-            </div>
-        <?php endif; ?>
-    </div>
+    <?php if (!empty($_SESSION['cart'])) : ?>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($_SESSION['cart'] as $item) : ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($item['p_name']); ?></td>
+                    <td><?php echo htmlspecialchars($item['category']); ?></td>
+                    <td>฿<?php echo number_format($item['p_price'], 2); ?></td>
+                    <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                    <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
+                    <td>
+                        <form action="remove_from_cart.php" method="POST">
+                            <input type="hidden" name="product_id" value="<?php echo $item['p_id']; ?>">
+                            <input type="hidden" name="category" value="<?php echo $item['category']; ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else : ?>
+    <p>Your cart is empty!</p>
+<?php endif; ?>
 
 
 
