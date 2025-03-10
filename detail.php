@@ -293,10 +293,12 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                                 </button>
                             </div>
                         </div>
-                        <a href="cart.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo $data['category']; ?>" 
+                        <?php foreach ($products as $data) : ?>
+                        <a href="cart.php?p_id=<?php echo htmlspecialchars($data['p_id']); ?>&category=<?php echo htmlspecialchars($data['category']); ?>" 
                             class="btn btn-sm text-dark p-0">
-                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
-                            </a>
+                            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+                        </a>
+                        <?php endforeach; ?>
                     </div>
             </div>
         </div>

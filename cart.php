@@ -3,10 +3,10 @@ session_start();
 include_once("connectdb.php");
 
 if (isset($_GET['p_id'], $_GET['category'])) {
-    $p_id = (int)$_GET['p_id']; // แปลงให้เป็นตัวเลข
-    $category = $_GET['category']; // ชื่อตาราง
+    $p_id = (int)$_GET['p_id'];
+    $category = $_GET['category'];
 
-    // ตรวจสอบชื่อ category ว่าถูกต้อง (ป้องกัน SQL Injection)
+    // ตรวจสอบ category ที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
@@ -20,23 +20,22 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     $result = mysqli_stmt_get_result($stmt);
 
     if ($product = mysqli_fetch_assoc($result)) {
-        // ตรวจสอบว่ามีสินค้าในตะกร้าหรือยัง
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
-        // ตรวจสอบว่าสินค้าเดียวกันเพิ่มแล้วหรือยัง
+        // ตรวจสอบว่าสินค้าซ้ำในตะกร้าหรือไม่
         $exists = false;
         foreach ($_SESSION['cart'] as &$item) {
             if ($item['p_id'] == $product['p_id'] && $item['category'] == $category) {
-                $item['quantity'] += 1; // เพิ่มจำนวน
+                $item['quantity'] += 1;
                 $item['total_price'] = $item['quantity'] * $item['p_price'];
                 $exists = true;
                 break;
             }
         }
 
-        // ถ้าไม่มีสินค้าในตะกร้า ให้เพิ่มใหม่
+        // หากยังไม่มีสินค้าในตะกร้า
         if (!$exists) {
             $product['category'] = $category;
             $product['quantity'] = 1;
@@ -45,13 +44,11 @@ if (isset($_GET['p_id'], $_GET['category'])) {
         }
 
         $_SESSION['success_message'] = "Product added to cart.";
-        header("Location: shop.php"); // เปลี่ยนเส้นทางกลับหน้าร้านค้า
+        header("Location: cart.php");
         exit;
     } else {
-        echo "Product not found.";
+        die("Product not found.");
     }
-} else {
-    echo "Invalid request.";
 }
 
 if (isset($_POST['remove_product_id'], $_POST['remove_category'])) {
