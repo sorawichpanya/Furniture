@@ -4,6 +4,9 @@ include_once("connectdb.php");
 
 // เพิ่มสินค้าในตะกร้า
 if (isset($_GET['p_id'], $_GET['category'])) {
+    echo "p_id: " . $_GET['p_id'] . "<br>";
+    echo "category: " . $_GET['category'] . "<br>";
+    
     $p_id = (int)$_GET['p_id'];
     $category = $_GET['category'];
 
@@ -12,6 +15,8 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
+}
+
 
     // ดึงข้อมูลสินค้า
     $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
