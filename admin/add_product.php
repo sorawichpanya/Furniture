@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("❌ Query prepare failed: " . $conn->error);
     }
     
-    $stmt->bind_param("sssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext);
+    $stmt->bind_param("ssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext);
 
     if ($stmt->execute()) {
         echo "✅ เพิ่มสินค้าและรูปภาพเรียบร้อย!";
