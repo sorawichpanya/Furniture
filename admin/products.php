@@ -8,6 +8,12 @@ if (!isset($_SESSION['username'])) {
 <?php
 // ตรวจสอบหน้าปัจจุบัน
 $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล์ เช่น 'index.php' หรือ 'products.php'
+
+$table_name = isset($_GET['table_name']) ? $_GET['table_name'] : '';
+if (empty($table_name)) {
+    die("❌ Table name is missing in the URL.");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -160,7 +166,8 @@ $rs = mysqli_query($conn, $sql);
             </script>
             <!-- table container -->
             <a href="add_product.php?table=<?php echo urlencode($table_name); ?>" 
-                class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+            class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+
             </div>
         </div>
         

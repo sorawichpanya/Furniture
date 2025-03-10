@@ -18,7 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if ($row = $result->fetch_assoc()) {
         // ตรวจสอบรหัสผ่าน
-        if (password_hash($password, $row['password'])) {
+        $new_password = "0258"; // เปลี่ยนเป็นรหัสผ่านที่ต้องการ
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+    echo $hashed_password;
             $_SESSION['username'] = $username; // ✅ บันทึก session
             header("Location: index.php"); // ✅ รีไดเรกไปหน้าแรก
             exit();

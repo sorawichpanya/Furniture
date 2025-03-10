@@ -4,12 +4,11 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // 🟢 รับค่า table_name จาก URL (GET parameter)
-$table_name = $_GET['table'] ?? '';
-$allowed_tables = ['bathroom', 'categories', 'orders']; // รายชื่อ table ที่อนุญาต
+$allowed_tables = ['bathroom', 'living_room', 'kitchen', 'bedroom']; // ตัวอย่าง table ที่อนุญาต
+$table_name = isset($_GET['table']) ? $_GET['table'] : '';
 
 if (!in_array($table_name, $allowed_tables)) {
-    die("❌ Table ไม่ถูกต้อง");
-}
+    die("❌ Table ไม่ถูกต้อง");}
 
 if ($conn->connect_error) {
     die("❌ Connection failed: " . $conn->connect_error);
