@@ -4,11 +4,6 @@ ini_set('display_errors', 1);
 session_start();
 require 'connectdb.php';
 
-echo "<h3>🔍 Debug: SESSION Data</h3>";
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 🔍 Debug: ดูค่าที่ได้รับจาก POST
     echo "<h3>🔍 Debug: ข้อมูลที่ได้รับจาก POST</h3>";
