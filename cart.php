@@ -265,6 +265,12 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     <div class="total">
         <h3>Total Price: ฿<?php echo number_format($total, 2); ?></h3>
     </div>
+    <div class="checkout mt-3">
+    <form action="checkout.php" method="POST">
+        <button type="submit" class="btn btn-success btn-lg">Proceed to Checkout</button>
+    </form>
+    </div>
+
 
 <?php else : ?>
     <p>Your cart is empty!</p>
