@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // กำหนดค่าลงใน session
         $_SESSION["username"] = $row['Username'];
-        $_SESSION["pw"] = $row['Password'];
+        $_SESSION["password"] = $row['Password'];
         $_SESSION["name"] = $row['Name'];
         $_SESSION["phone"] = $row['Phone'];
 
