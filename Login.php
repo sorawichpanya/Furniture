@@ -25,7 +25,7 @@ session_start();
 
               <form method="POST" action="Login_check.php">
                 <div class="form-outline form-white mb-4">
-                  <input type="text" name="Username" class="form-control form-control-lg" required />
+                  <input type="text" name="username" class="form-control form-control-lg" required />
                   <label class="form-label">Username</label>
                 </div>
 

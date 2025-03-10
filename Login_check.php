@@ -5,9 +5,8 @@ ini_set('display_errors', 1);
 include 'connectdb.php';
 session_start();
 
-// ตรวจสอบว่า username และ password ถูกส่งมาจากฟอร์มหรือไม่
-if (isset($_POST['Username']) && isset($_POST['password'])) {
-    $username = $_POST['Username'];
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $username = $_POST['username'];
     $password = $_POST['password']
 
     $sql = "SELECT * FROM Register WHERE username = ?";
