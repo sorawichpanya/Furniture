@@ -160,104 +160,106 @@ session_start(); // เรียกใช้งาน session
     </div>
     <!-- Page Header End -->
 
-<?php session_start(); ?>
-    <!-- Checkout Start -->
-    <div class="container-fluid pt-5">
-        <form action="confirm_order.php" method="POST" enctype="">
-            <div class="row px-xl-5">
+<!-- Checkout Start -->
+<div class="container-fluid pt-5">
+    <form action="confirm_order.php" method="POST">
+        <div class="row px-xl-5">
             <div class="col-lg-8">
                 <div class="mb-4">
                     <h4 class="font-weight-semi-bold mb-4">Address</h4>
                     <div class="row">
-                    <div class="col-md-6 form-group">
-                    <label>Full Name</label>
-                    <input class="form-control" type="text" name="full_name" 
-                        value="<?php echo isset($_SESSION['user_full_name']) ? $_SESSION['user_full_name'] : ''; ?>" required>
+                        <div class="col-md-6 form-group">
+                            <label>Full Name</label>
+                            <input class="form-control" type="text" name="full_name" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Phone Number</label>
+                            <input class="form-control" type="text" name="phone" required>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>Address</label>
+                            <textarea class="form-control" name="address" required></textarea>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Province</label>
+                            <input class="form-control" type="text" name="province" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Postal Code</label>
+                            <input class="form-control" type="text" name="zip_code" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6 form-group">
-                    <label>Phone Number</label>
-                    <input class="form-control" type="text" name="phone"
-                        value="<?php echo isset($_SESSION['user_phone']) ? $_SESSION['user_phone'] : ''; ?>" required>
-                </div>
-                <div class="col-md-12 form-group">
-                    <label>Address</label>
-                    <textarea class="form-control" name="address" required><?php echo isset($_SESSION['user_address']) ? $_SESSION['user_address'] : ''; ?></textarea>             
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Province</label>
-                    <input class="form-control" type="text" name="province" required
-                        value="<?php echo isset($_SESSION['user_province']) ? $_SESSION['user_province'] : ''; ?>">
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Postal Code</label>
-                    <input class="form-control" type="text" name="zip_code" required
-                    value="<?php echo isset($_SESSION['user_zip_code']) ? $_SESSION['user_zip_code'] : ''; ?>"required>
-                </div>            
             </div>
-    </div>
-            </div>
+
+            <!-- Order Summary -->
             <div class="col-lg-4">
-            <div class="card border-secondary mb-5">
-        <div class="card-header bg-secondary border-0">
-            <h4 class="font-weight-semi-bold m-0">Order Total</h4>
-        </div>
-        <div class="card-body">
-            <h5 class="font-weight-medium mb-3">Products</h5>
-            <?php 
-            $subtotal = 0;
-            if (!empty($_SESSION['cart'])) :
-                foreach ($_SESSION['cart'] as $item) :
-                    $subtotal += $item['total_price']; // คำนวณราคารวม
-            ?>
-                <div class="d-flex justify-content-between">
-                    <p><?php echo htmlspecialchars($item['p_name']) . " (x" . $item['quantity'] . ")"; ?></p>
-                    <p>฿<?php echo number_format($item['total_price'], 2); ?></p>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="font-weight-medium mb-3">Products</h5>
+                        <?php 
+                        $subtotal = 0;
+                        if (!empty($_POST['cart'])) :
+                            foreach ($_POST['cart'] as $item) :
+                                $subtotal += $item['total_price']; 
+                        ?>
+                            <div class="d-flex justify-content-between">
+                                <p><?php echo htmlspecialchars($item['p_name']) . " (x" . $item['quantity'] . ")"; ?></p>
+                                <p>฿<?php echo number_format($item['total_price'], 2); ?></p>
+                            </div>
+                        <?php endforeach; endif; ?>
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Subtotal</h6>
+                            <h6 class="font-weight-medium">฿<?php echo number_format($subtotal, 2); ?></h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium">฿<?php $shipping = 50; echo number_format($shipping, 2); ?></h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold">฿<?php echo number_format($subtotal + $shipping, 2); ?></h5>
+                        </div>
+                    </div>
                 </div>
-            <?php endforeach; endif; ?>
-            <hr class="mt-0">
-            <div class="d-flex justify-content-between mb-3 pt-1">
-                <h6 class="font-weight-medium">Subtotal</h6>
-                <h6 class="font-weight-medium">฿<?php echo number_format($subtotal, 2); ?></h6>
-            </div>
-            <div class="d-flex justify-content-between">
-                <h6 class="font-weight-medium">Shipping</h6>
-                <h6 class="font-weight-medium">฿<?php $shipping = 50; echo number_format($shipping, 2); ?></h6>
+
+                <!-- Payment Section -->
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Payment</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="font-weight-medium">Scan QR Code to Pay</h5>
+                        <img src="qr.png" alt="QR Code for Payment" class="img-fluid my-3" style="max-width: 250px;">
+                        <p>Use your mobile banking app to scan and complete the payment.</p>
+                        <h5 class="font-weight-medium">Amount to Pay: ฿<?php echo number_format($subtotal + 50, 2); ?></h5>
+                    </div>
+
+                    <div class="card-footer border-secondary bg-transparent">
+                        <form action="confirm_order.php" method="POST">
+                            <input type="hidden" name="full_name" value="<?php echo $_POST['full_name'] ?? ''; ?>">
+                            <input type="hidden" name="phone" value="<?php echo $_POST['phone'] ?? ''; ?>">
+                            <input type="hidden" name="address" value="<?php echo $_POST['address'] ?? ''; ?>">
+                            <input type="hidden" name="province" value="<?php echo $_POST['province'] ?? ''; ?>">
+                            <input type="hidden" name="zip_code" value="<?php echo $_POST['zip_code'] ?? ''; ?>">
+                            <input type="hidden" name="order_status" value="paid">
+                            <input type="hidden" name="cart" value="<?php echo htmlspecialchars(json_encode($_POST['cart'])); ?>">
+                            <input type="hidden" name="total_price" value="<?php echo $subtotal + $shipping; ?>">
+                            <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
+                                Confirm Order
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card-footer border-secondary bg-transparent">
-            <div class="d-flex justify-content-between mt-2">
-                <h5 class="font-weight-bold">Total</h5>
-                <h5 class="font-weight-bold">฿<?php echo number_format($subtotal + $shipping, 2); ?></h5>
-            </div>
-        </div>
-    </div>
-    <?php session_start(); ?>
-    <div class="card border-secondary mb-5">
-    <div class="card-header bg-secondary border-0">
-        <h4 class="font-weight-semi-bold m-0">Payment</h4>
-    </div>
-    <div class="card-body text-center">
-        <h5 class="font-weight-medium">Scan QR Code to Pay</h5>
-        <img src="qr.png" alt="QR Code for Payment" class="img-fluid my-3" style="max-width: 250px;">
-        <p>Use your mobile banking app to scan and complete the payment.</p>
-
-        <!-- Display amount to pay -->
-        <h5 class="font-weight-medium">Amount to Pay: ฿<?php echo number_format($subtotal + 50, 2); ?></h5>
-    </div>
-
-    <div class="card-footer border-secondary bg-transparent">
-    <form action="confirm_order.php" method="POST">
-    <input type="hidden" name="full_name" value="<?php echo $_SESSION['user_full_name'] ?? ''; ?>">
-    <input type="hidden" name="phone" value="<?php echo $_SESSION['user_phone'] ?? ''; ?>">
-    <input type="hidden" name="address" value="<?php echo $_SESSION['user_address'] ?? ''; ?>">
-    <input type="hidden" name="province" value="<?php echo $_SESSION['user_province'] ?? ''; ?>">
-    <input type="hidden" name="zip_code" value="<?php echo $_SESSION['user_zip_code'] ?? ''; ?>">
-    <input type="hidden" name="order_status" value="paid">
-    <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
-        Confirm Order
-    </button>
-</form>
-    </div>
+    </form>
 </div>
 
 
