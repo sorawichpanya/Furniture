@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $payment_proof = $_SESSION['payment_uploaded']; // ใช้ค่าจาก SESSION
 
     // ✅ ตรวจสอบค่า status ให้อยู่ใน ENUM
-$allowed_statuses = ['pending', 'confirmed', 'shipped', 'delivered', 'canceled'];
-$order_status = isset($_POST['status']) && in_array($_POST['status'], $allowed_statuses) ? $_POST['status'] : 'pending';
+        $allowed_statuses = ['pending', 'confirmed', 'shipped', 'delivered', 'canceled'];
+        $order_status = isset($_POST['payment_slip']) && in_array($_POST['payment_slip'], $allowed_statuses) ? $_POST['payment_slips'] : 'pending';
 
     // ✅ ตรวจสอบว่ากรอกข้อมูลครบ
     $required_fields = ['full_name', 'phone', 'address', 'province', 'zip_code', 'paid_amount'];
