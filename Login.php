@@ -21,7 +21,7 @@ session_start();
             <div class="mb-md-5 mt-md-4 pb-5">
 
               <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-              <p class="text-white-50 mb-5">Please enter your login and password!</p>
+              <p class="text-white-50 mb-5">Please enter your username and password!</p>
 
               <form method="POST" action="Login_check.php">
                 <div class="form-outline form-white mb-4">
@@ -33,16 +33,18 @@ session_start();
                   <input type="password" name="password" class="form-control form-control-lg" required />
                   <label class="form-label">Password</label>
                 </div>
-                <?php
-if (isset($_SESSION["Error"])) {
-    echo '<div class="alert alert-danger" role="alert">' . $_SESSION["Error"] . '</div>';
-    unset($_SESSION["Error"]); 
-}
-?>
+
+                <!-- แสดง Error Message ถ้ามี -->
+                <?php if (isset($_SESSION["Error"])): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= $_SESSION["Error"]; unset($_SESSION["Error"]); ?>
+                    </div>
+                <?php endif; ?>
+
                 <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#">Forgot password?</a></p>
 
                 <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
-            </form>
+              </form>
 
             </div>
             <div>

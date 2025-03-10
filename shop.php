@@ -261,8 +261,8 @@ include_once("connectdb.php");
 
 
             <!-- Shop Product Start -->
-            <div class="col-lg-9 col-md-12" >
-                <div class="row pb-3">
+            <div class="col-lg-9 col-md-12 mx-auto">
+            <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <!--
