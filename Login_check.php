@@ -28,8 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "ไม่พบบัญชีนี้!";
     }
-    ม่พบบัญชีนี้!";
-    }
     
     $stmt->close();
     $conn->close();

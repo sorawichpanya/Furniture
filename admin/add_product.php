@@ -34,9 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูล");
     }
 
+    $p_ext = pathinfo($_FILES['p_image']['name'], PATHINFO_EXTENSION); // ดึงนามสกุลไฟล์
     // เพิ่มข้อมูลสินค้า
-    $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssi", $p_name, $p_detail, $p_color, $p_size, $p_price);
+    $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext);    
 
     if ($stmt->execute()) {
         echo "✅ เพิ่มสินค้าเรียบร้อย!";
