@@ -2,53 +2,63 @@
 include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-var_dump($_POST);
-var_dump($_GET);
-var_dump($_FILES);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $p_name = $_POST['p_name'] ?? '';
     $p_detail = $_POST['p_detail'] ?? '';
     $p_color = $_POST['p_color'] ?? '';
     $p_size = $_POST['p_size'] ?? '';
-    $p_price = $_POST['p_price'] ?? 0;
-    $table_name = $_POST['table_name'] ?? '';
-
-    // ตรวจสอบค่าที่จำเป็น
-    if (empty($p_name) || empty($p_detail) || empty($p_color) || empty($p_size) || empty($p_price) || empty($table_name)) {
+    $p_price = $_POST['p_price'] ?? '';
+    
+    // ✅ ตรวจสอบข้อมูลที่จำเป็น
+    if (empty($p_name) || empty($p_detail) || empty($p_color) || empty($p_size) || empty($p_price)) {
         die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
     }
 
-    // อัพโหลดรูปภาพ
-    $target_dir = "../img/" . $table_name . "/";
-    if (!file_exists($target_dir)) {
-        mkdir($target_dir, 0777, true);
-    }
-    
-    $image_ext = pathinfo($_FILES["p_image"]["name"], PATHINFO_EXTENSION);
-    $image_name = uniqid();
-    $target_file = $target_dir . $image_name . '.' . $image_ext;
-    $table_name = $_GET['table_name'] ?? $_POST['table_name'] ?? '';
-        if (empty($table_name)) {
-            die("❌ ไม่พบข้อมูลตารางสินค้า กรุณาเลือกหมวดหมู่สินค้าให้ถูกต้อง");
-        }
-    if (move_uploaded_file($_FILES["p_image"]["tmp_name"], $target_file)) {
-        $stmt = $conn->prepare("INSERT INTO `$table_name` (p_name, p_detail, p_color, p_size, p_price, p_id, p_ext) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssiss", $p_name, $p_detail, $p_color, $p_size, $p_price, $image_name, $image_ext);
-        
-        if ($stmt->execute()) {
-            echo "🎉 เพิ่มสินค้าสำเร็จ!";
-        } else {
-            echo "❌ เกิดข้อผิดพลาด: " . $stmt->error;
-        }
+    // ✅ บันทึกข้อมูลสินค้า (ยังไม่รวมรูปภาพ)
+    $stmt = $conn->prepare("INSERT INTO products (p_name, p_detail, p_color, p_size, p_price) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssi", $p_name, $p_detail, $p_color, $p_size, $p_price);
+
+    if ($stmt->execute()) {
+        $p_id = $stmt->insert_id;  // ✅ ดึง `p_id` ล่าสุด
         $stmt->close();
+        
+        // ✅ ตรวจสอบการอัปโหลดรูปภาพ
+        if (!empty($_FILES["p_image"]["name"])) {
+            $file_ext = pathinfo($_FILES["p_image"]["name"], PATHINFO_EXTENSION); // ดึงนามสกุลไฟล์
+            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif'];
+
+            if (in_array(strtolower($file_ext), $allowed_exts)) {
+                $new_filename = $p_id . "." . $file_ext; // ✅ ใช้ `p_id` เป็นชื่อไฟล์
+                $upload_dir = "../img/products/";
+                $upload_path = $upload_dir . $new_filename;
+
+                // ✅ ย้ายไฟล์ไปยังโฟลเดอร์
+                if (move_uploaded_file($_FILES["p_image"]["tmp_name"], $upload_path)) {
+                    // ✅ อัปเดต `p_ext` ในฐานข้อมูล
+                    $stmt_update = $conn->prepare("UPDATE products SET p_ext = ? WHERE p_id = ?");
+                    $stmt_update->bind_param("si", $file_ext, $p_id);
+                    $stmt_update->execute();
+                    $stmt_update->close();
+
+                    echo "✅ เพิ่มสินค้าเรียบร้อย!";
+                } else {
+                    echo "❌ ไม่สามารถอัปโหลดรูปภาพได้";
+                }
+            } else {
+                echo "❌ ประเภทไฟล์ไม่รองรับ (อนุญาตเฉพาะ jpg, png, gif)";
+            }
+        } else {
+            echo "✅ เพิ่มสินค้าเรียบร้อย (ไม่มีรูปภาพ)";
+        }
     } else {
-        echo "❌ ไม่สามารถอัพโหลดรูปภาพได้";
+        echo "❌ เกิดข้อผิดพลาด: " . $conn->error;
     }
 
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
