@@ -17,6 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $zip_code = $_SESSION['user_zip_code'];
     $cart = $_SESSION['cart'];
 
+    // ตรวจสอบว่า session มีข้อมูลครบถ้วนหรือไม่
+    if (empty($full_name) || empty($phone) || empty($address) || empty($province) || empty($zip_code) || empty($cart)) {
+        $_SESSION['error_message'] = "ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูลให้ถูกต้อง";
+        header("Location: checkout.php");
+        exit;
+    }
+
     // คำนวณราคาสินค้าทั้งหมด
     $subtotal = 0;
     foreach ($cart as $item) {
@@ -31,10 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // กำหนดสถานะเป็น "paid"
     $status = 'paid';
-
-    // ตรวจสอบคำสั่ง SQL ก่อนบันทึก
-    echo "SQL Query: INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, status) VALUES ('$full_name', '$phone', '$address', '$province', '$zip_code', '$total_price', '$status')";
-    exit; // หยุดเพื่อดูคำสั่ง SQL ก่อน
 
     // ถ้าคำสั่ง SQL สำเร็จ
     if ($stmt->execute()) {
