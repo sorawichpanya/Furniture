@@ -160,37 +160,35 @@ session_start(); // เรียกใช้งาน session
     </div>
     <!-- Page Header End -->
 
-
-    <!-- Checkout Start -->
-    <div class="container-fluid pt-5">
-        <form action="upload_payment.php" method="POST" enctype="multipart/form-data">
-            <div class="row px-xl-5">
-            <div class="col-lg-8">
-                <div class="mb-4">
-                    <h4 class="font-weight-semi-bold mb-4">Address</h4>
-                    <div class="row">
-                <div class="col-md-6 form-group">
-                    <label>Full Name</label>
-                    <input class="form-control" type="text" name="full_name" placeholder="John Doe" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Phone Number</label>
-                    <input class="form-control" type="text" name="phone" placeholder="09XXXXXXXX" required>
-                </div>
-                <div class="col-md-12 form-group">
-                    <label>Address</label>
-                    <textarea class="form-control" name="address" rows="2" placeholder="123 Street, District" required></textarea>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Province</label>
-                    <input class="form-control" type="text" name="province" placeholder="Bangkok" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Postal Code</label>
-                    <input class="form-control" type="text" name="zip_code" placeholder="10110" required>
-                </div>
-            </div>
-        </form>
+<?php session_start(); ?>
+        <!-- Checkout Start -->
+        <div class="container-fluid pt-5">
+            <form action="upload_payment.php" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+            <label>Full Name</label>
+            <input class="form-control" type="text" name="full_name" 
+                value="<?php echo isset($_SESSION['full_name']) ? $_SESSION['full_name'] : ''; ?>" required>
+        </div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input class="form-control" type="text" name="phone"
+                value="<?php echo isset($_SESSION['phone']) ? $_SESSION['phone'] : ''; ?>" required>
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <textarea class="form-control" name="address" required><?php 
+                echo isset($_SESSION['address']) ? $_SESSION['address'] : ''; 
+            ?></textarea>
+        </div>
+        <div class="form-group">
+            <label for="payment_slip">Upload Payment Slip (JPEG, PNG, PDF)</label>
+            <input type="file" class="form-control-file" name="payment_slip" required>
+            <?php if(isset($_SESSION['payment_slip'])): ?>
+                <p>Uploaded File: <a href="<?php echo $_SESSION['payment_slip']; ?>" target="_blank">View</a></p>
+            <?php endif; ?>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Upload & Confirm Payment</button>
+    </form>    
     </div>
             </div>
             <div class="col-lg-4">
