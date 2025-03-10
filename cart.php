@@ -69,7 +69,7 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     } else {
         die("Product not found.");
     }
-} else {
+ else {
     die("Invalid request.");
 }
 ?>
