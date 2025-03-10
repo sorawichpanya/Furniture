@@ -305,36 +305,32 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Select elements
         const btnMinus = document.getElementById("btn-minus");
         const btnPlus = document.getElementById("btn-plus");
         const quantityInput = document.getElementById("quantity");
         const hiddenQuantity = document.getElementById("hiddenQuantity");
 
-        // Function to update quantity
         function updateQuantity(change) {
-            // Get current quantity
+            // Parse current quantity safely
             let currentQuantity = parseInt(quantityInput.value, 10);
-
-            // Default to 1 if invalid
-            if (isNaN(currentQuantity)) {
-                currentQuantity = 1;
+            if (isNaN(currentQuantity) || currentQuantity < 1) {
+                currentQuantity = 1; // Default to 1 if invalid
             }
 
-            // Calculate new quantity
-            let newQuantity = currentQuantity + change;
+            // Calculate the new quantity
+            const newQuantity = currentQuantity + change;
 
-            // Ensure new quantity is at least 1
-            if (newQuantity < 1) {
-                newQuantity = 1;
+            // Ensure the quantity is at least 1
+            if (newQuantity >= 1) {
+                quantityInput.value = newQuantity;
+                hiddenQuantity.value = newQuantity;
+
+                // Debug log
+                console.log("Updated Quantity:", newQuantity);
             }
-
-            // Update visible input and hidden input
-            quantityInput.value = newQuantity;
-            hiddenQuantity.value = newQuantity;
         }
 
-        // Add event listeners to buttons
+        // Add click events for buttons
         btnMinus.addEventListener("click", function () {
             updateQuantity(-1);
         });
