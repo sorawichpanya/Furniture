@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['error_message'] = "No file uploaded."; // ถ้าไม่มีไฟล์
         exit;
     }
-} else {
+     else {
     $_SESSION['error_message'] = "Invalid request."; // ถ้าไม่ได้ส่งข้อมูล POST
     exit;
 }

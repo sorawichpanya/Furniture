@@ -1,26 +1,5 @@
 <?php
-session_start();
-require 'connectdb.php';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['payment_slip'])) {
-    // ตรวจสอบการอัปโหลดไฟล์
-    $upload_dir = 'uploads/';
-    $file_name = basename($_FILES['payment_slip']['name']);
-    $file_tmp = $_FILES['payment_slip']['tmp_name'];
-    $target_file = $upload_dir . $file_name;
-
-    if (move_uploaded_file($file_tmp, $target_file)) {
-        // บันทึกไฟล์ใน SESSION
-        $_SESSION['payment_slip'] = $target_file;
-        $_SESSION['payment_slip_type'] = $_FILES['payment_slip']['type'];
-        $_SESSION['success_message'] = "อัปโหลดไฟล์สำเร็จ!";
-    } else {
-        $_SESSION['error_message'] = "เกิดข้อผิดพลาดในการอัปโหลดไฟล์!";
-    }
-
-    header("Location: checkout.php");
-    exit;
-}
+session_start(); // เรียกใช้งาน session
 ?>
 <!DOCTYPE html>
 <html lang="en">
