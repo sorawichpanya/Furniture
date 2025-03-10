@@ -262,42 +262,34 @@ $rs = mysqli_query($conn , $sql);
                         </div>
                     </div>
                     <?php
-                    if (mysqli_num_rows($rs) > 0) {
-                        while ($data = mysqli_fetch_assoc($rs)) {
-                            // จัดรูปแบบราคา
-                            $formatted_price = number_format($data['p_price'], 2);
+                        if (mysqli_num_rows($rs) > 0) {
+                            while ($data = mysqli_fetch_assoc($rs)) {
+                                // จัดรูปแบบราคา
+                                $formatted_price = number_format($data['p_price'], 2);
 
-                            // สร้างที่อยู่รูปภาพ
-                            $image_path = "/" . trim($data['p_ext'], "/"); // เพิ่ม / ด้านหน้าและตัด / เกินออก
-                            // ตรวจสอบว่ามี / นำหน้าแล้ว ถ้าไม่มีก็เพิ่ม
-                            if (substr($image_path, 0, 1) !== '/') {
-                                $image_path = '/' . $image_path;
+                                // แสดงข้อมูลสินค้าแต่ละรายการ
+                                echo "<div class='col-lg-4 col-md-6 col-sm-12 pb-1'>";
+                                echo "<div class='card product-item border-0 mb-4'>";
+                                echo "<div class='card-header product-img position-relative overflow-hidden bg-transparent border p-0'>";
+                                echo "<img class='img-fluid w-100' src='img/" . htmlspecialchars($data['category']) . "/" . htmlspecialchars($data['p_id']) . "." . htmlspecialchars($data['p_ext']) . "' alt='" . htmlspecialchars($data['p_name']) . "'>";
+                                echo "</div>";
+                                echo "<div class='card-body border-left border-right text-center p-0 pt-4 pb-3'>";
+                                echo "<h6 class='text-truncate mb-3'>" . htmlspecialchars($data['p_name']) . "</h6>";
+                                echo "<div class='d-flex justify-content-center'>";
+                                echo "<h6>" . $formatted_price . "</h6>";
+                                echo "</div>";
+                                echo "</div>";
+                                echo "<div class='card-footer d-flex justify-content-between bg-light border'>";
+                                echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-eye text-primary mr-1'></i>View Detail</a>";
+                                echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-shopping-cart text-primary mr-1'></i>Add To Cart</a>";
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</div>";
                             }
-                            $image_path = 'http://212.80.215.178/Furniture/img' . $image_path;
-
-                            // แสดงข้อมูลสินค้าแต่ละรายการในรูปแบบ product item
-                            echo "<div class='col-lg-4 col-md-6 col-sm-12 pb-1'>";
-                            echo "<div class='card product-item border-0 mb-4'>";
-                            echo "<div class='card-header product-img position-relative overflow-hidden bg-transparent border p-0'>";
-                            echo "<img class='img-fluid w-100' src='" . $image_path . "' alt='" . htmlspecialchars($data['p_name']) . "'>"; // ใช้ path รูปภาพจากฐานข้อมูล
-                            echo "</div>";
-                            echo "<div class='card-body border-left border-right text-center p-0 pt-4 pb-3'>";
-                            echo "<h6 class='text-truncate mb-3'>" . htmlspecialchars($data['p_name']) . "</h6>";
-                            echo "<div class='d-flex justify-content-center'>";
-                            echo "<h6>" . $formatted_price . "</h6>";
-                            echo "</div>";
-                            echo "</div>";
-                            echo "<div class='card-footer d-flex justify-content-between bg-light border'>";
-                            echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-eye text-primary mr-1'></i>View Detail</a>";
-                            echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-shopping-cart text-primary mr-1'></i>Add To Cart</a>";
-                            echo "</div>";
-                            echo "</div>";
-                            echo "</div>";
+                        } else {
+                            echo "<div class='col-12'><p>No products found matching your search.</p></div>";
                         }
-                    } else {
-                        echo "<div class='col-12'><p>No products found matching your search.</p></div>";
-                    }
-                    ?>
+                        ?>
                 </div>
             </div>
             <!-- Shop Product End -->
