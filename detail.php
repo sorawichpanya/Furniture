@@ -327,9 +327,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
             if (newQuantity >= 1) {
                 quantityInput.value = newQuantity; // อัปเดต input text
                 hiddenQuantity.value = newQuantity; // อัปเดต hidden input
-                console.log("Updated Quantity:", newQuantity);
-            } else {
-                console.log("Quantity cannot be less than 1");
             }
         }
 
@@ -343,6 +340,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
         });
     });
 </script>
+
 
 
 
