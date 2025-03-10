@@ -168,8 +168,7 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
             }
             
             mysqli_close($conn);
-            ?>
-                ?>            
+            ?>           
                 </tbody>
             </table>
             </div>

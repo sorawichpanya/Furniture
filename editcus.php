@@ -112,12 +112,11 @@ $data = mysqli_fetch_array($rs);
     <!-- แก้ไขข้อมูลลูกค้า End -->
 
     <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // รับค่าจากฟอร์ม
-        $name = $_POST['name'];
-        $phone = $_POST['phone'];
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
         // อัปเดตข้อมูลในฐานข้อมูล
         $sql = "UPDATE Register SET 
