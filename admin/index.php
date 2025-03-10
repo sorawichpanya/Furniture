@@ -147,14 +147,11 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">ORDER ID.</th>
-                        <th scope="col">FULL NAME</th>
-                        <th scope="col">PHONE</th>
-                        <th scope="col">ADDRESS</th>
-                        <th scope="col">PROVINCE</th>
-                        <th scope="col">ZIP CODE</th>
+                        <th scope="col">ORDER ITEM ID </th>
+                        <th scope="col">ORDER ID</th>
+                        <th scope="col">PRODUCT NAME</th>
+                        <th scope="col">QUANTITY</th>
                         <th scope="col">TOTAL PRICE</th>
-                        <th scope="col">STATUS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -166,7 +163,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         die("❌ Connection failed: " . $conn->connect_error);
                     }
 
-                    $sql = "SELECT * FROM orders";
+                    $sql = "SELECT * FROM order_items";
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
