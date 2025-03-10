@@ -38,43 +38,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $p_image_name = time() . "_" . basename($_FILES["p_image"]["name"]);
     $target_file = $target_dir . $p_image_name;
 
-    // เพิ่มข้อมูลสินค้าเข้า Database
-    $query = "INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    if ($stmt->execute()) {
-        // ✅ 2. ดึงค่า p_id ล่าสุด
-        $p_id = $conn->insert_id;
+    // อัปโหลดไฟล์ก่อนแล้วเปลี่ยนชื่อให้ตรงกับ p_id หลังจากเพิ่มข้อมูลสินค้า
+    if (move_uploaded_file($_FILES['p_image']['tmp_name'], $target_file)) {
+        echo "✅ อัปโหลดรูปสำเร็จ: $p_image_name<br>";
 
-        // ✅ 3. อัปโหลดรูปภาพโดยเปลี่ยนชื่อเป็น p_id
-        if (!empty($_FILES['p_image']['name'])) {
-            $p_ext = pathinfo($_FILES['p_image']['name'], PATHINFO_EXTENSION); // ดึงนามสกุลไฟล์
-            $new_filename = $p_id . '.' . $p_ext; // เปลี่ยนชื่อไฟล์เป็น "p_id.นามสกุล"
-            $upload_path = "../img/$table_name/" . $new_filename; // กำหนด Path ปลายทาง
-        }
-    }
-    if (move_uploaded_file($_FILES['p_image']['tmp_name'], $upload_path)) {
-        echo "✅ อัปโหลดรูปสำเร็จ: $new_filename";
+        // เพิ่มข้อมูลสินค้าเข้าฐานข้อมูล
+        $query = "INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
         
-        // ✅ 4. อัปเดต p_ext ในฐานข้อมูลให้ตรงกับชื่อไฟล์ใหม่
-        $update_stmt = $conn->prepare("UPDATE $table_name SET p_ext = ? WHERE p_id = ?");
-        $update_stmt->bind_param("si", $new_filename, $p_id);
-        $update_stmt->execute();
-        $update_stmt->close();
+        if (!$stmt) {
+            die("❌ Query prepare failed: " . $conn->error);
+        }
+        
+        // ผูกตัวแปร
+        $stmt->bind_param("ssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext);
+
+        if ($stmt->execute()) {
+            // ✅ 2. ดึงค่า p_id ล่าสุด
+            $p_id = $conn->insert_id;
+
+            // ตั้งชื่อไฟล์ใหม่ให้ตรงกับ p_id
+            $new_filename = $p_id . '.' . $p_ext;
+            $new_upload_path = "../img/$table_name/" . $new_filename;
+
+            // ย้ายไฟล์ที่อัปโหลดไปยังชื่อใหม่
+            if (rename($target_file, $new_upload_path)) {
+                echo "✅ เปลี่ยนชื่อไฟล์เป็น $new_filename";
+
+                // ✅ 3. อัปเดตชื่อไฟล์ในฐานข้อมูล
+                $update_stmt = $conn->prepare("UPDATE $table_name SET p_ext = ? WHERE p_id = ?");
+                $update_stmt->bind_param("si", $new_filename, $p_id);
+                $update_stmt->execute();
+                $update_stmt->close();
+
+                echo "✅ อัปเดตข้อมูลไฟล์ในฐานข้อมูลเรียบร้อย!";
+            } else {
+                echo "❌ เกิดข้อผิดพลาดในการย้ายไฟล์ใหม่";
+            }
+
+            echo "✅ เพิ่มสินค้าเรียบร้อย!";
+        } else {
+            echo "❌ เกิดข้อผิดพลาด: " . $conn->error;
+        }
+        
+        $stmt->close();
     } else {
         echo "❌ เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ";
-    }    if (!$stmt) {
-        die("❌ Query prepare failed: " . $conn->error);
     }
-    
-    $stmt->bind_param("ssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext);
 
-    if ($stmt->execute()) {
-        echo "✅ เพิ่มสินค้าและรูปภาพเรียบร้อย!";
-    } else {
-        echo "❌ เกิดข้อผิดพลาด: " . $conn->error;
-    }
+    $conn->close();
 }
 ?>
+
 
 
 <!DOCTYPE html>
