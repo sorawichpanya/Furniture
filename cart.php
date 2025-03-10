@@ -10,9 +10,9 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
-
-    // ดึงข้อมูลสินค้าจากฐานข้อมูล
-    $sql = sprintf("SELECT p_id, p_name, p_price FROM `%s` WHERE p_id = ?", mysqli_real_escape_string($conn, $category));
+    
+    // สร้างคำสั่ง SQL โดยใช้ชื่อของตาราง
+    $sql = "SELECT p_id, p_name, p_price FROM `$category` WHERE p_id = ?";
     var_dump($sql);
     
     $stmt = mysqli_prepare($conn, $sql);
