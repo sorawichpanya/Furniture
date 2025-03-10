@@ -43,7 +43,7 @@ if (isset($_POST['p_id'], $_POST['category'])) {
 
     // Fetch product
     if ($product = mysqli_fetch_assoc($result)) {
-        echo "Product found: ";
+
     } else {
         echo "No product found with ID $p_id in category $category";
     }
