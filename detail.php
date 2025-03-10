@@ -285,25 +285,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                 <i class="fa fa-minus"></i>
             </button>
         </div>
-        <div class="input-group-btn">
-            <button class="btn btn-primary btn-plus" type="button">
-                <i class="fa fa-plus"></i>
-            </button>
-        </div>
-    </div>
-
-    <form action="cart.php" method="POST">
-        <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
-        <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
-        <!-- Hidden input for quantity -->
-        <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
-        <button type="submit" class="btn btn-sm text-dark p-0">
-            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
-        </button>
-    </form>
-</div>
-
-<script>
+        <script>
 document.addEventListener("DOMContentLoaded", function () {
     const quantityInput = document.getElementById("quantity");
     const hiddenQuantity = document.getElementById("hiddenQuantity");
@@ -339,7 +321,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-</dive>
+        <div class="input-group-btn">
+            <button class="btn btn-primary btn-plus" type="button">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <form action="cart.php" method="POST">
+        <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
+        <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
+        <!-- Hidden input for quantity -->
+        <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
+        <button type="submit" class="btn btn-sm text-dark p-0">
+            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+        </button>
+    </form>
+</div>
             </div>
         </div>
     </div>
