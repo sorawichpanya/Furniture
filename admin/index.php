@@ -4,10 +4,9 @@ if (!isset($_SESSION['username'])) {
     header("Location: Login.php"); 
     exit;
 }
-?>
-<?php
-
 $currentPage = basename($_SERVER['PHP_SELF']);
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
