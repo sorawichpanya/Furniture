@@ -11,7 +11,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $password = $_POST['password'];
 
     // ใช้ prepared statement เพื่อป้องกัน SQL injection
-    $sql = "SELECT * FROM Register WHERE Username = ?";
+    $sql = "SELECT * FROM Register WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username); // 's' คือชนิดข้อมูล string
     $stmt->execute();
@@ -29,9 +29,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
             // รีไดเร็กต์ไปยังหน้า index.php
             header("Location: index.php");
-            exit(); // ออกจากสคริปต์หลังจาก redirect
+
         } else {
-            // ถ้ารหัสผ่านไม่ตรง
             $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
             header("Location: Login.php");
             exit();

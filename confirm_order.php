@@ -1,25 +1,24 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 require 'connectdb.php';
 
-// เปิด error reporting เพื่อดีบัก
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // ตรวจสอบว่ามีค่าใน $_POST
-    if (empty($_POST)) {
-        $_SESSION['error_message'] = "ไม่มีข้อมูลที่ถูกส่งมา";
-        header("Location: checkout.php");
-        exit;
-    }
+    echo "<h3>🔍 Debug: ข้อมูลที่ได้รับจาก POST</h3>";
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+    exit; // หยุดโปรแกรมไว้ก่อนเพื่อดูค่าที่ได้รับ
+}
 
     // ตรวจสอบว่ามีการอัปโหลดสลิปหรือไม่
     if (!isset($_SESSION['payment_uploaded']) || empty($_SESSION['payment_uploaded'])) {
-        $_SESSION['error_message'] = "กรุณาอัปโหลดสลิปโอนเงินก่อนยืนยันคำสั่งซื้อ";
-        header("Location: checkout.php");
+        echo "<h3>⛔ Error: ไม่มีค่าสลิปโอนเงิน</h3>";
+        var_dump($_SESSION['payment_uploaded']);
         exit;
-    }
 
     // รับค่าจากฟอร์ม
     $full_name = trim($_POST['full_name']);
@@ -46,15 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("sssssss", $full_name, $phone, $address, $province, $zip_code, $total_price, $payment_proof);
 
     if ($stmt->execute()) {
-        $_SESSION['success_message'] = "สั่งซื้อสำเร็จ!";
-        unset($_SESSION['cart'], $_SESSION['payment_uploaded']);
-        header("Location: order_success.php");
-        exit;
+        echo "<h3>✅ Insert สำเร็จ</h3>";
     } else {
-        $_SESSION['error_message'] = "เกิดข้อผิดพลาดในการสั่งซื้อ: " . $stmt->error;
-        header("Location: checkout.php");
-        exit;
+        echo "<h3>⛔ SQL Error:</h3> " . $stmt->error;
     }
+    exit;
+    
 } else {
     $_SESSION['error_message'] = "Invalid request.";
     header("Location: checkout.php");
