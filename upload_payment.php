@@ -14,7 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $upload_dir = 'uploads/'; // โฟลเดอร์ที่จะเก็บไฟล์
                 $file_name = basename($_FILES['payment_slip']['name']);
                 $target_file = $upload_dir . $file_name;
-
+                $mime_type = mime_content_type($_FILES['payment_slip']['tmp_name']); // อ่านประเภท MIME
+                var_dump($file_type, $mime_type);
                 // อัปโหลดไฟล์
                 if (move_uploaded_file($_FILES['payment_slip']['tmp_name'], $target_file)) {
                     $_SESSION['payment_uploaded'] = true;
