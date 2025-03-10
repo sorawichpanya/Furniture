@@ -299,11 +299,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         <?php
                             
                             var_dump($_GET);  // แสดงค่าที่ถูกส่งจาก URL
-                            var_dump($data); // เช็คค่าที่ถูกอ่านมาจากฐานข้อมูล
                             ?>
-                            <p>Product ID: <?php echo htmlspecialchars($data['p_id'] ?? 'ไม่มีค่า'); ?></p>
-                            <p>Category: <?php echo htmlspecialchars($data['category'] ?? 'ไม่มีค่า'); ?></p>
-
                             <form action="cart.php" method="POST" onsubmit="console.log('Form data:', this)">
                                 <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($data['p_id']); ?>">
                                 <input type="hidden" name="category" value="<?php echo htmlspecialchars($data['category']); ?>">
