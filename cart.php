@@ -1,4 +1,7 @@
 <?php
+session_start();
+include_once("connectdb.php");
+
 // First, ensure $conn is properly established
 if (!isset($conn) || !$conn) {
     die("Database connection not established.");
