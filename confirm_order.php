@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->execute()) {
         echo "<h3>✅ Insert สำเร็จ</h3>";
         unset($_SESSION['cart'], $_SESSION['payment_uploaded']);
-        header("Location: order_success.php");
+        header("Location: confirm_order.php");
         exit;
     } else {
         echo "<h3>⛔ SQL Error:</h3> " . $stmt->error;
