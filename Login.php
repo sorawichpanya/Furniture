@@ -11,10 +11,13 @@ if (!$conn) {
 
 // ตรวจสอบว่าฟอร์มถูกส่งมา
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $Username = mysqli_real_escape_string($conn, $_POST['Username']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $Username = trim($_POST['Username']);
+    $password = trim($_POST['password']);
 
-    // Query the database to verify user credentials (แก้ไขชื่อตารางเป็น users หรือชื่อตารางที่ถูกต้องของคุณ)
+    // ป้องกัน SQL Injection
+    $Username = mysqli_real_escape_string($conn, $Username);
+
+    // คำสั่ง SQL ค้นหาผู้ใช้
     $query = "SELECT * FROM Register WHERE Username = ?";
     $stmt = mysqli_prepare($conn, $query);
 
@@ -25,8 +28,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($row = mysqli_fetch_assoc($result)) {
             if (password_verify($password, $row['password'])) {
+                // เก็บข้อมูลผู้ใช้ใน Session
                 $_SESSION['Username'] = $Username;
-                header("Location: index.php");
+                $_SESSION['UserRole'] = $row['role']; // สมมติว่ามีฟิลด์ role ในฐานข้อมูล
+
+                // เปลี่ยนเส้นทางตามสิทธิ์
+                if ($_SESSION['UserRole'] == 'admin') {
+                    header("Location: admin_dashboard.php");
+                } else {
+                    header("Location: products.php"); // เปลี่ยนไปหน้าสินค้า
+                }
                 exit();
             } else {
                 $_SESSION["Error"] = "Invalid Username or password.";
@@ -40,7 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION["Error"] = "Database query error.";
     }
 
-    header("Location: Login.php"); // Redirect กลับไปที่หน้า login เพื่อแสดง error
+    // ปิดการเชื่อมต่อฐานข้อมูล
+    mysqli_close($conn);
+
+    // Redirect กลับไปที่หน้า login เพื่อแสดง error
+    header("Location: Login.php");
     exit();
 }
 ?>
