@@ -182,8 +182,7 @@ session_start(); // เรียกใช้งาน session
                 <div class="col-md-12 form-group">
                     <label>Address</label>
                     <textarea class="form-control" name="address" required>
-                        <?php echo isset($_SESSION['user_address']) ? $_SESSION['user_address'] : ''; ?>
-                    </textarea required>
+                        <?php echo isset($_SESSION['user_address']) ? $_SESSION['user_address'] : ''; ?> </textarea>
                 </div>
                 <div class="col-md-6 form-group">
                     <label>Province</label>
