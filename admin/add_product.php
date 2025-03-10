@@ -7,77 +7,46 @@ echo "<pre>";
 print_r($_POST); // ตรวจสอบค่าที่ส่งจากฟอร์ม
 echo "</pre>";
 
-// 🟢 รับค่า table_name จาก URL (GET parameter)
-$allowed_tables = ['bathroom', 'living_room', 'kitchen', 'bedroom']; // ตัวอย่าง table ที่อนุญาต
-$table_name = isset($_GET['table']) ? $_GET['table'] : '';
 
-if (!in_array($table_name, $allowed_tables)) {
-    die("❌ Table ไม่ถูกต้อง");}
-
-if ($conn->connect_error) {
-    die("❌ Connection failed: " . $conn->connect_error);
-}
-    // ดำเนินการต่อ...
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // 🟢 รับค่าจากฟอร์ม
+    $table_name = $_POST['table'] ?? '';
+
+    // รายการ Table ที่อนุญาต
+    $allowed_tables = ['bathroom', 'kitchen', 'livingroom'];
+
+    // Debug: แสดงค่าที่ส่งมาจากฟอร์ม
+    echo "Table Name Received: " . htmlspecialchars($table_name) . "<br>";
+
+    if (!in_array(strtolower($table_name), array_map('strtolower', $allowed_tables))) {
+        die("❌ Table ไม่ถูกต้อง");
+    }
+
+    // ดำเนินการเพิ่มข้อมูลในตารางที่กำหนด
     $p_name = $_POST['p_name'] ?? '';
     $p_detail = $_POST['p_detail'] ?? '';
     $p_color = $_POST['p_color'] ?? '';
     $p_size = $_POST['p_size'] ?? '';
     $p_price = $_POST['p_price'] ?? '';
 
-    // ✅ ตรวจสอบข้อมูลที่จำเป็น
     if (empty($p_name) || empty($p_detail) || empty($p_color) || empty($p_size) || empty($p_price)) {
-        die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
+        die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูล");
     }
 
-    // ✅ บันทึกข้อมูลสินค้า (ยังไม่รวมรูปภาพ)
+    // เตรียมคำสั่ง SQL
     $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price) VALUES (?, ?, ?, ?, ?)");
-    if (!$stmt) {
-        die("❌ Error preparing statement: " . $conn->error);
-    }
-
     $stmt->bind_param("ssssi", $p_name, $p_detail, $p_color, $p_size, $p_price);
 
     if ($stmt->execute()) {
-        $p_id = $stmt->insert_id;  // ✅ ดึง `p_id` ล่าสุด
-        $stmt->close();
-        
-        // ✅ ตรวจสอบการอัปโหลดรูปภาพ
-        if (!empty($_FILES["p_image"]["name"])) {
-            $file_ext = pathinfo($_FILES["p_image"]["name"], PATHINFO_EXTENSION); // ดึงนามสกุลไฟล์
-            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif'];
-
-            if (in_array(strtolower($file_ext), $allowed_exts)) {
-                $new_filename = $p_id . "." . $file_ext; // ✅ ใช้ `p_id` เป็นชื่อไฟล์
-                $upload_dir = "../img/".$table_name."/"; // โฟลเดอร์ที่เก็บไฟล์
-                $upload_path = $upload_dir . $new_filename;
-
-                // ✅ ย้ายไฟล์ไปยังโฟลเดอร์
-                if (move_uploaded_file($_FILES["p_image"]["tmp_name"], $upload_path)) {
-                    // ✅ อัปเดต `p_ext` ในฐานข้อมูล
-                    $stmt_update = $conn->prepare("UPDATE $table_name SET p_ext = ? WHERE p_id = ?");
-                    $stmt_update->bind_param("si", $file_ext, $p_id);
-                    $stmt_update->execute();
-                    $stmt_update->close();
-
-                    echo "✅ เพิ่มสินค้าเรียบร้อย!";
-                } else {
-                    echo "❌ ไม่สามารถอัปโหลดรูปภาพได้";
-                }
-            } else {
-                echo "❌ ประเภทไฟล์ไม่รองรับ (อนุญาตเฉพาะ jpg, png, gif)";
-            }
-        } else {
-            echo "✅ เพิ่มสินค้าเรียบร้อย (ไม่มีรูปภาพ)";
-        }
+        echo "✅ เพิ่มสินค้าเรียบร้อย!";
     } else {
         echo "❌ เกิดข้อผิดพลาด: " . $conn->error;
     }
 
+    $stmt->close();
     $conn->close();
 }
 ?>
+
 
 
 

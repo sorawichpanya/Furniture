@@ -167,7 +167,6 @@ $rs = mysqli_query($conn, $sql);
             <!-- table container -->
             <a href="add_product.php?table=<?php echo urlencode($table_name); ?>" 
             class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
-
             </div>
         </div>
         
