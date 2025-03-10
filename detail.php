@@ -294,7 +294,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                             </div>
                         </div>
                         <?php
-                        var_dump($data);
                         ?>
                         <form action="cart.php" method="POST">
                             <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($data['p_id']); ?>">
