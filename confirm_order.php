@@ -21,10 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // คำนวณราคาสินค้าทั้งหมด
     $subtotal = 0;
     foreach ($cart as $item) {
-        $subtotal += $item['total_price'];
+        $subtotal += $item['total_price']; // คำนวณราคารวมของสินค้าทั้งหมด
     }
     $shipping = 50;
-    $total_price = $subtotal + $shipping;
+    $total_price = $subtotal + $shipping; // ราคารวม
 
     // บันทึกข้อมูลคำสั่งซื้อลงในฐานข้อมูล
     $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
