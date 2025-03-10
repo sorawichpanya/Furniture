@@ -29,9 +29,16 @@ if (isset($_GET['order_id'])) {
             <input type='text' name='zip_code' value='".$row['zip_code']."'>
             <label for='total_price'>Total Price:</label>
             <input type='number' name='total_price' value='".$row['total_price']."'>
-            <label for='status'>Status:</label>
-            <input type='text' name='status' value='".$row['status']."'>
-            <button type='submit' class='btn btn-success'>Update</button>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="pending" <?php echo ($current_status == 'pending') ? 'selected' : ''; ?>>Pending</option>
+                    <option value="shipped" <?php echo ($current_status == 'shipped') ? 'selected' : ''; ?>>Shipped</option>
+                    <option value="completed" <?php echo ($current_status == 'completed') ? 'selected' : ''; ?>>Completed</option>
+                    <option value="cancelled" <?php echo ($current_status == 'cancelled') ? 'selected' : ''; ?>>Cancelled</option>
+                </select>
+            </div>            
+    <button type='submit' class='btn btn-success'>Update</button>
         </form>
         ";
     } else {
