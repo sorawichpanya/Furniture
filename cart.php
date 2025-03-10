@@ -2,11 +2,10 @@
 session_start();
 include_once("connectdb.php");
 
-
 if (isset($_POST['p_id'], $_POST['category'])) {
     $p_id = (int)$_POST['p_id'];
     $category = $_POST['category'];
-    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
+    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1; // รับค่าจำนวนจากฟอร์ม
     
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen_room','garden','workroom','Just_arrived','trendy'];
     if (!in_array($category, $allowed_categories)) {
@@ -38,7 +37,8 @@ if (isset($_POST['p_id'], $_POST['category'])) {
         $exists = false;
         foreach ($_SESSION['cart'] as &$item) {
             if ($item['p_id'] == $product['p_id'] && $item['category'] == $category) {
-                $item['quantity'] += 1;  // Increase quantity
+                // If product already in cart, increase quantity by the value from the form
+                $item['quantity'] += $quantity;  // Increase the quantity based on form input
                 $item['total_price'] = $item['quantity'] * $item['p_price'];  // Update total price
                 $exists = true;
                 break;
@@ -48,8 +48,8 @@ if (isset($_POST['p_id'], $_POST['category'])) {
         // If product is not in cart, add it
         if (!$exists) {
             $product['category'] = $category;
-            $product['quantity'] = 1;  // Set initial quantity
-            $product['total_price'] = $product['p_price'];  // Set total price
+            $product['quantity'] = $quantity;  // Set the initial quantity from the form
+            $product['total_price'] = $product['p_price'] * $quantity;  // Set the total price based on quantity
             $_SESSION['cart'][] = $product;
         }
 
