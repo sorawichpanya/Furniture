@@ -329,8 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-
-</dive>
+</div>
             </div>
         </div>
     </div>
