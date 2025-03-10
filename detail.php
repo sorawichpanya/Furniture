@@ -346,8 +346,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
     });
 </script>
 
-
-        </div>
     </div>
 </div>
 
