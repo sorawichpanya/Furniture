@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
+require 'connectdb.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $hashed_password)) {
             $_SESSION["user_id"] = $id;
             $_SESSION["name"] = $name;
-            header("Location: dashboard.php"); // ไปที่หน้าหลักหลังล็อกอินสำเร็จ
+            header("Location: index.php"); 
             exit();
         } else {
             $_SESSION["Error"] = "รหัสผ่านไม่ถูกต้อง!";
