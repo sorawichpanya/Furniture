@@ -156,12 +156,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 </thead>
                 <tbody>
                     <?php
-                    // เรียกใช้ PHP สำหรับดึงข้อมูลจากฐานข้อมูลและแสดงในตาราง
-                    include_once("connectdb.php");
-
-                    if ($conn->connect_error) {
-                        die("❌ Connection failed: " . $conn->connect_error);
-                    }
 
                     $sql = "SELECT * FROM order_items";
                     $result = $conn->query($sql);
