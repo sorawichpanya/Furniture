@@ -13,6 +13,8 @@ if (isset($_POST['p_id'], $_POST['category'])) {
 
     // ดึงข้อมูลสินค้าจากฐานข้อมูล
     $sql = sprintf("SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM `%s` WHERE p_id = ?", $category);
+    var_dump($sql);
+    echo "SQL Query: " . $sql; // ตรวจสอบ SQL query
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $p_id);
     mysqli_stmt_execute($stmt);

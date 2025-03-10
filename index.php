@@ -141,6 +141,7 @@ session_start();
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="Login.php" class="nav-item nav-link">Login</a>
+                            <a href="Logout.php" class="nav-item nav-link">Logout</a>
                             <a href="Register.php" class="nav-item nav-link">Register</a>
                         </div>
                     </div>
