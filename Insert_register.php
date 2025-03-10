@@ -7,6 +7,7 @@ $phone = $_POST['phone'];
 $username = $_POST['username'];
 $password = $_POST['password'];
 
+$password=hash('Sha512',$password);
 // เพิ่มข้อมูลลงฐานข้อมูล
 $sql = "INSERT INTO Register (name, phone, username, password) 
 VALUES ('$name', '$phone', '$username', '$password')";
