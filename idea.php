@@ -63,16 +63,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="img/blog3.jpg" class="card-img-top" alt="DIY Ideas">
-                    <div class="card-body">
-                        <h5 class="card-title">DIY และการดูแลรักษาเฟอร์นิเจอร์</h5>
-                        <p class="card-text">ไอเดีย DIY และการบำรุงรักษาเฟอร์นิเจอร์ให้อยู่ได้นาน...</p>
-                        <a href="#" class="btn btn-primary">Read More</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <!-- Blog Section End -->
