@@ -75,7 +75,10 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>    
-
+<form action="product_list.php" method="get">
+    <input type="text" name="search" placeholder="Search products" class="form-control mb-3">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
 <div class="container mt-5">
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
@@ -146,7 +149,6 @@ $rs = mysqli_query($conn, $sql);
                                 <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
                             </td>
                             </tr>";
-
                 }
                 ?>            
                 </tbody>

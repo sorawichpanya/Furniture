@@ -70,37 +70,27 @@ $data = mysqli_fetch_array($rs);
                 <div class="contact-form">
                     <form method="post" action="" enctype="multipart/form-data">
                         <div class="control-group">
-                            <label for="pname">ชื่อ:</label>
+                            <label for="pname">Name:</label>
                             <input type="text" class="form-control" id="pname" name="pname" value="<?php echo $data['name'];?>" required autofocus>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <label for="pphone">เบอร์โทรศัพท์:</label>
+                            <label for="pphone">Number:</label>
                             <input type="text" class="form-control" id="pphone" name="pphone" value="<?php echo $data['phone'];?>" required>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <label for="pdetail">รายละเอียดสินค้า:</label>
-                            <textarea class="form-control" rows="6" id="pdetail" name="pdetail" required><?php echo $data['username'];?></textarea>
+                            <label for="pusername">username:</label>
+                            <textarea class="form-control" rows="6" id="pusername" name="pusername" required><?php echo $data['username'];?></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <label for="pdetail">รายละเอียดสินค้า:</label>
-                            <textarea class="form-control" rows="6" id="pdetail" name="pdetail" required><?php echo $data['password'];?></textarea>
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            <label>รูปภาพปัจจุบัน:</label><br>
-                            <img src="../images/<?php echo $data['p_id'] . '.' . $data['p_ext'];?>" width="100" alt="Product Image">
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            <label for="pimage">รูปภาพใหม่ (ถ้ามี):</label>
-                            <input type="file" class="form-control" id="pimage" name="pimage" accept="image/*">
+                            <label for="ppassword">password:</label>
+                            <textarea class="form-control" rows="6" id="ppassword" name="ppassword" required><?php echo $data['password'];?></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div>
-                            <button class="btn btn-primary py-2 px-4" type="submit">บันทึก</button>
+                            <button class="btn btn-primary py-2 px-4" type="submit">OK</button>
                         </div>
                     </form>
                 </div>
@@ -136,38 +126,10 @@ $data = mysqli_fetch_array($rs);
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pname = $_POST['pname'];
-    $pprice = $_POST['pprice'];
-    $pdetail = $_POST['pdetail'];
+    $pphone = $_POST['pphone'];
+    $pusername = $_POST['pusername'];
+    $ppassword = $_POST['ppassword'];
     $pimageUpdated = false;
-
-    // ตรวจสอบว่ามีการอัปโหลดรูปภาพใหม่หรือไม่
-    if (isset($_FILES['pimage']) && $_FILES['pimage']['error'] == 0) {
-        $fileTmpPath = $_FILES['pimage']['tmp_name'];
-        $fileName = $_FILES['pimage']['name'];
-        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-
-        // ตรวจสอบชนิดไฟล์ที่อนุญาต
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-        if (in_array($fileExtension, $allowedExtensions)) {
-            $newFileName = $data['p_id'] . '.' . $fileExtension; // ตั้งชื่อไฟล์ใหม่ตามรหัสสินค้า
-            $uploadPath = "../images/" . $newFileName;
-
-            // ลบไฟล์เก่าก่อน (ถ้ามี)
-            $oldFilePath = "../images/" . $data['p_id'] . '.' . $data['p_ext'];
-            if (file_exists($oldFilePath)) {
-                unlink($oldFilePath);
-            }
-
-            // ย้ายไฟล์ใหม่ไปยังโฟลเดอร์
-            if (move_uploaded_file($fileTmpPath, $uploadPath)) {
-                $pimageUpdated = true;
-            } else {
-                echo "<script>alert('ไม่สามารถอัปโหลดรูปภาพได้');</script>";
-            }
-        } else {
-            echo "<script>alert('ชนิดไฟล์ไม่ถูกต้อง');</script>";
-        }
-    }
 
     // อัปเดตข้อมูลในฐานข้อมูล
     if ($pimageUpdated) {
