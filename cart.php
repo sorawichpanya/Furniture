@@ -18,13 +18,18 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     if ($stmt === false) {
         die("Error preparing SQL query: " . mysqli_error($conn));
     }
+
     mysqli_stmt_bind_param($stmt, "i", $p_id);
-    mysqli_stmt_execute($stmt);
+    if (!mysqli_stmt_execute($stmt)) {
+        die("Error executing SQL query: " . mysqli_error($conn));
+    }
+
     $result = mysqli_stmt_get_result($stmt);
     if (!$result) {
         die("Query failed: " . mysqli_error($conn));
     }
     var_dump($result);
+
     if ($product = mysqli_fetch_assoc($result)) {
         echo "Product found: " . var_dump($product);
     } else {
