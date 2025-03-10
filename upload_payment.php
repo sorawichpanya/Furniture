@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 session_start();
 require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
 
@@ -10,6 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // ตรวจสอบการอัปโหลดไฟล์
     if (isset($_FILES['payment_slip'])) {
         // ตรวจสอบประเภทไฟล์ที่อัปโหลด
+        $file_tmp = $_FILES['payment_slip']['tmp_name'];
+        $file_type = mime_content_type($file_tmp); // ตรวจสอบประเภทไฟล์จริง
+        
         $allowed_types = ['image/jpeg', 'image/png', 'application/pdf'];
         if (in_array($_FILES['payment_slip']['type'], $allowed_types)) {
             // ตรวจสอบว่าไฟล์ไม่มีข้อผิดพลาด
