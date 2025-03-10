@@ -305,10 +305,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                                     <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
                                     <button type="submit">Add To Cart</button>
                                 </form>
-                                <?php
-                    // ตรวจสอบค่าที่ส่งไป
-                    var_dump($_GET); 
-                        ?>
                     </div>
             </div>
         </div>
