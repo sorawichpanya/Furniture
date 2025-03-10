@@ -40,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // เพิ่มข้อมูลสินค้าเข้า Database
     $query = "INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_ext) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt->bind_param("ssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext);
     $stmt = $conn->prepare($query);
     if ($stmt->execute()) {
         // ✅ 2. ดึงค่า p_id ล่าสุด
@@ -63,10 +62,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $update_stmt->close();
     } else {
         echo "❌ เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ";
-    }
-    if (!$stmt) {
+    }    if (!$stmt) {
         die("❌ Query prepare failed: " . $conn->error);
     }
+    
+    $stmt->bind_param("ssssss", $p_name, $p_detail, $p_color, $p_size, $p_price, $p_ext);
 
     if ($stmt->execute()) {
         echo "✅ เพิ่มสินค้าและรูปภาพเรียบร้อย!";
