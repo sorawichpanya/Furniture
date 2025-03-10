@@ -4,46 +4,78 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // รับค่าจากฟอร์ม
-    $product_name = $_POST['product_name'] ?? '';
-    $product_detail = $_POST['product_detail'] ?? '';
-    $product_color = $_POST['product_color'] ?? '';
-    $product_size = $_POST['product_size'] ?? '';
-    $product_price = $_POST['product_price'] ?? 0;
-    $table_name = $_POST['table_name'] ?? 'products'; // ชื่อตารางสินค้า
+    $p_name = $_POST['p_name'] ?? '';
+    $p_detail = $_POST['p_detail'] ?? '';
+    $p_color = $_POST['p_color'] ?? '';
+    $p_size = $_POST['p_size'] ?? '';
+    $p_price = $_POST['p_price'] ?? 0;
+    $table_name = $_POST['table_name'] ?? '';
 
     // ตรวจสอบค่าที่จำเป็น
-    if (empty($product_name) || empty($product_price)) {
-        die("❌ กรุณากรอกชื่อสินค้าและราคาสินค้า");
+    if (empty($p_name) || empty($p_detail) || empty($p_color) || empty($p_size) || empty($p_price) || empty($table_name)) {
+        die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
     }
 
     // อัพโหลดรูปภาพ
     $target_dir = "../img/" . $table_name . "/";
-    if (!is_dir($target_dir)) {
+    if (!file_exists($target_dir)) {
         mkdir($target_dir, 0777, true);
     }
+    
+    $image_ext = pathinfo($_FILES["p_image"]["name"], PATHINFO_EXTENSION);
+    $image_name = uniqid();
+    $target_file = $target_dir . $image_name . '.' . $image_ext;
 
-    $image_ext = pathinfo($_FILES["product_image"]["name"], PATHINFO_EXTENSION);
-    $image_name = time(); // ใช้ timestamp เป็นชื่อไฟล์
-    $target_file = $target_dir . $image_name . "." . $image_ext;
-
-    if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
-        // เพิ่มข้อมูลสินค้าในฐานข้อมูล
-        $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price, p_id, p_ext) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        if (!$stmt) {
-            die("❌ Error preparing statement: " . $conn->error);
-        }
-        $stmt->bind_param("ssssiss", $product_name, $product_detail, $product_color, $product_size, $product_price, $image_name, $image_ext);
+    if (move_uploaded_file($_FILES["p_image"]["tmp_name"], $target_file)) {
+        $stmt = $conn->prepare("INSERT INTO `$table_name` (p_name, p_detail, p_color, p_size, p_price, p_id, p_ext) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssiss", $p_name, $p_detail, $p_color, $p_size, $p_price, $image_name, $image_ext);
+        
         if ($stmt->execute()) {
             echo "🎉 เพิ่มสินค้าสำเร็จ!";
         } else {
-            echo "❌ เพิ่มสินค้าไม่สำเร็จ: " . $stmt->error;
+            echo "❌ เกิดข้อผิดพลาด: " . $stmt->error;
         }
         $stmt->close();
     } else {
-        echo "❌ อัปโหลดรูปภาพไม่สำเร็จ";
+        echo "❌ ไม่สามารถอัพโหลดรูปภาพได้";
     }
 
     $conn->close();
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+</head>
+<body>
+    <h2>Add New Product</h2>
+    <form action="add_product.php" method="POST" enctype="multipart/form-data">
+        <label>Table Name:</label>
+        <input type="text" name="table_name" required>
+        <br>
+        <label>Product Name:</label>
+        <input type="text" name="p_name" required>
+        <br>
+        <label>Detail:</label>
+        <textarea name="p_detail" required></textarea>
+        <br>
+        <label>Color:</label>
+        <input type="text" name="p_color" required>
+        <br>
+        <label>Size:</label>
+        <input type="text" name="p_size" required>
+        <br>
+        <label>Price:</label>
+        <input type="number" name="p_price" step="0.01" required>
+        <br>
+        <label>Image:</label>
+        <input type="file" name="p_image" accept="image/*" required>
+        <br>
+        <button type="submit">Add Product</button>
+    </form>
+</body>
+</html>

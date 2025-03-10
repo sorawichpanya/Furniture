@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php"); // เปลี่ยนเส้นทางไปยังหน้า login
+    header("Location: Login.php"); // เปลี่ยนเส้นทางไปยังหน้า login
     exit;
 }
 ?>
