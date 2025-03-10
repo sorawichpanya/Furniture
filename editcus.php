@@ -107,20 +107,19 @@ $data = mysqli_fetch_array($rs);
 
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $name = mysqli_real_escape_string($conn, $_POST['name']);
-        $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-        $username = mysqli_real_escape_string($conn, $_POST['username']);
-        $password = mysqli_real_escape_string($conn, $_POST['password']);
+        // รับค่าจากฟอร์ม
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
         // อัปเดตข้อมูลในฐานข้อมูล
         $sql = "UPDATE Register SET 
-            name = '$name',
-            phone = '$phone',
-            username = '$username',
-            password = '$password'
-            WHERE id = '{$_GET['id']}'";
-            
-        echo "SQL: " . $sql . "<br>";  // แสดง SQL ที่ใช้
+                name = '$name',
+                phone = '$phone',
+                username = '$username',
+                password = '$password'
+                WHERE id = '{$_GET['id']}'";
 
         if (mysqli_query($conn, $sql)) {
             echo "<script>

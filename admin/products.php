@@ -15,7 +15,7 @@ if (empty($table_name) || $table_name == 'user') {
 }
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 // ดึงข้อมูลสินค้าจากตารางที่เลือก
-$sql = "SELECT * FROM `$table_name` WHERE p_name LIKE ? OR p_detail LIKE ?";
+$sql = "SELECT * FROM `$table_name` WHERE p_name LIKE ?";
 $rs = mysqli_query($conn, $sql);
 if ($stmt = mysqli_prepare($conn, $sql)) {
     // กำหนดค่าคำค้นหา (ใช้เครื่องหมาย % เพื่อการค้นหาที่ยืดหยุ่น)
