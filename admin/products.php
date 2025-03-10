@@ -9,11 +9,6 @@ if (!isset($_SESSION['username'])) {
 // ตรวจสอบหน้าปัจจุบัน
 $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล์ เช่น 'index.php' หรือ 'products.php'
 
-$table_name = isset($_GET['table_name']) ? $_GET['table_name'] : '';
-if (empty($table_name)) {
-    die("❌ Table name is missing in the URL.");
-}
-
 ?>
 
 <!DOCTYPE html>

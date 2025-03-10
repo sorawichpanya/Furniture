@@ -10,10 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // เพิ่ม { เปิด
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    if (empty($username) || empty($password)) { // เพิ่ม { เปิด
+    if (empty($username) || empty($password)) { 
         die("กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน!");
-    } // เพิ่ม } ปิด
-
+    } 
     $sql = "SELECT username, password FROM Register WHERE username = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
 
@@ -43,5 +42,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // เพิ่ม { เปิด
     $conn->close();
 } else {
     echo "ไม่อนุญาตให้เข้าถึงหน้านี้โดยตรง!";
-} // เพิ่ม } ปิด
+} 
 ?>
