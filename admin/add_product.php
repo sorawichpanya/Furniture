@@ -11,7 +11,13 @@
 <body>
     <h2>Add New Product</h2>
     <form action="add_product.php" method="POST" enctype="multipart/form-data">
+    <!-- Debug: แสดงค่า table_name -->
+    <p>Table: <?php echo htmlspecialchars($table_name); ?></p>
+
+    <!-- Hidden Input -->
     <input type="hidden" name="table" value="<?php echo htmlspecialchars($table_name); ?>">
+
+    <!-- ฟิลด์ต่าง ๆ -->
     <label>Product Name:</label>
     <input type="text" name="p_name" required>
     <br>
@@ -32,6 +38,7 @@
     <br>
     <button type="submit">Add Product</button>
 </form>
+
 <?php
 include_once("connectdb.php");
 error_reporting(E_ALL);

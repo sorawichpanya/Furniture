@@ -243,8 +243,7 @@ $rs = mysqli_query($conn , $sql);
             <!-- Shop Sidebar End -->
 
             <!-- Shop Product Start -->
-            <div class="center">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-lg-9 col-md-12">
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -265,7 +264,6 @@ $rs = mysqli_query($conn , $sql);
                             </div>-->
                         </div>
                     </div>
-                </div>
                     <?php
                     if (mysqli_num_rows($rs) > 0) {
                         while ($data = mysqli_fetch_assoc($rs)) {
@@ -286,6 +284,8 @@ $rs = mysqli_query($conn , $sql);
                             echo "</div>";
                             echo "<div class='card-footer d-flex justify-content-between bg-light border'>";
                             echo "<a href='detail.php?p_id=".$data['p_id']."&category=".urlencode($data['category'])."' class='btn btn-sm text-dark p-0'><i class='fas fa-eye text-primary mr-1'></i>View Detail</a>";                            
+                            echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-shopping-cart text-primary mr-1'></i>Add To Cart</a>";
+                            echo "</div>";
                             echo "</div>";
                             echo "</div>";
                         }
