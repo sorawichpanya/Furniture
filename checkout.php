@@ -181,8 +181,7 @@ session_start(); // เรียกใช้งาน session
                 </div>
                 <div class="col-md-12 form-group">
                     <label>Address</label>
-                    <textarea class="form-control" name="address" required>
-                        <?php echo isset($_SESSION['user_address']) ? $_SESSION['user_address'] : ''; ?> </textarea>
+                    <textarea class="form-control" name="address" required><?php echo isset($_SESSION['user_address']) ? $_SESSION['user_address'] : ''; ?></textarea>             
                 </div>
                 <div class="col-md-6 form-group">
                     <label>Province</label>
@@ -194,8 +193,7 @@ session_start(); // เรียกใช้งาน session
                     <input class="form-control" type="text" name="zip_code" required
                     value="<?php echo isset($_SESSION['user_zip_code']) ? $_SESSION['user_zip_code'] : ''; ?>"required>
                 </div>            
-</div>
-        </form>
+            </div>
     </div>
             </div>
             <div class="col-lg-4">
@@ -254,21 +252,10 @@ session_start(); // เรียกใช้งาน session
         <input type="file" class="form-control-file" name="payment_slip" required>
         <?php if(isset($_SESSION['payment_slip'])): ?>
             <p>Uploaded File: <a href="<?php echo $_SESSION['payment_slip']; ?>" target="_blank">View</a></p>
-        <?php endif; ?>        </div>
+        <?php endif; ?>        
+       </div>
         <button type="submit" class="btn btn-success btn-block">Upload & Confirm Payment</button>
-    </form >
 </div>
-<?php
-session_start();
-if (isset($_SESSION['error_message'])) {
-    echo '<div class="alert alert-danger">' . $_SESSION['error_message'] . '</div>';
-    unset($_SESSION['error_message']);
-}
-if (isset($_SESSION['success_message'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['success_message'] . '</div>';
-    unset($_SESSION['success_message']);
-}
-?>
 
 <div class="card-footer border-secondary bg-transparent">
     <form action="confirm_order.php" method="POST">
