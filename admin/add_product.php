@@ -29,7 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $image_ext = pathinfo($_FILES["p_image"]["name"], PATHINFO_EXTENSION);
     $image_name = uniqid();
     $target_file = $target_dir . $image_name . '.' . $image_ext;
-
+    $table_name = $_GET['table_name'] ?? $_POST['table_name'] ?? '';
+        if (empty($table_name)) {
+            die("❌ ไม่พบข้อมูลตารางสินค้า กรุณาเลือกหมวดหมู่สินค้าให้ถูกต้อง");
+        }
     if (move_uploaded_file($_FILES["p_image"]["tmp_name"], $target_file)) {
         $stmt = $conn->prepare("INSERT INTO `$table_name` (p_name, p_detail, p_color, p_size, p_price, p_id, p_ext) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssiss", $p_name, $p_detail, $p_color, $p_size, $p_price, $image_name, $image_ext);
@@ -58,9 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <h2>Add New Product</h2>
     <form action="add_product.php" method="POST" enctype="multipart/form-data">
-        <label>Table Name:</label>
-        <input type="text" name="table_name" required>
-        <br>
         <label>Product Name:</label>
         <input type="text" name="p_name" required>
         <br>
