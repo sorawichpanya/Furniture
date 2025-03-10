@@ -2,10 +2,9 @@
 session_start();
 include_once("connectdb.php");
 
-var_dump($_GET);  // ดูค่าทั้งหมดใน $_GET
 if (isset($_GET['p_id'], $_GET['category'])) {
     $p_id = (int)$_GET['p_id']; // แปลงให้เป็นตัวเลข
-    $category = $_GET['category']; // ชื่อตาราง
+    $category = $_GET['category'];
 
     // ตรวจสอบว่า category ที่ส่งมาคือชื่อของตารางที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
@@ -13,9 +12,8 @@ if (isset($_GET['p_id'], $_GET['category'])) {
         die("Invalid category.");
     }
 
-    // ตรวจสอบค่าที่รับมาจาก URL
-    echo "p_id: " . $p_id . "<br>";
-    echo "category: " . $category . "<br>";
+    echo "p_id: " . $p_id . "<br>";  // ตรวจสอบค่า p_id
+    echo "category: " . $category . "<br>";  // ตรวจสอบค่า category
 
     // ดึงข้อมูลสินค้าจากตารางตาม category ที่ระบุ
     $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
@@ -55,8 +53,6 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     } else {
         die("Product not found.");
     }
-} else {
-    die("Invalid request.");
 }
 ?>
 
