@@ -292,16 +292,55 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
             </button>
         </div>
     </div>
-    
+
     <form action="cart.php" method="POST">
         <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
         <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
+        <!-- Hidden input for quantity -->
         <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
         <button type="submit" class="btn btn-sm text-dark p-0">
             <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
         </button>
     </form>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const quantityInput = document.getElementById("quantity");
+    const hiddenQuantity = document.getElementById("hiddenQuantity");
+    const btnMinus = document.querySelector(".btn-minus");
+    const btnPlus = document.querySelector(".btn-plus");
+
+    // ฟังก์ชันอัปเดตค่าปริมาณ
+    function updateQuantity(change) {
+        let currentQuantity = parseInt(quantityInput.value, 10);
+
+        // ตรวจสอบค่าที่ได้และป้องกัน NaN
+        if (isNaN(currentQuantity)) {
+            currentQuantity = 1;  // ถ้าค่าเป็น NaN ให้ตั้งค่าเป็น 1
+        }
+
+        // คำนวณค่าปริมาณใหม่
+        let newQuantity = currentQuantity + change;
+
+        // ตรวจสอบไม่ให้ค่าต่ำกว่า 1
+        if (newQuantity >= 1) {
+            quantityInput.value = newQuantity;  // อัปเดตค่าใน input text
+            hiddenQuantity.value = newQuantity;  // อัปเดต hidden input
+        }
+    }
+
+    // ผูกอีเวนต์ให้กับปุ่มลดและเพิ่ม
+    btnMinus.addEventListener("click", function () {
+        updateQuantity(-1);  // ลดจำนวน 1
+    });
+
+    btnPlus.addEventListener("click", function () {
+        updateQuantity(1);   // เพิ่มจำนวน 1
+    });
+});
+</script>
+</dive>
             </div>
         </div>
     </div>
