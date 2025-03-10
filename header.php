@@ -16,8 +16,8 @@ session_start();
 
 <nav>
     <?php if (isset($_SESSION['username'])): ?>
-        <span>สวัสดี, <?php echo $_SESSION['username']; ?></span>
-        <a href="logout.php">ออกจากระบบ</a>
+        <span>Welcome, <?php echo $_SESSION['username']; ?></span>
+        <a href="logout.php">Logout</a>
     <?php else: ?>
         <a href="Login.php">Login</a>
         <a href="Register.php">Register</a>

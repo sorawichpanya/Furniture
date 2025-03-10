@@ -159,9 +159,7 @@ $rs = mysqli_query($conn, $sql);
                 });
             </script>
             <!-- table container -->
-            <a
-              href=""
-              class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+            <a href="add-product.php" class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
           </div>
         </div>
         
