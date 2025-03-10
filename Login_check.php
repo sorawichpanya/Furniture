@@ -6,12 +6,11 @@ include 'connectdb.php';
 session_start();
 
 // ตรวจสอบว่า username และ password ถูกส่งมาจากฟอร์มหรือไม่
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+if (isset($_POST['Username']) && isset($_POST['password'])) {
+    $username = $_POST['Username'];
+    $password = $_POST['password']
 
-    // ใช้ prepared statement เพื่อป้องกัน SQL injection
-    $sql = "SELECT * FROM Register WHERE Username = ?";
+    $sql = "SELECT * FROM Register WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username); // 's' คือชนิดข้อมูล string
     $stmt->execute();
