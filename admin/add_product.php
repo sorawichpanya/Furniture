@@ -3,11 +3,11 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+$table_name = $_POST['table'] ?? null;
+
 echo '<pre>';
-print_r($_GET); // ดูค่าที่ส่งมา
+print_r($table_name);  // ตรวจสอบค่าที่รับมา
 echo '</pre>';
-// ตรวจสอบค่าจาก URL หรือฟอร์ม
-$table_name = $_GET['table_name'] ?? ($_POST['table'] ?? null);
 
 if (!$table_name) {
     die("❌ Table name is missing. Please specify the table.");
