@@ -280,30 +280,46 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 
                     <!-- ตัวเลือกจำนวนสินค้า -->
                     <div class="d-flex align-items-center mb-4 pt-2">
-                        <div class="input-group quantity mr-3" style="width: 130px;">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-minus">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control bg-secondary text-center" value="1">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-plus">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <?php
-                            ?>
-                            <form action="cart.php" method="POST">
-                                <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
-                                <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
-                                <button type="submit" class="btn btn-sm text-dark p-0">
-                                    <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
-                                </button>
-                            </form>
+    <div class="input-group quantity mr-3" style="width: 130px;">
+        <div class="input-group-btn">
+            <button class="btn btn-primary btn-minus" type="button" onclick="updateQuantity(-1)">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+        <input type="text" class="form-control bg-secondary text-center" id="quantity" name="quantity" value="1" readonly>
+        <div class="input-group-btn">
+            <button class="btn btn-primary btn-plus" type="button" onclick="updateQuantity(1)">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    
+    <form action="cart.php" method="POST">
+        <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
+        <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
+        <input type="hidden" name="quantity" id="hiddenQuantity" value="1"> <!-- Hidden quantity input for form submission -->
+        <button type="submit" class="btn btn-sm text-dark p-0">
+            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+        </button>
+    </form>
+</div>
 
-                    </div>
+<script>
+    // Function to update the quantity
+    function updateQuantity(change) {
+        var quantityInput = document.getElementById('quantity');
+        var currentQuantity = parseInt(quantityInput.value);
+
+        // Ensure that the quantity doesn't go below 1
+        if (currentQuantity + change > 0) {
+            quantityInput.value = currentQuantity + change;
+        }
+
+        // Update hidden quantity field for form submission
+        document.getElementById('hiddenQuantity').value = quantityInput.value;
+    }
+</script>
+
             </div>
         </div>
     </div>

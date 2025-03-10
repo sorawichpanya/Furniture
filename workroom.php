@@ -248,6 +248,7 @@
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
+                            <!--
                             <form action="search_results.php" method="POST">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Search by name">
@@ -258,6 +259,7 @@
                                     </div>
                                 </div>
                             </form>
+                             -->
                             <div class="dropdown ml-4">
                                 <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
