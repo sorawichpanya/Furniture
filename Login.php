@@ -34,12 +34,12 @@ include('connectdb.php');
                   <input type="password" name="password" class="form-control form-control-lg" required />
                   <label class="form-label">Password</label>
                 </div>
-<?php
+                <?php
 if (isset($_SESSION["Error"])) {
-     echo  $_SESSION["Error"] ;
-                
-    }
-    ?>
+    echo '<div class="alert alert-danger" role="alert">' . $_SESSION["Error"] . '</div>';
+    unset($_SESSION["Error"]); 
+}
+?>
                 <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#">Forgot password?</a></p>
 
                 <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>

@@ -1,28 +1,47 @@
 <?php
-include 'connectdb.php';
 session_start();
+include('connectdb.php'); // ตรวจสอบว่าไฟล์นี้เชื่อมต่อฐานข้อมูลสำเร็จ
 
-$username = $_POST['username'];
-$password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $Username = trim($_POST['Username']);
+    $password = trim($_POST['password']);
 
-// เข้ารหัส password ด้วย sha512
-$password = hash('Sha512', $password);
+    // ป้องกัน SQL Injection
+    $Username = mysqli_real_escape_string($conn, $Username);
 
-$sql = "SELECT * FROM Register WHERE Username='$username' AND password='$password'";
-$result = mysqli_query($conn, $sql);
-$row = mysqli_fetch_array($result);
+    // ค้นหาผู้ใช้ในฐานข้อมูล
+    $query = "SELECT * FROM Register WHERE Username = ?";
+    $stmt = mysqli_prepare($conn, $query);
 
-if ($row) {
-    $_SESSION["username"] = $row['username'];
-    $_SESSION["pw"] = $row['password'];
-    $_SESSION["name"] = $row['name'];
-    $_SESSION["phone"] = $row['phone'];
-    $show=header("Location: index.php");
-   
-} else {
-    $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
-    $show=header("Location: Login.php");
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $Username);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($row = mysqli_fetch_assoc($result)) {
+            if (password_verify($password, $row['password'])) {
+                // เก็บข้อมูลผู้ใช้ใน Session
+                $_SESSION['Username'] = $Username;
+
+                // **Redirect ไปหน้า index.php**
+                header("Location: shop.php");
+                exit(); // ต้องมี exit เพื่อหยุดการทำงานของ script
+            } else {
+                $_SESSION["Error"] = "Invalid Username or password.";
+            }
+        } else {
+            $_SESSION["Error"] = "Invalid Username or password.";
+        }
+
+        mysqli_stmt_close($stmt); // ปิด statement
+    } else {
+        $_SESSION["Error"] = "Database query error.";
+    }
+
+    mysqli_close($conn); // ปิดการเชื่อมต่อฐานข้อมูล
+
+    // ถ้า Login ไม่สำเร็จ ให้ Redirect กลับไปหน้า Login.php
+    header("Location: Login.php");
     exit();
 }
-echo $show;
 ?>

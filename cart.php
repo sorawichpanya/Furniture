@@ -8,7 +8,13 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     // แปลง p_id จาก string เป็น int
     $p_id = (int)$_GET['p_id'];
     $category = $_GET['category'];  // category เป็น string
-
+    
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+} else {
+    die("Invalid request. p_id or category is missing.");
+}
     // ตรวจสอบ category ที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
