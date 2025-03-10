@@ -312,24 +312,37 @@ session_start(); // เรียกใช้งาน session
                 <h5 class="font-weight-bold">฿<?php echo number_format($subtotal + $shipping, 2); ?></h5>
             </div>
         </div>
+        <?php session_start(); ?>
+<div class="card border-secondary mb-5">
+    <div class="card-header bg-secondary border-0">
+        <h4 class="font-weight-semi-bold m-0">Payment</h4>
     </div>
-            <div class="card border-secondary mb-5">
-                <div class="card-header bg-secondary border-0">
-                    <h4 class="font-weight-semi-bold m-0">Payment</h4>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="font-weight-medium">Scan QR Code to Pay</h5>
-                    <img src="qrcode.png" alt="QR Code for Payment" class="img-fluid my-3" style="max-width: 250px;">
-                    <p>Use your mobile banking app to scan and complete the payment.</p>
-                </div>
-                <div class="card-footer border-secondary bg-transparent">
-                    <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Confirm Payment</button>
-                </div>
-            </div>
+    <div class="card-body text-center">
+        <h5 class="font-weight-medium">Scan QR Code to Pay</h5>
+        <img src="qrcode.png" alt="QR Code for Payment" class="img-fluid my-3" style="max-width: 250px;">
+        <p>Use your mobile banking app to scan and complete the payment.</p>
 
+        <!-- อัปโหลดสลิป -->
+        <form action="upload_payment.php" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="payment_slip">Upload Payment Slip (JPEG, PNG, PDF)</label>
+                <input type="file" class="form-control-file" name="payment_slip" id="payment_slip" required>
             </div>
-        </div>
+            <button type="submit" class="btn btn-success btn-block">Upload & Confirm Payment</button>
+        </form>
     </div>
+
+    <div class="card-footer border-secondary bg-transparent">
+        <form action="confirm_order.php" method="POST">
+            <input type="hidden" name="order_status" value="<?php echo isset($_SESSION['payment_uploaded']) ? 'paid' : 'not_paid'; ?>">
+            <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" 
+                <?php echo isset($_SESSION['payment_uploaded']) ? '' : 'disabled'; ?>>
+                Confirm Order
+            </button>
+        </form>
+    </div>
+</div>
+
     <!-- Checkout End -->
 
 
