@@ -241,7 +241,7 @@ session_start(); // เรียกใช้งาน session
                     </div>
 
                     <div class="card-footer border-secondary bg-transparent">
-                        <input type="hidden" name="order_status" value="p">
+                        <input type="hidden" name="order_status" value="pending">
                         <input type="hidden" name="total_price" value="<?php echo $subtotal + $shipping; ?>">
                         <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
                             Confirm Order
