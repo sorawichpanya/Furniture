@@ -3,13 +3,13 @@ session_start();
 require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // ตรวจสอบว่าได้รับข้อมูลจาก SESSION
-    if (!isset($_SESSION['user_full_name'], $_SESSION['user_phone'], $_SESSION['user_address'], $_SESSION['user_province'], $_SESSION['user_zip_code'], $_SESSION['cart'])) {
-        $_SESSION['error_message'] = "ข้อมูลไม่ครบถ้วนสำหรับการยืนยันคำสั่งซื้อ!";
-        header("Location: checkout.php");
-        exit;
-    }
+    // ตรวจสอบค่า POST
+    var_dump($_POST); // ดูข้อมูลที่ถูกส่งมา
+    exit; // หยุดการทำงานเพื่อตรวจสอบข้อมูล
+}
 
+// ถ้ามีค่า session ที่ใช้ในการยืนยันคำสั่งซื้อ
+var_dump($_SESSION); // ตรวจสอบค่า session ที่มี
     // ดึงข้อมูลจาก SESSION
     $full_name = $_SESSION['user_full_name'];
     $phone = $_SESSION['user_phone'];
@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($stmt->execute()) {
         // ดึง ID ของคำสั่งซื้อที่เพิ่งเพิ่ม
-        error_log("Error in query: " . $stmt->error); // เพิ่มบรรทัดนี้
         $order_id = $stmt->insert_id;
 
         // บันทึกรายการสินค้าลงในตาราง order_items
