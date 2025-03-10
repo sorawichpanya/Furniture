@@ -17,11 +17,12 @@ if ($row) {
     $_SESSION["pw"] = $row['password'];
     $_SESSION["name"] = $row['name'];
     $_SESSION["phone"] = $row['phone'];
-    header("Location: index.php");
-    exit();
+    $show=header("Location: index.php");
+   
 } else {
     $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
-    header("Location: Login.php");
-    exit();
+    $show=header("Location: Login.php");
+    
 }
+echo $show;
 ?>

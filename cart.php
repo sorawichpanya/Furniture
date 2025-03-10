@@ -5,14 +5,17 @@ include_once("connectdb.php");
 var_dump($_GET); // ดูค่าที่รับจาก URL
 
 if (isset($_GET['p_id'], $_GET['category'])) {
-    $p_id = (int)$_GET['p_id'];  // ใช้ค่าจาก GET และแปลงเป็นตัวเลข
-    $category = $_GET['category'];  // ใช้ค่าจาก GET
+    // แปลง p_id จาก string เป็น int
+    $p_id = (int)$_GET['p_id'];
+    $category = $_GET['category'];  // category เป็น string
 
     // ตรวจสอบ category ที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
+    var_dump($p_id);
+    var_dump($category);        
 
     // ดึงข้อมูลสินค้าจากฐานข้อมูล
     $sql = "SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM $category WHERE id = ?";
