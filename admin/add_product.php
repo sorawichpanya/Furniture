@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 // 🟢 รับค่า table_name จาก URL (GET parameter)
 $table_name = $_GET['table'] ?? '';
-$allowed_tables = ['products', 'categories', 'orders']; // รายชื่อ table ที่อนุญาต
+$allowed_tables = ['bathroom', 'categories', 'orders']; // รายชื่อ table ที่อนุญาต
 
 if (!in_array($table_name, $allowed_tables)) {
     die("❌ Table ไม่ถูกต้อง");
