@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['payment_slip'] = $target_file; 
                     $_SESSION['payment_slip_type'] = mime_content_type($target_file); // บันทึกประเภทไฟล์ที่ถูกต้อง
                     echo "Payment slip uploaded successfully.";
+                    header("Location: checkout.php");
                 } else {
                     $_SESSION['error_message'] = "Error uploading payment slip.";
                     header("Location: checkout.php");
