@@ -3,6 +3,13 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+if ($conn->connect_error) {
+    die("❌ Connection failed: " . $conn->connect_error);
+}
+if (!$stmt) {
+    die("❌ Error preparing statement: " . $conn->error);
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $p_name = $_POST['p_name'] ?? '';
     $p_detail = $_POST['p_detail'] ?? '';

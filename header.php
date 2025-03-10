@@ -2,28 +2,16 @@
 session_start();
 ?>
 <style>
-    .header-right {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    display: flex;
-    gap: 15px; /* ระยะห่างระหว่างปุ่ม */
-}
-
-.btn-auth {
-    color: #d48c8c;  /* เปลี่ยนสีปุ่ม */
-    text-decoration: none;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: 0.3s;
-}
-
-.btn-auth:hover {
-    color: #fff;
-    background-color: #d48c8c;
-}
-
+    nav {
+        width: 100%;
+        background: #f8f9fa;
+        padding: 10px;
+    }
+    nav span, nav a {
+        float: right;
+        margin-left: 10px;
+        text-decoration: none;
+    }
 </style>
 
 <nav>
