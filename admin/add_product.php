@@ -3,14 +3,19 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// 🟢 รับค่า table_name จาก URL (GET parameter)
+$table_name = $_GET['table'] ?? '';
+$allowed_tables = ['products', 'categories', 'orders']; // รายชื่อ table ที่อนุญาต
+
+if (!in_array($table_name, $allowed_tables)) {
+    die("❌ Table ไม่ถูกต้อง");
+}
+
 if ($conn->connect_error) {
     die("❌ Connection failed: " . $conn->connect_error);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // 🟢 ตั้งค่าชื่อ table
-    $table_name = "products";
-
     // 🟢 รับค่าจากฟอร์ม
     $p_name = $_POST['p_name'] ?? '';
     $p_detail = $_POST['p_detail'] ?? '';
@@ -42,13 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (in_array(strtolower($file_ext), $allowed_exts)) {
                 $new_filename = $p_id . "." . $file_ext; // ✅ ใช้ `p_id` เป็นชื่อไฟล์
-                $upload_dir = "../img/".$table_name."/";
+                $upload_dir = "../img/".$table_name."/"; // โฟลเดอร์ที่เก็บไฟล์
                 $upload_path = $upload_dir . $new_filename;
 
                 // ✅ ย้ายไฟล์ไปยังโฟลเดอร์
                 if (move_uploaded_file($_FILES["p_image"]["tmp_name"], $upload_path)) {
                     // ✅ อัปเดต `p_ext` ในฐานข้อมูล
-                    $stmt_update = $conn->prepare("UPDATE products SET p_ext = ? WHERE p_id = ?");
+                    $stmt_update = $conn->prepare("UPDATE $table_name SET p_ext = ? WHERE p_id = ?");
                     $stmt_update->bind_param("si", $file_ext, $p_id);
                     $stmt_update->execute();
                     $stmt_update->close();
@@ -70,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
 
 
 

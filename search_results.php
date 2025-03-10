@@ -243,7 +243,8 @@ $rs = mysqli_query($conn , $sql);
             <!-- Shop Sidebar End -->
 
             <!-- Shop Product Start -->
-            <div class="col-lg-9 col-md-12">
+            <div class="center">
+            <div class="col-lg-12 col-md-12">
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -264,6 +265,7 @@ $rs = mysqli_query($conn , $sql);
                             </div>-->
                         </div>
                     </div>
+                </div>
                     <?php
                     if (mysqli_num_rows($rs) > 0) {
                         while ($data = mysqli_fetch_assoc($rs)) {

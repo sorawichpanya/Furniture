@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if ($row = $result->fetch_assoc()) {
         // ตรวจสอบรหัสผ่าน
-        if (password_verify($password, $row['password'])) {
+        if (password_hash($password, $row['password'])) {
             $_SESSION['username'] = $username; // ✅ บันทึก session
             header("Location: index.php"); // ✅ รีไดเรกไปหน้าแรก
             exit();
