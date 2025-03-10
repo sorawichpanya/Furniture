@@ -14,7 +14,7 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
-    
+    $sql = "SELECT * FROM $category WHERE id = ?";
     // ตรวจสอบชื่อของตารางที่ต้องการดึงข้อมูลจาก
     $sql = sprintf("SELECT id AS p_id, name AS p_name, price AS p_price FROM `%s` WHERE id = ?", $category);
     var_dump($sql); // ตรวจสอบคำสั่ง SQL ที่จะถูกใช้
