@@ -24,11 +24,11 @@ if ($row) {
     $_SESSION["pw"] = $row['password'];
     $_SESSION["name"] = $row['name'];
     $_SESSION["phone"] = $row['phone'];
-    $show=header("Location:index.php");
+    header("Location:index.php");
    
 } else {
     $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
-    $show=header("Location:Login.php");
+   header("Location:Login.php");
     exit();
 }
 echo $show;
