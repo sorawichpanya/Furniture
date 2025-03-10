@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->num_rows > 0 && password_verify($password, $hashed_password)) {
         $_SESSION["user_id"] = $id;
         $_SESSION["name"] = $name;
-        header("Location: dashboard.php");
+        header("Location: index.php");
         exit();
     } else {
         echo "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!";

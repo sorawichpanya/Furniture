@@ -194,7 +194,7 @@ session_start(); // เรียกใช้งาน session
             </div>
             
             <div class="col-lg-4">
-            <form method="POST" action="confirm_order.php">
+            <form action="confirm_order.php" method="POST">
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Order Total</h4>
@@ -203,20 +203,15 @@ session_start(); // เรียกใช้งาน session
                         <h5 class="font-weight-medium mb-3">Products</h5>
                         <?php 
                         $subtotal = 0;
-                        if (!empty($_POST['cart'])) :
-                            foreach ($_POST['cart'] as $index => $item) :
+                        if (!empty($_SESSION['cart'])) :
+                            foreach ($_SESSION['cart'] as $item) :
                                 $subtotal += $item['total_price']; 
                         ?>
                             <div class="d-flex justify-content-between">
                                 <p><?php echo htmlspecialchars($item['p_name']) . " (x" . $item['quantity'] . ")"; ?></p>
                                 <p>฿<?php echo number_format($item['total_price'], 2); ?></p>
                             </div>
-                            <!-- ส่งข้อมูลสินค้าแบบ hidden -->
-                            <input type="hidden" name="cart[<?php echo $index; ?>][p_name]" value="<?php echo htmlspecialchars($item['p_name']); ?>">
-                            <input type="hidden" name="cart[<?php echo $index; ?>][quantity]" value="<?php echo $item['quantity']; ?>">
-                            <input type="hidden" name="cart[<?php echo $index; ?>][total_price]" value="<?php echo $item['total_price']; ?>">
                         <?php endforeach; endif; ?>
-                        
                         <hr class="mt-0">
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
