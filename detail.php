@@ -330,9 +330,22 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
             }
 
             // Update visible input and hidden input
-            quanti
+            quantityInput.value = newQuantity;
+            hiddenQuantity.value = newQuantity;
+        }
 
-            </div>ช
+        // Add event listeners to buttons
+        btnMinus.addEventListener("click", function () {
+            updateQuantity(-1);
+        });
+
+        btnPlus.addEventListener("click", function () {
+            updateQuantity(1);
+        });
+    });
+</script>
+
+            </div>
         </div>
     </div>
 </div>
