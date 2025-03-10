@@ -297,15 +297,12 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         <?php
                         ?>
                         <?php
-                            
-                            var_dump($_GET);  // แสดงค่าที่ถูกส่งจาก URL
                             ?>
                                 <form action="cart.php" method="POST">
                                     <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
                                     <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
                                     <button type="submit">Add To Cart</button>
                                 </form>
-
                     </div>
             </div>
         </div>
