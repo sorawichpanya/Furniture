@@ -90,10 +90,19 @@ $table_name = isset($_GET['table_name']) ? $_GET['table_name'] : 'Just_arrived';
 if (empty($table_name) || $table_name == 'user') {
     die('Invalid category.');
 }
-
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 // ดึงข้อมูลสินค้าจากตารางที่เลือก
-$sql = "SELECT * FROM `$table_name`";
+$sql = "SELECT * FROM `$table_name` WHERE p_name LIKE ? OR p_detail LIKE ?";
 $rs = mysqli_query($conn, $sql);
+if ($stmt = mysqli_prepare($conn, $sql)) {
+    // กำหนดค่าคำค้นหา (ใช้เครื่องหมาย % เพื่อการค้นหาที่ยืดหยุ่น)
+    $search_term = "%" . $search . "%";
+    mysqli_stmt_bind_param($stmt, "ss", $search_term, $search_term);
+    
+    // เรียกใช้คำสั่ง SQL
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+}
 ?>
           <form action="delete_products.php" method="POST">
             <input type="hidden" name="table_name" value="<?php echo htmlspecialchars($table_name); ?>">  <!-- ส่งค่าตารางไปในฟอร์ม -->
@@ -113,42 +122,50 @@ $rs = mysqli_query($conn, $sql);
                 <tbody>
                 <?php
                 // แสดงข้อมูลสินค้า
-                while ($data = mysqli_fetch_array($rs)) {
-                    $product_id = $data['p_id'];
-                    $product_name = $data['p_name'];
-                    $product_detail = $data['p_detail'];
-                    $product_color = $data['p_color'];
-                    $product_size = $data['p_size'];
-                    $product_price = $data['p_price'];
-                    $product_image = $data['p_id'];  // ใช้ p_id เป็นชื่อไฟล์
-                    $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
-                    $image_folder = "../img/" . $table_name . "/";  
-
-                    $image_path = $image_folder . $product_image . "." . $product_ext;
-
-                    // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
-                    $image_path = $image_folder . $product_image . "." . $product_ext;
-                    if (!file_exists($image_path)) {
-                        $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
-                        $product_ext = "png";        // ใช้ .jpg เป็นนามสกุล
-                    }
-                
+                if (mysqli_num_rows($result) > 0) {
                     // แสดงข้อมูลสินค้า
-                    echo "<tr>
-                            <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
-                            <td>$product_name</td>
-                            <td>$product_detail</td>
-                            <td>$product_color</td>
-                            <td>$product_size</td>
-                            <td>$product_price</td>
-                            <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
-                            <td>
-                                <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
-                            </td>
-                            </tr>";
+                    while ($data = mysqli_fetch_array($result)) {
+                        $product_id = $data['p_id'];
+                        $product_name = $data['p_name'];
+                        $product_detail = $data['p_detail'];
+                        $product_color = $data['p_color'];
+                        $product_size = $data['p_size'];
+                        $product_price = $data['p_price'];
+                        $product_image = $data['p_id'];  // ใช้ p_id เป็นชื่อไฟล์
+                        $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
+                        $image_folder = "../img/" . $table_name . "/";  
+                        $image_path = $image_folder . $product_image . "." . $product_ext;
 
+                        // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
+                        $image_path = $image_folder . $product_image . "." . $product_ext;
+                        if (!file_exists($image_path)) {
+                            $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
+                            $product_ext = "png";        // ใช้ .png เป็นนามสกุล
+                        }
+                    
+                        // แสดงข้อมูลสินค้า
+                        echo "<tr>
+                                <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
+                                <td>$product_name</td>
+                                <td>$product_detail</td>
+                                <td>$product_color</td>
+                                <td>$product_size</td>
+                                <td>$product_price</td>
+                                <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
+                                <td>
+                                    <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
+                                </td>
+                              </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='7'>ไม่พบสินค้าที่ค้นหา</td></tr>";
                 }
-                ?>            
+                // ปิดการเตรียมคำสั่ง SQL
+                mysqli_stmt_close($stmt);
+             else {
+                echo "❌ ไม่สามารถเตรียมคำสั่ง SQL ได้";
+            }                
+            ?>            
                 </tbody>
             </table>
             </div>
