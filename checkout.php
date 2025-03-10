@@ -163,7 +163,7 @@ session_start(); // เรียกใช้งาน session
 <?php session_start(); ?>
     <!-- Checkout Start -->
     <div class="container-fluid pt-5">
-        <form action="confirm_order.php" method="POST" enctype="multipart/form-data">
+        <form action="confirm_order.php" method="POST" enctype="">
             <div class="row px-xl-5">
             <div class="col-lg-8">
                 <div class="mb-4">
@@ -186,7 +186,7 @@ session_start(); // เรียกใช้งาน session
                 <div class="col-md-6 form-group">
                     <label>Province</label>
                     <input class="form-control" type="text" name="province" required
-                        value="<?php echo isset($_SESSION['user_province']) ? $_SESSION['user_province'] : ''; ?>"required>
+                        value="<?php echo isset($_SESSION['user_province']) ? $_SESSION['user_province'] : ''; ?>">
                 </div>
                 <div class="col-md-6 form-group">
                     <label>Postal Code</label>
@@ -246,12 +246,17 @@ session_start(); // เรียกใช้งาน session
     </div>
 
     <div class="card-footer border-secondary bg-transparent">
-        <form action="confirm_order.php" method="POST">
-            <input type="hidden" name="order_status" value="paid">
-            <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
-                Confirm Order
-            </button>
-        </form>
+    <form action="confirm_order.php" method="POST">
+    <input type="hidden" name="full_name" value="<?php echo $_SESSION['user_full_name'] ?? ''; ?>">
+    <input type="hidden" name="phone" value="<?php echo $_SESSION['user_phone'] ?? ''; ?>">
+    <input type="hidden" name="address" value="<?php echo $_SESSION['user_address'] ?? ''; ?>">
+    <input type="hidden" name="province" value="<?php echo $_SESSION['user_province'] ?? ''; ?>">
+    <input type="hidden" name="zip_code" value="<?php echo $_SESSION['user_zip_code'] ?? ''; ?>">
+    <input type="hidden" name="order_status" value="paid">
+    <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
+        Confirm Order
+    </button>
+</form>
     </div>
 </div>
 
