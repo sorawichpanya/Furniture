@@ -33,7 +33,7 @@
             border: none;
         }
         .form-check-label a {
-            color: #ff7f23;
+            color:rgb(59, 57, 57);
             text-decoration: none;
         }
     </style>

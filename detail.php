@@ -290,7 +290,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         </div>
                         <a href="cart.php?p_id=<?php echo $data['p_id']; ?>&category=trendy" 
                             class="btn btn-sm text-dark p-0">
-                            <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+                            <i class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></i>Add To Cart
                         </a>
                     </div>
             </div>
