@@ -14,7 +14,8 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
-
+    $sql = "SELECT * FROM $category WHERE id = ?";
+    
     // ดึงข้อมูลสินค้าจากฐานข้อมูล
     $sql = sprintf("SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM `%s` WHERE p_id = ?", $category);
     $stmt = mysqli_prepare($conn, $sql);
