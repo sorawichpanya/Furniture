@@ -2,7 +2,10 @@
 session_start();
 include_once("connectdb.php");
 
-var_dump($_GET); // ตรวจสอบค่าที่ส่งมา
+echo "<pre>";
+var_dump($_GET);
+echo "</pre>";
+exit();
 
 // ตรวจสอบค่าที่ได้รับจาก GET
 session_start();

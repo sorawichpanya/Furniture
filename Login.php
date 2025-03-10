@@ -27,18 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = mysqli_stmt_get_result($stmt);
 
         if ($row = mysqli_fetch_assoc($result)) {
+            // ตรวจสอบรหัสผ่าน
             if (password_verify($password, $row['password'])) {
                 // เก็บข้อมูลผู้ใช้ใน Session
                 $_SESSION['Username'] = $Username;
-                $_SESSION['UserRole'] = $row['role']; // สมมติว่ามีฟิลด์ role ในฐานข้อมูล
 
-                // เปลี่ยนเส้นทางตามสิทธิ์
-                if ($_SESSION['UserRole'] == 'admin') {
-                    header("Location: admin_dashboard.php");
-                } else {
-                    header("Location: products.php"); // เปลี่ยนไปหน้าสินค้า
-                }
-                exit();
+                // เปลี่ยนหน้าไปยัง index.php
+                header("Location: index.php");
+                exit(); // ต้องอยู่ตรงนี้
             } else {
                 $_SESSION["Error"] = "Invalid Username or password.";
             }
@@ -59,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
