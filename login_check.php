@@ -12,6 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ค้นหาผู้ใช้ในฐานข้อมูล
     $query = "SELECT * FROM Register WHERE Username = ?";
     $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $Username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+if ($row = mysqli_fetch_assoc($result)) {
+    echo "Database Password Hash: " . $row['password'];
+}
 
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, "s", $Username);

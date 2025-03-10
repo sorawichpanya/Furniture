@@ -64,6 +64,7 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     die("Invalid request.");
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
