@@ -295,11 +295,16 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         </div>
                         <?php
                         ?>
-                        <p>Product ID: <?php echo htmlspecialchars($data['p_id']); ?></p>
-                        <p>Category: <?php echo htmlspecialchars($data['category']); ?></p>
-                        <a href="cart.php?p_id=<?php echo htmlspecialchars($data['p_id']); ?>&category=<?php echo htmlspecialchars($data['category']); ?>">
-    Add To Cart
-</a>
+                        <?php
+                        var_dump($data); // เช็คค่าที่ถูกอ่านมาจากฐานข้อมูล
+                        ?>
+                        <p>Product ID: <?php echo htmlspecialchars($data['p_id'] ?? 'ไม่มีค่า'); ?></p>
+                        <p>Category: <?php echo htmlspecialchars($data['category'] ?? 'ไม่มีค่า'); ?></p>
+                        <form action="cart.php" method="GET">
+                            <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($data['p_id']); ?>">
+                            <input type="hidden" name="category" value="<?php echo htmlspecialchars($data['category']); ?>">
+                            <button type="submit">Add To Cart</button>
+                        </form>ฟ
 
                     </div>
             </div>
