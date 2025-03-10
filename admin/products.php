@@ -156,7 +156,7 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                                 <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
                             </td>
                             </tr>";
-
+                    }
                 }
                 ?>            
                 </tbody>
