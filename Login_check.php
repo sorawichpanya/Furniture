@@ -1,45 +1,32 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 include 'connectdb.php';
 session_start();
 
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password']
 
-    $sql = "SELECT * FROM Register WHERE username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username); 
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_array(MYSQLI_ASSOC);
+$username = $_POST['username'];
+$password = $_POST['password'];
 
-    if ($row) {
-        if (password_verify($password, $row['password'])) {
-        
-            $_SESSION["username"] = $row['username'];
-            $_SESSION["name"] = $row['name'];
-            $_SESSION["phone"] = $row['phone'];
 
-        
-            header("Location: index.php");
+// เข้ารหัส password ด้วย sha512
+$password = hash('Sha512', $password);
 
-        } else {
-            $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
-            header("Location: Login.php");
-           
-        }
-    } else {
 
-        $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
-        header("Location: Login.php");
-        exit();
-    }
+$sql = "SELECT * FROM Register WHERE Username='$username' AND password='$password'";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_array($result);
+
+
+if ($row) {
+    $_SESSION["username"] = $row['username'];
+    $_SESSION["pw"] = $row['password'];
+    $_SESSION["name"] = $row['name'];
+    $_SESSION["phone"] = $row['phone'];
+    header("Location: index.php");
+   
 } else {
-    $_SESSION["Error"] = "<p>Please fill in both fields</p>";
+    $_SESSION["Error"] = "<p> Your username or password is invalid</p>";
     header("Location: Login.php");
-    exit(); 
+    exit();
 }
+echo $show;
 ?>

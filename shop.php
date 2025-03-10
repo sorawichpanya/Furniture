@@ -413,7 +413,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
                 <a href="" class="text-decoration-none">
                     <h1 class="mb-4 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border border-white px-3 mr-1">E</span>Shopper</h1>
                 </a>
-                <p>Dolore erat dolor sit lorem vero amet. Sed sit lorem magna, ipsum no sit erat lorem et magna ipsum dolore amet erat.</p>
+                <p>Welcome to EShopper, where style meets comfort! We believe that every piece of furniture tells a story and transforms your space into a reflection of who you are. Our carefully curated collection features unique designs crafted from high-quality, sustainable materials, ensuring that each item not only enhances your home but also cares for our planet..</p>
                 <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
                 <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
                 <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
