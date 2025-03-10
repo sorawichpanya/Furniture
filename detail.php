@@ -293,7 +293,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
         </div>
     </div>
 
-    <form action="cart.php" method="POST">
+    <form action="cart.php" method="POST" id="addToCartForm">
         <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
         <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
         <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
@@ -326,8 +326,16 @@ document.addEventListener("DOMContentLoaded", function () {
             hiddenQuantity.value = newQuantity;  // อัปเดต hidden input
         }
     }
+
+    // เพิ่ม event listener สำหรับการ submit form
+    const form = document.getElementById("addToCartForm");
+    form.addEventListener("submit", function (event) {
+        // อัปเดตค่าของ hiddenQuantity ก่อนส่งฟอร์ม
+        hiddenQuantity.value = quantityInput.value;
+    });
 });
 </script>
+
 </div>
             </div>
         </div>
