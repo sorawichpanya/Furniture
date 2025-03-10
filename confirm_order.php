@@ -2,6 +2,8 @@
 session_start();
 require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
 
+var_dump($_SESSION);
+exit;
 // เปิดโหมดแสดงข้อผิดพลาด
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
