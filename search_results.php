@@ -185,11 +185,11 @@ $rs = mysqli_query($conn , $sql);
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Search Results</h1>
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
             <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0"><a href="index.php">Home</a></p>
                 <p class="m-0 px-2">-</p>
-                <p class="m-0">Search Results</p>
+                <p class="m-0">shop</p>
             </div>
         </div>
     </div>
@@ -305,8 +305,7 @@ $rs = mysqli_query($conn , $sql);
                 <a href="" class="text-decoration-none">
                     <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
                 </a>
-                <p>Dolore erat dolor sit lorem vero amet. Sed justo lorem sit. Justo eos et vero ea sed ipsum erat duo
-                    lorem clita. Duo no duo ea lorem erat stet sit justo duo.</p>
+                <p>Welcome to EShopper, where style meets comfort! We believe that every piece of furniture tells a story and transforms your space into a reflection of who you are. Our carefully curated collection features unique designs crafted from high-quality, sustainable materials, ensuring that each item not only enhances your home but also cares for our planet..</p>
                 <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
                 <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
                 <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>

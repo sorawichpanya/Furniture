@@ -250,6 +250,17 @@ session_start(); // เรียกใช้งาน session
         <button type="submit" class="btn btn-success btn-block">Upload & Confirm Payment</button>
     </form >
 </div>
+<?php
+session_start();
+if (isset($_SESSION['error_message'])) {
+    echo '<div class="alert alert-danger">' . $_SESSION['error_message'] . '</div>';
+    unset($_SESSION['error_message']);
+}
+if (isset($_SESSION['success_message'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['success_message'] . '</div>';
+    unset($_SESSION['success_message']);
+}
+?>
 
 <div class="card-footer border-secondary bg-transparent">
     <form action="confirm_order.php" method="POST">

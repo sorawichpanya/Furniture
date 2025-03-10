@@ -1,38 +1,41 @@
 <?php
 session_start();
+require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['payment_slip'])) {
-    $upload_dir = "uploads/";
+// ตรวจสอบว่าไฟล์ได้รับการอัปโหลด
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // ตรวจสอบประเภทไฟล์
     $allowed_types = ['image/jpeg', 'image/png', 'application/pdf'];
-    $file_name = basename($_FILES['payment_slip']['name']);
-    $file_type = $_FILES['payment_slip']['type'];
-    $file_tmp = $_FILES['payment_slip']['tmp_name'];
-    $file_path = $upload_dir . time() . "_" . $file_name; // ป้องกันชื่อไฟล์ซ้ำ
+    if (in_array($_FILES['payment_slip']['type'], $allowed_types)) {
+        // ตั้งตำแหน่งที่เก็บไฟล์
+        $upload_dir = 'uploads/';
+        $file_name = basename($_FILES['payment_slip']['name']);
+        $target_file = $upload_dir . $file_name;
 
-    $total_amount = $_SESSION['cart_total'] + 50; // คำนวณราคารวม + ค่าส่ง
-    $paid_amount = floatval($_POST['paid_amount']); // รับค่าที่กรอกมา
+        // อัปโหลดไฟล์
+        if (move_uploaded_file($_FILES['payment_slip']['tmp_name'], $target_file)) {
+            $_SESSION['payment_uploaded'] = true;  // ตั้งค่าสถานะการอัปโหลด
 
-    if ($paid_amount < $total_amount) {
-        $_SESSION['error_message'] = "กรุณาโอนเงินให้ครบตามยอด Total: ฿" . number_format($total_amount, 2);
+            // เก็บ path ของไฟล์ใน session เพื่อบันทึกลงฐานข้อมูล
+            $_SESSION['payment_slip'] = $target_file;
+
+            // รีไดเร็กต์ไปยังหน้าที่ผู้ใช้จะเห็นผลการอัปโหลด
+            $_SESSION['success_message'] = "Payment slip uploaded successfully.";
+            header("Location: checkout.php"); // หรือหน้าที่แสดงข้อความ success
+            exit;
+        } else {
+            $_SESSION['error_message'] = "Error uploading payment slip.";
+            header("Location: checkout.php");
+            exit;
+        }
+    } else {
+        $_SESSION['error_message'] = "Invalid file type. Only JPEG, PNG, or PDF files are allowed.";
         header("Location: checkout.php");
         exit;
     }
-
-    if (in_array($file_type, $allowed_types)) {
-        if (move_uploaded_file($file_tmp, $file_path)) {
-            $_SESSION['payment_uploaded'] = true;
-            $_SESSION['payment_slip'] = $file_path;
-            $_SESSION['success_message'] = "อัปโหลดสลิปสำเร็จ! ✅";
-        } else {
-            $_SESSION['error_message'] = "เกิดข้อผิดพลาดในการอัปโหลดไฟล์";
-        }
-    } else {
-        $_SESSION['error_message'] = "ไฟล์ต้องเป็น JPG, PNG หรือ PDF เท่านั้น";
-    }
 } else {
-    $_SESSION['error_message'] = "กรุณาเลือกไฟล์ก่อนอัปโหลด";
+    $_SESSION['error_message'] = "No file uploaded.";
+    header("Location: checkout.php");
+    exit;
 }
-
-header("Location: checkout.php");
-exit;
 ?>
