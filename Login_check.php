@@ -40,6 +40,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 } else {
     $_SESSION["Error"] = "<p>Please fill in both fields</p>";
     header("Location: Login.php");
-    exit();
+    exit(); 
 }
 ?>

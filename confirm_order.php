@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $province = trim($_POST['province']);
     $zip_code = trim($_POST['zip_code']);
     $total_price = trim($_POST['paid_amount']); // ใช้ค่าที่รับมา
-    $payment_proof = $_SESSION['payment_uploaded']; // ใช้ค่าจาก SESSION
+    $payment_proof = $_SESSION['payment_slip']; // ใช้ค่าจาก SESSION
 
     // ✅ ตรวจสอบค่า status ให้อยู่ใน ENUM
         $allowed_statuses = ['pending', 'confirmed', 'shipped', 'delivered', 'canceled'];
