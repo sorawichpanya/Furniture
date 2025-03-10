@@ -8,7 +8,7 @@ $password = $_POST['password'];
 // เข้ารหัส password ด้วย sha512
 $password = hash('sha512', $password);
 
-$sql = "SELECT * FROM member WHERE username='$username' and password = '$password' ";
+$sql = "SELECT * FROM Register WHERE username='$username' and password = '$password' ";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
 
