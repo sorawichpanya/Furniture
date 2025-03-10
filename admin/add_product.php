@@ -52,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "❌ เกิดข้อผิดพลาด: " . $conn->error;
     }
+}
 ?>
 
 

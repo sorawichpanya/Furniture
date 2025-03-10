@@ -5,7 +5,8 @@ ini_set('display_errors', 1);
 
 include 'connectdb.php'; // ไฟล์เชื่อมต่อฐานข้อมูล
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") { // เพิ่ม { เปิด
+if ($_SERVER["REQUEST_METHOD"] == "POST") 
+{
     // รับค่าจากฟอร์มและลบช่องว่างที่ไม่จำเป็น
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
@@ -40,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // เพิ่ม { เปิด
 
     $stmt->close();
     $conn->close();
-} else {
+} else 
+{
     echo "ไม่อนุญาตให้เข้าถึงหน้านี้โดยตรง!";
 } 
 ?>
