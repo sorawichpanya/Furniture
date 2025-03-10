@@ -12,6 +12,10 @@ if (isset($_GET['p_id'], $_GET['category'])) {
         die("Invalid category.");
     }
 
+    // ตรวจสอบค่าที่รับมาจาก URL
+    echo "p_id: " . $p_id . "<br>";
+    echo "category: " . $category . "<br>";
+
     // ดึงข้อมูลสินค้าจากตารางตาม category ที่ระบุ
     $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
@@ -25,18 +29,18 @@ if (isset($_GET['p_id'], $_GET['category'])) {
             $_SESSION['cart'] = [];
         }
 
-        // ตรวจสอบว่าสินค้าเดียวกันเพิ่มแล้วหรือยัง
+        // ตรวจสอบว่าสินค้าซ้ำในตะกร้าหรือไม่
         $exists = false;
         foreach ($_SESSION['cart'] as &$item) {
             if ($item['p_id'] == $product['p_id'] && $item['category'] == $category) {
-                $item['quantity'] += 1; // เพิ่มจำนวน
+                $item['quantity'] += 1;
                 $item['total_price'] = $item['quantity'] * $item['p_price'];
                 $exists = true;
                 break;
             }
         }
 
-        // ถ้าไม่มีสินค้าในตะกร้า ให้เพิ่มใหม่
+        // หากยังไม่มีสินค้าในตะกร้า
         if (!$exists) {
             $product['category'] = $category;
             $product['quantity'] = 1;
