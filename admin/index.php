@@ -90,106 +90,101 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </div>
             <!-- row -->
             <div class="row tm-content-row">
-    <div class="col-12 tm-block-col">
-        <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-            <h2 class="tm-block-title">Orders List</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ORDER ID.</th>
-                        <th scope="col">FULL NAME</th>
-                        <th scope="col">PHONE</th>
-                        <th scope="col">ADDRESS</th>
-                        <th scope="col">PROVINCE</th>
-                        <th scope="col">ZIP CODE</th>
-                        <th scope="col">TOTAL PRICE</th>
-                        <th scope="col">STATUS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // เรียกใช้ PHP สำหรับดึงข้อมูลจากฐานข้อมูลและแสดงในตาราง
-                    include_once("connectdb.php");
-
-                    if ($conn->connect_error) {
-                        die("❌ Connection failed: " . $conn->connect_error);
-                    }
-
-                    $sql = "SELECT * FROM orders";
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<th scope='row'><b>#".$row['order_id']."</b></th>";
-                            echo "<td><b>".$row['full_name']."</b></td>";
-                            echo "<td><b>".$row['phone']."</b></td>";
-                            echo "<td><b>".$row['address']."</b></td>";
-                            echo "<td><b>".$row['province']."</b></td>";
-                            echo "<td><b>".$row['zip_code']."</b></td>";
-                            echo "<td><b>฿".number_format($row['total_price'], 2)."</b></td>";
-                            echo "<td><b>".$row['status']."</b></td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='8'>ไม่มีข้อมูลคำสั่งซื้อ</td></tr>";
-                    }
-
-                    $conn->close();
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col-12 tm-block-col">
-        <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-            <h2 class="tm-block-title">Orders List</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ORDER ITEM ID </th>
-                        <th scope="col">ORDER ID</th>
-                        <th scope="col">PRODUCT NAME</th>
-                        <th scope="col">QUANTITY</th>
-                        <th scope="col">TOTAL PRICE</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="col-12 tm-block-col">
+    <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+        <h2 class="tm-block-title">Orders List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ORDER ID.</th>
+                    <th scope="col">FULL NAME</th>
+                    <th scope="col">PHONE</th>
+                    <th scope="col">ADDRESS</th>
+                    <th scope="col">PROVINCE</th>
+                    <th scope="col">ZIP CODE</th>
+                    <th scope="col">TOTAL PRICE</th>
+                    <th scope="col">STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
                 <?php
-// เชื่อมต่อกับฐานข้อมูล
-include_once("connectdb.php");
+                include_once("connectdb.php");
 
-// ตรวจสอบการเชื่อมต่อ
-if ($conn->connect_error) {
-    die("❌ Connection failed: " . $conn->connect_error);
-}
+                if ($conn->connect_error) {
+                    die("❌ Connection failed: " . $conn->connect_error);
+                }
 
-// สร้างคำสั่ง SQL เพื่อดึงข้อมูลทั้งหมดจากตาราง order_items
-$sql = "SELECT * FROM order_items";
-$result = $conn->query($sql);
+                $sql = "SELECT * FROM orders";
+                $result = $conn->query($sql);
 
-// ตรวจสอบว่าได้ผลลัพธ์หรือไม่
-if ($result->num_rows > 0) {
-    // ใช้ลูปเพื่อแสดงข้อมูลในตาราง
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<th scope='row'><b>#".$row['order_item_id']."</b></th>";  // order_item_id
-        echo "<td><b>".$row['order_id']."</b></td>";                    // order_id
-        echo "<td><b>".$row['product_name']."</b></td>";                // product_name
-        echo "<td><b>".$row['quantity']."</b></td>";                    // quantity
-        echo "<td><b>฿".number_format($row['total_price'], 2)."</b></td>"; // total_price
-        echo "</tr>";
-    }
-} else {
-    echo "<tr><td colspan='5'>ไม่มีข้อมูลคำสั่งซื้อ</td></tr>";
-}
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<th scope='row'><b>#".$row['order_id']."</b></th>";
+                        echo "<td><b>".$row['full_name']."</b></td>";
+                        echo "<td><b>".$row['phone']."</b></td>";
+                        echo "<td><b>".$row['address']."</b></td>";
+                        echo "<td><b>".$row['province']."</b></td>";
+                        echo "<td><b>".$row['zip_code']."</b></td>";
+                        echo "<td><b>฿".number_format($row['total_price'], 2)."</b></td>";
+                        echo "<td><b>".$row['status']."</b></td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='8'>ไม่มีข้อมูลคำสั่งซื้อ</td></tr>";
+                }
 
-$conn->close();
-?>
-                </tbody>
-            </table>
-        </div>
+                $conn->close();
+                ?>
+            </tbody>
+        </table>
     </div>
+</div>
+
+<div class="col-12 tm-block-col">
+    <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+        <h2 class="tm-block-title">Order Items List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ORDER ITEM ID</th>
+                    <th scope="col">ORDER ID</th>
+                    <th scope="col">PRODUCT NAME</th>
+                    <th scope="col">QUANTITY</th>
+                    <th scope="col">TOTAL PRICE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include_once("connectdb.php");
+
+                if ($conn->connect_error) {
+                    die("❌ Connection failed: " . $conn->connect_error);
+                }
+
+                $sql = "SELECT * FROM order_items";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<th scope='row'><b>#".$row['order_item_id']."</b></th>";
+                        echo "<td><b>".$row['order_id']."</b></td>";
+                        echo "<td><b>".$row['product_name']."</b></td>";
+                        echo "<td><b>".$row['quantity']."</b></td>";
+                        echo "<td><b>฿".number_format($row['total_price'], 2)."</b></td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='5'>ไม่มีข้อมูลคำสั่งซื้อ</td></tr>";
+                }
+
+                $conn->close();
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 </div>
 
