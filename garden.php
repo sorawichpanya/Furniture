@@ -67,7 +67,7 @@
             <div class="col-lg-6 col-6 text-left">
                 <form action="search_results.php" method="POST">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control" placeholder="Search for products" name="search_query">
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -248,7 +248,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <form action="search_results.php" method="POST">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search by name">
+                                    <input type="text" class="form-control" placeholder="Search by name" name="search_query">
                                     <div class="input-group-append">
                                         <span class="input-group-text bg-transparent text-primary">
                                             <i class="fa fa-search"></i>
