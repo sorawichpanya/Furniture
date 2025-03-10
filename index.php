@@ -138,6 +138,7 @@ session_start();
                                 </div>
                             </div>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
+                            <a href="editcus.php" class="nav-item nav-link">EditCustomer</a>
                        </div>
                        <div class="navbar-nav ml-auto py-0">
                             <a href="history.php" class="nav-item nav-link">History</a>

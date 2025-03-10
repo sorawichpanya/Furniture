@@ -1,15 +1,26 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: Login.php"); // เปลี่ยนเส้นทางไปยังหน้า login
-    exit;
-}
 ?>
 <?php
 // ตรวจสอบหน้าปัจจุบัน
 $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล์ เช่น 'index.php' หรือ 'products.php'
 
+include_once("connectdb.php");
+
+// รับคำค้นจาก URL ถ้ามี
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// สร้างคำสั่ง SQL สำหรับค้นหาผลิตภัณฑ์
+$sql = "SELECT * FROM `Just_arrived`"; // สามารถเปลี่ยนชื่อ table ตามต้องการ
+
+// ถ้ามีการค้นหา
+if (!empty($search)) {
+    $sql .= " WHERE p_name LIKE '%$search%' OR p_detail LIKE '%$search%'"; // กรองสินค้าตามชื่อหรือรายละเอียด
+}
+
+$rs = mysqli_query($conn, $sql);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +86,7 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>    
-<form action="product_list.php" method="get">
+<form action="products.php" method="get">
     <input type="text" name="search" placeholder="Search products" class="form-control mb-3">
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
