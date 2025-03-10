@@ -90,40 +90,59 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </div>
             <!-- row -->
             <div class="row tm-content-row">
-                <div class="col-12 tm-block-col">
-                    <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                        <h2 class="tm-block-title">Orders List</h2>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ORDER ID.</th>
-                                    <th scope="col">FULL NAME</th>
-                                    <th scope="col">PHONE</th>
-                                    <th scope="col">ADDRESS</th>
-                                    <th scope="col">PROVINCE</th>
-                                    <th scope="col">ZIP CODE</th>
-                                    <th scope="col">TOTAL PRICE</th>
-                                    <th scope="col">STATUS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row"><b>#122349</b></th>
-                                    <td>
-                                        <div class="tm-status-circle moving">
-                                        </div>Moving
-                                    </td>
-                                    <td><b>Oliver Trag</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>485 km</b></td>
-                                    <td>16:00, 12 NOV 2018</td>
-                                    <td>08:00, 18 NOV 2018</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div class="col-12 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+            <h2 class="tm-block-title">Orders List</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ORDER ID.</th>
+                        <th scope="col">FULL NAME</th>
+                        <th scope="col">PHONE</th>
+                        <th scope="col">ADDRESS</th>
+                        <th scope="col">PROVINCE</th>
+                        <th scope="col">ZIP CODE</th>
+                        <th scope="col">TOTAL PRICE</th>
+                        <th scope="col">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // เรียกใช้ PHP สำหรับดึงข้อมูลจากฐานข้อมูลและแสดงในตาราง
+                    include_once("connectdb.php");
+
+                    if ($conn->connect_error) {
+                        die("❌ Connection failed: " . $conn->connect_error);
+                    }
+
+                    $sql = "SELECT * FROM orders";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<th scope='row'><b>#".$row['order_id']."</b></th>";
+                            echo "<td><b>".$row['full_name']."</b></td>";
+                            echo "<td><b>".$row['phone']."</b></td>";
+                            echo "<td><b>".$row['address']."</b></td>";
+                            echo "<td><b>".$row['province']."</b></td>";
+                            echo "<td><b>".$row['zip_code']."</b></td>";
+                            echo "<td><b>฿".number_format($row['total_price'], 2)."</b></td>";
+                            echo "<td><b>".$row['status']."</b></td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='8'>ไม่มีข้อมูลคำสั่งซื้อ</td></tr>";
+                    }
+
+                    $conn->close();
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
         </div>
         <footer class="tm-footer row tm-mt-small">
             <div class="col-12 font-weight-light">
