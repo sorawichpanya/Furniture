@@ -158,6 +158,9 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
 
 mysqli_close($conn);
 ?>
+          
+                </tbody>
+            </table>
             </div>
             <button type="submit" class="btn btn-danger btn-block text-uppercase">Delete selected products</button>
           </form>
