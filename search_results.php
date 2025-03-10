@@ -200,7 +200,7 @@ $rs = mysqli_query($conn , $sql);
         <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-12">
-                <!-- Price Start -->
+                <!-- Price Start 
                 <div class="border-bottom mb-4 pb-4">
                     <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
                     <form>
@@ -235,7 +235,7 @@ $rs = mysqli_query($conn , $sql);
                             <span class="badge border font-weight-normal">168</span>
                         </div>
                     </form>
-                </div>
+                </div>-->
                 <!-- Price End -->
             </div>
             <!-- Shop Sidebar End -->
@@ -245,7 +245,7 @@ $rs = mysqli_query($conn , $sql);
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div>
+                            <!--<div>
                                 <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
                                 <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
                             </div>
@@ -259,7 +259,7 @@ $rs = mysqli_query($conn , $sql);
                                     <a class="dropdown-item" href="#">Popularity</a>
                                     <a class="dropdown-item" href="#">Best Rating</a>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <?php
