@@ -1,35 +1,34 @@
 <?php
 session_start();
-require 'connectdb.php'; 
+include 'connectdb.php'; // ไฟล์เชื่อมต่อฐานข้อมูล
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // เตรียม SQL Query เพื่อค้นหาผู้ใช้
-    $stmt = $conn->prepare("SELECT id, name, password FROM users WHERE username = ?");
+    // ดึงข้อมูลจากฐานข้อมูล
+    $sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
-    $stmt->store_result();
-    $stmt->bind_result($id, $name, $hashed_password);
-    $stmt->fetch();
-
-    if ($stmt->num_rows > 0) {
+    $result = $stmt->get_result();
+    
+    if ($row = $result->fetch_assoc()) {
         // ตรวจสอบรหัสผ่าน
-        if (password_verify($password, $hashed_password)) {
-            $_SESSION["user_id"] = $id;
-            $_SESSION["name"] = $name;
-            header("Location: index.php"); 
+        if (password_verify($password, $row['password'])) {
+            $_SESSION['username'] = $username; // ✅ บันทึก session
+            header("Location: index.php"); // ✅ รีไดเรกไปหน้าแรก
             exit();
         } else {
-            $_SESSION["Error"] = "รหัสผ่านไม่ถูกต้อง!";
+            echo "รหัสผ่านไม่ถูกต้อง!";
         }
     } else {
-        $_SESSION["Error"] = "ไม่พบชื่อผู้ใช้นี้!";
+        echo "ไม่พบบัญชีนี้!";
     }
     
     $stmt->close();
-    header("Location: Login.php"); // กลับไปหน้า Login พร้อมแจ้งข้อผิดพลาด
-    exit();
+    $conn->close();
+} else {
+    echo "ไม่อนุญาตให้เข้าถึงหน้านี้โดยตรง!";
 }
 ?>
