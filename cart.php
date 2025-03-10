@@ -6,7 +6,8 @@ include_once("connectdb.php");
 if (isset($_POST['p_id'], $_POST['category'])) {
     $p_id = (int)$_POST['p_id'];
     $category = $_POST['category'];
-
+    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
+    
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen_room','garden','workroom','Just_arrived','trendy'];
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category: " . htmlspecialchars($category));
