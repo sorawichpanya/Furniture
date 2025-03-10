@@ -497,73 +497,73 @@
 
     <!-- JavaScript for Price Filtering -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const checkboxes = document.querySelectorAll(".custom-control-input");
-            const products = document.querySelectorAll(".product-item");
-            const priceAllCheckbox = document.getElementById("price-all"); // ดึง "All Price" checkbox
-            
+       document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll(".custom-control-input");
+    const products = document.querySelectorAll(".product-item");
+    const priceAllCheckbox = document.getElementById("price-all");
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", filterProducts);
+    });
+
+    function filterProducts() {
+        let selectedRanges = [];
+
+        // ตรวจสอบว่ามีการเลือก "All Price" หรือไม่
+        if (priceAllCheckbox.checked) {
+            selectedRanges = []; // ถ้าเลือก "All Price" ให้แสดงสินค้าทั้งหมด
+        } else {
             checkboxes.forEach(checkbox => {
-                checkbox.addEventListener("change", filterProducts);
-            });
-        
-            function filterProducts() {
-                let selectedRanges = [];
-        
-                checkboxes.forEach(checkbox => {
-                    if (checkbox.checked && checkbox !== priceAllCheckbox) {
-                        let rangeText = checkbox.nextElementSibling.textContent.trim().replace("฿", "");
-        
-                        if (rangeText.includes("and above")) {
-                            let lowerBound = parseInt(rangeText.split(" ")[0].replace(",", ""));
-                            selectedRanges.push([lowerBound, Infinity]); // ใช้ Infinity แทนค่าใหญ่
-                        } else {
-                            let range = rangeText.split(" - ").map(num => parseInt(num.replace(",", "")));
+                if (checkbox.checked && checkbox !== priceAllCheckbox) {
+                    let rangeText = checkbox.nextElementSibling.textContent.trim().replace("฿", "").replace(",", "");
+                    if (rangeText.includes("and above")) {
+                        let lowerBound = parseInt(rangeText.split(" ")[0]);
+                        selectedRanges.push([lowerBound, Infinity]);
+                    } else {
+                        let range = rangeText.split(" - ").map(num => parseInt(num));
+                        if (range.length === 2) {
                             selectedRanges.push(range);
                         }
                     }
-                });
-        
-                // ถ้าเลือก "All Price" หรือไม่เลือกตัวกรองใด ๆ ให้แสดงสินค้าทั้งหมด
-                if (priceAllCheckbox.checked || selectedRanges.length === 0) {
-                    selectedRanges = [];
                 }
-        
-                products.forEach(product => {
-                    let productPrice = parseInt(product.getAttribute("data-price"));
-        
-                    let isVisible = selectedRanges.length === 0 || selectedRanges.some(range =>
-                        productPrice >= range[0] && productPrice <= range[1]
-                    );
-        
-                    product.style.display = isVisible ? "block" : "none";
-                });
-        
-                console.log("Selected Ranges:", selectedRanges);
-            }
-        
-            // ตั้งค่าให้ "All Price" เป็นค่าเริ่มต้น
-            filterProducts();
-        
-            // ยกเลิกการเลือก checkbox อื่น ๆ เมื่อเลือกตัวเลือกใหม่
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener("change", function () {
-                    if (checkbox !== priceAllCheckbox && checkbox.checked) {
-                        checkboxes.forEach(otherCheckbox => {
-                            if (otherCheckbox !== checkbox && otherCheckbox !== priceAllCheckbox) {
-                                otherCheckbox.checked = false;
-                            }
-                        });
-                        priceAllCheckbox.checked = false;
-                    } else if (checkbox === priceAllCheckbox && checkbox.checked) {
-                        checkboxes.forEach(otherCheckbox => {
-                            if (otherCheckbox !== checkbox) {
-                                otherCheckbox.checked = false;
-                            }
-                        });
-                    }
-                    filterProducts();
-                });
             });
+        }
+
+        products.forEach(product => {
+            let productPrice = parseInt(product.getAttribute("data-price"));
+
+            let isVisible = selectedRanges.length === 0 || // ถ้าไม่มีตัวกรองให้แสดงทั้งหมด
+                selectedRanges.some(range => 
+                    productPrice >= range[0] && (range[1] === Infinity || productPrice <= range[1])
+                );
+
+            product.style.display = isVisible ? "block" : "none";
         });
-        </script>
-        
+
+        console.log("Selected Ranges:", selectedRanges);
+    }
+
+    // จัดการการเลือก checkbox
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            if (checkbox !== priceAllCheckbox && checkbox.checked) {
+                priceAllCheckbox.checked = false; // ยกเลิก "All Price" เมื่อเลือกช่วงราคา
+                checkboxes.forEach(otherCheckbox => {
+                    if (otherCheckbox !== checkbox && otherCheckbox !== priceAllCheckbox) {
+                        otherCheckbox.checked = false;
+                    }
+                });
+            } else if (checkbox === priceAllCheckbox && checkbox.checked) {
+                checkboxes.forEach(otherCheckbox => {
+                    if (otherCheckbox !== checkbox) {
+                        otherCheckbox.checked = false;
+                    }
+                });
+            }
+            filterProducts();
+        });
+    });
+
+    // เรียกฟังก์ชันเริ่มต้นเพื่อแสดงสินค้าทั้งหมด
+    filterProducts();
+});

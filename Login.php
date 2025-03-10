@@ -49,7 +49,7 @@ if (isset($_SESSION["Error"])) {
             <div>
               <p class="mb-0">Don't have an account? <a href="Register.php" class="text-white-50 fw-bold">Register</a></p>
             </div>
-
+  
           </div>
         </div>
       </div>
