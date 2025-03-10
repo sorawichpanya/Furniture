@@ -3,20 +3,48 @@ session_start();
 require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // ตรวจสอบว่ามีการอัปโหลดสลิปหรือไม่
     if (!isset($_SESSION['payment_uploaded'])) {
         $_SESSION['error_message'] = "กรุณาอัปโหลดสลิปโอนเงินก่อนยืนยันคำสั่งซื้อ";
         header("Location: checkout.php");
         exit;
     }
 
+    // ตรวจสอบประเภทไฟล์
+    $allowed_types = ['image/jpeg', 'image/png', 'application/pdf'];
+    if (in_array($_FILES['payment_slip']['type'], $allowed_types)) {
+        // ตั้งตำแหน่งที่เก็บไฟล์
+        $upload_dir = 'uploads/';
+        $file_name = basename($_FILES['payment_slip']['name']);
+        $target_file = $upload_dir . $file_name;
+
+        // อัปโหลดไฟล์
+        if (move_uploaded_file($_FILES['payment_slip']['tmp_name'], $target_file)) {
+            $_SESSION['payment_uploaded'] = true;  // ตั้งค่าสถานะการอัปโหลด
+
+            // เก็บ path ของไฟล์ใน session เพื่อบันทึกลงฐานข้อมูล
+            $_SESSION['payment_slip'] = $target_file;
+
+            echo "Payment slip uploaded successfully.";
+        } else {
+            $_SESSION['error_message'] = "Error uploading payment slip.";
+            header("Location: checkout.php");
+            exit;
+        }
+    } else {
+        $_SESSION['error_message'] = "Invalid file type. Only JPEG, PNG, or PDF files are allowed.";
+        header("Location: checkout.php");
+        exit;
+    }
+} else {
     // ดึงค่าจาก Session
     $full_name = $_SESSION['user_full_name'];
     $phone = $_SESSION['user_phone'];
     $address = $_SESSION['user_address'];
     $province = $_SESSION['user_province'];
     $zip_code = $_SESSION['user_zip_code'];
-    $total_price = $_SESSION['cart_total'] + 50;
-    $payment_proof = $_SESSION['payment_slip'];
+    $total_price = $_SESSION['cart_total'] + 50;  // คำนวณรวมค่าจัดส่ง
+    $payment_proof = $_SESSION['payment_slip'];  // ใช้ path ของไฟล์ที่อัปโหลด
 
     // บันทึกลงฐานข้อมูล
     $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, payment_proof, status) 
