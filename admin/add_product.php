@@ -13,7 +13,16 @@ if (!in_array($table_name, $allowed_tables)) {
 if ($conn->connect_error) {
     die("❌ Connection failed: " . $conn->connect_error);
 }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    echo "<pre>";
+    print_r($_POST); // ตรวจสอบค่าที่ส่งจากฟอร์ม
+    echo "</pre>";
 
+    $table_name = $_POST['table'] ?? '';
+    if (empty($table_name)) {
+        die("❌ Table name is missing in POST request.");
+    }
+    // ดำเนินการต่อ...
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 🟢 รับค่าจากฟอร์ม
     $p_name = $_POST['p_name'] ?? '';

@@ -4,28 +4,38 @@ ini_set('display_errors', 1);
 
 include 'connectdb.php';
 
-// รับค่าจากฟอร์ม
-$name = $_POST['name'];
-$phone = $_POST['phone'];
-$username = $_POST['username'];
-$password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // รับค่าจากฟอร์ม และป้องกัน SQL Injection
+    $name = trim($_POST['name']);
+    $phone = trim($_POST['phone']);
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
-// เข้ารหัสรหัสผ่าน
-$password = hash('sha512', $password);
+    // ตรวจสอบว่าค่าต่าง ๆ ไม่เป็นค่าว่าง
+    if (empty($name) || empty($phone) || empty($username) || empty($password)) {
+        echo "<script>alert('กรุณากรอกข้อมูลให้ครบถ้วน'); window.location='Register.php';</script>";
+        exit();
+    }
 
-// เพิ่มข้อมูลลงฐานข้อมูล
-$sql = "INSERT INTO Register(name, phone, username, password) VALUES ('$name', '$phone', '$username', '$password')";
+    // เข้ารหัสรหัสผ่านอย่างปลอดภัย
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-$result = mysqli_query($conn, $sql);
+    // ใช้ prepared statement ป้องกัน SQL Injection
+    $sql = "INSERT INTO Register (name, phone, username, password) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssss", $name, $phone, $username, $hashed_password);
 
-if ($result) {
-    header("Location: Login.php");
-    
+    if ($stmt->execute()) {
+        header("Location: Login.php");
+        exit(); // ต้องมี exit() หลังจาก redirect
+    } else {
+        echo "<script>alert('บันทึกข้อมูลไม่ได้: " . $stmt->error . "'); window.location='Register.php';</script>";
+    }
+
+    // ปิด statement และการเชื่อมต่อฐานข้อมูล
+    $stmt->close();
+    $conn->close();
 } else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-    echo "<script> alert('บันทึกข้อมูลไม่ได้'); </script>";
+    echo "<script>alert('ไม่อนุญาตให้เข้าถึงหน้านี้โดยตรง'); window.location='Register.php';</script>";
 }
-    exit(); // หยุดการทำงานของ PHP หลัง Redirect
-// ปิดการเชื่อมต่อฐานข้อมูล
-mysqli_close($conn);
 ?>
