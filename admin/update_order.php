@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // เรียกใช้คำสั่ง SQL
             if ($stmt->execute()) {
                 echo "ข้อมูลอัพเดตสำเร็จ!";
-                header("Location: orders_list.php"); // กลับไปที่หน้ารายการคำสั่งซื้อ
+                header("Location: index.php"); // กลับไปที่หน้ารายการคำสั่งซื้อ
                 exit;
             } else {
                 echo "❌ ไม่สามารถอัพเดตข้อมูลได้: " . $stmt->error;

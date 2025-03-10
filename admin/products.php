@@ -134,8 +134,6 @@ $rs = mysqli_query($conn, $sql);
                     }
                 
                     // แสดงข้อมูลสินค้า
-                    echo "Table Name: " . htmlspecialchars($table_name) . "<br>"; // เพิ่มบรรทัดนี้
-                    echo "Product ID: " . htmlspecialchars($product_id) . "<br>";   // เพิ่มบรรทัดนี้
                     echo "<tr>
                             <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
                             <td>$product_name</td>
@@ -145,9 +143,9 @@ $rs = mysqli_query($conn, $sql);
                             <td>$product_price</td>
                             <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
                             <td>
-                                <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>  <!-- เพิ่มลิงก์ Edit -->
-                            </td>
-                            </tr>";
+        <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
+                                                </td>
+                                                </tr>";
 
                 }
                 ?>            
