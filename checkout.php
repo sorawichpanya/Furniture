@@ -194,40 +194,42 @@ session_start(); // เรียกใช้งาน session
             </div>
             
             <div class="col-lg-4">
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Order Total</h4>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="font-weight-medium mb-3">Products</h5>
-                        <?php 
-                        $subtotal = 0;
-                        if (!empty($_SESSION['cart'])) :
-                            foreach ($_SESSION['cart'] as $item) :
-                                $subtotal += $item['total_price']; 
-                        ?>
-                            <div class="d-flex justify-content-between">
-                                <p><?php echo htmlspecialchars($item['p_name']) . " (x" . $item['quantity'] . ")"; ?></p>
-                                <p>฿<?php echo number_format($item['total_price'], 2); ?></p>
-                            </div>
-                        <?php endforeach; endif; ?>
-                        <hr class="mt-0">
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">฿<?php echo number_format($subtotal, 2); ?></h6>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">฿<?php $shipping = 50; echo number_format($shipping, 2); ?></h6>
-                        </div>
-                    </div>
-                    <div class="card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">฿<?php echo number_format($subtotal + $shipping, 2); ?></h5>
-                        </div>
-                    </div>
+    <div class="card border-secondary mb-5">
+        <div class="card-header bg-secondary border-0">
+            <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+        </div>
+        <div class="card-body">
+            <h5 class="font-weight-medium mb-3">Products</h5>
+            <?php 
+            $subtotal = 0;
+            // ตรวจสอบว่ามีข้อมูลสินค้าใน $_POST['cart'] หรือไม่
+            if (!empty($_POST['cart'])) :
+                foreach ($_POST['cart'] as $item) :
+                    $subtotal += $item['total_price']; 
+            ?>
+                <div class="d-flex justify-content-between">
+                    <p><?php echo htmlspecialchars($item['p_name']) . " (x" . $item['quantity'] . ")"; ?></p>
+                    <p>฿<?php echo number_format($item['total_price'], 2); ?></p>
                 </div>
+            <?php endforeach; endif; ?>
+            <hr class="mt-0">
+            <div class="d-flex justify-content-between mb-3 pt-1">
+                <h6 class="font-weight-medium">Subtotal</h6>
+                <h6 class="font-weight-medium">฿<?php echo number_format($subtotal, 2); ?></h6>
+            </div>
+            <div class="d-flex justify-content-between">
+                <h6 class="font-weight-medium">Shipping</h6>
+                <h6 class="font-weight-medium">฿<?php $shipping = 50; echo number_format($shipping, 2); ?></h6>
+            </div>
+        </div>
+        <div class="card-footer border-secondary bg-transparent">
+            <div class="d-flex justify-content-between mt-2">
+                <h5 class="font-weight-bold">Total</h5>
+                <h5 class="font-weight-bold">฿<?php echo number_format($subtotal + $shipping, 2); ?></h5>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
@@ -241,7 +243,7 @@ session_start(); // เรียกใช้งาน session
                     </div>
 
                     <div class="card-footer border-secondary bg-transparent">
-                        <input type="hidden" name="order_status" value="paid">
+                        <input type="hidden" name="order_status" value="pending">
                         <input type="hidden" name="total_price" value="<?php echo $subtotal + $shipping; ?>">
                         <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
                             Confirm Order
