@@ -305,29 +305,26 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 </div>
 
 <script>
-    // Wait until the DOM is fully loaded
     document.addEventListener("DOMContentLoaded", function () {
         const btnMinus = document.getElementById("btn-minus");
         const btnPlus = document.getElementById("btn-plus");
         const quantityInput = document.getElementById("quantity");
         const hiddenQuantity = document.getElementById("hiddenQuantity");
 
-        // Function to update quantity
         function updateQuantity(change) {
-            let currentQuantity = parseInt(quantityInput.value) || 1; // Default to 1 if invalid value
+            let currentQuantity = parseInt(quantityInput.value) || 1; // Default to 1 if invalid
             let newQuantity = currentQuantity + change;
 
-            // Prevent quantity from going below 1
+            // Prevent quantity from being less than 1
             if (newQuantity < 1) {
                 newQuantity = 1;
             }
 
-            // Update the visible and hidden input values
+            // Update visible and hidden inputs
             quantityInput.value = newQuantity;
             hiddenQuantity.value = newQuantity;
         }
 
-        // Attach event listeners to buttons
         btnMinus.addEventListener("click", function () {
             updateQuantity(-1);
         });
@@ -337,6 +334,8 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
         });
     });
 </script>
+
+
             </div>
         </div>
     </div>
@@ -383,6 +382,7 @@ $rs = mysqli_query($conn, $sql);
                                 class="btn btn-sm text-dark p-0">
                                 <i class="fas fa-eye text-primary mr-1"></i>View Detail
                                 </a>
+
                             </a>
                         </div>
                     </div>
