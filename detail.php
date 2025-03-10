@@ -279,7 +279,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                     </p>
 
                     <!-- ตัวเลือกจำนวนสินค้า -->
-                    <div class="d-flex align-items-center mb-4 pt-2">
     <div class="input-group quantity mr-3" style="width: 130px;">
         <div class="input-group-btn">
             <button class="btn btn-primary btn-minus" type="button" onclick="updateQuantity(-1)">
