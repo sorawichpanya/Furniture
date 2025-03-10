@@ -3,28 +3,20 @@ session_start();
 require 'connectdb.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Debug เช็คค่าที่ส่งมา (สามารถปิดเมื่อใช้งานจริง)
+    // Debug ดูค่าที่ถูกส่งมา
     echo "<pre>";
     print_r($_POST);
     echo "</pre>";
+    exit;
 
-    // ตรวจสอบว่าผู้ใช้ได้อัปโหลดสลิปหรือยัง
-    if (!isset($_FILES['payment_slip']) || $_FILES['payment_slip']['error'] !== UPLOAD_ERR_OK) {
+    if (!isset($_SESSION['payment_uploaded'])) {
         $_SESSION['error_message'] = "กรุณาอัปโหลดสลิปโอนเงินก่อนยืนยันคำสั่งซื้อ";
         header("Location: checkout.php");
         exit;
     }
 
-    // รับค่าจากฟอร์ม
-    $full_name = trim($_POST['full_name']);
-    $phone = trim($_POST['phone']);
-    $address = trim($_POST['address']);
-    $province = trim($_POST['province']);
-    $zip_code = trim($_POST['zip_code']);
-    $total_price = trim($_POST['paid_amount']); // รับค่าจาก input
-
-    // ตรวจสอบว่ากรอกข้อมูลครบ
-    $required_fields = ['full_name', 'phone', 'address', 'province', 'zip_code', 'paid_amount'];
+    // ตรวจสอบว่ามีการกรอกข้อมูลครบทุกฟิลด์
+    $required_fields = ['full_name', 'phone', 'address', 'province', 'zip_code'];
     foreach ($required_fields as $field) {
         if (empty($_POST[$field])) {
             $_SESSION['error_message'] = "กรุณากรอกข้อมูลให้ครบทุกฟิลด์";
@@ -33,37 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // ตรวจสอบประเภทไฟล์สลิป
-    $allowed_types = ['image/jpeg', 'image/png', 'application/pdf', 'image/jpg'];
-    $file_type = mime_content_type($_FILES['payment_slip']['tmp_name']);
-    if (!in_array($file_type, $allowed_types)) {
-        $_SESSION['error_message'] = "รูปแบบไฟล์ไม่ถูกต้อง (รองรับเฉพาะ JPG, PNG, และ PDF)";
-        header("Location: checkout.php");
-        exit;
-    }
-
-    // อัปโหลดไฟล์สลิปโอนเงิน
-    $upload_dir = "uploads/";
-    if (!is_dir($upload_dir)) {
-        mkdir($upload_dir, 0777, true);
-    }
-    $file_name = time() . "_" . basename($_FILES['payment_slip']['name']);
-    $target_path = $upload_dir . $file_name;
-
-    if (!move_uploaded_file($_FILES['payment_slip']['tmp_name'], $target_path)) {
-        $_SESSION['error_message'] = "เกิดข้อผิดพลาดในการอัปโหลดไฟล์";
-        header("Location: checkout.php");
-        exit;
-    }
-
-    // เพิ่มข้อมูลลงในฐานข้อมูล
+    // บันทึกลงฐานข้อมูล
     $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, payment_proof, status) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, 'paid')");
-    $stmt->bind_param("sssssss", $full_name, $phone, $address, $province, $zip_code, $total_price, $target_path);
+                            VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')");
+    $stmt->bind_param("sssssss", $_POST['full_name'], $_POST['phone'], $_POST['address'], $_POST['province'], $_POST['zip_code'], $total_price, $payment_proof);
 
     if ($stmt->execute()) {
-        $_SESSION['success_message'] = "สั่งซื้อสำเร็จ!";
-        unset($_SESSION['cart']);
+        $_SESSION['success_message'] = "คำสั่งซื้อของคุณได้รับการบันทึกเรียบร้อย!";
+        unset($_SESSION['cart'], $_SESSION['payment_uploaded']);
         header("Location: order_success.php");
         exit;
     } else {
