@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // ✅ ตรวจสอบค่า status ให้อยู่ใน ENUM
 $allowed_statuses = ['pending', 'confirmed', 'shipped', 'delivered', 'canceled'];
-$order_status = isset($_POST['order_status']) && in_array($_POST['order_status'], $allowed_statuses) ? $_POST['order_status'] : 'pending';
+$order_status = isset($_POST['status']) && in_array($_POST['status'], $allowed_statuses) ? $_POST['status'] : 'pending';
 
     // ✅ ตรวจสอบว่ากรอกข้อมูลครบ
     $required_fields = ['full_name', 'phone', 'address', 'province', 'zip_code', 'paid_amount'];

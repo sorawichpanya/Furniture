@@ -11,7 +11,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     $sql = "SELECT * FROM Register WHERE username = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username); // 's' คือชนิดข้อมูล string
+    $stmt->bind_param("s", $username); 
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_array(MYSQLI_ASSOC);
