@@ -194,8 +194,9 @@ session_start(); // เรียกใช้งาน session
     <label>Postal Code</label>
     <input class="form-control" type="text" name="zip_code" required
            value="<?php echo isset($_SESSION['user_zip_code']) ? $_SESSION['user_zip_code'] : ''; ?>">
-</div>        
-</form>
+</div>            
+</div>
+        </form>
     </div>
             </div>
             <div class="col-lg-4">
