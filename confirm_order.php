@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // เชื่อมต่อฐานข้อมูลและบันทึกคำสั่งซื้อ
-    $conn = new mysqli("localhost", "root", "", "shopping_cart");
+    $conn = new mysqli("localhost", "root", "12345678P", "FurnitureFunny");
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
