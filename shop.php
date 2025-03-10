@@ -282,7 +282,6 @@ include_once("connectdb.php");
                                     </div>
                                 </div>
                             </form>
-                            -->
                             <div class="dropdown ml-4">
                                 <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
@@ -294,6 +293,7 @@ include_once("connectdb.php");
                                     <a class="dropdown-item" href="#">Best Rating</a>
                                 </div>
                             </div>
+                            -->
                         </div>
                     </div>
                     <?php
