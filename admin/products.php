@@ -75,7 +75,10 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>    
-
+<form action="product_list.php" method="get">
+    <input type="text" name="search" placeholder="Search products" class="form-control mb-3">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
 <div class="container mt-5">
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
@@ -134,30 +137,38 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                         $product_image = $data['p_id'];  // ใช้ p_id เป็นชื่อไฟล์
                         $product_ext = $data['p_ext'];   // ใช้ p_ext เป็นนามสกุลไฟล์
                         $image_folder = "../img/" . $table_name . "/";  
-                    $image_path = $image_folder . $product_image . "." . $product_ext;
+                        $image_path = $image_folder . $product_image . "." . $product_ext;
 
-                    // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
-                    $image_path = $image_folder . $product_image . "." . $product_ext;
-                    if (!file_exists($image_path)) {
-                        $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
-                        $product_ext = "png";        // ใช้ .jpg เป็นนามสกุล
-                    }
-                
+                        // ตรวจสอบว่าไฟล์รูปภาพมีอยู่ในโฟลเดอร์หรือไม่
+                        $image_path = $image_folder . $product_image . "." . $product_ext;
+                        if (!file_exists($image_path)) {
+                            $product_image = "default";  // ถ้าไม่มีรูปให้ใช้รูป default
+                            $product_ext = "png";        // ใช้ .png เป็นนามสกุล
+                        }                
                     // แสดงข้อมูลสินค้า
                     echo "<tr>
-                            <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
-                            <td>$product_name</td>
-                            <td>$product_detail</td>
-                            <td>$product_color</td>
-                            <td>$product_size</td>
-                            <td>$product_price</td>
-                            <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
-                            <td>
-                                <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
-                            </td>
-                            </tr>";
-                    }
+                    <td><input type='checkbox' name='product_ids[]' value='$product_id'></td>
+                    <td>$product_name</td>
+                    <td>$product_detail</td>
+                    <td>$product_color</td>
+                    <td>$product_size</td>
+                    <td>$product_price</td>
+                    <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
+                    <td>
+                        <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
+                    </td>
+                  </tr>";
+                } else {
+                    echo "<tr><td colspan='7'>ไม่พบสินค้าที่ค้นหา</td></tr>";
                 }
+                // ปิดการเตรียมคำสั่ง SQL
+                mysqli_stmt_close($stmt);
+            } else {
+                echo "❌ ไม่สามารถเตรียมคำสั่ง SQL ได้";
+            }
+            
+            mysqli_close($conn);
+            ?>
                 ?>            
                 </tbody>
             </table>
