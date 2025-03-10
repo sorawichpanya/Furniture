@@ -1,41 +1,5 @@
 <?php
-session_start();
 include_once("connectdb.php");
-
-// รับค่าคำค้นหาจากฟอร์ม
-$search_query = isset($_POST['search_query']) ? $_POST['search_query'] : '';
-$search_query = mysqli_real_escape_string($conn, $search_query); // ป้องกัน SQL injection
-
-// กำหนดจำนวนสินค้าที่แสดงในแต่ละหน้า
-$items_per_page = 9;
-
-// คำนวณหน้าปัจจุบันจาก query string
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหรับการดึงข้อมูล
-
-// ดึงข้อมูลจากทุกตารางที่เกี่ยวข้อง
-$sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
-    WHERE p_name LIKE '%$search_query%' OR p_detail LIKE '%$search_query%'
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'living_room' AS category FROM `living_room`
-    WHERE p_name LIKE '%$search_query%' OR p_detail LIKE '%$search_query%'
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'bathroom' AS category FROM `bathroom`
-    WHERE p_name LIKE '%$search_query%' OR p_detail LIKE '%$search_query%'
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'kitchen_room' AS category FROM `kitchen_room`
-    WHERE p_name LIKE '%$search_query%' OR p_detail LIKE '%$search_query%'
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'garden' AS category FROM `garden`
-    WHERE p_name LIKE '%$search_query%' OR p_detail LIKE '%$search_query%'
-    UNION ALL
-    SELECT p_id, p_name, p_price, p_ext, 'workroom' AS category FROM `workroom`
-    WHERE p_name LIKE '%$search_query%' OR p_detail LIKE '%$search_query%'
-    ORDER BY p_id ASC -- จัดเรียงตาม ID สินค้า
-    LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
-
-$rs = mysqli_query($conn , $sql);
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +17,7 @@ $rs = mysqli_query($conn , $sql);
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -66,7 +30,7 @@ $rs = mysqli_query($conn , $sql);
 </head>
 
 <body>
-    <!-- Topbar Start -->
+    <!-- Topbar Start (Copy from index.php) -->
     <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
             <div class="col-lg-6 d-none d-lg-block">
@@ -100,18 +64,18 @@ $rs = mysqli_query($conn , $sql);
         </div>
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a href="" class="text-decoration-none">
+                <a href="index.php" class="text-decoration-none">
                     <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
                 <form action="search_results.php" method="POST">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products" name="search_query" value="<?php echo htmlspecialchars($search_query); ?>">
+                        <input type="text" class="form-control" placeholder="Search for products" name="search_query">
                         <div class="input-group-append">
-                            <button class="input-group-text bg-transparent text-primary" type="submit">
+                            <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
-                            </button>
+                            </span>
                         </div>
                     </div>
                 </form>
@@ -130,7 +94,7 @@ $rs = mysqli_query($conn , $sql);
     </div>
     <!-- Topbar End -->
 
-    <!-- Navbar Start -->
+    <!-- Navbar Start (Copy from index.php) -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
@@ -138,7 +102,7 @@ $rs = mysqli_query($conn , $sql);
                     <h6 class="m-0">Categories</h6>
                     <i class="fa fa-angle-down text-dark"></i>
                 </a>
-                <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical">
+                <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
                         <a href="livingroom.php" class="nav-item nav-link">living room</a>
                         <a href="bathroom.php" class="nav-item nav-link">bathroom</a>
@@ -151,7 +115,7 @@ $rs = mysqli_query($conn , $sql);
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
-                    <a href="" class="text-decoration-none d-block d-lg-none">
+                    <a href="index.php" class="text-decoration-none d-block d-lg-none">
                         <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -159,7 +123,7 @@ $rs = mysqli_query($conn , $sql);
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.php" class="nav-item nav-link">Home</a>
+                            <a href="index.php" class="nav-item nav-link active">Home</a>
                             <a href="shop.php" class="nav-item nav-link">Shop</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
@@ -176,136 +140,132 @@ $rs = mysqli_query($conn , $sql);
                         </div>
                     </div>
                 </nav>
+                <div id="header-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" style="height: 410px;">
+                            <img class="img-fluid" src="img/aa.jpg" alt="Image">
+                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                <div class="p-3" style="max-width: 700px;">
+                                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
+                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Trendy Products</h3>
+                                    <a href="trendy.php" class="btn btn-light py-2 px-3">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item" style="height: 410px;">
+                            <img class="img-fluid" src="img/bb.jpg" alt="Image">
+                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                <div class="p-3" style="max-width: 700px;">
+                                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
+                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Just Arrived</h3>
+                                    <a href="justarrived.php" class="btn btn-light py-2 px-3">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                            <span class="carousel-control-prev-icon mb-n2"></span>
+                        </div>
+                    </a>
+                    <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                            <span class="carousel-control-next-icon mb-n2"></span>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
     <!-- Navbar End -->
 
-    <!-- Page Header Start -->
-    <div class="container-fluid bg-secondary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Search Results</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Search Results</p>
+    <!-- Featured Start (Copy from index.php) -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5 pb-3">
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
+                    <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
+                    <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
+                    <h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
+                    <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Page Header End -->
+    <!-- Featured End -->
 
-    <!-- Shop Start -->
+    <!-- Products Start -->
     <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">All Products</span></h2>
+        </div>
         <div class="row px-xl-5">
-            <!-- Shop Sidebar Start -->
-            <div class="col-lg-3 col-md-12">
-                <!-- Price Start -->
-                <div class="border-bottom mb-4 pb-4">
-                    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-                    <form>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="price-all">
-                            <label class="custom-control-label" for="price-all">All Price</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-1">
-                            <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
-                            <span class="badge border font-weight-normal">150</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
-                            <span class="badge border font-weight-normal">295</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">฿1000 - ฿1500</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">฿1500 - ฿2000</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">฿2000 and above</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
-                    </form>
-                </div>
-                <!-- Price End -->
-            </div>
-            <!-- Shop Sidebar End -->
+            <?php
+            // รับค่าคำค้นหาจากฟอร์ม
+            $search_query = $_POST['search_query'];
 
-            <!-- Shop Product Start -->
-            <div class="col-lg-9 col-md-12">
-                <div class="row pb-3">
-                    <div class="col-12 pb-1">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div>
-                                <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
-                                <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
+            // สร้างคำสั่ง SQL เพื่อค้นหาสินค้าทั้งหมด
+            $sql = "SELECT * FROM products WHERE `p_name` LIKE '%$search_query%' OR `p_description` LIKE '%$search_query%' ORDER BY `p_id` ASC";
+            $rs = mysqli_query($conn, $sql);
+
+            // ตรวจสอบว่ามีสินค้าหรือไม่
+            if (mysqli_num_rows($rs) > 0) {
+                while ($data = mysqli_fetch_array($rs)) {
+                    // จัดรูปแบบราคาด้วย number_format
+                    $formatted_price = number_format($data['p_price'], 2);
+                    ?>
+                    <!-- แสดงสินค้า -->
+                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                <img class="img-fluid w-100" src="img/products/<?php echo $data['p_id']; ?>.<?php echo $data['p_ext']; ?>" alt="<?php echo $data['p_name']; ?>">
                             </div>
-                            <div class="dropdown ml-4">
-                                <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                            Sort by
-                                        </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                                    <a class="dropdown-item" href="#">Latest</a>
-                                    <a class="dropdown-item" href="#">Popularity</a>
-                                    <a class="dropdown-item" href="#">Best Rating</a>
+                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                <h6 class="text-truncate mb-3"><?php echo $data['p_name']; ?></h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6><?php echo $formatted_price; ?></h6>
                                 </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between bg-light border">
+                                <a href="detail.php?id=<?php echo $data['p_id']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                             </div>
                         </div>
                     </div>
                     <?php
-                    if (mysqli_num_rows($rs) > 0) {
-                        while ($data = mysqli_fetch_assoc($rs)) {
-                            // จัดรูปแบบราคา
-                            $formatted_price = number_format($data['p_price'], 2);
-
-                            // แสดงข้อมูลสินค้าแต่ละรายการในรูปแบบ product item
-                            echo "<div class='col-lg-4 col-md-6 col-sm-12 pb-1'>";
-                            echo "<div class='card product-item border-0 mb-4'>";
-                            echo "<div class='card-header product-img position-relative overflow-hidden bg-transparent border p-0'>";
-                            echo "<img class='img-fluid w-100' src='img/product-1.jpg' alt='" . htmlspecialchars($data['p_name']) . "'>"; // แก้ไข path รูปภาพตามความเหมาะสม
-                            echo "</div>";
-                            echo "<div class='card-body border-left border-right text-center p-0 pt-4 pb-3'>";
-                            echo "<h6 class='text-truncate mb-3'>" . htmlspecialchars($data['p_name']) . "</h6>";
-                            echo "<div class='d-flex justify-content-center'>";
-                            echo "<h6>" . $formatted_price . "</h6>";
-                            echo "</div>";
-                            echo "</div>";
-                            echo "<div class='card-footer d-flex justify-content-between bg-light border'>";
-                            echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-eye text-primary mr-1'></i>View Detail</a>";
-                            echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-shopping-cart text-primary mr-1'></i>Add To Cart</a>";
-                            echo "</div>";
-                            echo "</div>";
-                            echo "</div>";
-                        }
-                    } else {
-                        echo "<div class='col-12'><p>No products found matching your search.</p></div>";
-                    }
-                    ?>
-                </div>
-            </div>
-            <!-- Shop Product End -->
+                }
+            } else {
+                echo "<div class='col-12 text-center'><p>No products found matching your search criteria.</p></div>";
+            }
+            ?>
         </div>
     </div>
-    <!-- Shop End -->
+    <!-- Products End -->
 
-    <!-- Footer Start -->
+    <!-- Footer Start (Copy from index.php) -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
-                <a href="" class="text-decoration-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                <a href="index.php" class="text-decoration-none">
+                    <h1 class="mb-4 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border border-white px-3 mr-1">E</span>Shopper</h1>
                 </a>
-                <p>Dolore erat dolor sit lorem vero amet. Sed justo lorem sit. Justo eos et vero ea sed ipsum erat duo
-                    lorem clita. Duo no duo ea lorem erat stet sit justo duo.</p>
+                <p>Dolore erat dolor sit lorem vero amet. Sed sit lorem magna, ipsum no sit erat lorem et magna ipsum dolore amet erat.</p>
                 <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
                 <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
                 <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
@@ -313,25 +273,33 @@ $rs = mysqli_query($conn , $sql);
             <div class="col-lg-8 col-md-12">
                 <div class="row">
                     <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-semi-bold text-uppercase mb-3">Quick Links</h5>
+                        <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                            <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                            <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                            <a class="text-dark mb-2" href="index.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="shop.php"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
+                            <a class="text-dark mb-2" href="cart.php"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
+                            <a class="text-dark mb-2" href="checkout.php"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
+                            <a class="text-dark" href="contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-semi-bold text-uppercase mb-3">Newsletter</h5>
-                        <p>Dolore erat dolor sit lorem vero amet. Sed justo lorem sit. Justo eos et vero ea sed ipsum erat duo lorem clita. Duo no duo ea lorem erat stet sit justo duo.</p>
+                        <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
+                        <div class="d-flex flex-column justify-content-start">
+                            <a class="text-dark mb-2" href="index.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="shop.php"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
+                            <a class="text-dark mb-2" href="cart.php"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
+                            <a class="text-dark mb-2" href="checkout.php"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
+                            <a class="text-dark" href="contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-5">
+                        <h5 class="font-weight-bold text-dark mb-4">Newsletter</h5>
                         <form action="">
                             <div class="form-group">
                                 <input type="text" class="form-control border-0 py-4" placeholder="Your Email Address" required="required" />
                             </div>
                             <div>
-                                <button class="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
+                                <button class="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe</button>
                             </div>
                         </form>
                     </div>
@@ -353,9 +321,6 @@ $rs = mysqli_query($conn , $sql);
     </div>
     <!-- Footer End -->
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
@@ -371,8 +336,3 @@ $rs = mysqli_query($conn , $sql);
 </body>
 
 </html>
-
-<?php
-// Close connection
-mysqli_close($conn);
-?>

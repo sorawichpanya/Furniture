@@ -5,11 +5,12 @@ include_once("connectdb.php");
 var_dump($_GET); // ดูค่าที่รับจาก URL
 
 if (isset($_GET['p_id'], $_GET['category'])) {
-    $p_id = (int)$_GET['p_id']; // แปลงเป็น int
-    $category = $_GET['category']; // ใช้ค่า category เป็น string
-} else 
-    die("Invalid request. p_id or category is missing.");
-
+    // แปลง p_id จาก string เป็น int
+    $p_id = (int)$_GET['p_id'];
+    $category = $_GET['category'];  // category เป็น string
+    else {
+        die("Invalid request. p_id or category is missing.");
+        
     // ตรวจสอบ category ที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
