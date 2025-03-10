@@ -88,25 +88,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <h2>Add New Product</h2>
     <form action="add_product.php" method="POST" enctype="multipart/form-data">
-        <label>Product Name:</label>
-        <input type="text" name="p_name" required>
-        <br>
-        <label>Detail:</label>
-        <textarea name="p_detail" required></textarea>
-        <br>
-        <label>Color:</label>
-        <input type="text" name="p_color" required>
-        <br>
-        <label>Size:</label>
-        <input type="text" name="p_size" required>
-        <br>
-        <label>Price:</label>
-        <input type="number" name="p_price" step="0.01" required>
-        <br>
-        <label>Image:</label>
-        <input type="file" name="p_image" accept="image/*" required>
-        <br>
-        <button type="submit">Add Product</button>
-    </form>
+    <input type="hidden" name="table" value="<?php echo htmlspecialchars($table_name); ?>">
+    <label>Product Name:</label>
+    <input type="text" name="p_name" required>
+    <br>
+    <label>Detail:</label>
+    <textarea name="p_detail" required></textarea>
+    <br>
+    <label>Color:</label>
+    <input type="text" name="p_color" required>
+    <br>
+    <label>Size:</label>
+    <input type="text" name="p_size" required>
+    <br>
+    <label>Price:</label>
+    <input type="number" name="p_price" step="0.01" required>
+    <br>
+    <label>Image:</label>
+    <input type="file" name="p_image" accept="image/*" required>
+    <br>
+    <button type="submit">Add Product</button>
+</form>
+
 </body>
 </html>
