@@ -24,6 +24,12 @@ if (isset($_GET['price_range']) && !empty($_GET['price_range'])) {
         }
         if (!empty($conditions)) {
             $price_filter = 'WHERE (' . implode(' OR ', $conditions) . ')';
+
+            // หลังจากกำหนด $price_filter
+                echo "<pre>";
+                var_dump($_GET['price_range']);
+                var_dump($price_filter);
+                echo "</pre>";
         }
     }
 }
@@ -422,6 +428,7 @@ $total_pages = ceil($total_items / $items_per_page);
                         allPriceCheckbox.checked = true;
                     }
 
+                    console.log("Submitting form"); // Debug
                     form.submit();
                 });
             });

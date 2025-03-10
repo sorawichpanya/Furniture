@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // ตรวจสอบว่ามีการกรอกข้อมูลครบทุกฟิลด์
-        if (empty($_POST['full_name']) || empty($_POST['phone']) || empty($_POST['address']) || empty($_POST['user_province']) || empty($_POST['user_zip_code'])) {
+        if (empty($_POST['full_name']) || empty($_POST['phone']) || empty($_POST['address']) || empty($_POST['province']) || empty($_POST['zip_code'])) {
             $_SESSION['error_message'] = "กรุณากรอกข้อมูลให้ครบทุกฟิลด์";
             header("Location: checkout.php");
             exit;
@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         // ดำเนินการต่อกับการบันทึกข้อมูลหรือการส่งข้อมูลอื่นๆ
     }
+    
 
 
     // บันทึกลงฐานข้อมูล

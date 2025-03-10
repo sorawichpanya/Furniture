@@ -169,33 +169,33 @@ session_start(); // เรียกใช้งาน session
                 <div class="mb-4">
                     <h4 class="font-weight-semi-bold mb-4">Address</h4>
                     <div class="row">
-                <div class="col-md-6 form-group">
-                <label>Full Name</label>
-                <input class="form-control" type="text" name="full_name" 
-                value="<?php echo isset($_SESSION['full_name']) ? $_SESSION['full_name'] : ''; ?>" required>                
-                </div>
-                <div class="col-md-6 form-group">
-                <label>Phone Number</label>
-                <input class="form-control" type="text" name="phone"
-               value="<?php echo isset($_SESSION['phone']) ? $_SESSION['phone'] : ''; ?>" required>                
-                </div>
-                <div class="col-md-12 form-group">
-                <label>Address</label>
-                    <textarea class="form-control" name="address" required><?php 
-                    echo isset($_SESSION['address']) ? $_SESSION['address'] : ''; 
-                 ?></textarea>                </div>
-                <div class="col-md-6 form-group">
-                    <label>Province</label>
-                    <input class="form-control" type="text" name="province"
-                    value="<?php echo isset($_SESSION['user_province']) ? $_SESSION['user_province'] : ''; ?>" required>                
-                </div>
-                <div class="col-md-6 form-group">
-                <label>Postal Code</label>
-                    <input class="form-control" type="text" name="zip_code"
-                value="<?php echo isset($_SESSION['user_zip_code']) ? $_SESSION['user_zip_code'] : ''; ?>" required>                
-            </div>
-            </div>
-        </form>
+                    <div class="col-md-6 form-group">
+    <label>Full Name</label>
+    <input class="form-control" type="text" name="full_name" 
+           value="<?php echo isset($_SESSION['user_full_name']) ? $_SESSION['user_full_name'] : ''; ?>" required>
+</div>
+<div class="col-md-6 form-group">
+    <label>Phone Number</label>
+    <input class="form-control" type="text" name="phone"
+           value="<?php echo isset($_SESSION['user_phone']) ? $_SESSION['user_phone'] : ''; ?>" required>
+</div>
+<div class="col-md-12 form-group">
+    <label>Address</label>
+    <textarea class="form-control" name="address" required>
+        <?php echo isset($_SESSION['user_address']) ? $_SESSION['user_address'] : ''; ?>
+    </textarea>
+</div>
+<div class="col-md-6 form-group">
+    <label>Province</label>
+    <input class="form-control" type="text" name="province" required
+           value="<?php echo isset($_SESSION['user_province']) ? $_SESSION['user_province'] : ''; ?>">
+</div>
+<div class="col-md-6 form-group">
+    <label>Postal Code</label>
+    <input class="form-control" type="text" name="zip_code" required
+           value="<?php echo isset($_SESSION['user_zip_code']) ? $_SESSION['user_zip_code'] : ''; ?>">
+</div>        
+</form>
     </div>
             </div>
             <div class="col-lg-4">
