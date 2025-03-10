@@ -8,37 +8,37 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     // แปลง p_id จาก string เป็น int
     $p_id = (int)$_GET['p_id'];
     $category = $_GET['category'];  // category เป็น string
-    
+
     // ตรวจสอบ category ที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
     
-    // ดึงข้อมูลสินค้าจากฐานข้อมูล
-    $sql = sprintf("SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM `%s` WHERE id = ?", mysqli_real_escape_string($conn, $category));
+    // ตรวจสอบชื่อของตารางที่ต้องการดึงข้อมูลจาก
+    $sql = sprintf("SELECT id AS p_id, name AS p_name, price AS p_price FROM `%s` WHERE id = ?", $category);
+    var_dump($sql); // ตรวจสอบคำสั่ง SQL ที่จะถูกใช้
 
-    var_dump($sql);
-
+    // เตรียม SQL statement
     $stmt = mysqli_prepare($conn, $sql);
     if ($stmt === false) {
-        die("Error in SQL query.");
+        die("Error in SQL query: " . mysqli_error($conn)); // แสดงข้อผิดพลาดถ้าเตรียมคำสั่ง SQL ไม่สำเร็จ
     }    
 
-    if ($product = mysqli_fetch_assoc($result)) {
-        var_dump($product);  // ✅ ตรวจสอบค่าที่ได้จากฐานข้อมูล
-    }
-    
+    // ผูกพารามิเตอร์และดำเนินการ
     mysqli_stmt_bind_param($stmt, "i", $p_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
     if ($product = mysqli_fetch_assoc($result)) {
+        var_dump($product);  // ตรวจสอบค่าที่ได้จากฐานข้อมูล
+
+        // ตรวจสอบตะกร้า
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
-        // ตรวจสอบว่าสินค้าซ้ำในตะกร้าหรือไม่
+        // ตรวจสอบว่ามีสินค้าซ้ำในตะกร้าหรือไม่
         $exists = false;
         foreach ($_SESSION['cart'] as &$item) {
             if ($item['p_id'] == $product['p_id'] && $item['category'] == $category) {
