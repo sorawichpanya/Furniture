@@ -4,7 +4,28 @@ session_start();
 <?php
 // ตรวจสอบหน้าปัจจุบัน
 $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล์ เช่น 'index.php' หรือ 'products.php'
+include_once("connectdb.php");
 
+// รับ table_name จาก URL ถ้าไม่มีให้ใช้ 'Just_arrived' เป็นค่าเริ่มต้น
+$table_name = isset($_GET['table_name']) ? $_GET['table_name'] : 'Just_arrived';
+
+// ถ้า table_name เป็น `user` หรือไม่มีค่าให้ป้องกันการดึงข้อมูลจากตารางนั้น
+if (empty($table_name) || $table_name == 'user') {
+    die('Invalid category.');
+}
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+// ดึงข้อมูลสินค้าจากตารางที่เลือก
+$sql = "SELECT * FROM `$table_name` WHERE p_name LIKE ? OR p_detail LIKE ?";
+$rs = mysqli_query($conn, $sql);
+if ($stmt = mysqli_prepare($conn, $sql)) {
+    // กำหนดค่าคำค้นหา (ใช้เครื่องหมาย % เพื่อการค้นหาที่ยืดหยุ่น)
+    $search_term = "%" . $search . "%";
+    mysqli_stmt_bind_param($stmt, "ss", $search_term, $search_term);
+    
+    // เรียกใช้คำสั่ง SQL
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+}
 ?>
 
 
@@ -77,28 +98,7 @@ $currentPage = basename($_SERVER['PHP_SELF']); // ได้ชื่อไฟล
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
         <div class="tm-bg-primary-dark tm-block tm-block-products">
 <?php
-include_once("connectdb.php");
 
-// รับ table_name จาก URL ถ้าไม่มีให้ใช้ 'Just_arrived' เป็นค่าเริ่มต้น
-$table_name = isset($_GET['table_name']) ? $_GET['table_name'] : 'Just_arrived';
-
-// ถ้า table_name เป็น `user` หรือไม่มีค่าให้ป้องกันการดึงข้อมูลจากตารางนั้น
-if (empty($table_name) || $table_name == 'user') {
-    die('Invalid category.');
-}
-$search = isset($_GET['search']) ? $_GET['search'] : '';
-// ดึงข้อมูลสินค้าจากตารางที่เลือก
-$sql = "SELECT * FROM `$table_name` WHERE p_name LIKE ? OR p_detail LIKE ?";
-$rs = mysqli_query($conn, $sql);
-if ($stmt = mysqli_prepare($conn, $sql)) {
-    // กำหนดค่าคำค้นหา (ใช้เครื่องหมาย % เพื่อการค้นหาที่ยืดหยุ่น)
-    $search_term = "%" . $search . "%";
-    mysqli_stmt_bind_param($stmt, "ss", $search_term, $search_term);
-    
-    // เรียกใช้คำสั่ง SQL
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-}
 ?>
           <form action="delete_products.php" method="POST">
             <input type="hidden" name="table_name" value="<?php echo htmlspecialchars($table_name); ?>">  <!-- ส่งค่าตารางไปในฟอร์ม -->
