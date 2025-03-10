@@ -14,12 +14,15 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
-    var_dump($p_id);
-    var_dump($category);        
-
+  
     // ดึงข้อมูลสินค้าจากฐานข้อมูล
     $sql = "SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM $category WHERE id = ?";
+    
     $stmt = mysqli_prepare($conn, $sql);
+    if ($stmt === false) {
+        die("Error in SQL query.");
+    }    
+    
     mysqli_stmt_bind_param($stmt, "i", $p_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
