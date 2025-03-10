@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // เรียกใช้คำสั่ง SQL
             if ($stmt->execute()) {
                 echo "ข้อมูลอัปเดตสำเร็จ!";
-                header("Location: product_list.php"); // เปลี่ยนไปหน้ารายการสินค้า
+                header("Location: products.php"); // เปลี่ยนไปหน้ารายการสินค้า
                 exit;
             } else {
                 echo "❌ ไม่สามารถอัปเดตข้อมูลได้: " . $stmt->error;
