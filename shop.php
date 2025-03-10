@@ -168,45 +168,47 @@ include_once("connectdb.php");
 <!-- ตัวกรองสินค้าตามราคา -->
         <!-- ตัวกรองสินค้าตามราคา -->
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const checkboxes = document.querySelectorAll(".custom-control-input");
-                const products = document.querySelectorAll(".product-item");
+           document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll(".custom-control-input");
+    const products = document.querySelectorAll(".product-item");
 
-                checkboxes.forEach(checkbox => {
-                    console.log("change");
-                    checkbox.addEventListener("change", filterProducts);
-                });
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", filterProducts);
+    });
 
-                function filterProducts() {
-                    let selectedRanges = [];
+    function filterProducts() {
+        let selectedRanges = [];
 
-                    checkboxes.forEach(checkbox => {
-                        if (checkbox.checked && checkbox.id !== "price-all") {
-                            let range = checkbox.nextElementSibling.textContent.trim().replaceAll("฿", "").split(" - ");
-                            console.log(range)
-                            if(range.length == 1)
-                            {
-                                range.push(Infinity)
-                            }
-                            selectedRanges.push(range.map(e => e != Infinity ? parseFloat(e.replace(/[^0-9.]/g, "")) : Infinity));
-                        }
-                    });
-
-                    // ตรวจสอบว่าผู้ใช้เลือก "All Price" หรือไม่
-                    if (document.getElementById("price-all").checked) {
-                        selectedRanges = [];  // ถ้าเลือก All Price, ให้แสดงสินค้าทั้งหมด
-                    }
-                    console.log("selectedRanges",selectedRanges)
-
-                    products.forEach(product => {
-                        let productPrice = parseInt(product.getAttribute("data-price"));
-                        console.log("productPrice",productPrice)
-                        let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1] );
-
-                        product.style.display = isVisible ? "block" : "none";
-                    });
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked && checkbox.id !== "price-all") {
+                let rangeText = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
+                
+                if (rangeText.length == 1) {
+                    rangeText.push(Infinity);
                 }
-            });
+
+                selectedRanges.push(rangeText.map(value => 
+                    value !== Infinity ? parseFloat(value.replace(/[^0-9.]/g, "")) : Infinity
+                ));
+            }
+        });
+
+        // ถ้าเลือก "All Price" หรือไม่มีตัวกรองใดถูกเลือก ให้แสดงสินค้าทั้งหมด
+        if (document.getElementById("price-all").checked || selectedRanges.length === 0) {
+            products.forEach(product => product.style.display = "block");
+            return;
+        }
+
+        // กรองสินค้าตามช่วงราคาที่เลือก
+        products.forEach(product => {
+            let productPrice = parseFloat(product.getAttribute("data-price"));
+            let isVisible = selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
+
+            product.style.display = isVisible ? "block" : "none";
+        });
+    }
+});
+
         </script>
     </div>
 </div>
