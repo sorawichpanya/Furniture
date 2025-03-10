@@ -125,6 +125,8 @@ $data = mysqli_fetch_array($rs);
             username = '$username',
             password = '$password'
             WHERE id = '{$_GET['id']}'";
+            
+        echo "SQL: " . $sql . "<br>";  // แสดง SQL ที่ใช้
 
         if (mysqli_query($conn, $sql)) {
             echo "<script>

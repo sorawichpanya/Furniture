@@ -163,9 +163,6 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                     echo "<tr><td colspan='7'>ไม่พบสินค้าที่ค้นหา</td></tr>";
                 }
                 
-                // ปิดการเตรียมคำสั่ง SQL
-                mysqli_stmt_close($stmt);
-                mysqli_close($conn);
                 ?>         
                 </tbody>
             </table>
