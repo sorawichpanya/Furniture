@@ -251,15 +251,15 @@ session_start(); // เรียกใช้งาน session
     </form >
 </div>
 
-    <div class="card-footer border-secondary bg-transparent">
-        <form action="confirm_order.php" method="POST">
-            <input type="hidden" name="order_status" value="<?php echo isset($_SESSION['payment_uploaded']) ? 'paid' : 'not_paid'; ?>">
-            <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" 
-                <?php echo isset($_SESSION['payment_uploaded']) ? '' : 'disabled'; ?>>
-                Confirm Order
-            </button>
-        </form>
-    </div>
+<div class="card-footer border-secondary bg-transparent">
+    <form action="confirm_order.php" method="POST">
+        <input type="hidden" name="order_status" value="<?php echo isset($_SESSION['payment_uploaded']) ? 'paid' : 'not_paid'; ?>">
+        <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" 
+            <?php echo isset($_SESSION['payment_uploaded']) ? '' : 'disabled'; ?>>
+            Confirm Order
+        </button>
+    </form>
+</div>
 </div>
 
 
