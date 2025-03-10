@@ -12,7 +12,7 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     }
 
     // ดึงข้อมูลสินค้าจากฐานข้อมูล
-    $sql = sprintf("SELECT p_id, p_name, p_price FROM `%s` WHERE p_id = ?", $category);
+    $sql = sprintf("SELECT p_id, p_name, p_price FROM `%s` WHERE p_id = ?", mysqli_real_escape_string($conn, $category));
     var_dump($sql);
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $p_id);
