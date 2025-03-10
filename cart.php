@@ -1,4 +1,10 @@
 <?php
+// First, ensure $conn is properly established
+if (!isset($conn) || !$conn) {
+    die("Database connection not established.");
+}
+
+// Debug POST data
 var_dump($_POST);
 
 if (isset($_POST['p_id'], $_POST['category'])) {
@@ -7,39 +13,52 @@ if (isset($_POST['p_id'], $_POST['category'])) {
 
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
-        die("Invalid category.");
+        die("Invalid category: " . htmlspecialchars($category));
     }
-    var_dump($p_id);
 
+    // Prepare SQL query
     $sql = "SELECT p_id, p_name, p_price FROM `$category` WHERE p_id = ?";
-    var_dump($sql);
+    echo "SQL Query: " . $sql . "\n";
 
+    // Prepare statement
     $stmt = mysqli_prepare($conn, $sql);
     if ($stmt === false) {
-        die("Error preparing SQL query: " . mysqli_error($conn));
+        die("Prepare failed: " . mysqli_error($conn) . " (Error #" . mysqli_errno($conn) . ")");
     }
 
-    mysqli_stmt_bind_param($stmt, "i", $p_id);
+    // Bind parameters
+    if (!mysqli_stmt_bind_param($stmt, "i", $p_id)) {
+        die("Binding parameters failed: " . mysqli_stmt_error($stmt));
+    }
+
+    // Execute query
     if (!mysqli_stmt_execute($stmt)) {
-        die("Error executing SQL query: " . mysqli_error($conn));
+        die("Execute failed: " . mysqli_stmt_error($stmt) . " (Error #" . mysqli_stmt_errno($stmt) . ")");
     }
 
+    // Get results
     $result = mysqli_stmt_get_result($stmt);
-    if (!$result) {
-        die("Query failed: " . mysqli_error($conn));
+    if ($result === false) {
+        die("Get result failed: " . mysqli_stmt_error($stmt));
     }
-    var_dump($result);
 
+    // Fetch product
     if ($product = mysqli_fetch_assoc($result)) {
-        echo "Product found: " . var_dump($product);
+        echo "Product found: ";
+        var_dump($product);
     } else {
-        die("Product not found.");
+        echo "No product found with ID $p_id in category $category";
     }
-} else {
-    die("Invalid request.");
-}
-?>
 
+    // Clean up
+    mysqli_stmt_close($stmt);
+} else {
+    die("Invalid request: Missing required parameters");
+}
+
+// Close connection if not needed anymore
+// mysqli_close($conn);
+?>
 
 
 <!DOCTYPE html>

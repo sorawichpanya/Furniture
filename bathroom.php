@@ -247,7 +247,7 @@
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <form action="">
+                            <form action="search_results.php" method="POST">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Search by name">
                                     <div class="input-group-append">
