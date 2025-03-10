@@ -30,6 +30,7 @@ session_start();
     <link href="css/style.css" rel="stylesheet">
 </head>
 
+<?php include 'header.php'; ?>
 
 <body>
     
