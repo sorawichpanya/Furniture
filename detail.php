@@ -293,9 +293,6 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                                 </button>
                             </div>
                         </div>
-                        
-                        <?php
-                        ?>
                         <?php
                             ?>
                                 <form action="cart.php" method="POST">
