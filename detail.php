@@ -293,62 +293,18 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                                 </button>
                             </div>
                         </div>
-                        <?php
-include_once("connectdb.php");
-
-// ตรวจสอบว่ามีการส่ง p_id และ category หรือไม่
-if (isset($_GET['p_id']) && isset($_GET['category'])) {
-    $p_id = $_GET['p_id'];
-    $category = $_GET['category']; // รับค่า category จาก URL
-
-    // กำหนดชื่อฐานข้อมูลตาม category
-    if ($category == 'trendy') {
-        $table = "trendy";
-    } elseif ($category == 'Just_arrived') {
-        $table = "Just_arrived";
-    } elseif ($category == 'bathroom') {
-        $table = "bathroom";
-    } elseif ($category == 'living_room') {
-        $table = "living_room";
-    } elseif ($category == 'bedroom') {
-        $table = "bedroom";
-    } elseif ($category == 'kitchen_room') {
-        $table = "kitchen_room";
-    } elseif ($category == 'garden') {
-        $table = "garden";
-    } elseif ($category == 'workroom') {
-        $table = "workroom";
-    } else {
-        echo "Invalid category!";
-        exit;
-    }
-
-    // ดึงข้อมูลจากฐานข้อมูลตาม table ที่เลือก
-    $sql = "SELECT * FROM $table WHERE p_id = $p_id";
-    $result = mysqli_query($conn, $sql);
-    $product = mysqli_fetch_array($result);
-
-    // ตรวจสอบว่าเจอข้อมูลหรือไม่
-    if ($product) {
-        $image_pattern = "img/$category/{$p_id}*.*"; // ค้นหารูปภาพในโฟลเดอร์ที่ตรงกับ category
-        $product_images = glob($image_pattern); // ดึงรายการไฟล์ที่ตรงกับ pattern
-    } else {
-        echo "Product not found!";
-        exit;
-    }
-} else {
-    echo "Invalid product ID or category!";
-    exit;
-}
                         
+                        <?php
+                        ?>
+                        <?php
                             var_dump($data); // เช็คค่าที่ถูกอ่านมาจากฐานข้อมูล
                             ?>
-                            <p>Product ID: <?php echo htmlspecialchars($product['p_id'] ?? 'ไม่มีค่า'); ?></p>
-                            <p>Category: <?php echo htmlspecialchars($category['category'] ?? 'ไม่มีค่า'); ?></p>
+                            <p>Product ID: <?php echo htmlspecialchars($data['p_id'] ?? 'ไม่มีค่า'); ?></p>
+                            <p>Category: <?php echo htmlspecialchars($data['category'] ?? 'ไม่มีค่า'); ?></p>
 
                             <form action="cart.php" method="POST" onsubmit="console.log('Form data:', this)">
-                                <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($product['p_id']); ?>">
-                                <input type="hidden" name="category" value="<?php echo htmlspecialchars($category['category']); ?>">
+                                <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($data['p_id']); ?>">
+                                <input type="hidden" name="category" value="<?php echo htmlspecialchars($data['category']); ?>">
                                 <button type="submit" class="btn btn-sm text-dark p-0">
                                     <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
                                 </button>
