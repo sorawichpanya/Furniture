@@ -3,6 +3,7 @@ session_start();
 require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
 
 var_dump($_SESSION);
+exit;
 // ตรวจสอบการเชื่อมต่อฐานข้อมูล
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
