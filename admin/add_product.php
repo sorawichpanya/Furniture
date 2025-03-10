@@ -38,6 +38,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $p_image_name = time() . "_" . basename($_FILES["p_image"]["name"]);
     $target_file = $target_dir . $p_image_name;
 
+    if ($stmt->execute()) {
+        // ✅ 2. ดึงค่า p_id ล่าสุด
+        $p_id = $conn->insert_id;
+
+        // ✅ 3. อัปโหลดรูปภาพโดยเปลี่ยนชื่อเป็น p_id
+        if (!empty($_FILES['p_image']['name'])) {
+            $p_ext = pathinfo($_FILES['p_image']['name'], PATHINFO_EXTENSION); // ดึงนามสกุลไฟล์
+            $new_filename = $p_id . '.' . $p_ext; // เปลี่ยนชื่อไฟล์เป็น "p_id.นามสกุล"
+            $upload_path = "../img/$table_name/" . $new_filename; // กำหนด Path ปลายทาง
+        }
     // ย้ายไฟล์ไปยังโฟลเดอร์
     if (!move_uploaded_file($_FILES["p_image"]["tmp_name"], $target_file)) {
         die("❌ เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
