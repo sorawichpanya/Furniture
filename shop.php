@@ -1,5 +1,4 @@
 <?php
-// shop.php
 session_start();
 include_once("connectdb.php");
 
@@ -8,22 +7,24 @@ $items_per_page = 9;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $items_per_page;
 
-// ตรวจสอบตัวเลือกการกรองราคา
+// ตรวจสอบและจัดการตัวเลือกการกรองราคา
 $price_filter = '';
-if (isset($_GET['price_range']) && !empty($_GET['price_range']) && !in_array('all', $_GET['price_range'])) {
+if (isset($_GET['price_range']) && !empty($_GET['price_range'])) {
     $ranges = $_GET['price_range'];
-    $conditions = [];
-    foreach ($ranges as $range) {
-        switch ($range) {
-            case '0-500': $conditions[] = "(p_price BETWEEN 0 AND 500)"; break;
-            case '501-1000': $conditions[] = "(p_price BETWEEN 501 AND 1000)"; break;
-            case '1001-1500': $conditions[] = "(p_price BETWEEN 1001 AND 1500)"; break;
-            case '1501-2000': $conditions[] = "(p_price BETWEEN 1501 AND 2000)"; break;
-            case '2001-above': $conditions[] = "(p_price >= 2001)"; break;
+    if (!in_array('all', $ranges)) {
+        $conditions = [];
+        foreach ($ranges as $range) {
+            switch ($range) {
+                case '0-500': $conditions[] = "(p_price BETWEEN 0 AND 500)"; break;
+                case '501-1000': $conditions[] = "(p_price BETWEEN 501 AND 1000)"; break;
+                case '1001-1500': $conditions[] = "(p_price BETWEEN 1001 AND 1500)"; break;
+                case '1501-2000': $conditions[] = "(p_price BETWEEN 1501 AND 2000)"; break;
+                case '2001-above': $conditions[] = "(p_price >= 2001)"; break;
+            }
         }
-    }
-    if (!empty($conditions)) {
-        $price_filter = 'WHERE ' . implode(' OR ', $conditions);
+        if (!empty($conditions)) {
+            $price_filter = 'WHERE (' . implode(' OR ', $conditions) . ')';
+        }
     }
 }
 
@@ -49,17 +50,17 @@ $rs = mysqli_query($conn, $sql);
 $total_items_sql = "
     SELECT COUNT(*) AS total_items
     FROM (
-        SELECT p_id FROM `bedroom`
+        SELECT p_id, p_price FROM `bedroom`
         UNION ALL
-        SELECT p_id FROM `living_room`
+        SELECT p_id, p_price FROM `living_room`
         UNION ALL
-        SELECT p_id FROM `kitchen_room`
+        SELECT p_id, p_price FROM `kitchen_room`
         UNION ALL
-        SELECT p_id FROM `bathroom`
+        SELECT p_id, p_price FROM `bathroom`
         UNION ALL
-        SELECT p_id FROM `garden`
+        SELECT p_id, p_price FROM `garden`
         UNION ALL
-        SELECT p_id FROM `workroom`
+        SELECT p_id, p_price FROM `workroom`
     ) AS combined_table
     $price_filter";
 $total_items_result = mysqli_query($conn, $total_items_sql);
@@ -204,32 +205,38 @@ $total_pages = ceil($total_items / $items_per_page);
                     <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
                     <form method="GET" action="shop.php" id="price-filter-form">
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="all" id="price-all" <?php echo (!isset($_GET['price_range']) || in_array('all', $_GET['price_range'])) ? 'checked' : ''; ?>>
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="all" id="price-all" 
+                                <?php echo (!isset($_GET['price_range']) || in_array('all', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-all">All Price</label>
-                            <span class="badge border font-weight-normal">1000</span>
+                            <span class="badge border font-weight-normal"><?php echo $total_items; ?></span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="0-500" id="price-1" <?php echo (isset($_GET['price_range']) && in_array('0-500', $_GET['price_range'])) ? 'checked' : ''; ?>>
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="0-500" id="price-1" 
+                                <?php echo (isset($_GET['price_range']) && in_array('0-500', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-1">฿0 - ฿500</label>
                             <span class="badge border font-weight-normal">150</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="501-1000" id="price-2" <?php echo (isset($_GET['price_range']) && in_array('501-1000', $_GET['price_range'])) ? 'checked' : ''; ?>>
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="501-1000" id="price-2" 
+                                <?php echo (isset($_GET['price_range']) && in_array('501-1000', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-2">฿501 - ฿1000</label>
                             <span class="badge border font-weight-normal">295</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="1001-1500" id="price-3" <?php echo (isset($_GET['price_range']) && in_array('1001-1500', $_GET['price_range'])) ? 'checked' : ''; ?>>
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="1001-1500" id="price-3" 
+                                <?php echo (isset($_GET['price_range']) && in_array('1001-1500', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-3">฿1001 - ฿1500</label>
                             <span class="badge border font-weight-normal">246</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="1501-2000" id="price-4" <?php echo (isset($_GET['price_range']) && in_array('1501-2000', $_GET['price_range'])) ? 'checked' : ''; ?>>
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="1501-2000" id="price-4" 
+                                <?php echo (isset($_GET['price_range']) && in_array('1501-2000', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-4">฿1501 - ฿2000</label>
                             <span class="badge border font-weight-normal">145</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="2001-above" id="price-5" <?php echo (isset($_GET['price_range']) && in_array('2001-above', $_GET['price_range'])) ? 'checked' : ''; ?>>
+                            <input type="checkbox" class="custom-control-input" name="price_range[]" value="2001-above" id="price-5" 
+                                <?php echo (isset($_GET['price_range']) && in_array('2001-above', $_GET['price_range'])) ? 'checked' : ''; ?>>
                             <label class="custom-control-label" for="price-5">฿2001 and above</label>
                             <span class="badge border font-weight-normal">168</span>
                         </div>
@@ -391,16 +398,30 @@ $total_pages = ceil($total_items / $items_per_page);
         document.addEventListener("DOMContentLoaded", function () {
             const checkboxes = document.querySelectorAll(".custom-control-input");
             const form = document.getElementById("price-filter-form");
+            const allPriceCheckbox = document.getElementById("price-all");
 
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener("change", function () {
-                    // ถ้าเลือก "All Price" ให้ยกเลิก Checkbox อื่น ๆ
-                    if (checkbox.id === "price-all" && checkbox.checked) {
-                        checkboxes.forEach(cb => {
-                            if (cb !== checkbox) cb.checked = false;
-                        });
+                    if (checkbox === allPriceCheckbox) {
+                        if (checkbox.checked) {
+                            // ถ้าเลือก All Price ให้ยกเลิกการเลือก checkbox อื่นๆ
+                            checkboxes.forEach(cb => {
+                                if (cb !== allPriceCheckbox) cb.checked = false;
+                            });
+                        }
+                    } else {
+                        // ถ้าเลือก checkbox อื่นๆ ให้ยกเลิก All Price
+                        if (checkbox.checked) {
+                            allPriceCheckbox.checked = false;
+                        }
                     }
-                    // ส่งฟอร์มอัตโนมัติเมื่อเปลี่ยน Checkbox
+                    
+                    // ถ้าไม่มี checkbox ใดๆ ถูกเลือก ให้เลือก All Price อัตโนมัติ
+                    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                    if (!anyChecked) {
+                        allPriceCheckbox.checked = true;
+                    }
+
                     form.submit();
                 });
             });

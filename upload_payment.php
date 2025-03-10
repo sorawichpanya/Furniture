@@ -7,9 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // ตรวจสอบการอัปโหลดไฟล์
     if (isset($_FILES['payment_slip'])) {
         // ตรวจสอบประเภทไฟล์ที่อัปโหลด
-        $file_tmp = $_FILES['payment_slip']['tmp_name'];
-        $file_type = mime_content_type($file_tmp); // ตรวจสอบประเภทไฟล์จริง
-        
         $allowed_types = ['image/jpeg', 'image/png', 'application/pdf'];
         if (in_array($_FILES['payment_slip']['type'], $allowed_types)) {
             // ตรวจสอบว่าไฟล์ไม่มีข้อผิดพลาด
@@ -20,17 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 // อัปโหลดไฟล์
                 if (move_uploaded_file($_FILES['payment_slip']['tmp_name'], $target_file)) {
-                    $_SESSION['payment_uploaded'] = true;  // ตั้งค่าสถานะการอัปโหลด
-                    $_SESSION['payment_slip'] = $target_file;  // เก็บ path ของไฟล์ใน session
-
-                    $_SESSION['success_message'] = "Payment slip uploaded successfully."; // ข้อความสำเร็จ
-                    header("Location: checkout.php"); // รีไดเร็กต์ไปหน้า checkout
-                    exit;
+                    $_SESSION['payment_uploaded'] = true;  
+                    $_SESSION['payment_slip'] = $target_file; 
+                    $_SESSION['payment_slip_type'] = mime_content_type($target_file); // บันทึกประเภทไฟล์ที่ถูกต้อง
+                    echo "Payment slip uploaded successfully.";
                 } else {
-                    $_SESSION['error_message'] = "Error moving uploaded file."; // ข้อความเมื่อไม่สามารถย้ายไฟล์
+                    $_SESSION['error_message'] = "Error uploading payment slip.";
                     header("Location: checkout.php");
                     exit;
                 }
+                
             } else {
                 $_SESSION['error_message'] = "File upload error: " . $_FILES['payment_slip']['error']; // แสดงข้อความผิดพลาด
                 header("Location: checkout.php");
