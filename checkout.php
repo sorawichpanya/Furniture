@@ -189,13 +189,6 @@ session_start(); // เรียกใช้งาน session
                     <input class="form-control" type="text" name="zip_code" placeholder="10110" required>
                 </div>
             </div>
-
-            <div class="card-footer border-secondary bg-transparent">
-                <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
-                    <?php echo isset($_SESSION['payment_uploaded']) ? '' : 'disabled'; ?>>
-                    Confirm Order
-                </button>
-            </div>
         </form>
     </div>
             </div>
