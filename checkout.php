@@ -194,6 +194,8 @@ session_start(); // เรียกใช้งาน session
             </div>
             
             <div class="col-lg-4">
+                <div class="card border-secondary mb-5">
+                <div class="col-lg-4">
     <div class="card border-secondary mb-5">
         <div class="card-header bg-secondary border-0">
             <h4 class="font-weight-semi-bold m-0">Order Total</h4>
@@ -230,6 +232,7 @@ session_start(); // เรียกใช้งาน session
         </div>
     </div>
 </div>
+                </div>
 
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
