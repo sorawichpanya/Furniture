@@ -42,8 +42,7 @@ if (isset($_SESSION["Error"])) {
                 <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#">Forgot password?</a></p>
 
                 <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
-
-              </form>
+            </form>
 
             </div>
 
