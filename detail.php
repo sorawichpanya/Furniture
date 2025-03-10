@@ -295,13 +295,14 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         </div>
                         <?php
                         ?>
-<form action="cart.php" method="GET">
+<form action="cart.php" method="POST" onsubmit="console.log('Form data:', this)">
     <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($data['p_id']); ?>">
     <input type="hidden" name="category" value="<?php echo htmlspecialchars($data['category']); ?>">
     <button type="submit" class="btn btn-sm text-dark p-0">
         <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
     </button>
 </form>
+
 
                     </div>
             </div>
