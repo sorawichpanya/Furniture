@@ -246,6 +246,7 @@
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
+                            <!--
                             <form action="search_results.php" method="POST">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Search by name" name="search_query">
@@ -267,6 +268,7 @@
                                     <a class="dropdown-item" href="#">Best Rating</a>
                                 </div>
                             </div>
+                            -->
                         </div>
                     </div>
                     <?php

@@ -278,21 +278,21 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         <?php echo $product['p_detail']; ?>
                     </p>
 
-<div class="d-flex align-items-center mb-4 pt-2">
+                    <div class="d-flex align-items-center mb-4 pt-2">
     <div class="input-group quantity mr-3" style="width: 130px;">
         <div class="input-group-btn">
-            <button class="btn btn-primary btn-minus" type="button" id="btn-minus">
+            <button class="btn btn-primary btn-minus" type="button">
                 <i class="fa fa-minus"></i>
             </button>
         </div>
         <input type="text" class="form-control bg-secondary text-center" id="quantity" name="quantity" value="1" readonly>
         <div class="input-group-btn">
-            <button class="btn btn-primary btn-plus" type="button" id="btn-plus">
+            <button class="btn btn-primary btn-plus" type="button">
                 <i class="fa fa-plus"></i>
             </button>
         </div>
     </div>
-
+    
     <form action="cart.php" method="POST">
         <input type="hidden" name="p_id" value="<?php echo htmlspecialchars($_GET['p_id']); ?>">
         <input type="hidden" name="category" value="<?php echo htmlspecialchars($_GET['category']); ?>">
@@ -304,29 +304,46 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const btnMinus = document.getElementById("btn-minus");
-        const btnPlus = document.getElementById("btn-plus");
+    document.addEventListener("DOMContentLoaded", function () {
         const quantityInput = document.getElementById("quantity");
         const hiddenQuantity = document.getElementById("hiddenQuantity");
+        const btnMinus = document.querySelector(".btn-minus");
+        const btnPlus = document.querySelector(".btn-plus");
 
-        const updateQuantity = (change) => {
-            console.log(change); // เพิ่มบรรทัดนี้
-            let currentQuantity = parseInt(quantityInput.value, 10) || 1;
-            let newQuantity = currentQuantity + change;
+        // ฟังก์ชันอัปเดตค่าปริมาณ
+        function updateQuantity(change) {
+            // อ่านค่าปัจจุบันจาก input
+            let currentQuantity = parseInt(quantityInput.value, 10);
 
-            if (newQuantity < 1) {
-                newQuantity = 1;
+            // ตรวจสอบค่าที่ได้และป้องกัน NaN
+            if (isNaN(currentQuantity)) {
+                currentQuantity = 1;
             }
 
-            quantityInput.value = newQuantity;
-            hiddenQuantity.value = newQuantity;
-        };
+            // คำนวณค่าปริมาณใหม่
+            const newQuantity = currentQuantity + change;
 
-        btnMinus.addEventListener("click", () => updateQuantity(-1));
-        btnPlus.addEventListener("click", () => updateQuantity(1));
+            // ตรวจสอบไม่ให้ค่าต่ำกว่า 1
+            if (newQuantity >= 1) {
+                quantityInput.value = newQuantity; // อัปเดต input text
+                hiddenQuantity.value = newQuantity; // อัปเดต hidden input
+                console.log("Updated Quantity:", newQuantity);
+            } else {
+                console.log("Quantity cannot be less than 1");
+            }
+        }
+
+        // ผูกอีเวนต์ให้กับปุ่มลดและเพิ่ม
+        btnMinus.addEventListener("click", function () {
+            updateQuantity(-1);
+        });
+
+        btnPlus.addEventListener("click", function () {
+            updateQuantity(1);
+        });
     });
 </script>
+
 
 
             </div>
