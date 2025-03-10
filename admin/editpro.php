@@ -60,7 +60,7 @@ if (isset($_GET['table']) && isset($_GET['p_id'])) {
                     </div>
                     <div class="row tm-edit-product-row">
                         <div class="col-xl-6 col-lg-6 col-md-12">
-                            <form action="update_product.php" method="post" class="tm-edit-product-form">
+                        <form action="update_product.php" method="post" class="tm-edit-product-form">
                                 <input type="hidden" name="product_id" value="<?php echo $product['p_id']; ?>">
                                 <input type="hidden" name="table_name" value="<?php echo $table_name; ?>">
                                 <div class="form-group mb-3">

@@ -71,17 +71,22 @@ $data = mysqli_fetch_array($rs);
                     <form method="post" action="" enctype="multipart/form-data">
                         <div class="control-group">
                             <label for="pname">ชื่อ:</label>
-                            <input type="text" class="form-control" id="pname" name="pname" value="<?php echo $data['p_name'];?>" required autofocus>
+                            <input type="text" class="form-control" id="pname" name="pname" value="<?php echo $data['name'];?>" required autofocus>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <label for="pprice">ราคา:</label>
-                            <input type="text" class="form-control" id="pprice" name="pprice" value="<?php echo $data['p_price'];?>" required>
+                            <label for="pphone">เบอร์โทรศัพท์:</label>
+                            <input type="text" class="form-control" id="pphone" name="pphone" value="<?php echo $data['phone'];?>" required>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
                             <label for="pdetail">รายละเอียดสินค้า:</label>
-                            <textarea class="form-control" rows="6" id="pdetail" name="pdetail" required><?php echo $data['p_detail'];?></textarea>
+                            <textarea class="form-control" rows="6" id="pdetail" name="pdetail" required><?php echo $data['username'];?></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            <label for="pdetail">รายละเอียดสินค้า:</label>
+                            <textarea class="form-control" rows="6" id="pdetail" name="pdetail" required><?php echo $data['password'];?></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
