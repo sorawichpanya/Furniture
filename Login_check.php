@@ -5,37 +5,47 @@ ini_set('display_errors', 1);
 include 'connectdb.php';
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+// ตรวจสอบว่า username และ password ถูกส่งมาจากฟอร์มหรือไม่
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    // เข้ารหัส password ด้วย sha512
-    $password = hash('sha512', $password);
+    // ใช้ prepared statement เพื่อป้องกัน SQL injection
+    $sql = "SELECT * FROM Register WHERE Username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username); // 's' คือชนิดข้อมูล string
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_array(MYSQLI_ASSOC);
 
-    $sql = "SELECT * FROM Register WHERE Username='$username' AND Password='$password'";
-    $result = mysqli_query($conn, $sql);
+    // ตรวจสอบว่าเจอข้อมูลผู้ใช้หรือไม่
+    if ($row) {
+        // ตรวจสอบรหัสผ่านโดยใช้ password_verify
+        if (password_verify($password, $row['password'])) {
+            // เก็บข้อมูลที่จำเป็นใน session
+            $_SESSION["username"] = $row['username'];
+            $_SESSION["name"] = $row['name'];
+            $_SESSION["phone"] = $row['phone'];
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        
-        // กำหนดค่าลงใน session
-        $_SESSION["username"] = $row['Username'];
-        $_SESSION["password"] = $row['Password'];
-        $_SESSION["name"] = $row['Name'];
-        $_SESSION["phone"] = $row['Phone'];
-
-        // เปลี่ยนเส้นทางไปยังหน้า index.php
-        header("Location: index.php");
-        exit();
+            // รีไดเร็กต์ไปยังหน้า index.php
+            header("Location: index.php");
+            exit(); // ออกจากสคริปต์หลังจาก redirect
+        } else {
+            // ถ้ารหัสผ่านไม่ตรง
+            $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
+            header("Location: Login.php");
+            exit();
+        }
     } else {
+        // ถ้าไม่พบ username
         $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
-        header("Location: login.php");
+        header("Location: Login.php");
         exit();
     }
 } else {
-    // ถ้าผู้ใช้พยายามเข้าไฟล์โดยตรง
-    $_SESSION["Error"] = "<p>Invalid request method.</p>";
-    header("Location: login.php");
+    // ถ้าไม่มีข้อมูลจากฟอร์ม
+    $_SESSION["Error"] = "<p>Please fill in both fields</p>";
+    header("Location: Login.php");
     exit();
 }
 ?>

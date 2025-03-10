@@ -228,6 +228,7 @@ session_start(); // เรียกใช้งาน session
         </div>
     </div>
     <?php session_start(); ?>
+    <?php require 'db_connect.php'?>
 <div class="card border-secondary mb-5">
     <div class="card-header bg-secondary border-0">
         <h4 class="font-weight-semi-bold m-0">Payment</h4>
@@ -240,12 +241,15 @@ session_start(); // เรียกใช้งาน session
         <!-- อัปโหลดสลิป -->
         <form action="upload_payment.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="payment_slip">Upload Payment Slip (JPEG, PNG, PDF)</label>
-                <input type="file" class="form-control-file" name="payment_slip" id="payment_slip" required>
+                <label>Upload Payment Slip (QR Code)</label>
+                <input type="file" class="form-control" name="payment_slip" accept="image/*" required>
             </div>
-            <button type="submit" class="btn btn-success btn-block">Upload & Confirm Payment</button>
+            <button type="submit" class="btn btn-success btn-block">Upload Payment</button>
         </form>
-    </div>
+
+        <?php if (isset($_SESSION['payment_uploaded'])): ?>
+            <p class="text-success mt-2">Payment proof uploaded successfully! ✅</p>
+        <?php endif; ?>    </div>
 
     <div class="card-footer border-secondary bg-transparent">
         <form action="confirm_order.php" method="POST">

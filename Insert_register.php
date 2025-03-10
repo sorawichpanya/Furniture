@@ -2,26 +2,28 @@
 include 'connectdb.php';
 
 // รับค่าจากฟอร์ม
-$name = trim($_POST['name']);
-$phone = trim($_POST['phone']);
-$username = trim($_POST['username']);
-$password = trim($_POST['password']);
+$name = $_POST['name'];
+$phone = $_POST['phone'];
+$username = $_POST['username'];
+$password = $_POST['password'];
 
-// เข้ารหัสรหัสผ่าน
-$password_hash = password_hash($password, PASSWORD_DEFAULT);
+$password=hash('Sha512',$password);
 
-// เพิ่มข้อมูลลงฐานข้อมูล (ใช้ prepared statements เพื่อป้องกัน SQL Injection)
-$stmt = mysqli_prepare($conn, "INSERT INTO Register (name, phone, username, password) VALUES (?, ?, ?, ?)");
-mysqli_stmt_bind_param($stmt, "ssss", $name, $phone, $username, $password_hash);
+// เพิ่มข้อมูลลงฐานข้อมูล
+$sql = "INSERT INTO Register(name, phone, username, password) 
+VALUES ('$name', '$phone', '$username', '$password')";
 
-if (mysqli_stmt_execute($stmt)) {
-    header("Location: Login.php");
+$result = mysqli_query($conn, $sql);
+
+if ($result) {
+    header("Location: Login.php");   
+}
+    
     exit(); // หยุดการทำงานของ PHP
-} else {
-    echo "Error: " . mysqli_stmt_error($stmt);
-    echo "<script>alert('บันทึกข้อมูลไม่ได้');</script>";
+ else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    echo "<script> alert('บันทึกข้อมูลไม่ได้'); </script>";
 }
 
-mysqli_stmt_close($stmt);
 mysqli_close($conn);
 ?>

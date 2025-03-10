@@ -163,6 +163,7 @@ include_once("connectdb.php");
             </div>
         </div>
     </div>
+
     <!-- Page Header End -->
  <!-- ตัวกรองสินค้าตามราคา -->
         <!-- ตัวกรองสินค้าตามราคา -->
@@ -261,7 +262,10 @@ include_once("connectdb.php");
                             <label class="custom-control-label" for="price-5">฿2001 and above</label>
                             <span class="badge border font-weight-normal">168</span>
                         </div>
-                    </form>
+                        <!-- เพิ่ม input hidden เพื่อเก็บค่า page -->
+                        <input type="hidden" name="page" value="<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>">
+                        </form>
+                
                 </div>
                 <!-- Price End -->               
             </div>
