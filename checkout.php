@@ -195,12 +195,10 @@ session_start(); // เรียกใช้งาน session
             
             <div class="col-lg-4">
                 <div class="card border-secondary mb-5">
-                <div class="col-lg-4">
-    <div class="card border-secondary mb-5">
-        <div class="card-header bg-secondary border-0">
-            <h4 class="font-weight-semi-bold m-0">Order Total</h4>
-        </div>
-        <div class="card-body">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                    </div>
+                    <div class="card-body">
             <h5 class="font-weight-medium mb-3">Products</h5>
             <?php 
             $subtotal = 0;
@@ -228,11 +226,8 @@ session_start(); // เรียกใช้งาน session
             <div class="d-flex justify-content-between mt-2">
                 <h5 class="font-weight-bold">Total</h5>
                 <h5 class="font-weight-bold">฿<?php echo number_format($subtotal + $shipping, 2); ?></h5>
-            </div>
+            </div>                
         </div>
-    </div>
-</div>
-                </div>
 
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
