@@ -1,3 +1,8 @@
+<?php
+session_start(); // ต้องประกาศที่จุดเริ่มต้นของไฟล์
+include_once("connectdb.php");
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">

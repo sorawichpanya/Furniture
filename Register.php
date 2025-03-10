@@ -21,12 +21,12 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .btn-orange {
-            background-color: #ff7f23;
+            background-color:rgb(133, 127, 122);
             color: white;
             font-weight: bold;
         }
         .btn-orange:hover {
-            background-color: #e66b10;
+            background-color:rgba(114, 112, 111, 0.8);
         }
         .form-control {
             background-color: #f5f5f5;
