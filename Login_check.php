@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_regenerate_id(true);
             $_SESSION['username'] = $username;
             
-            header("Location: index.php");
+            header("Location: Home.php");
             exit();
         } else {
             echo "รหัสผ่านไม่ถูกต้อง!";
