@@ -321,12 +321,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // คำนวณค่าปริมาณใหม่
-        const newQuantity = currentQuantity + change;
+        let newQuantity = currentQuantity + change;
 
         // ตรวจสอบไม่ให้ค่าต่ำกว่า 1
         if (newQuantity >= 1) {
-            quantityInput.value = newQuantity; // อัปเดต input text
-            hiddenQuantity.value = newQuantity; // อัปเดต hidden input
+            // อัปเดต input text และ hidden input
+            quantityInput.value = newQuantity;
+            hiddenQuantity.value = newQuantity;
         }
     }
 
@@ -339,6 +340,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateQuantity(1);   // เพิ่มจำนวน 1
     });
 });
+
 
 </script>
 
