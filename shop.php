@@ -165,57 +165,6 @@ include_once("connectdb.php");
     </div>
     <!-- Page Header End -->
 
-<!-- ตัวกรองสินค้าตามราคา -->
-        <!-- ตัวกรองสินค้าตามราคา -->
-        <script>
-         document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll(".custom-control-input");
-    const allPriceCheckbox = document.getElementById("price-all");
-    const products = document.querySelectorAll(".product-item");
-
-    function filterProducts() {
-        let selectedRanges = [];
-
-        // ถ้าเลือก "All Price" ให้แสดงสินค้าทั้งหมด
-        if (allPriceCheckbox.checked) {
-            checkboxes.forEach(cb => {
-                if (cb !== allPriceCheckbox) cb.checked = false; // ล้าง Checkbox อื่น ๆ
-            });
-            products.forEach(product => product.style.display = "block");
-            return;
-        }
-
-        // ดึงช่วงราคาจาก Checkbox ที่ถูกเลือก
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked && checkbox !== allPriceCheckbox) {
-                let rangeText = checkbox.nextElementSibling.textContent.trim().replaceAll("฿", "").split(" - ");
-                
-                // กรณีเป็น "and above" ให้ใช้ Infinity
-                let range = rangeText.map(value => value === "and above" ? Infinity : parseFloat(value.replace(/[^0-9.]/g, "")));
-                selectedRanges.push(range);
-            }
-        });
-
-        console.log("Selected Ranges:", selectedRanges); // Debug
-
-        // กรองสินค้าให้แสดงเฉพาะสินค้าที่อยู่ในช่วงราคาที่เลือก
-        products.forEach(product => {
-            let productPrice = parseFloat(product.getAttribute("data-price"));
-            let isVisible = selectedRanges.some(range => productPrice >= range[0] && productPrice <= (range[1] || Infinity));
-            product.style.display = isVisible ? "block" : "none";
-        });
-    }
-
-    // Event Listener สำหรับ Checkbox
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener("change", filterProducts);
-    });
-
-    // เรียกใช้งานตัวกรองเมื่อโหลดหน้า
-    filterProducts();
-});
-
-        </script>
     </div>
 </div>
 
@@ -225,10 +174,12 @@ include_once("connectdb.php");
         <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-12">
+
                 <!-- Price Start -->
                 <div class="border-bottom mb-4 pb-4">
                     <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-                    <form>
+                    <form method="GET" action="shop.php" id="price-filter-form">
+                        
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" checked id="price-all">
                             <label class="custom-control-label" for="price-all">All Price</label>
@@ -266,36 +217,40 @@ include_once("connectdb.php");
             <!-- Shop Sidebar End -->
 
 
-            <!-- Shop Product Start -->
-            <div class="col-lg-9 col-md-12">
-                <div class="row pb-3">
-                    <div class="col-12 pb-1">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <!--
-                            <form action="search_results.php" method="POST">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search by name" name="search_query">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-transparent text-primary">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="dropdown ml-4">
-                                <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                            Sort by
-                                        </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                                    <a class="dropdown-item" href="#">Latest</a>
-                                    <a class="dropdown-item" href="#">Popularity</a>
-                                    <a class="dropdown-item" href="#">Best Rating</a>
-                                </div>
-                            </div>
-                            -->
+          <!-- Shop Product Start -->
+<div class="col-lg-9 col-md-12">
+    <div class="row pb-3">
+        <div class="col-12 pb-1">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <!-- ค้นหาสินค้า (ถ้าต้องการให้มี) -->
+                <form action="search_results.php" method="POST">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search by name" name="search_query">
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-transparent text-primary">
+                                <i class="fa fa-search"></i>
+                            </span>
                         </div>
                     </div>
+                </form>
+                <!-- เพิ่ม Dropdown Sort by ตรงนี้ -->
+                <div class="dropdown ml-4">
+                    <form method="GET" action="shop.php">
+                        <select name="sort" onchange="this.form.submit()" class="btn border">
+                            <option value="latest" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'latest') echo 'selected'; ?>>Latest</option>
+                            <option value="price_low" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'price_low') echo 'selected'; ?>>Price: Low to High</option>
+                            <option value="price_high" <?php if (isset($_GET['sort']) && $_GET['sort'] == 'price_high') echo 'selected'; ?>>Price: High to Low</option>
+                        </select>
+                        <?php if (isset($_GET['price_range'])): ?>
+                            <?php foreach ($_GET['price_range'] as $range): ?>
+                                <input type="hidden" name="price_range[]" value="<?php echo $range; ?>">
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- ส่วนแสดงสินค้าต่อจากนี้ -->
                     <?php
 include_once("connectdb.php");
 
@@ -309,12 +264,12 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ตรวจสอบตัวเลือกการกรองราคา
 $price_filter = '';
-if (isset($_GET['price_range'])) {
-    $ranges = explode(',', $_GET['price_range']); // รองรับหลายช่วง เช่น "0-500,500-1000"
+if (isset($_GET['price_range']) && !in_array('all', $_GET['price_range'])) {
+    $ranges = $_GET['price_range'];
     $conditions = [];
     foreach ($ranges as $range) {
         list($min, $max) = explode('-', $range);
-        $max = ($max === 'above') ? '999999999' : $max; // จัดการกรณี "2000 and above"
+        $max = ($max === 'above') ? '999999999' : $max;
         $conditions[] = "(p_price BETWEEN $min AND $max)";
     }
     if (!empty($conditions)) {
@@ -355,7 +310,8 @@ $total_items_sql = "
         SELECT p_id FROM `garden`
         UNION ALL
         SELECT p_id FROM `workroom`
-    ) AS combined_table";
+    ) AS combined_table
+     $price_filter";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];
@@ -400,31 +356,26 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
 <div class="col-12 pb-1">
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mb-3">
-            <!-- Previous Button -->
             <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
-                <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
+                <a class="page-link" href="?page=<?php echo $page - 1; ?>&sort=<?php echo $sort; ?>&<?php echo http_build_query(['price_range' => $_GET['price_range'] ?? []]); ?>" aria-label="Previous">
+                    <span aria-hidden="true">«</span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
-
-            <!-- Pagination Numbers -->
             <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
                 <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                    <a class="page-link" href="?page=<?php echo $i; ?>&sort=<?php echo $sort; ?>&<?php echo http_build_query(['price_range' => $_GET['price_range'] ?? []]); ?>"><?php echo $i; ?></a>
                 </li>
             <?php } ?>
-
-            <!-- Next Button -->
             <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
-                <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+                <a class="page-link" href="?page=<?php echo $page + 1; ?>&sort=<?php echo $sort; ?>&<?php echo http_build_query(['price_range' => $_GET['price_range'] ?? []]); ?>" aria-label="Next">
+                    <span aria-hidden="true">»</span>
                     <span class="sr-only">Next</span>
                 </a>
             </li>
         </ul>
     </nav>
-</div>            
+</div>           
 </div>
 </div>
 <!-- Shop End -->

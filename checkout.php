@@ -319,7 +319,7 @@ session_start(); // เรียกใช้งาน session
     </div>
     <div class="card-body text-center">
         <h5 class="font-weight-medium">Scan QR Code to Pay</h5>
-        <img src="qrcode.png" alt="QR Code for Payment" class="img-fluid my-3" style="max-width: 250px;">
+        <img src="qr.png" alt="QR Code for Payment" class="img-fluid my-3" style="max-width: 250px;">
         <p>Use your mobile banking app to scan and complete the payment.</p>
 
         <!-- อัปโหลดสลิป -->
