@@ -18,14 +18,16 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     // ดึงข้อมูลสินค้าจากฐานข้อมูล
     $sql = "SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM `" . mysqli_real_escape_string($conn, $category) . "` WHERE id = ?";
 
-    if ($product = mysqli_fetch_assoc($result)) {
-        var_dump($product);  // ✅ ตรวจสอบค่าที่ได้จากฐานข้อมูล
-    }
-    
+    var_dump($sql);
+
     $stmt = mysqli_prepare($conn, $sql);
     if ($stmt === false) {
         die("Error in SQL query.");
     }    
+
+    if ($product = mysqli_fetch_assoc($result)) {
+        var_dump($product);  // ✅ ตรวจสอบค่าที่ได้จากฐานข้อมูล
+    }
     
     mysqli_stmt_bind_param($stmt, "i", $p_id);
     mysqli_stmt_execute($stmt);
