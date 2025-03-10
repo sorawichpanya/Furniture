@@ -18,7 +18,6 @@ if (isset($_POST['p_id'], $_POST['category'])) {
 
     // Prepare SQL query
     $sql = "SELECT p_id, p_name, p_price FROM `$category` WHERE p_id = ?";
-    echo "SQL Query: " . $sql . "\n";
 
     // Prepare statement
     $stmt = mysqli_prepare($conn, $sql);
@@ -55,8 +54,6 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     die("Invalid request: Missing required parameters");
 }
 
-// Close connection if not needed anymore
-// mysqli_close($conn);
 ?>
 
 
