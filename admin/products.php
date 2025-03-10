@@ -143,9 +143,9 @@ $rs = mysqli_query($conn, $sql);
                             <td>$product_price</td>
                             <td><img src='../img/" . $table_name . "/$product_image.$product_ext' alt='$product_name' style='max-width: 100px;'></td>
                             <td>
-        <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
-                                                </td>
-                                                </tr>";
+                                <a href='editpro.php?table=" . urlencode($table_name) . "&p_id=" . urlencode($product_id) . "' class='btn btn-warning btn-sm'>Edit</a>
+                            </td>
+                            </tr>";
 
                 }
                 ?>            
