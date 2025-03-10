@@ -1,3 +1,6 @@
+<?php
+session_start(); // เรียกใช้งาน session
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -276,7 +279,7 @@
                 </div>
             </div>
             <div class="col-lg-4">
-    <div class="card border-secondary mb-5">
+            <div class="card border-secondary mb-5">
         <div class="card-header bg-secondary border-0">
             <h4 class="font-weight-semi-bold m-0">Order Total</h4>
         </div>
@@ -310,8 +313,6 @@
             </div>
         </div>
     </div>
-</div>
-
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Payment</h4>
