@@ -163,37 +163,14 @@ session_start(); // เรียกใช้งาน session
 <?php session_start(); ?>
     <!-- Checkout Start -->
     <div class="container-fluid pt-5">
-        <form action="confirm_order.php" method="POST" enctype="multipart/form-data">
-            <div class="row px-xl-5">
-            <div class="col-lg-8">
-                <div class="mb-4">
-                    <h4 class="font-weight-semi-bold mb-4">Address</h4>
-                    <div class="row">
-                    <div class="col-md-6 form-group">
-                    <label>Full Name</label>
-                    <input class="form-control" type="text" name="full_name" 
-                        value="<?php echo isset($_SESSION['user_full_name']) ? $_SESSION['user_full_name'] : ''; ?>" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Phone Number</label>
-                    <input class="form-control" type="text" name="phone"
-                        value="<?php echo isset($_SESSION['user_phone']) ? $_SESSION['user_phone'] : ''; ?>" required>
-                </div>
-                <div class="col-md-12 form-group">
-                    <label>Address</label>
-                    <textarea class="form-control" name="address" required><?php echo isset($_SESSION['user_address']) ? $_SESSION['user_address'] : ''; ?></textarea>             
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Province</label>
-                    <input class="form-control" type="text" name="province" required
-                        value="<?php echo isset($_SESSION['user_province']) ? $_SESSION['user_province'] : ''; ?>"required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Postal Code</label>
-                    <input class="form-control" type="text" name="zip_code" required
-                    value="<?php echo isset($_SESSION['user_zip_code']) ? $_SESSION['user_zip_code'] : ''; ?>"required>
-                </div>            
-            </div>
+    <form action="confirm_order.php" method="POST" enctype="multipart/form-data">
+    <input type="text" name="full_name" required>
+    <input type="text" name="phone" required>
+    <textarea name="address" required></textarea>
+    <input type="text" name="province" required>
+    <input type="text" name="zip_code" required>
+    <button type="submit">ยืนยันคำสั่งซื้อ</button>
+</form>
     </div>
             </div>
             <div class="col-lg-4">
