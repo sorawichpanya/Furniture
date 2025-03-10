@@ -2,6 +2,7 @@
 session_start();
 include_once("connectdb.php");
 
+// เพิ่มสินค้าในตะกร้า
 if (isset($_GET['p_id'], $_GET['category'])) {
     $p_id = (int)$_GET['p_id'];
     $category = $_GET['category'];
@@ -51,13 +52,14 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     }
 }
 
-if (isset($_POST['remove_product_id'], $_POST['remove_category'])) {
-    $remove_p_id = intval($_POST['remove_product_id']);
-    $remove_category = $_POST['remove_category'];
+// ลบสินค้าออกจากตะกร้า
+if (isset($_POST['product_id'], $_POST['category'])) {
+    $remove_p_id = intval($_POST['product_id']);
+    $remove_category = $_POST['category'];
 
     foreach ($_SESSION['cart'] as $key => $item) {
         if ($item['p_id'] == $remove_p_id && $item['category'] == $remove_category) {
-            unset($_SESSION['cart'][$key]); // ลบสินค้านั้นออกจากตะกร้า
+            unset($_SESSION['cart'][$key]);
             $_SESSION['success_message'] = "{$item['p_name']} has been removed from your cart.";
             break;
         }
@@ -249,7 +251,7 @@ if (isset($_POST['remove_product_id'], $_POST['remove_category'])) {
                     <td><?php echo htmlspecialchars($item['quantity']); ?></td>
                     <td>฿<?php echo number_format($item['total_price'], 2); ?></td>
                     <td>
-                        <form action="remove_from_cart.php" method="POST">
+                        <form method="POST">
                             <input type="hidden" name="product_id" value="<?php echo $item['p_id']; ?>">
                             <input type="hidden" name="category" value="<?php echo $item['category']; ?>">
                             <button type="submit" class="btn btn-danger btn-sm">Remove</button>
@@ -262,7 +264,6 @@ if (isset($_POST['remove_product_id'], $_POST['remove_category'])) {
 <?php else : ?>
     <p>Your cart is empty!</p>
 <?php endif; ?>
-
 
 
     <!-- Footer Start -->
