@@ -170,6 +170,7 @@ session_start(); // เรียกใช้งาน session
                     <h4 class="font-weight-semi-bold mb-4">Address</h4>
                     <div class="row">
                 <div class="col-md-6 form-group">
+                <label>Full Name</label>
                 <input class="form-control" type="text" name="full_name" 
                 value="<?php echo isset($_SESSION['full_name']) ? $_SESSION['full_name'] : ''; ?>" required>                
                 </div>

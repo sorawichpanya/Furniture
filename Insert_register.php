@@ -20,12 +20,12 @@ $result = mysqli_query($conn, $sql);
 
 if ($result) {
     header("Location: Login.php");
-    exit(); // หยุดการทำงานของ PHP หลัง Redirect
+    
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     echo "<script> alert('บันทึกข้อมูลไม่ได้'); </script>";
 }
-
+    exit(); // หยุดการทำงานของ PHP หลัง Redirect
 // ปิดการเชื่อมต่อฐานข้อมูล
 mysqli_close($conn);
 ?>
