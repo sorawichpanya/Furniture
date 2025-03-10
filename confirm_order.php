@@ -4,6 +4,11 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 var_dump($_POST);
+if (isset($_POST['cart'])) {
+    var_dump($_POST['cart']);
+} else {
+    echo "ไม่มีข้อมูล cart ถูกส่งมาจากฟอร์ม!";
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $full_name = $_POST['full_name'] ?? '';
