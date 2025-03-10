@@ -16,7 +16,7 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     }
     
     // ดึงข้อมูลสินค้าจากฐานข้อมูล
-    $sql = "SELECT p_id, p_name, p_price FROM `" . mysqli_real_escape_string($conn, $category) . "` WHERE id = ?";
+    $sql = "SELECT p_id, p_name, p_price FROM `" . mysqli_real_escape_string($conn, $category) . "` WHERE id = $p_id";
 
     var_dump($sql);
 
