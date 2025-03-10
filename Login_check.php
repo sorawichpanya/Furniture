@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php'; // เชื่อมต่อฐานข้อมูล
+require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
