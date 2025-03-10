@@ -16,7 +16,7 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     }
     
     // ตรวจสอบชื่อของตารางที่ต้องการดึงข้อมูลจาก
-    $sql = sprintf("SELECT id AS p_id, name AS p_name, price AS p_price FROM `%s` WHERE id = ?", $category);
+    $sql = sprintf("SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM `%s` WHERE id = ?", $category);
     var_dump($sql); // ตรวจสอบคำสั่ง SQL ที่จะถูกใช้
 
     // เตรียม SQL statement
