@@ -229,29 +229,29 @@ session_start(); // เรียกใช้งาน session
                 </div>
                 <div class="collapse mb-4" id="shipping-address">
                     <h4 class="font-weight-semi-bold mb-4">Shipping Address</h4>
-                    <?php session_start(); ?>
-<div class="row">
-    <div class="col-md-6 form-group">
-        <label>Full Name</label>
-        <input class="form-control" type="text" name="full_name" required>
-    </div>
-    <div class="col-md-6 form-group">
-        <label>Phone Number</label>
-        <input class="form-control" type="text" name="phone" required>
-    </div>
-    <div class="col-md-12 form-group">
-        <label>Address</label>
-        <textarea class="form-control" name="address" rows="2" required></textarea>
-    </div>
-    <div class="col-md-6 form-group">
-        <label>Province</label>
-        <input class="form-control" type="text" name="province" required>
-    </div>
-    <div class="col-md-6 form-group">
-        <label>ZIP Code</label>
-        <input class="form-control" type="text" name="zip_code" required>
-    </div>
-</div>                </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>Full Name</label>
+                            <input class="form-control" type="text" name="full_name" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Phone Number</label>
+                            <input class="form-control" type="text" name="phone" required>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>Address</label>
+                            <textarea class="form-control" name="address" rows="2" required></textarea>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Province</label>
+                            <input class="form-control" type="text" name="province" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>ZIP Code</label>
+                            <input class="form-control" type="text" name="zip_code" required>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-4">
             <div class="card border-secondary mb-5">
