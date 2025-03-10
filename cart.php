@@ -14,8 +14,12 @@ if (isset($_GET['p_id'], $_GET['category'])) {
         die("Invalid category.");
     }
 
+    // ตรวจสอบค่าว่า $category และ $p_id ถูกต้องหรือไม่
+    var_dump($category);  // เช็คค่า category
+    var_dump($p_id);  // เช็คค่า p_id
+
     // ดึงข้อมูลสินค้าจากฐานข้อมูล
-    $sql = "SELECT p_id AS p_id, p_name AS p_name, p_price AS p_price FROM $category WHERE id = ?";
+    $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $p_id);
     mysqli_stmt_execute($stmt);

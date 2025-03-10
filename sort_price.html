@@ -500,71 +500,61 @@
         document.addEventListener("DOMContentLoaded", function () {
             const checkboxes = document.querySelectorAll(".custom-control-input");
             const products = document.querySelectorAll(".product-item");
-    
+            const priceAllCheckbox = document.getElementById("price-all"); // ดึง "All Price" checkbox
+            
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener("change", filterProducts);
             });
-    
+        
             function filterProducts() {
                 let selectedRanges = [];
-    
+        
                 checkboxes.forEach(checkbox => {
-                    if (checkbox.checked && checkbox.id !== "price-all") {
-                        let label = checkbox.parentElement.querySelector("label");
-                        if (!label) return; // ป้องกัน error กรณีหา label ไม่เจอ
-    
-                        let rangeText = label.textContent.trim().replace("฿", "");
-                        
+                    if (checkbox.checked && checkbox !== priceAllCheckbox) {
+                        let rangeText = checkbox.nextElementSibling.textContent.trim().replace("฿", "");
+        
                         if (rangeText.includes("and above")) {
-                            let lowerBound = parseInt(rangeText.split(" ")[0]);
-                            selectedRanges.push([lowerBound, 9999999]); // ใช้ค่ามากๆ แทน Infinity
+                            let lowerBound = parseInt(rangeText.split(" ")[0].replace(",", ""));
+                            selectedRanges.push([lowerBound, Infinity]); // ใช้ Infinity แทนค่าใหญ่
                         } else {
                             let range = rangeText.split(" - ").map(num => parseInt(num.replace(",", "")));
                             selectedRanges.push(range);
                         }
                     }
                 });
-    
+        
                 // ถ้าเลือก "All Price" หรือไม่เลือกตัวกรองใด ๆ ให้แสดงสินค้าทั้งหมด
-                if (document.getElementById("price-all").checked || selectedRanges.length === 0) {
+                if (priceAllCheckbox.checked || selectedRanges.length === 0) {
                     selectedRanges = [];
                 }
-    
+        
                 products.forEach(product => {
                     let productPrice = parseInt(product.getAttribute("data-price"));
-    
-                    let isVisible = selectedRanges.length === 0 || selectedRanges.some(range => 
+        
+                    let isVisible = selectedRanges.length === 0 || selectedRanges.some(range =>
                         productPrice >= range[0] && productPrice <= range[1]
                     );
-    
+        
                     product.style.display = isVisible ? "block" : "none";
                 });
-    
+        
                 console.log("Selected Ranges:", selectedRanges);
             }
-    
-            // เริ่มต้นให้ "All Price" ทำงาน
+        
+            // ตั้งค่าให้ "All Price" เป็นค่าเริ่มต้น
             filterProducts();
-        });
-    </script>
-    
-
-            // เริ่มต้นให้ "All Price" ทำงาน
-            filterProducts();
-
-            // เพิ่มตรรกะเพื่อยกเลิกการเลือก checkbox อื่น ๆ เมื่อเลือก checkbox ใหม่
+        
+            // ยกเลิกการเลือก checkbox อื่น ๆ เมื่อเลือกตัวเลือกใหม่
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener("change", function () {
-                    if (checkbox.id !== "price-all" && checkbox.checked) {
-                        // ยกเลิกการเลือก checkbox อื่น ๆ
+                    if (checkbox !== priceAllCheckbox && checkbox.checked) {
                         checkboxes.forEach(otherCheckbox => {
-                            if (otherCheckbox !== checkbox && otherCheckbox.id !== "price-all") {
+                            if (otherCheckbox !== checkbox && otherCheckbox !== priceAllCheckbox) {
                                 otherCheckbox.checked = false;
                             }
                         });
-                        document.getElementById("price-all").checked = false;
-                    } else if (checkbox.id === "price-all" && checkbox.checked) {
-                        // ถ้าเลือก "All Price" ให้ยกเลิกการเลือก checkbox อื่น ๆ
+                        priceAllCheckbox.checked = false;
+                    } else if (checkbox === priceAllCheckbox && checkbox.checked) {
                         checkboxes.forEach(otherCheckbox => {
                             if (otherCheckbox !== checkbox) {
                                 otherCheckbox.checked = false;
@@ -575,7 +565,5 @@
                 });
             });
         });
-    </script>
-</body>
-
-</html>
+        </script>
+        
