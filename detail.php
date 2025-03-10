@@ -308,17 +308,22 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
     // Function to update the quantity
     function updateQuantity(change) {
         var quantityInput = document.getElementById('quantity');
-        var currentQuantity = parseInt(quantityInput.value);
+        var currentQuantity = parseInt(quantityInput.value) || 1; // Default to 1 if invalid value
 
         // Ensure that the quantity doesn't go below 1
-        if (currentQuantity + change > 0) {
-            quantityInput.value = currentQuantity + change;
+        var newQuantity = currentQuantity + change;
+        if (newQuantity < 1) {
+            newQuantity = 1;
         }
 
+        // Update the quantity input value
+        quantityInput.value = newQuantity;
+
         // Update hidden quantity field for form submission
-        document.getElementById('hiddenQuantity').value = quantityInput.value;
+        document.getElementById('hiddenQuantity').value = newQuantity;
     }
 </script>
+
 
             </div>
         </div>
@@ -377,9 +382,6 @@ $rs = mysqli_query($conn, $sql);
                                 class="btn btn-sm text-dark p-0">
                                 <i class="fas fa-eye text-primary mr-1"></i>View Detail
                                 </a>
-                            <!-- ปุ่ม Add to Cart -->
-                            <a href="" class="btn btn-sm text-dark p-0">
-                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
                             </a>
                         </div>
                     </div>
