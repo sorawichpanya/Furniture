@@ -6,17 +6,18 @@ ini_set('display_errors', 1);
 if ($conn->connect_error) {
     die("❌ Connection failed: " . $conn->connect_error);
 }
-if (!$stmt) {
-    die("❌ Error preparing statement: " . $conn->error);
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // 🟢 ตั้งค่าชื่อ table
+    $table_name = "products";
+
+    // 🟢 รับค่าจากฟอร์ม
     $p_name = $_POST['p_name'] ?? '';
     $p_detail = $_POST['p_detail'] ?? '';
     $p_color = $_POST['p_color'] ?? '';
     $p_size = $_POST['p_size'] ?? '';
     $p_price = $_POST['p_price'] ?? '';
-    
+
     // ✅ ตรวจสอบข้อมูลที่จำเป็น
     if (empty($p_name) || empty($p_detail) || empty($p_color) || empty($p_size) || empty($p_price)) {
         die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
@@ -24,6 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // ✅ บันทึกข้อมูลสินค้า (ยังไม่รวมรูปภาพ)
     $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price) VALUES (?, ?, ?, ?, ?)");
+    if (!$stmt) {
+        die("❌ Error preparing statement: " . $conn->error);
+    }
+
     $stmt->bind_param("ssssi", $p_name, $p_detail, $p_color, $p_size, $p_price);
 
     if ($stmt->execute()) {
@@ -65,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
 
 
 <!DOCTYPE html>
