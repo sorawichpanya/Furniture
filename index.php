@@ -140,7 +140,7 @@ session_start();
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
                        </div>
                        <div class="navbar-nav ml-auto py-0">
-                            <a href="history.php" class="nav-item nav-link">History</a>
+                            <a href="/Furniture/history.php" class="nav-item nav-link">History</a>
                             <a href="Register.php" class="nav-item nav-link">Register</a>
                             
                         </div>
