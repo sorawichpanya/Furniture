@@ -42,7 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // ตรวจสอบและย้ายไฟล์
             if (move_uploaded_file($_FILES['p_image']['tmp_name'], $upload_path)) {
                 echo "✅ อัปโหลดรูปสำเร็จ: $new_filename";
-                
+                echo "Upload Path: " . $upload_path . "<br>";
+                echo "Temporary File: " . $_FILES['p_image']['tmp_name'] . "<br>";
                 // ✅ 4. อัปเดต p_ext ในฐานข้อมูลให้ตรงกับชื่อไฟล์ใหม่
                 $update_stmt = $conn->prepare("UPDATE $table_name SET p_ext = ? WHERE p_id = ?");
                 $update_stmt->bind_param("si", $new_filename, $p_id);
