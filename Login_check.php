@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
 
-    $sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
+    $sql = "SELECT * FROM Register WHERE username = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();

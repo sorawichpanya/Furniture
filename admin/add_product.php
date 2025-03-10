@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // ✅ บันทึกข้อมูลสินค้า (ยังไม่รวมรูปภาพ)
-    $stmt = $conn->prepare("INSERT INTO products (p_name, p_detail, p_color, p_size, p_price) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssi", $p_name, $p_detail, $p_color, $p_size, $p_price);
 
     if ($stmt->execute()) {
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (in_array(strtolower($file_ext), $allowed_exts)) {
                 $new_filename = $p_id . "." . $file_ext; // ✅ ใช้ `p_id` เป็นชื่อไฟล์
-                $upload_dir = "../img/products/";
+                $upload_dir = "../img/".$table_name."/";
                 $upload_path = $upload_dir . $new_filename;
 
                 // ✅ ย้ายไฟล์ไปยังโฟลเดอร์
