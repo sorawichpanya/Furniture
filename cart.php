@@ -2,17 +2,10 @@
 session_start();
 include_once("connectdb.php");
 
-echo "p_id: " . htmlspecialchars($_POST['p_id']) . "<br>";
-echo "category: " . htmlspecialchars($_POST['category']) . "<br>";
-echo "quantity: " . htmlspecialchars($_POST['quantity']) . "<br>";
 
 if (isset($_POST['p_id'], $_POST['category'])) {
     $p_id = (int)$_POST['p_id'];
     $category = $_POST['category'];
-
-    if ($quantity > 0) {
-        $_SESSION['cart'][$p_id] = isset($_SESSION['cart'][$p_id]) ? $_SESSION['cart'][$p_id] + $quantity : $quantity;
-    }
 
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen_room','garden','workroom','Just_arrived','trendy'];
     if (!in_array($category, $allowed_categories)) {
