@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $item_total_price = $item['total_price'];
         
                 var_dump($product_name, $quantity, $item_total_price); // ตรวจสอบค่าแต่ละตัว
-            }
+            
         
         
                 $stmt_item = $conn->prepare("INSERT INTO orders_item (order_id, product_name, quantity, total_price) VALUES (?, ?, ?, ?)");
