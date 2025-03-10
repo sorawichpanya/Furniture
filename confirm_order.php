@@ -28,12 +28,12 @@ if ($conn->connect_error) {
 // ตรวจสอบการส่งข้อมูล POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // รับค่าจาก SESSION และตรวจสอบว่าไม่เป็นค่าว่าง
-    $full_name = $_SESSION['user_full_name'] ?? '';
-    $phone = $_SESSION['user_phone'] ?? '';
-    $address = $_SESSION['user_address'] ?? '';
-    $province = $_SESSION['user_province'] ?? '';
-    $zip_code = $_SESSION['user_zip_code'] ?? '';
-    $cart = $_SESSION['cart'];
+    $full_name = $_SESSION['user_full_name'] ?? $_POST['full_name'] ?? '';
+    $phone = $_SESSION['user_phone'] ?? $_POST['phone'] ?? '';
+    $address = $_SESSION['user_address'] ?? $_POST['address'] ?? '';
+    $province = $_SESSION['user_province'] ?? $_POST['province'] ?? '';
+    $zip_code = $_SESSION['user_zip_code'] ?? $_POST['zip_code'] ?? '';
+    
 
     // ตรวจสอบข้อมูลที่ต้องใช้ว่ามีค่าหรือไม่
     if (empty($full_name) || empty($phone) || empty($address) || empty($province) || empty($zip_code)) {
