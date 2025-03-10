@@ -1,81 +1,57 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 session_start();
-require 'connectdb.php';
+require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // ตรวจสอบว่าอัปโหลดไฟล์สลิปการชำระเงินแล้ว
-    if (!isset($_SESSION['payment_uploaded']) || empty($_SESSION['payment_uploaded'])) {
-        $_SESSION['error_message'] = "กรุณาอัปโหลดสลิปการชำระเงินก่อนยืนยันคำสั่งซื้อ!";
+    // ตรวจสอบว่าได้รับข้อมูลจาก SESSION
+    if (!isset($_SESSION['user_full_name'], $_SESSION['user_phone'], $_SESSION['user_address'], $_SESSION['user_province'], $_SESSION['user_zip_code'], $_SESSION['cart'])) {
+        $_SESSION['error_message'] = "ข้อมูลไม่ครบถ้วนสำหรับการยืนยันคำสั่งซื้อ!";
         header("Location: checkout.php");
         exit;
-    }
-
-    // รับค่าจากฟอร์ม
-    $order_status = trim($_POST['order_status']); // สถานะคำสั่งซื้อ
-    $allowed_statuses = ['paid', 'not_paid'];
-
-    // ตรวจสอบว่าสถานะคำสั่งซื้อถูกต้อง
-    if (!in_array($order_status, $allowed_statuses)) {
-        $_SESSION['error_message'] = "สถานะคำสั่งซื้อไม่ถูกต้อง!";
-        header("Location: checkout.php");
-        exit;
-    }
-
-    // ตรวจสอบข้อมูล SESSION ทีละค่า
-    $required_session_keys = [
-        'user_full_name', 
-        'user_phone', 
-        'user_address', 
-        'user_province', 
-        'user_zip_code', 
-        'paid_amount', 
-        'payment_slip'
-    ];
-
-    foreach ($required_session_keys as $key) {
-        if (!isset($_SESSION[$key]) || empty($_SESSION[$key])) {
-            $_SESSION['error_message'] = "ข้อมูลไม่ครบถ้วนสำหรับการยืนยันคำสั่งซื้อ! [$key]";
-            header("Location: checkout.php");
-            exit;
-        }
     }
 
     // ดึงข้อมูลจาก SESSION
-    $full_name = htmlspecialchars($_SESSION['user_full_name']);
-    $phone = htmlspecialchars($_SESSION['user_phone']);
-    $address = htmlspecialchars($_SESSION['user_address']);
-    $province = htmlspecialchars($_SESSION['user_province']);
-    $zip_code = htmlspecialchars($_SESSION['user_zip_code']);
-    $paid_amount = htmlspecialchars($_SESSION['paid_amount']);
-    $payment_proof = $_SESSION['payment_slip']; // ไฟล์สลิปการชำระเงิน
+    $full_name = $_SESSION['user_full_name'];
+    $phone = $_SESSION['user_phone'];
+    $address = $_SESSION['user_address'];
+    $province = $_SESSION['user_province'];
+    $zip_code = $_SESSION['user_zip_code'];
+    $cart = $_SESSION['cart'];
 
-    // บันทึกคำสั่งซื้อในฐานข้อมูล
-    $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, payment_proof, status) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    // คำนวณราคาสินค้าทั้งหมด
+    $subtotal = 0;
+    foreach ($cart as $item) {
+        $subtotal += $item['total_price'];
+    }
+    $shipping = 50;
+    $total_price = $subtotal + $shipping;
 
-    $stmt->bind_param(
-        "ssssssss",
-        $full_name,
-        $phone,
-        $address,
-        $province,
-        $zip_code,
-        $paid_amount,
-        $payment_proof,
-        $order_status
-    );
+    // บันทึกข้อมูลคำสั่งซื้อลงในฐานข้อมูล
+    $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $full_name, $phone, $address, $province, $zip_code, $total_price, $status);
+
+    // กำหนดสถานะเป็น "paid"
+    $status = 'paid';
 
     if ($stmt->execute()) {
-        // ลบ SESSION หลังบันทึกสำเร็จ
-        unset($_SESSION['cart'], $_SESSION['payment_uploaded'], $_SESSION['payment_slip']);
+        // ดึง ID ของคำสั่งซื้อที่เพิ่งเพิ่ม
+        $order_id = $stmt->insert_id;
+
+        // บันทึกรายการสินค้าลงในตาราง order_items
+        foreach ($cart as $item) {
+            $stmt_item = $conn->prepare("INSERT INTO order_items (order_id, product_name, quantity, total_price) VALUES (?, ?, ?, ?)");
+            $stmt_item->bind_param("isid", $order_id, $item['p_name'], $item['quantity'], $item['total_price']);
+            $stmt_item->execute();
+        }
+
+        // ลบข้อมูลใน SESSION หลังบันทึกสำเร็จ
+        unset($_SESSION['cart'], $_SESSION['user_full_name'], $_SESSION['user_phone'], $_SESSION['user_address'], $_SESSION['user_province'], $_SESSION['user_zip_code']);
+        
         $_SESSION['success_message'] = "คำสั่งซื้อของคุณได้รับการยืนยันเรียบร้อยแล้ว!";
         header("Location: success.php"); // หน้าสำหรับแสดงข้อความสำเร็จ
         exit;
     } else {
         $_SESSION['error_message'] = "เกิดข้อผิดพลาดในการบันทึกคำสั่งซื้อ: " . $stmt->error;
-        error_log("SQL Error: " . $stmt->error); // บันทึกใน Log
         header("Location: checkout.php");
         exit;
     }
