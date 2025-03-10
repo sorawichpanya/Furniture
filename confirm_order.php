@@ -2,6 +2,11 @@
 session_start();
 require 'connectdb.php'; // เชื่อมต่อฐานข้อมูล
 
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+exit;
+
 var_dump($_SESSION);
 exit;
 // เปิดโหมดแสดงข้อผิดพลาด
