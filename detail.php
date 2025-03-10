@@ -311,8 +311,13 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
         const hiddenQuantity = document.getElementById("hiddenQuantity");
 
         const updateQuantity = (change) => {
-            let currentQuantity = parseInt(quantityInput.value, 10) || 1; // Default to 1 if NaN
-            let newQuantity = Math.max(1, currentQuantity + change); // Ensure quantity is not less than 1
+            let currentQuantity = parseInt(quantityInput.value, 10) || 1;
+            let newQuantity = currentQuantity + change;
+
+            // ตรวจสอบว่า newQuantity ไม่น้อยกว่า 1
+            if (newQuantity < 1) {
+                newQuantity = 1;
+            }
 
             quantityInput.value = newQuantity;
             hiddenQuantity.value = newQuantity;
