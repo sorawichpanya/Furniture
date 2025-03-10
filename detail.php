@@ -306,25 +306,36 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // Select elements
         const btnMinus = document.getElementById("btn-minus");
         const btnPlus = document.getElementById("btn-plus");
         const quantityInput = document.getElementById("quantity");
         const hiddenQuantity = document.getElementById("hiddenQuantity");
 
+        // Update quantity function
         function updateQuantity(change) {
-            let currentQuantity = parseInt(quantityInput.value) || 1; // Default to 1 if invalid
+            // Parse current quantity
+            let currentQuantity = parseInt(quantityInput.value, 10);
+
+            // Default to 1 if invalid
+            if (isNaN(currentQuantity)) {
+                currentQuantity = 1;
+            }
+
+            // Calculate new quantity
             let newQuantity = currentQuantity + change;
 
-            // Prevent quantity from being less than 1
+            // Prevent values below 1
             if (newQuantity < 1) {
                 newQuantity = 1;
             }
 
-            // Update visible and hidden inputs
+            // Update visible and hidden fields
             quantityInput.value = newQuantity;
             hiddenQuantity.value = newQuantity;
         }
 
+        // Add click event listeners
         btnMinus.addEventListener("click", function () {
             updateQuantity(-1);
         });
@@ -334,6 +345,7 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
         });
     });
 </script>
+
 
 
             </div>
