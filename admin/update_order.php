@@ -1,7 +1,6 @@
 <?php
 include_once("connectdb.php");
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ตรวจสอบว่ามีการส่งค่า `order_id` หรือไม่
     if (isset($_POST['order_id'])) {
@@ -12,7 +11,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $province = $_POST['province'];
         $zip_code = $_POST['zip_code'];
         $total_price = $_POST['total_price'];
-        $status = $_POST['status'];
+        $status = $_POST['status'];  // รับค่าจากฟอร์ม
+
+        // ตรวจสอบว่า `status` เป็นค่าสถานะที่ถูกต้องตามที่กำหนดใน ENUM
+        $valid_status = ['pending', 'shipped', 'completed', 'cancelled'];
+        if (!in_array($status, $valid_status)) {
+            echo "❌ สถานะไม่ถูกต้อง!";
+            exit;
+        }
 
         // สร้างคำสั่ง SQL สำหรับอัพเดตข้อมูล
         $sql = "UPDATE orders SET 
@@ -28,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // เตรียมคำสั่ง SQL
         if ($stmt = $conn->prepare($sql)) {
             // ผูกค่าพารามิเตอร์กับคำสั่ง SQL
-            $stmt->bind_param("ssssssdi", $full_name, $phone, $address, $province, $zip_code, $total_price, $status, $order_id);
+            $stmt->bind_param("sssssssi", $full_name, $phone, $address, $province, $zip_code, $total_price, $status, $order_id);
 
             // เรียกใช้คำสั่ง SQL
             if ($stmt->execute()) {
