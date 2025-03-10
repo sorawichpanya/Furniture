@@ -1,5 +1,8 @@
 <?php
 include_once("connectdb.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $full_name = $_POST['full_name'] ?? '';
