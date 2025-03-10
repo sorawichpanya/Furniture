@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($stmt->execute()) {
                 echo "✅ ลบข้อมูลคำสั่งซื้อเรียบร้อย";
-                header("Location: orders_list.php"); // กลับไปที่หน้า orders_list
+                header("Location: indext.php"); // กลับไปที่หน้า orders_list
             } else {
                 echo "❌ เกิดข้อผิดพลาดในการลบข้อมูล";
             }
