@@ -296,6 +296,23 @@ $items_per_page = 9;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหรับการดึงข้อมูล
 
+
+// ตรวจสอบตัวเลือกการกรองราคา
+$price_filter = '';
+if (isset($_GET['price_range'])) {
+    $ranges = explode(',', $_GET['price_range']); // รองรับหลายช่วง เช่น "0-500,500-1000"
+    $conditions = [];
+    foreach ($ranges as $range) {
+        list($min, $max) = explode('-', $range);
+        $max = ($max === 'above') ? '999999999' : $max; // จัดการกรณี "2000 and above"
+        $conditions[] = "(p_price BETWEEN $min AND $max)";
+    }
+    if (!empty($conditions)) {
+        $price_filter = 'WHERE ' . implode(' OR ', $conditions);
+    }
+}
+
+
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
     SELECT p_id, p_name, p_price, p_ext, 'bedroom' AS category FROM `bedroom`
@@ -367,6 +384,7 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
     }
     ?>
 </div>
+
 
 <!-- Pagination Start -->
 <div class="col-12 pb-1">
