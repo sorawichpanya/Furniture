@@ -60,8 +60,8 @@
         </div>
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a href="index.php" class="text-decoration-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>TRENDY</h1>
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>JUST ARRIVED</h1>
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
@@ -113,8 +113,8 @@
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
-                    <a href="index.php" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>TRENDY</h1>
+                    <a href="" class="text-decoration-none d-block d-lg-none">
+                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>JUST ARRIVED/h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
@@ -147,7 +147,7 @@
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Our trendy</h1>
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Our arrived</h1>
             <div class="d-inline-flex">
                 <p class="m-0"><a href="index.php">Home</a></p>
                 <p class="m-0 px-2">-</p>
@@ -283,13 +283,13 @@ $offset = ($page - 1) * $items_per_page; // คำนวณ offset สำหร�
 
 // ดึงข้อมูลจากทั้งสองตารางที่คละกัน
 $sql = "
-    SELECT p_id, p_name, p_price, p_ext, 'trendy' AS category FROM `trendy`
+    SELECT p_id, p_name, p_price, p_ext, 'Just_arrived' AS category FROM `Just_arrived`
     ORDER BY p_id ASC -- กำหนดการเรียงลำดับตาม p_id
     LIMIT $items_per_page OFFSET $offset"; // ใช้ LIMIT และ OFFSET เพื่อแบ่งหน้า
 $rs = mysqli_query($conn , $sql);
 
 // คำนวณจำนวนหน้าทั้งหมด
-$total_items_sql = "SELECT COUNT(*) AS total_items FROM `trendy`";
+$total_items_sql = "SELECT COUNT(*) AS total_items FROM `Just_arrived`";
 $total_items_result = mysqli_query($conn, $total_items_sql);
 $total_items_row = mysqli_fetch_assoc($total_items_result);
 $total_items = $total_items_row['total_items'];

@@ -1,59 +1,5 @@
 <?php
 session_start();
-
-// Include your database connection file
-include('connectdb.php');
-
-// ตรวจสอบการเชื่อมต่อฐานข้อมูล
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// ตรวจสอบว่าฟอร์มถูกส่งมา
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $Username = trim($_POST['Username']);
-    $password = trim($_POST['password']);
-
-    // ป้องกัน SQL Injection
-    $Username = mysqli_real_escape_string($conn, $Username);
-
-    // คำสั่ง SQL ค้นหาผู้ใช้
-    $query = "SELECT * FROM Register WHERE Username = ?";
-    $stmt = mysqli_prepare($conn, $query);
-
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "s", $Username);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-
-        if ($row = mysqli_fetch_assoc($result)) {
-            // ตรวจสอบรหัสผ่าน
-            if (password_verify($password, $row['password'])) {
-                // เก็บข้อมูลผู้ใช้ใน Session
-                $_SESSION['Username'] = $Username;
-
-                // เปลี่ยนหน้าไปยัง index.php
-                header("Location: index.php");
-                exit(); // ต้องอยู่ตรงนี้
-            } else {
-                $_SESSION["Error"] = "Invalid Username or password.";
-            }
-        } else {
-            $_SESSION["Error"] = "Invalid Username or password.";
-        }
-
-        mysqli_stmt_close($stmt); // ปิด statement
-    } else {
-        $_SESSION["Error"] = "Database query error.";
-    }
-
-    // ปิดการเชื่อมต่อฐานข้อมูล
-    mysqli_close($conn);
-
-    // Redirect กลับไปที่หน้า login เพื่อแสดง error
-    header("Location: Login.php");
-    exit();
-}
 ?>
 
 
