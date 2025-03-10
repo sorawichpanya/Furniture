@@ -1,4 +1,4 @@
- <?php
+<?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
@@ -25,7 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $zip_code = trim($_POST['zip_code']);
     $total_price = trim($_POST['paid_amount']); // ใช้ค่าที่รับมา
     $payment_proof = $_SESSION['payment_uploaded']; // ใช้ค่าจาก SESSION
-    $order_status = !empty($_POST['order_status']) ? $_POST['order_status'] : 'pending'; // ใช้ค่า default เป็น 'pending' ถ้าไม่มีค่า
+
+    // ✅ ตรวจสอบค่า status ให้อยู่ใน ENUM
+    $allowed_statuses = ['pending', 'confirmed', 'shipped', 'delivered', 'canceled'];
+    $order_status = isset($_POST['order_status']) && in_array($_POST['order_status'], $allowed_statuses) ? $_POST['order_status'] : 'pending';
 
     // ✅ ตรวจสอบว่ากรอกข้อมูลครบ
     $required_fields = ['full_name', 'phone', 'address', 'province', 'zip_code', 'paid_amount'];
