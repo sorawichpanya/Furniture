@@ -15,25 +15,25 @@ if (isset($_GET['order_id'])) {
         $row = $result->fetch_assoc();
         // แสดงข้อมูลในฟอร์ม
         echo "
-        <form action='index.php' method='POST'>
-            <input type='hidden' name='order_id' value='".$row['order_id']."'>
-            <label for='full_name'>Full Name:</label>
-            <input type='text' name='full_name' value='".$row['full_name']."'>
-            <label for='phone'>Phone:</label>
-            <input type='text' name='phone' value='".$row['phone']."'>
-            <label for='address'>Address:</label>
-            <input type='text' name='address' value='".$row['address']."'>
-            <label for='province'>Province:</label>
-            <input type='text' name='province' value='".$row['province']."'>
-            <label for='zip_code'>Zip Code:</label>
-            <input type='text' name='zip_code' value='".$row['zip_code']."'>
-            <label for='total_price'>Total Price:</label>
-            <input type='number' name='total_price' value='".$row['total_price']."'>
-            <label for='status'>Status:</label>
-            <input type='text' name='status' value='".$row['status']."'>
-            <button type='submit' class='btn btn-success'>Update</button>
-        </form>
-        ";
+            <form action="update_order.php" method="POST">
+                <input type="hidden" name="order_id" value="<?= $row['order_id'] ?>">
+                <label for="full_name">Full Name:</label>
+                <input type="text" name="full_name" value="<?= $row['full_name'] ?>" required>
+                <label for="phone">Phone:</label>
+                <input type="text" name="phone" value="<?= $row['phone'] ?>" required>
+                <label for="address">Address:</label>
+                <input type="text" name="address" value="<?= $row['address'] ?>" required>
+                <label for="province">Province:</label>
+                <input type="text" name="province" value="<?= $row['province'] ?>" required>
+                <label for="zip_code">Zip Code:</label>
+                <input type="text" name="zip_code" value="<?= $row['zip_code'] ?>" required>
+                <label for="total_price">Total Price:</label>
+                <input type="number" name="total_price" value="<?= $row['total_price'] ?>" required>
+                <label for="status">Status:</label>
+                <input type="text" name="status" value="<?= $row['status'] ?>" required>
+                <button type="submit" class="btn btn-success">Update</button>
+            </form>        
+            ";
     } else {
         echo "ไม่พบข้อมูลคำสั่งซื้อ";
     }
