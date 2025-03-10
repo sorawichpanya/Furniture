@@ -86,10 +86,6 @@ $rs = mysqli_query($conn, $sql);
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>    
-<form action="products.php" method="get">
-    <input type="text" name="search" placeholder="Search products" class="form-control mb-3">
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
 <div class="container mt-5">
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
@@ -193,6 +189,10 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
             <a href="add_product.php?table=<?php echo urlencode($table_name); ?>" 
             class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
             </div>
+            <form action="products.php" method="get">
+                <input type="text" name="search" placeholder="Search products" class="form-control mb-3">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
         </div>
         
 <?php
