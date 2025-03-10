@@ -239,13 +239,17 @@ session_start(); // เรียกใช้งาน session
 
         <!-- อัปโหลดสลิป -->
         <form action="upload_payment.php" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="payment_slip">Upload Payment Slip (JPEG, PNG, PDF)</label>
-                <input type="file" class="form-control-file" name="payment_slip" id="payment_slip" required>
-            </div>
-            <button type="submit" class="btn btn-success btn-block">Upload & Confirm Payment</button>
-        </form>
-    </div>
+        <div class="form-group">
+            <label>Amount to Pay: ฿<?php echo number_format($subtotal + 50, 2); ?></label>
+            <input type="number" class="form-control" name="paid_amount" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="payment_slip">Upload Payment Slip (JPEG, PNG, PDF)</label>
+            <input type="file" class="form-control-file" name="payment_slip" id="payment_slip" required>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Upload & Confirm Payment</button>
+    </form >
+</div>
 
     <div class="card-footer border-secondary bg-transparent">
         <form action="confirm_order.php" method="POST">
