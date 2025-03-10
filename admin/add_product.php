@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // ✅ 3. อัปเดตชื่อไฟล์ในฐานข้อมูล
                 $update_stmt = $conn->prepare("UPDATE $table_name SET p_ext = ? WHERE p_id = ?");
-                $update_stmt->bind_param( "si",$new_filename,$p_id);
+                $update_stmt->bind_param( "si", ,$p_id);
                 $update_stmt->execute();
                 $update_stmt->close();
 
