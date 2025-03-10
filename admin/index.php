@@ -90,7 +90,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </div>
             <!-- row -->
             <div class="row tm-content-row">
-    
                 <div class="col-12 tm-block-col">
                     <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
                         <h2 class="tm-block-title">Orders List</h2>
