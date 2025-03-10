@@ -61,11 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: order_success.php");
         exit;
     } else {
-        $_SESSION['error_message'] = "เกิดข้อผิดพลาดในการสั่งซื้อ กรุณาลองใหม่";
+        $_SESSION['error_message'] = "เกิดข้อผิดพลาดในการสั่งซื้อ: " . $stmt->error;
         header("Location: checkout.php");
         exit;
     }
-} else {
+    } else {
     $_SESSION['error_message'] = "Invalid request.";
     header("Location: checkout.php");
     exit;
