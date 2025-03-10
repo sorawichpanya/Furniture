@@ -1,20 +1,19 @@
 <?php
-var_dump($_POST);  // ตรวจสอบค่าที่รับจาก POST
+var_dump($_POST);
 
 if (isset($_POST['p_id'], $_POST['category'])) {
     $p_id = (int)$_POST['p_id'];
-    $category = $_POST['category'];  
+    $category = $_POST['category'];
 
-    // ตรวจสอบ category ที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
     var_dump($p_id);
-    // สร้างคำสั่ง SQL โดยใช้ชื่อของตาราง
+
     $sql = "SELECT p_id, p_name, p_price FROM `$category` WHERE p_id = ?";
     var_dump($sql);
-    
+
     $stmt = mysqli_prepare($conn, $sql);
     if ($stmt === false) {
         die("Error preparing SQL query: " . mysqli_error($conn));
@@ -22,6 +21,9 @@ if (isset($_POST['p_id'], $_POST['category'])) {
     mysqli_stmt_bind_param($stmt, "i", $p_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
     var_dump($result);
     if ($product = mysqli_fetch_assoc($result)) {
         echo "Product found: " . var_dump($product);

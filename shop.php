@@ -168,45 +168,51 @@ include_once("connectdb.php");
 <!-- ตัวกรองสินค้าตามราคา -->
         <!-- ตัวกรองสินค้าตามราคา -->
         <script>
-           document.addEventListener("DOMContentLoaded", function () {
+         document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = document.querySelectorAll(".custom-control-input");
+    const allPriceCheckbox = document.getElementById("price-all");
     const products = document.querySelectorAll(".product-item");
-
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener("change", filterProducts);
-    });
 
     function filterProducts() {
         let selectedRanges = [];
 
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked && checkbox.id !== "price-all") {
-                let rangeText = checkbox.nextElementSibling.textContent.trim().replace("฿", "").split(" - ");
-                
-                if (rangeText.length == 1) {
-                    rangeText.push(Infinity);
-                }
-
-                selectedRanges.push(rangeText.map(value => 
-                    value !== Infinity ? parseFloat(value.replace(/[^0-9.]/g, "")) : Infinity
-                ));
-            }
-        });
-
-        // ถ้าเลือก "All Price" หรือไม่มีตัวกรองใดถูกเลือก ให้แสดงสินค้าทั้งหมด
-        if (document.getElementById("price-all").checked || selectedRanges.length === 0) {
+        // ถ้าเลือก "All Price" ให้แสดงสินค้าทั้งหมด
+        if (allPriceCheckbox.checked) {
+            checkboxes.forEach(cb => {
+                if (cb !== allPriceCheckbox) cb.checked = false; // ล้าง Checkbox อื่น ๆ
+            });
             products.forEach(product => product.style.display = "block");
             return;
         }
 
-        // กรองสินค้าตามช่วงราคาที่เลือก
+        // ดึงช่วงราคาจาก Checkbox ที่ถูกเลือก
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked && checkbox !== allPriceCheckbox) {
+                let rangeText = checkbox.nextElementSibling.textContent.trim().replaceAll("฿", "").split(" - ");
+                
+                // กรณีเป็น "and above" ให้ใช้ Infinity
+                let range = rangeText.map(value => value === "and above" ? Infinity : parseFloat(value.replace(/[^0-9.]/g, "")));
+                selectedRanges.push(range);
+            }
+        });
+
+        console.log("Selected Ranges:", selectedRanges); // Debug
+
+        // กรองสินค้าให้แสดงเฉพาะสินค้าที่อยู่ในช่วงราคาที่เลือก
         products.forEach(product => {
             let productPrice = parseFloat(product.getAttribute("data-price"));
-            let isVisible = selectedRanges.some(range => productPrice >= range[0] && productPrice <= range[1]);
-
+            let isVisible = selectedRanges.some(range => productPrice >= range[0] && productPrice <= (range[1] || Infinity));
             product.style.display = isVisible ? "block" : "none";
         });
     }
+
+    // Event Listener สำหรับ Checkbox
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", filterProducts);
+    });
+
+    // เรียกใช้งานตัวกรองเมื่อโหลดหน้า
+    filterProducts();
 });
 
         </script>
@@ -235,22 +241,22 @@ include_once("connectdb.php");
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">฿500 - ฿1000</label>
+                            <label class="custom-control-label" for="price-2">฿501 - ฿1000</label>
                             <span class="badge border font-weight-normal">295</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">฿1000 - ฿1500</label>
+                            <label class="custom-control-label" for="price-3">฿1001 - ฿1500</label>
                             <span class="badge border font-weight-normal">246</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">฿1500 - ฿2000</label>
+                            <label class="custom-control-label" for="price-4">฿1501 - ฿2000</label>
                             <span class="badge border font-weight-normal">145</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
                             <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">฿2000 and above</label>
+                            <label class="custom-control-label" for="price-5">฿2001 and above</label>
                             <span class="badge border font-weight-normal">168</span>
                         </div>
                     </form>
@@ -265,7 +271,7 @@ include_once("connectdb.php");
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <form action="">
+                            <form action="search_results.php" method="POST">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Search by name">
                                     <div class="input-group-append">

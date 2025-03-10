@@ -100,7 +100,7 @@ $rs = mysqli_query($conn , $sql);
         </div>
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a href="" class="text-decoration-none">
+                <a href="index.php" class="text-decoration-none">
                     <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
                 </a>
             </div>
@@ -151,7 +151,7 @@ $rs = mysqli_query($conn , $sql);
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
-                    <a href="" class="text-decoration-none d-block d-lg-none">
+                    <a href="index.php" class="text-decoration-none d-block d-lg-none">
                         <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -262,34 +262,34 @@ $rs = mysqli_query($conn , $sql);
                         </div>
                     </div>
                     <?php
-                        if (mysqli_num_rows($rs) > 0) {
-                            while ($data = mysqli_fetch_assoc($rs)) {
-                                // จัดรูปแบบราคา
-                                $formatted_price = number_format($data['p_price'], 2);
+                    if (mysqli_num_rows($rs) > 0) {
+                        while ($data = mysqli_fetch_assoc($rs)) {
+                            // จัดรูปแบบราคา
+                            $formatted_price = number_format($data['p_price'], 2);
 
-                                // แสดงข้อมูลสินค้าแต่ละรายการ
-                                echo "<div class='col-lg-4 col-md-6 col-sm-12 pb-1'>";
-                                echo "<div class='card product-item border-0 mb-4'>";
-                                echo "<div class='card-header product-img position-relative overflow-hidden bg-transparent border p-0'>";
-                                echo "<img class='img-fluid w-100' src='img/" . htmlspecialchars($data['category']) . "/" . htmlspecialchars($data['p_id']) . "." . htmlspecialchars($data['p_ext']) . "' alt='" . htmlspecialchars($data['p_name']) . "'>";
-                                echo "</div>";
-                                echo "<div class='card-body border-left border-right text-center p-0 pt-4 pb-3'>";
-                                echo "<h6 class='text-truncate mb-3'>" . htmlspecialchars($data['p_name']) . "</h6>";
-                                echo "<div class='d-flex justify-content-center'>";
-                                echo "<h6>" . $formatted_price . "</h6>";
-                                echo "</div>";
-                                echo "</div>";
-                                echo "<div class='card-footer d-flex justify-content-between bg-light border'>";
-                                echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-eye text-primary mr-1'></i>View Detail</a>";
-                                echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-shopping-cart text-primary mr-1'></i>Add To Cart</a>";
-                                echo "</div>";
-                                echo "</div>";
-                                echo "</div>";
-                            }
-                        } else {
-                            echo "<div class='col-12'><p>No products found matching your search.</p></div>";
+                            // แสดงข้อมูลสินค้าแต่ละรายการในรูปแบบ product item
+                            echo "<div class='col-lg-4 col-md-6 col-sm-12 pb-1'>";
+                            echo "<div class='card product-item border-0 mb-4'>";
+                            echo "<div class='card-header product-img position-relative overflow-hidden bg-transparent border p-0'>";
+                            echo "<img class='img-fluid w-100' src='img/" . htmlspecialchars($data['category']) . "/" . htmlspecialchars($data['p_id']) . "." . htmlspecialchars($data['p_ext']) . "' alt='" . htmlspecialchars($data['p_name']) . "'>";
+                            echo "</div>";
+                            echo "<div class='card-body border-left border-right text-center p-0 pt-4 pb-3'>";
+                            echo "<h6 class='text-truncate mb-3'>" . htmlspecialchars($data['p_name']) . "</h6>";
+                            echo "<div class='d-flex justify-content-center'>";
+                            echo "<h6>" . $formatted_price . "</h6>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "<div class='card-footer d-flex justify-content-between bg-light border'>";
+                            echo "<a href='detail.php' class='btn btn-sm text-dark p-0'><i class='fas fa-eye text-primary mr-1'></i>View Detail</a>";
+                            echo "<a href='' class='btn btn-sm text-dark p-0'><i class='fas fa-shopping-cart text-primary mr-1'></i>Add To Cart</a>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
                         }
-                        ?>
+                    } else {
+                        echo "<div class='col-12'><p>No products found matching your search.</p></div>";
+                    }
+                    ?>
                 </div>
             </div>
             <!-- Shop Product End -->
