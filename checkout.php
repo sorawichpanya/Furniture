@@ -161,6 +161,7 @@ session_start(); // เรียกใช้งาน session
     <!-- Page Header End -->
 
 <!-- Checkout Start -->
+<!-- Checkout Start -->
 <div class="container-fluid pt-5">
     <form action="confirm_order.php" method="POST">
         <div class="row px-xl-5">
@@ -178,7 +179,7 @@ session_start(); // เรียกใช้งาน session
                         </div>
                         <div class="col-md-12 form-group">
                             <label>Address</label>
-                            <textarea class="form-control" name="address" required></textarea>
+                            <textarea class="form-control" name="address" required></textarea>             
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Province</label>
@@ -187,12 +188,11 @@ session_start(); // เรียกใช้งาน session
                         <div class="col-md-6 form-group">
                             <label>Postal Code</label>
                             <input class="form-control" type="text" name="zip_code" required>
-                        </div>
+                        </div>            
                     </div>
                 </div>
             </div>
-
-            <!-- Order Summary -->
+            
             <div class="col-lg-4">
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
@@ -202,8 +202,8 @@ session_start(); // เรียกใช้งาน session
                         <h5 class="font-weight-medium mb-3">Products</h5>
                         <?php 
                         $subtotal = 0;
-                        if (!empty($_POST['cart'])) :
-                            foreach ($_POST['cart'] as $item) :
+                        if (!empty($_SESSION['cart'])) :
+                            foreach ($_SESSION['cart'] as $item) :
                                 $subtotal += $item['total_price']; 
                         ?>
                             <div class="d-flex justify-content-between">
@@ -229,7 +229,6 @@ session_start(); // เรียกใช้งาน session
                     </div>
                 </div>
 
-                <!-- Payment Section -->
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Payment</h4>
@@ -238,23 +237,15 @@ session_start(); // เรียกใช้งาน session
                         <h5 class="font-weight-medium">Scan QR Code to Pay</h5>
                         <img src="qr.png" alt="QR Code for Payment" class="img-fluid my-3" style="max-width: 250px;">
                         <p>Use your mobile banking app to scan and complete the payment.</p>
-                        <h5 class="font-weight-medium">Amount to Pay: ฿<?php echo number_format($subtotal + 50, 2); ?></h5>
+                        <h5 class="font-weight-medium">Amount to Pay: ฿<?php echo number_format($subtotal + $shipping, 2); ?></h5>
                     </div>
 
                     <div class="card-footer border-secondary bg-transparent">
-                        <form action="confirm_order.php" method="POST">
-                            <input type="hidden" name="full_name" value="<?php echo $_POST['full_name'] ?? ''; ?>">
-                            <input type="hidden" name="phone" value="<?php echo $_POST['phone'] ?? ''; ?>">
-                            <input type="hidden" name="address" value="<?php echo $_POST['address'] ?? ''; ?>">
-                            <input type="hidden" name="province" value="<?php echo $_POST['province'] ?? ''; ?>">
-                            <input type="hidden" name="zip_code" value="<?php echo $_POST['zip_code'] ?? ''; ?>">
-                            <input type="hidden" name="order_status" value="paid">
-                            <input type="hidden" name="cart" value="<?php echo htmlspecialchars(json_encode($_POST['cart'])); ?>">
-                            <input type="hidden" name="total_price" value="<?php echo $subtotal + $shipping; ?>">
-                            <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
-                                Confirm Order
-                            </button>
-                        </form>
+                        <input type="hidden" name="order_status" value="paid">
+                        <input type="hidden" name="total_price" value="<?php echo $subtotal + $shipping; ?>">
+                        <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
+                            Confirm Order
+                        </button>
                     </div>
                 </div>
             </div>
