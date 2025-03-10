@@ -354,10 +354,9 @@ $total_pages = ceil($total_items / $items_per_page); // คำนวณจำน
                 <h6>฿<?php echo number_format($data['p_price'], 2); ?></h6>
                 </div>
             </div>
-            <?php var_dump($data); ?>
             <form action="cart.php" method="POST">
             <div class="card-footer d-flex justify-content-between bg-light border">
-                <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo $data['category']; ?>" 
+                <a href="detail.php?p_id=<?php echo $data['p_id']; ?>&category=<?php echo urlencode($data['category']); ?>" class="btn btn-sm text-dark p-0" 
                 class="btn btn-sm text-dark p-0">
                 <i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
             </div>

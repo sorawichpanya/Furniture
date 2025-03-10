@@ -297,6 +297,8 @@ if (isset($_GET['p_id']) && isset($_GET['category'])) {
                         <?php
                         ?>
                         <?php
+                            
+                            var_dump($_GET);  // แสดงค่าที่ถูกส่งจาก URL
                             var_dump($data); // เช็คค่าที่ถูกอ่านมาจากฐานข้อมูล
                             ?>
                             <p>Product ID: <?php echo htmlspecialchars($data['p_id'] ?? 'ไม่มีค่า'); ?></p>

@@ -33,7 +33,7 @@ session_start();
               }
               ?>
 
-              <form method="POST" action="login_chack.php">
+              <form method="POST" action="login_check.php">
                 <div class="form-outline form-white mb-4">
                   <input type="text" name="Username" class="form-control form-control-lg" required />
                   <label class="form-label">Username</label>
