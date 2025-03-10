@@ -3,8 +3,15 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if ($conn->connect_error) {
-    die("❌ Connection failed: " . $conn->connect_error);
+$table_name = $_POST['table'] ?? $_GET['table'] ?? null;
+
+if (!$table_name) {
+    die("❌ Table name is missing. Please specify the table.");
+}
+
+$allowed_tables = ['bathroom', 'kitchen_room', 'living_room', 'trendy', 'Just_arrived', 'bedroom', 'garden', 'workroom'];
+if (!in_array(strtolower($table_name), array_map('strtolower', $allowed_tables))) {
+    die("❌ Table ไม่ถูกต้อง");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,63 +20,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $p_color = $_POST['p_color'] ?? '';
     $p_size = $_POST['p_size'] ?? '';
     $p_price = $_POST['p_price'] ?? '';
-    $table_name = $_POST['table'] ?? null;  // รับค่าจากฟอร์ม
 
-    // ตรวจสอบข้อมูลที่จำเป็น
-    if (empty($p_name) || empty($p_detail) || empty($p_color) || empty($p_size) || empty($p_price) || empty($table_name)) {
-        die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
+    if (empty($p_name) || empty($p_detail) || empty($p_color) || empty($p_size) || empty($p_price)) {
+        die("❌ ข้อมูลไม่ครบถ้วน กรุณาตรวจสอบข้อมูล");
     }
 
-    // บันทึกข้อมูลสินค้า
+    // ✅ 1. บันทึกข้อมูลสินค้าเข้าฐานข้อมูลก่อน
     $stmt = $conn->prepare("INSERT INTO $table_name (p_name, p_detail, p_color, p_size, p_price) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssi", $p_name, $p_detail, $p_color, $p_size, $p_price);
+    $stmt->bind_param("sssss", $p_name, $p_detail, $p_color, $p_size, $p_price);
 
     if ($stmt->execute()) {
-        $p_id = $stmt->insert_id;  // ดึง p_id ล่าสุด
-        $stmt->close();
+        // ✅ 2. ดึงค่า p_id ล่าสุด
+        $p_id = $conn->insert_id;
 
-        // ตรวจสอบการอัปโหลดรูปภาพ
-        if (!empty($_FILES["p_image"]["name"])) {
-            $file_ext = pathinfo($_FILES["p_image"]["name"], PATHINFO_EXTENSION); // ดึงนามสกุลไฟล์
-            $allowed_exts = ['jpg', 'jpeg', 'png', 'gif'];
+        // ✅ 3. อัปโหลดรูปภาพโดยเปลี่ยนชื่อเป็น p_id
+        if (!empty($_FILES['p_image']['name'])) {
+            $p_ext = pathinfo($_FILES['p_image']['name'], PATHINFO_EXTENSION); // ดึงนามสกุลไฟล์
+            $new_filename = $p_id . '.' . $p_ext; // เปลี่ยนชื่อไฟล์เป็น "p_id.นามสกุล"
+            $upload_path = "../img/$table_name/" . $new_filename; // กำหนด Path ปลายทาง
 
-            if (in_array(strtolower($file_ext), $allowed_exts)) {
-                $new_filename = $p_id . "." . $file_ext; // ใช้ p_id เป็นชื่อไฟล์
-                $upload_dir = "../img/".$table_name."/";  // กำหนดโฟลเดอร์
-                $upload_path = $upload_dir . $new_filename;
-
-                // สร้างโฟลเดอร์ถ้ายังไม่มี
-                if (!is_dir($upload_dir)) {
-                    mkdir($upload_dir, 0777, true);
-                }
-
-                // ย้ายไฟล์ไปยังโฟลเดอร์
-                if (move_uploaded_file($_FILES["p_image"]["tmp_name"], $upload_path)) {
-                    // อัปเดต p_ext ในฐานข้อมูล
-                    $stmt_update = $conn->prepare("UPDATE $table_name SET p_ext = ? WHERE p_id = ?");
-                    $stmt_update->bind_param("si", $file_ext, $p_id);
-                    $stmt_update->execute();
-                    $stmt_update->close();
-
-                    echo "✅ เพิ่มสินค้าเรียบร้อย!";
-                } else {
-                    echo "❌ ไม่สามารถอัปโหลดรูปภาพได้";
-                }
+            // ตรวจสอบและย้ายไฟล์
+            if (move_uploaded_file($_FILES['p_image']['tmp_name'], $upload_path)) {
+                echo "✅ อัปโหลดรูปสำเร็จ: $new_filename";
+                
+                // ✅ 4. อัปเดต p_ext ในฐานข้อมูลให้ตรงกับชื่อไฟล์ใหม่
+                $update_stmt = $conn->prepare("UPDATE $table_name SET p_ext = ? WHERE p_id = ?");
+                $update_stmt->bind_param("si", $new_filename, $p_id);
+                $update_stmt->execute();
+                $update_stmt->close();
             } else {
-                echo "❌ ประเภทไฟล์ไม่รองรับ (อนุญาตเฉพาะ jpg, png, gif)";
+                echo "❌ เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ";
             }
-        } else {
-            echo "✅ เพิ่มสินค้าเรียบร้อย (ไม่มีรูปภาพ)";
         }
+
+        echo "✅ เพิ่มสินค้าเรียบร้อย!";
     } else {
         echo "❌ เกิดข้อผิดพลาด: " . $conn->error;
     }
 
+    $stmt->close();
     $conn->close();
-}
 ?>
-
-
 
 
 <!DOCTYPE html>

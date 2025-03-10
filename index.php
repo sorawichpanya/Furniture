@@ -139,8 +139,8 @@ session_start();
                             </div>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
                        </div>
-                      <!--   <div class="navbar-nav ml-auto py-0">
-                            <a href="Login.php" class="nav-item nav-link">Login</a>
+                       <div class="navbar-nav ml-auto py-0">
+                            <a href="history.php" class="nav-item nav-link">H</a>
                             <a href="Register.php" class="nav-item nav-link">Register</a>
                             
                         </div>-->
