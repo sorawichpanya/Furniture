@@ -22,7 +22,7 @@ if ($row) {
 } else {
     $_SESSION["Error"] = "<p>Your username or password is invalid</p>";
     $show=header("Location: Login.php");
-    
+    exit();
 }
 echo $show;
 ?>
