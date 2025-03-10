@@ -15,6 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $payment_slip = $_SESSION['payment_slip'] ?? null; // ตรวจสอบว่ามีไฟล์อยู่จริงหรือไม่
     $payment_slip_type = $payment_slip ? mime_content_type($payment_slip) : '';
 
+    $_SESSION['user_full_name'] = $_POST['full_name'];
+    $_SESSION['user_phone'] = $_POST['phone'];
+    $_SESSION['user_address'] = $_POST['address'];
+    $_SESSION['user_province'] = $_POST['province'];
+    $_SESSION['user_zip_code'] = $_POST['zip_code'];
+    
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // ตรวจสอบว่ามีการกรอกข้อมูลครบทุกฟิลด์
         if (empty($_POST['full_name']) || empty($_POST['phone']) || empty($_POST['address']) || empty($_POST['province']) || empty($_POST['zip_code'])) {
@@ -22,14 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: checkout.php");
             exit;
         }
-    
-        // เก็บข้อมูลลงใน $_SESSION
-        $_SESSION['user_full_name'] = $_POST['full_name'];
-        $_SESSION['user_phone'] = $_POST['phone'];
-        $_SESSION['user_address'] = $_POST['address'];
-        $_SESSION['user_province'] = $_POST['province'];
-        $_SESSION['user_zip_code'] = $_POST['zip_code'];
-    
+
         // ตัวอย่างการเช็คข้อมูลใน $_SESSION หลังจากการกรอกข้อมูล
         var_dump($_SESSION['user_full_name'], $_SESSION['user_phone'], $_SESSION['user_address'], $_SESSION['user_province'], $_SESSION['user_zip_code']);
         
