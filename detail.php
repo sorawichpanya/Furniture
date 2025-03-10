@@ -327,6 +327,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // ผูกฟังก์ชันอัปเดตจำนวนเข้ากับปุ่มเพิ่ม/ลด
+    document.querySelector(".btn-minus").addEventListener("click", function () {
+        updateQuantity(-1);  // ลดจำนวน 1
+    });
+
+    document.querySelector(".btn-plus").addEventListener("click", function () {
+        updateQuantity(1);   // เพิ่มจำนวน 1
+    });
 });
 </script>
 </div>
