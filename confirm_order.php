@@ -24,8 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, order_status) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $full_name, $phone, $address, $province, $zip_code, $total_price, $order_status);
+    $stmt = $conn->prepare("INSERT INTO orders (full_name, phone, address, province, zip_code, total_price, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+    if (!$stmt) {
+        die("Error preparing statement: " . $conn->error); // แสดง SQL Error
+    }
+        $stmt->bind_param("sssssss", $full_name, $phone, $address, $province, $zip_code, $total_price, $order_status);
 
     if ($stmt->execute()) {
         echo "สั่งซื้อสำเร็จ!";
