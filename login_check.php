@@ -15,8 +15,8 @@ $row = mysqli_fetch_array($result);
 if ($row) {
     $_SESSION["username"] = $row['username'];
     $_SESSION["pw"] = $row['password'];
-    $_SESSION["firstname"] = $row['name'];
-    $_SESSION["lastname"] = $row['lastname'];
+    $_SESSION["name"] = $row['name'];
+    $_SESSION["phone"] = $row['phone'];
     header("Location: index.php");
     exit();
 } else {

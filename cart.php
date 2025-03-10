@@ -2,21 +2,17 @@
 session_start();
 include_once("connectdb.php");
 
-// เพิ่มสินค้าในตะกร้า
 if (isset($_GET['p_id'], $_GET['category'])) {
-    echo "p_id: " . $_GET['p_id'] . "<br>";
-    echo "category: " . $_GET['category'] . "<br>";
-    
-    $p_id = (int)$_GET['p_id'];
-    $category = $_GET['category'];
+    $p_id = (int)$_GET['p_id']; // แปลงให้เป็นตัวเลข
+    $category = $_GET['category']; // ชื่อตาราง
 
-    // ตรวจสอบ category ที่อนุญาต
+    // ตรวจสอบว่า category ที่ส่งมาคือชื่อของตารางที่อนุญาต
     $allowed_categories = ['bedroom', 'bathroom', 'living_room', 'kitchen'];
     if (!in_array($category, $allowed_categories)) {
         die("Invalid category.");
     }
 
-    // ดึงข้อมูลสินค้า
+    // ดึงข้อมูลสินค้าจากตารางตาม category ที่ระบุ
     $sql = "SELECT id AS p_id, name AS p_name, price AS p_price FROM $category WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $p_id);
@@ -24,22 +20,23 @@ if (isset($_GET['p_id'], $_GET['category'])) {
     $result = mysqli_stmt_get_result($stmt);
 
     if ($product = mysqli_fetch_assoc($result)) {
+        // ตรวจสอบว่ามีสินค้าในตะกร้าหรือยัง
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
-        // ตรวจสอบว่าสินค้าซ้ำในตะกร้าหรือไม่
+        // ตรวจสอบว่าสินค้าเดียวกันเพิ่มแล้วหรือยัง
         $exists = false;
         foreach ($_SESSION['cart'] as &$item) {
             if ($item['p_id'] == $product['p_id'] && $item['category'] == $category) {
-                $item['quantity'] += 1;
+                $item['quantity'] += 1; // เพิ่มจำนวน
                 $item['total_price'] = $item['quantity'] * $item['p_price'];
                 $exists = true;
                 break;
             }
         }
 
-        // หากยังไม่มีสินค้าในตะกร้า
+        // ถ้าไม่มีสินค้าในตะกร้า ให้เพิ่มใหม่
         if (!$exists) {
             $product['category'] = $category;
             $product['quantity'] = 1;
@@ -48,27 +45,13 @@ if (isset($_GET['p_id'], $_GET['category'])) {
         }
 
         $_SESSION['success_message'] = "Product added to cart.";
-        header("Location: cart.php");
+        header("Location: cart.php"); // เปลี่ยนเส้นทางกลับหน้าตะกร้า
         exit;
     } else {
         die("Product not found.");
     }
-}
-
-// ลบสินค้าออกจากตะกร้า
-if (isset($_POST['product_id'], $_POST['category'])) {
-    $remove_p_id = intval($_POST['product_id']);
-    $remove_category = $_POST['category'];
-
-    foreach ($_SESSION['cart'] as $key => $item) {
-        if ($item['p_id'] == $remove_p_id && $item['category'] == $remove_category) {
-            unset($_SESSION['cart'][$key]);
-            $_SESSION['success_message'] = "{$item['p_name']} has been removed from your cart.";
-            break;
-        }
-    }
-    header("Location: cart.php");
-    exit();
+} else {
+    die("Invalid request.");
 }
 ?>
 
