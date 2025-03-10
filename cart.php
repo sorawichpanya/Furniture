@@ -7,9 +7,6 @@ if (!isset($conn) || !$conn) {
     die("Database connection not established.");
 }
 
-// Debug POST data
-var_dump($_POST);
-
 if (isset($_POST['p_id'], $_POST['category'])) {
     $p_id = (int)$_POST['p_id'];
     $category = $_POST['category'];
