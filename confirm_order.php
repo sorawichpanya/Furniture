@@ -3,6 +3,8 @@ include_once("connectdb.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+var_dump($_POST);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $full_name = $_POST['full_name'] ?? '';
     $phone = $_POST['phone'] ?? '';
@@ -51,8 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
                 var_dump($product_name, $quantity, $item_total_price); // ตรวจสอบค่าแต่ละตัว
             
-        
-        
+    
                 $stmt_item = $conn->prepare("INSERT INTO order_items (order_id, product_name, quantity, total_price) VALUES (?, ?, ?, ?)");
                 if (!$stmt_item) {
                     throw new Exception("Error preparing statement for orders_item: " . $conn->error);
