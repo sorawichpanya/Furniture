@@ -334,90 +334,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: products.php?table_name=" . urlencode($table_name));
     exit;
 }
+<a href='editpro.php?table=$table_name&p_id=$product_id' class='btn btn-warning btn-sm'>Edit</a>
+
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-</head>
-<body>
-    <?php include 'navbar.php'; ?>
-
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h4>แก้ไขสินค้า</h4>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="table" value="<?= htmlspecialchars($table_name) ?>">
-                            <input type="hidden" name="p_id" value="<?= htmlspecialchars($p_id) ?>">
-
-                            <div class="mb-3">
-                                <label class="form-label">ชื่อสินค้า</label>
-                                <input type="text" name="p_name" class="form-control" 
-                                    value="<?= htmlspecialchars($product['p_name']) ?>" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">รายละเอียด</label>
-                                <textarea name="p_detail" class="form-control" rows="3" required><?= 
-                                    htmlspecialchars($product['p_detail']) ?></textarea>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">สี</label>
-                                    <input type="text" name="p_color" class="form-control" 
-                                        value="<?= htmlspecialchars($product['p_color']) ?>" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">ขนาด</label>
-                                    <input type="text" name="p_size" class="form-control" 
-                                        value="<?= htmlspecialchars($product['p_size']) ?>" required>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">ราคา</label>
-                                <input type="number" step="0.01" name="p_price" class="form-control" 
-                                    value="<?= htmlspecialchars($product['p_price']) ?>" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">รูปภาพ</label>
-                                <input type="file" name="p_image" class="form-control" accept="image/*">
-                                <small class="text-muted">หากไม่ต้องการเปลี่ยนรูปภาพ ไม่ต้องเลือกไฟล์</small>
-                                <?php if($product['p_ext']): ?>
-                                    <div class="mt-2">
-                                        <img src="../img/<?= $table_name ?>/<?= $p_id ?>.<?= $product['p_ext'] ?>" 
-                                            alt="Current Image" class="img-thumbnail" style="max-width: 200px;">
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
-                                <a href="products.php?table_name=<?= urlencode($table_name) ?>" 
-                                    class="btn btn-secondary">ยกเลิก</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-
 
       </div>
     </div>
